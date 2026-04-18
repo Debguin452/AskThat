@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>Whispr — Anonymous Questions</title>
-  <meta name="description" content="Create your anonymous question link. Let friends send you honest, unfiltered messages.">
-  <meta property="og:title" content="Whispr — Anonymous Questions">
-  <meta property="og:description" content="Get anonymous questions from anyone. Share your link, receive honest messages.">
+  <title>whoispr — Anonymous Q&amp;A</title>
+  <meta name="description" content="Create your anonymous Q&A link. Find out what people really think about you.">
+  <meta property="og:title" content="whoispr — Anonymous Q&A">
+  <meta property="og:description" content="Create your link. Share it. Find out what people really think.">
   <meta property="og:type" content="website">
-  <meta name="theme-color" content="#0d0a08">
+  <meta name="theme-color" content="#07090e">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
@@ -16,19 +16,20 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg:         #0d0a08;
-      --bg2:        #13100c;
-      --card:       rgba(255,210,150,0.06);
-      --border:     rgba(255,210,150,0.12);
-      --primary:    #ff6b35;
-      --secondary:  #ff9f1c;
-      --accent:     #ffbf69;
-      --pink:       #ff477e;
-      --grad:       linear-gradient(135deg, #ff477e 0%, #ff6b35 45%, #ffbf69 100%);
-      --grad-text:  linear-gradient(135deg, #ff477e, #ff6b35, #ffbf69);
-      --text:       #fff8f0;
-      --text2:      rgba(255,248,240,0.65);
-      --text3:      rgba(255,248,240,0.38);
+      --bg:         #07090e;
+      --bg2:        #0d1018;
+      --card:       rgba(100,70,255,0.06);
+      --border:     rgba(100,70,255,0.14);
+      --primary:    #7c3aed;
+      --secondary:  #a78bfa;
+      --accent:     #c4b5fd;
+      --pink:       #ec4899;
+      --blue:       #818cf8;
+      --grad:       linear-gradient(135deg, #ec4899 0%, #7c3aed 55%, #818cf8 100%);
+      --grad-text:  linear-gradient(135deg, #ec4899, #7c3aed, #818cf8);
+      --text:       #f0f2ff;
+      --text2:      rgba(240,242,255,0.62);
+      --text3:      rgba(240,242,255,0.36);
       --radius:     20px;
       --radius-sm:  12px;
     }
@@ -45,39 +46,25 @@
       min-height: 100vh;
     }
 
-    /* ── Orbs / atmosphere ──────────────────────────────────────── */
-    .orbs {
-      position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden;
-    }
-    .orb {
-      position: absolute;
-      border-radius: 50%;
-      filter: blur(100px);
-      opacity: 0.18;
-      animation: drift 18s ease-in-out infinite alternate;
-    }
-    .orb-1 { width: 520px; height: 520px; background: #ff6b35; top: -15%; left: -10%; animation-duration: 20s; }
-    .orb-2 { width: 400px; height: 400px; background: #ff477e; top: 30%; right: -8%; animation-duration: 25s; animation-delay: -8s; }
-    .orb-3 { width: 360px; height: 360px; background: #ffbf69; bottom: -10%; left: 30%; animation-duration: 22s; animation-delay: -14s; }
+    /* Orbs */
+    .orbs { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+    .orb  { position: absolute; border-radius: 50%; filter: blur(110px); opacity: 0.16; animation: drift 20s ease-in-out infinite alternate; }
+    .orb-1 { width: 560px; height: 560px; background: #7c3aed; top: -18%; left: -12%; animation-duration: 22s; }
+    .orb-2 { width: 420px; height: 420px; background: #ec4899; top: 25%; right: -10%; animation-duration: 28s; animation-delay: -9s; }
+    .orb-3 { width: 380px; height: 380px; background: #818cf8; bottom: -12%; left: 28%; animation-duration: 24s; animation-delay: -16s; }
+    @keyframes drift { from { transform: translate(0,0) scale(1); } to { transform: translate(28px,-38px) scale(1.06); } }
 
-    @keyframes drift {
-      from { transform: translate(0, 0) scale(1); }
-      to   { transform: translate(30px, -40px) scale(1.08); }
-    }
-
-    /* ── Noise overlay ──────────────────────────────────────────── */
     body::before {
       content: '';
       position: fixed; inset: 0; z-index: 1; pointer-events: none;
       background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
       background-size: 256px 256px;
-      opacity: 0.55;
+      opacity: 0.5;
     }
 
-    /* ── Layout ─────────────────────────────────────────────────── */
     .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 2; }
 
-    /* ── Nav ────────────────────────────────────────────────────── */
+    /* Nav */
     nav {
       padding: 24px 0;
       display: flex;
@@ -88,7 +75,7 @@
     .logo {
       font-family: 'Syne', sans-serif;
       font-weight: 800;
-      font-size: 26px;
+      font-size: 24px;
       background: var(--grad-text);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
@@ -97,18 +84,22 @@
       letter-spacing: -0.5px;
     }
 
-    .nav-badge {
+    .nav-links { display: flex; gap: 24px; align-items: center; }
+    .nav-links a { font-size: 14px; color: var(--text2); text-decoration: none; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--text); }
+
+    .nav-pill {
       background: var(--card);
       border: 1px solid var(--border);
       border-radius: 100px;
-      padding: 6px 16px;
+      padding: 7px 18px;
       font-size: 13px;
       color: var(--text2);
       font-weight: 500;
       backdrop-filter: blur(12px);
     }
 
-    /* ── Hero ───────────────────────────────────────────────────── */
+    /* Hero */
     .hero {
       min-height: 88vh;
       display: flex;
@@ -117,7 +108,6 @@
       justify-content: center;
       text-align: center;
       padding: 60px 0;
-      gap: 0;
     }
 
     .hero-eyebrow {
@@ -127,25 +117,23 @@
       background: var(--card);
       border: 1px solid var(--border);
       border-radius: 100px;
-      padding: 6px 16px;
+      padding: 7px 18px;
       font-size: 13px;
       font-weight: 500;
       color: var(--accent);
-      margin-bottom: 28px;
+      margin-bottom: 32px;
       backdrop-filter: blur(12px);
-      animation: fadeUp 0.6s ease both;
+      animation: fadeUp 0.55s ease both;
     }
-
-    .hero-eyebrow span { font-size: 16px; }
 
     .hero-title {
       font-family: 'Syne', sans-serif;
       font-weight: 800;
-      font-size: clamp(52px, 9vw, 102px);
-      line-height: 0.95;
+      font-size: clamp(48px, 8.5vw, 96px);
+      line-height: 0.96;
       letter-spacing: -3px;
       margin-bottom: 24px;
-      animation: fadeUp 0.6s 0.1s ease both;
+      animation: fadeUp 0.55s 0.1s ease both;
     }
 
     .hero-title .line-plain { color: var(--text); display: block; }
@@ -158,15 +146,15 @@
     }
 
     .hero-sub {
-      font-size: clamp(16px, 2.5vw, 20px);
+      font-size: clamp(15px, 2.2vw, 19px);
       font-weight: 300;
       color: var(--text2);
-      max-width: 520px;
+      max-width: 500px;
       margin-bottom: 48px;
-      animation: fadeUp 0.6s 0.2s ease both;
+      animation: fadeUp 0.55s 0.18s ease both;
     }
 
-    /* ── Input card ─────────────────────────────────────────────── */
+    /* Input card */
     .input-card {
       background: var(--card);
       border: 1px solid var(--border);
@@ -175,42 +163,37 @@
       width: 100%;
       max-width: 480px;
       backdrop-filter: blur(20px);
-      animation: fadeUp 0.6s 0.3s ease both;
+      animation: fadeUp 0.55s 0.26s ease both;
       position: relative;
       overflow: hidden;
     }
 
     .input-card::before {
       content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(135deg, rgba(255,107,53,0.06), transparent 60%);
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(124,58,237,0.07), transparent 60%);
       pointer-events: none;
     }
 
     .input-label {
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 500;
       color: var(--text3);
-      letter-spacing: 0.06em;
+      letter-spacing: 0.07em;
       text-transform: uppercase;
       margin-bottom: 12px;
     }
 
-    .input-row {
-      display: flex;
-      gap: 10px;
-      align-items: stretch;
-    }
+    .input-row { display: flex; gap: 10px; align-items: stretch; }
 
     .input-prefix {
-      background: rgba(255,255,255,0.06);
+      background: rgba(255,255,255,0.05);
       border: 1px solid var(--border);
       border-radius: var(--radius-sm);
       padding: 0 14px;
       display: flex;
       align-items: center;
-      font-size: 14px;
+      font-size: 13px;
       color: var(--text3);
       white-space: nowrap;
       user-select: none;
@@ -218,7 +201,7 @@
 
     .input-field {
       flex: 1;
-      background: rgba(255,255,255,0.06);
+      background: rgba(255,255,255,0.05);
       border: 1px solid var(--border);
       border-radius: var(--radius-sm);
       padding: 14px 16px;
@@ -233,18 +216,18 @@
     .input-field::placeholder { color: var(--text3); }
     .input-field:focus {
       border-color: var(--primary);
-      box-shadow: 0 0 0 3px rgba(255,107,53,0.15);
+      box-shadow: 0 0 0 3px rgba(124,58,237,0.15);
     }
 
     .btn-primary {
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
+      gap: 7px;
       background: var(--grad);
       border: none;
       border-radius: var(--radius-sm);
-      padding: 14px 24px;
+      padding: 14px 22px;
       font-family: 'DM Sans', sans-serif;
       font-size: 15px;
       font-weight: 500;
@@ -252,38 +235,42 @@
       cursor: pointer;
       white-space: nowrap;
       transition: opacity 0.2s, transform 0.18s;
-      box-shadow: 0 4px 24px rgba(255,107,53,0.32);
+      box-shadow: 0 4px 24px rgba(124,58,237,0.32);
     }
 
     .btn-primary:hover  { opacity: 0.88; transform: translateY(-1px); }
     .btn-primary:active { transform: translateY(0) scale(0.98); }
 
-    .input-hint {
-      margin-top: 14px;
-      font-size: 13px;
-      color: var(--text3);
-      text-align: center;
+    .input-hint { margin-top: 14px; font-size: 12px; color: var(--text3); text-align: center; }
+
+    .field-error { font-size: 12px; color: var(--pink); margin-top: 8px; display: none; }
+    .field-error.show { display: block; }
+
+    /* Divider */
+    .divider {
+      width: 1px;
+      height: 80px;
+      background: var(--border);
+      margin: 0 auto;
     }
 
-    /* ── Features ───────────────────────────────────────────────── */
-    .features {
-      padding: 80px 0;
-    }
+    /* Features */
+    .features { padding: 80px 0; }
 
     .section-label {
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 500;
       color: var(--primary);
       letter-spacing: 0.1em;
       text-transform: uppercase;
       text-align: center;
-      margin-bottom: 16px;
+      margin-bottom: 14px;
     }
 
     .section-title {
       font-family: 'Syne', sans-serif;
       font-weight: 800;
-      font-size: clamp(32px, 5vw, 52px);
+      font-size: clamp(30px, 4.5vw, 50px);
       letter-spacing: -2px;
       text-align: center;
       margin-bottom: 56px;
@@ -291,15 +278,15 @@
 
     .features-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 20px;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
     }
 
     .feat-card {
       background: var(--card);
       border: 1px solid var(--border);
       border-radius: var(--radius);
-      padding: 32px 28px;
+      padding: 30px 26px;
       backdrop-filter: blur(12px);
       transition: transform 0.25s, border-color 0.25s;
       position: relative;
@@ -316,67 +303,66 @@
       transition: opacity 0.25s;
     }
 
-    .feat-card:hover { transform: translateY(-4px); border-color: rgba(255,107,53,0.28); }
+    .feat-card:hover { transform: translateY(-4px); border-color: rgba(124,58,237,0.3); }
     .feat-card:hover::after { opacity: 1; }
 
     .feat-icon {
-      width: 52px; height: 52px;
-      border-radius: 14px;
+      width: 48px; height: 48px;
+      border-radius: 12px;
       display: flex; align-items: center; justify-content: center;
-      font-size: 24px;
-      margin-bottom: 20px;
+      margin-bottom: 18px;
     }
 
-    .feat-icon.orange  { background: rgba(255,107,53,0.15); }
-    .feat-icon.pink    { background: rgba(255,71,126,0.15); }
-    .feat-icon.amber   { background: rgba(255,191,105,0.15); }
-    .feat-icon.green   { background: rgba(46,213,115,0.15); }
-    .feat-icon.blue    { background: rgba(100,181,246,0.15); }
-    .feat-icon.purple  { background: rgba(167,139,250,0.15); }
+    .feat-icon.violet { background: rgba(124,58,237,0.15); color: var(--secondary); }
+    .feat-icon.pink   { background: rgba(236,72,153,0.15); color: var(--pink); }
+    .feat-icon.blue   { background: rgba(129,140,248,0.15); color: var(--blue); }
+    .feat-icon.teal   { background: rgba(45,212,191,0.15); color: #2dd4bf; }
+    .feat-icon.amber  { background: rgba(251,191,36,0.15); color: #fbbf24; }
+    .feat-icon.green  { background: rgba(74,222,128,0.15); color: #4ade80; }
 
     .feat-name {
       font-family: 'Syne', sans-serif;
       font-weight: 700;
-      font-size: 18px;
+      font-size: 17px;
       margin-bottom: 8px;
       letter-spacing: -0.3px;
     }
 
     .feat-desc { font-size: 14px; color: var(--text2); line-height: 1.65; }
 
-    /* ── Steps ──────────────────────────────────────────────────── */
+    /* Steps */
     .steps { padding: 80px 0; }
 
-    .steps-track {
+    .steps-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      grid-template-columns: repeat(3, 1fr);
       gap: 0;
       position: relative;
     }
 
     .step {
-      padding: 40px 32px;
+      padding: 40px 30px;
       text-align: center;
       position: relative;
     }
 
     .step-num {
-      width: 56px; height: 56px;
+      width: 54px; height: 54px;
       border-radius: 50%;
       background: var(--grad);
       display: flex; align-items: center; justify-content: center;
       font-family: 'Syne', sans-serif;
       font-weight: 800;
-      font-size: 22px;
+      font-size: 20px;
       color: #fff;
-      margin: 0 auto 20px;
-      box-shadow: 0 4px 24px rgba(255,107,53,0.35);
+      margin: 0 auto 18px;
+      box-shadow: 0 4px 24px rgba(124,58,237,0.36);
     }
 
     .step-title {
       font-family: 'Syne', sans-serif;
       font-weight: 700;
-      font-size: 18px;
+      font-size: 17px;
       margin-bottom: 10px;
       letter-spacing: -0.3px;
     }
@@ -386,20 +372,36 @@
     .step:not(:last-child)::after {
       content: '';
       position: absolute;
-      top: 68px; right: 0;
-      width: 1px; height: 64px;
+      top: 67px; right: 0;
+      width: 1px; height: 56px;
       background: var(--border);
     }
 
-    @media (max-width: 768px) {
-      .step:not(:last-child)::after { display: none; }
+    /* Trust bar */
+    .trust-bar {
+      padding: 48px 0;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 48px;
+      flex-wrap: wrap;
     }
 
-    /* ── CTA ─────────────────────────────────────────────────────── */
-    .cta-section {
-      padding: 80px 0 120px;
-      text-align: center;
+    .trust-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 14px;
+      color: var(--text2);
+      font-weight: 500;
     }
+
+    .trust-item svg { color: var(--primary); flex-shrink: 0; }
+
+    /* CTA */
+    .cta-section { padding: 80px 0 120px; text-align: center; }
 
     .cta-box {
       background: var(--card);
@@ -413,29 +415,23 @@
 
     .cta-box::before {
       content: '';
-      position: absolute;
-      inset: -2px;
+      position: absolute; inset: -2px;
       border-radius: 34px;
       background: var(--grad);
       z-index: -1;
-      opacity: 0.35;
-      filter: blur(20px);
+      opacity: 0.3;
+      filter: blur(22px);
     }
 
     .cta-title {
       font-family: 'Syne', sans-serif;
       font-weight: 800;
-      font-size: clamp(36px, 6vw, 64px);
+      font-size: clamp(32px, 5.5vw, 60px);
       letter-spacing: -2px;
       margin-bottom: 16px;
     }
 
-    .cta-sub {
-      color: var(--text2);
-      font-size: 18px;
-      font-weight: 300;
-      margin-bottom: 40px;
-    }
+    .cta-sub { color: var(--text2); font-size: 17px; font-weight: 300; margin-bottom: 40px; }
 
     .cta-input-row {
       display: flex;
@@ -446,7 +442,7 @@
       justify-content: center;
     }
 
-    /* ── Footer ─────────────────────────────────────────────────── */
+    /* Footer */
     footer {
       border-top: 1px solid var(--border);
       padding: 32px 0;
@@ -458,11 +454,11 @@
     }
 
     .footer-copy { font-size: 13px; color: var(--text3); }
-    .footer-links { display: flex; gap: 24px; }
+    .footer-links { display: flex; gap: 24px; flex-wrap: wrap; }
     .footer-links a { font-size: 13px; color: var(--text3); text-decoration: none; transition: color 0.2s; }
     .footer-links a:hover { color: var(--text); }
 
-    /* ── Toast ───────────────────────────────────────────────────── */
+    /* Toast */
     .toast {
       position: fixed;
       bottom: 32px; left: 50%;
@@ -482,41 +478,32 @@
       box-shadow: 0 8px 32px rgba(0,0,0,0.4);
     }
 
-    .toast.show {
-      opacity: 1;
-      transform: translateX(-50%) translateY(0);
-    }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
-    /* ── Animations ─────────────────────────────────────────────── */
     @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(24px); }
+      from { opacity: 0; transform: translateY(22px); }
       to   { opacity: 1; transform: translateY(0); }
     }
 
     .fade-in-up {
       opacity: 0;
-      transform: translateY(24px);
-      transition: opacity 0.6s ease, transform 0.6s ease;
+      transform: translateY(22px);
+      transition: opacity 0.55s ease, transform 0.55s ease;
     }
 
-    .fade-in-up.visible {
-      opacity: 1;
-      transform: translateY(0);
+    .fade-in-up.visible { opacity: 1; transform: translateY(0); }
+
+    @media (max-width: 768px) {
+      .features-grid { grid-template-columns: 1fr 1fr; }
+      .steps-grid { grid-template-columns: 1fr; }
+      .step:not(:last-child)::after { display: none; }
+      .trust-bar { gap: 28px; }
+      .nav-links { display: none; }
     }
 
-    /* ── Error state ─────────────────────────────────────────────── */
-    .field-error {
-      font-size: 12px;
-      color: var(--pink);
-      margin-top: 8px;
-      display: none;
-    }
-
-    .field-error.show { display: block; }
-
-    @media (max-width: 600px) {
+    @media (max-width: 560px) {
+      .features-grid { grid-template-columns: 1fr; }
       .input-row { flex-direction: column; }
-      .input-prefix { padding: 12px 14px; }
       .btn-primary { width: 100%; }
       .cta-input-row { flex-direction: column; align-items: center; }
       .cta-input-row .input-field { width: 100%; max-width: 340px; }
@@ -527,43 +514,45 @@
 </head>
 <body>
 
-<!-- Atmosphere -->
 <div class="orbs" aria-hidden="true">
   <div class="orb orb-1"></div>
   <div class="orb orb-2"></div>
   <div class="orb orb-3"></div>
 </div>
 
-<!-- Nav -->
 <div class="container">
   <nav>
-    <a href="/" class="logo" aria-label="Whispr home">whispr</a>
-    <span class="nav-badge">🔥 Anonymous Q&amp;A</span>
+    <a href="/" class="logo" aria-label="whoispr home">whoispr</a>
+    <div class="nav-links">
+      <a href="/about.html">About</a>
+      <a href="/privacy.html">Privacy</a>
+      <a href="/terms.html">Terms</a>
+    </div>
+    <span class="nav-pill">Anonymous Q&amp;A</span>
   </nav>
 </div>
 
-<!-- Hero -->
 <div class="container">
   <section class="hero">
     <div class="hero-eyebrow">
-      <span>✦</span> No sign-up required &mdash; 100% anonymous
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="6" stroke="currentColor" stroke-width="1.4"/><path d="M7 4.5V7l1.5 1.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+      No sign-up · No tracking · 100% anonymous
     </div>
 
     <h1 class="hero-title">
-      <span class="line-plain">real talk,</span>
-      <span class="line-grad">no names.</span>
+      <span class="line-plain">what do people</span>
+      <span class="line-grad">really think?</span>
     </h1>
 
     <p class="hero-sub">
-      Create your anonymous question link in seconds. Share it anywhere.
-      Receive honest, unfiltered messages from friends.
+      Create your link in seconds. Share it anywhere.
+      Receive honest, anonymous messages from anyone.
     </p>
 
-    <!-- Input card -->
     <div class="input-card">
-      <p class="input-label">Create your link</p>
+      <p class="input-label">Your link</p>
       <div class="input-row">
-        <div class="input-prefix">whispr.app/ask/</div>
+        <div class="input-prefix">whoispr.app/ask/</div>
         <input
           class="input-field"
           id="username-input"
@@ -575,8 +564,8 @@
           spellcheck="false"
         >
         <button class="btn-primary" id="go-btn" aria-label="Get my link">
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-            <path d="M3 8h10M9 4l4 4-4 4" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          <svg width="15" height="15" viewBox="0 0 15 15" fill="none" aria-hidden="true">
+            <path d="M2.5 7.5h10M8.5 3.5l4 4-4 4" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
           Get link
         </button>
@@ -587,42 +576,81 @@
   </section>
 </div>
 
+<!-- Trust bar -->
+<div class="container">
+  <div class="trust-bar fade-in-up">
+    <div class="trust-item">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="M9 2L11.5 6.5H16L12.5 9.5L14 14L9 11L4 14L5.5 9.5L2 6.5H6.5L9 2Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>
+      No accounts needed
+    </div>
+    <div class="trust-item">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><rect x="3" y="8" width="12" height="8" rx="2" stroke="currentColor" stroke-width="1.4"/><path d="M6 8V6a3 3 0 016 0v2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+      Senders stay anonymous
+    </div>
+    <div class="trust-item">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><circle cx="9" cy="9" r="7" stroke="currentColor" stroke-width="1.4"/><path d="M6 9l2 2 4-4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Only real messages
+    </div>
+    <div class="trust-item">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="M9 2v4M9 12v4M2 9h4M12 9h4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+      Auto-expires in 48h
+    </div>
+  </div>
+</div>
+
 <!-- Features -->
 <div class="container">
   <section class="features">
-    <p class="section-label fade-in-up">Why Whispr</p>
-    <h2 class="section-title fade-in-up">Built for honesty</h2>
+    <p class="section-label fade-in-up">Why whoispr</p>
+    <h2 class="section-title fade-in-up">Built for honest conversations</h2>
 
     <div class="features-grid">
       <div class="feat-card fade-in-up">
-        <div class="feat-icon orange">🔥</div>
-        <h3 class="feat-name">100% Anonymous</h3>
-        <p class="feat-desc">Senders are never identified. No accounts, no tracking, no names attached to messages.</p>
+        <div class="feat-icon violet">
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><rect x="3" y="10" width="16" height="10" rx="2.5" stroke="currentColor" stroke-width="1.5"/><path d="M7 10V7a4 4 0 018 0v3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </div>
+        <h3 class="feat-name">Fully anonymous</h3>
+        <p class="feat-desc">Senders are never identified. No accounts, no names, no traces attached to any message.</p>
       </div>
-      <div class="feat-card fade-in-up" style="transition-delay:0.08s">
-        <div class="feat-icon pink">💬</div>
-        <h3 class="feat-name">Instant Setup</h3>
-        <p class="feat-desc">No sign-up required. Pick a username, copy your link, and start receiving messages in under 10 seconds.</p>
+
+      <div class="feat-card fade-in-up" style="transition-delay:0.07s">
+        <div class="feat-icon pink">
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M4 6h14M4 11h10M4 16h7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </div>
+        <h3 class="feat-name">Ready in 10 seconds</h3>
+        <p class="feat-desc">No sign-up. Pick a username, copy your link, and start getting messages instantly.</p>
       </div>
-      <div class="feat-card fade-in-up" style="transition-delay:0.16s">
-        <div class="feat-icon amber">✨</div>
-        <h3 class="feat-name">Share Anywhere</h3>
-        <p class="feat-desc">One tap to share on Instagram Stories, Snapchat, WhatsApp, X, TikTok, and more.</p>
+
+      <div class="feat-card fade-in-up" style="transition-delay:0.14s">
+        <div class="feat-icon blue">
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M11 3v4M11 15v4M3 11h4M15 11h4M5.6 5.6l2.8 2.8M13.6 13.6l2.8 2.8M5.6 16.4l2.8-2.8M13.6 8.4l2.8-2.8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </div>
+        <h3 class="feat-name">Share anywhere</h3>
+        <p class="feat-desc">Post on Instagram Stories, WhatsApp, Snapchat, X, TikTok. One link works everywhere.</p>
       </div>
-      <div class="feat-card fade-in-up" style="transition-delay:0.24s">
-        <div class="feat-icon green">🛡️</div>
-        <h3 class="feat-name">Filtered & Safe</h3>
-        <p class="feat-desc">Built-in profanity filter, rate limiting, and message expiry keep your inbox clean.</p>
+
+      <div class="feat-card fade-in-up" style="transition-delay:0.21s">
+        <div class="feat-icon teal">
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M11 3l2 4h5l-4 3 1.5 5L11 12l-4.5 3L8 10 4 7h5l2-4z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+        </div>
+        <h3 class="feat-name">Filtered and clean</h3>
+        <p class="feat-desc">No spam, no abuse. Built-in filters keep your inbox full of real, genuine messages.</p>
       </div>
-      <div class="feat-card fade-in-up" style="transition-delay:0.32s">
-        <div class="feat-icon blue">⏳</div>
-        <h3 class="feat-name">Auto-Expiry</h3>
-        <p class="feat-desc">Messages automatically disappear after 48 hours. Inbox stays fresh, no clutter.</p>
+
+      <div class="feat-card fade-in-up" style="transition-delay:0.28s">
+        <div class="feat-icon amber">
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="1.5"/><path d="M11 7v4l2.5 2.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </div>
+        <h3 class="feat-name">Auto-expires</h3>
+        <p class="feat-desc">Messages vanish after 48 hours. Inbox stays fresh. Nothing sticks around forever.</p>
       </div>
-      <div class="feat-card fade-in-up" style="transition-delay:0.40s">
-        <div class="feat-icon purple">⚡</div>
-        <h3 class="feat-name">Edge-Powered</h3>
-        <p class="feat-desc">Deployed on Cloudflare's global edge network. Lightning-fast everywhere on the planet.</p>
+
+      <div class="feat-card fade-in-up" style="transition-delay:0.35s">
+        <div class="feat-icon green">
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M3 11l5 5 11-11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <h3 class="feat-name">Share as stories</h3>
+        <p class="feat-desc">Turn any message into a beautiful story card. One tap to share across all your socials.</p>
       </div>
     </div>
   </section>
@@ -634,21 +662,21 @@
     <p class="section-label fade-in-up">How it works</p>
     <h2 class="section-title fade-in-up">Three steps to the truth</h2>
 
-    <div class="steps-track">
+    <div class="steps-grid">
       <div class="step fade-in-up">
         <div class="step-num">1</div>
-        <h3 class="step-title">Pick a username</h3>
-        <p class="step-desc">Enter any username above — your real name, alias, or anything you like.</p>
+        <h3 class="step-title">Pick your username</h3>
+        <p class="step-desc">Enter any name above — your real name, an alias, or whatever you like. Your unique link is created instantly.</p>
       </div>
       <div class="step fade-in-up" style="transition-delay:0.1s">
         <div class="step-num">2</div>
         <h3 class="step-title">Share your link</h3>
-        <p class="step-desc">Post your unique Whispr link on Instagram Stories, Snapchat, WhatsApp status, or X.</p>
+        <p class="step-desc">Post it on Instagram Stories, WhatsApp status, Snapchat, X, or anywhere your friends will see it.</p>
       </div>
       <div class="step fade-in-up" style="transition-delay:0.2s">
         <div class="step-num">3</div>
         <h3 class="step-title">Read your messages</h3>
-        <p class="step-desc">Visit your dashboard to see all anonymous messages sent to you.</p>
+        <p class="step-desc">Visit your dashboard to read every anonymous message. Delete, share, or keep them forever (until 48h).</p>
       </div>
     </div>
   </section>
@@ -658,8 +686,8 @@
 <div class="container">
   <section class="cta-section">
     <div class="cta-box fade-in-up">
-      <h2 class="cta-title">Ready to hear the truth?</h2>
-      <p class="cta-sub">Join the conversation. No accounts. No nonsense.</p>
+      <h2 class="cta-title">Ready to find out?</h2>
+      <p class="cta-sub">Free forever. No account. No nonsense.</p>
       <div class="cta-input-row">
         <input
           class="input-field"
@@ -670,101 +698,82 @@
           autocomplete="off"
           autocapitalize="off"
           spellcheck="false"
-          style="max-width:240px;"
+          style="max-width:220px;"
         >
-        <button class="btn-primary" id="cta-btn">Get my link →</button>
+        <button class="btn-primary" id="cta-btn">Create my link</button>
       </div>
     </div>
   </section>
 </div>
 
-<!-- Footer -->
 <div class="container">
   <footer>
-    <p class="footer-copy">© 2025 Whispr. All messages expire in 48 hours.</p>
+    <p class="footer-copy">© 2025 whoispr. Messages expire after 48 hours.</p>
     <nav class="footer-links" aria-label="Footer navigation">
-      <a href="#">Privacy</a>
-      <a href="#">Terms</a>
-      <a href="#">Safety</a>
+      <a href="/about.html">About</a>
+      <a href="/privacy.html">Privacy</a>
+      <a href="/terms.html">Terms</a>
     </nav>
   </footer>
 </div>
 
-<!-- Toast -->
 <div class="toast" id="toast" role="alert" aria-live="assertive"></div>
 
 <script>
-  // ── Username validation ──────────────────────────────────────
   const USERNAME_PATTERN = /^[a-zA-Z0-9_.-]+$/;
 
   function validateUsername(val) {
     const v = val.trim();
     if (!v) return 'Please enter a username.';
-    if (v.length > 30) return 'Username must be 30 characters or fewer.';
-    if (!USERNAME_PATTERN.test(v)) return 'Letters, numbers, _, ., - only.';
+    if (v.length > 30) return 'Keep it under 30 characters.';
+    if (!USERNAME_PATTERN.test(v)) return 'Letters, numbers, _ . - only.';
     return null;
   }
 
-  function goToPage(username, page) {
-    // Use query params so it works on plain local servers too.
-    // On Cloudflare Pages the _redirects pretty-URL still works for shared links.
-    window.location.href = `/${page}.html?u=${encodeURIComponent(username.trim())}`;
+  function goToAsk(username) {
+    window.location.href = `/ask.html?u=${encodeURIComponent(username.trim())}`;
   }
 
-  function showError(el, msg) {
-    el.textContent = msg;
-    el.classList.add('show');
-  }
-  function clearError(el) {
-    el.classList.remove('show');
-  }
+  function showError(el, msg) { el.textContent = msg; el.classList.add('show'); }
+  function clearError(el) { el.classList.remove('show'); }
 
-  // Hero form
   const usernameInput = document.getElementById('username-input');
   const goBtn         = document.getElementById('go-btn');
   const usernameError = document.getElementById('username-error');
 
-  function handleHeroGo() {
-    const err = validateUsername(usernameInput.value);
+  function handleGo(input) {
+    const err = validateUsername(input.value);
     if (err) { showError(usernameError, err); return; }
     clearError(usernameError);
-    goToPage(usernameInput.value, 'ask');
+    goToAsk(input.value);
   }
 
-  goBtn.addEventListener('click', handleHeroGo);
-  usernameInput.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter') handleHeroGo();
-  });
+  goBtn.addEventListener('click', () => handleGo(usernameInput));
+  usernameInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') handleGo(usernameInput); });
   usernameInput.addEventListener('input', () => clearError(usernameError));
 
-  // CTA form
   const ctaUsername = document.getElementById('cta-username');
   const ctaBtn      = document.getElementById('cta-btn');
 
   ctaBtn.addEventListener('click', () => {
     const err = validateUsername(ctaUsername.value);
-    if (err) { showToast(err, 'error'); return; }
-    goToPage(ctaUsername.value, 'ask');
+    if (err) { showToast(err); return; }
+    goToAsk(ctaUsername.value);
   });
-  ctaUsername.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter') ctaBtn.click();
-  });
+  ctaUsername.addEventListener('keydown', (e) => { if (e.key === 'Enter') ctaBtn.click(); });
 
-  // ── Toast ──────────────────────────────────────────────────
   let toastTimer;
-  function showToast(msg, type = 'info') {
+  function showToast(msg) {
     const t = document.getElementById('toast');
     t.textContent = msg;
-    t.style.borderColor = type === 'error' ? 'rgba(255,71,126,0.4)' : 'rgba(255,191,105,0.3)';
     t.classList.add('show');
     clearTimeout(toastTimer);
-    toastTimer = setTimeout(() => t.classList.remove('show'), 3000);
+    toastTimer = setTimeout(() => t.classList.remove('show'), 3200);
   }
 
-  // ── Scroll reveal ──────────────────────────────────────────
   const observer = new IntersectionObserver(
     (entries) => entries.forEach((e) => e.isIntersecting && e.target.classList.add('visible')),
-    { threshold: 0.12 }
+    { threshold: 0.1 }
   );
   document.querySelectorAll('.fade-in-up').forEach((el) => observer.observe(el));
 </script>

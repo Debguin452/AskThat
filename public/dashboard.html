@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>My Dashboard — Whispr</title>
-  <meta name="description" content="Read your anonymous messages on Whispr.">
-  <meta name="theme-color" content="#0d0a08">
+  <title>My Inbox — whoispr</title>
+  <meta name="description" content="Read your anonymous messages.">
+  <meta name="theme-color" content="#07090e">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
@@ -13,24 +13,23 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg:        #0d0a08;
-      --bg2:       #13100c;
-      --card:      rgba(255,210,150,0.06);
-      --border:    rgba(255,210,150,0.12);
-      --primary:   #ff6b35;
-      --secondary: #ff9f1c;
-      --accent:    #ffbf69;
-      --pink:      #ff477e;
-      --grad:      linear-gradient(135deg, #ff477e 0%, #ff6b35 45%, #ffbf69 100%);
-      --grad-text: linear-gradient(135deg, #ff477e, #ff6b35, #ffbf69);
-      --text:      #fff8f0;
-      --text2:     rgba(255,248,240,0.65);
-      --text3:     rgba(255,248,240,0.38);
+      --bg:        #07090e;
+      --bg2:       #0d1018;
+      --card:      rgba(100,70,255,0.06);
+      --border:    rgba(100,70,255,0.14);
+      --primary:   #7c3aed;
+      --secondary: #a78bfa;
+      --accent:    #c4b5fd;
+      --pink:      #ec4899;
+      --blue:      #818cf8;
+      --grad:      linear-gradient(135deg, #ec4899 0%, #7c3aed 55%, #818cf8 100%);
+      --grad-text: linear-gradient(135deg, #ec4899, #7c3aed, #818cf8);
+      --text:      #f0f2ff;
+      --text2:     rgba(240,242,255,0.62);
+      --text3:     rgba(240,242,255,0.36);
       --radius:    20px;
       --radius-sm: 14px;
     }
-
-    html { scroll-behavior: smooth; }
 
     body {
       background: var(--bg);
@@ -42,12 +41,11 @@
       overflow-x: hidden;
     }
 
-    /* ── Orbs ────────────────────────────────────────────────── */
     .orbs { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
-    .orb  { position: absolute; border-radius: 50%; filter: blur(100px); opacity: 0.12; animation: drift 22s ease-in-out infinite alternate; }
-    .orb-1 { width: 500px; height: 500px; background: #ff6b35; top: -20%; right: -10%; }
-    .orb-2 { width: 380px; height: 380px; background: #ff477e; bottom: 10%; left: -10%; animation-delay: -12s; }
-    @keyframes drift { from { transform: translate(0,0); } to { transform: translate(-24px, 32px); } }
+    .orb  { position: absolute; border-radius: 50%; filter: blur(105px); opacity: 0.11; animation: drift 24s ease-in-out infinite alternate; }
+    .orb-1 { width: 520px; height: 520px; background: #7c3aed; top: -22%; right: -12%; }
+    .orb-2 { width: 400px; height: 400px; background: #ec4899; bottom: 8%; left: -10%; animation-delay: -13s; }
+    @keyframes drift { from { transform: translate(0,0); } to { transform: translate(-22px,28px); } }
 
     body::before {
       content: '';
@@ -57,7 +55,6 @@
       opacity: 0.5;
     }
 
-    /* ── Page wrapper ────────────────────────────────────────── */
     .page {
       max-width: 720px;
       margin: 0 auto;
@@ -66,7 +63,7 @@
       z-index: 2;
     }
 
-    /* ── Nav ─────────────────────────────────────────────────── */
+    /* Nav */
     .top-nav {
       display: flex;
       align-items: center;
@@ -110,26 +107,62 @@
       color: var(--text2);
     }
 
-    .btn-sm.outline:hover { background: rgba(255,255,255,0.1); color: var(--text); }
+    .btn-sm.outline:hover { background: rgba(255,255,255,0.09); color: var(--text); }
 
     .btn-sm.grad {
       background: var(--grad);
       color: #fff;
-      box-shadow: 0 4px 16px rgba(255,107,53,0.28);
+      box-shadow: 0 4px 16px rgba(124,58,237,0.28);
     }
 
     .btn-sm.grad:hover { opacity: 0.85; }
 
-    /* ── Profile header ──────────────────────────────────────── */
+    /* New messages banner */
+    .new-banner {
+      background: linear-gradient(135deg, rgba(236,72,153,0.12), rgba(124,58,237,0.12));
+      border: 1px solid rgba(124,58,237,0.25);
+      border-radius: 16px;
+      padding: 14px 20px;
+      display: none;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 16px;
+      animation: fadeUp 0.4s ease both;
+    }
+
+    .new-banner.show { display: flex; }
+
+    .new-banner-text { font-size: 14px; font-weight: 500; }
+    .new-banner-text span { color: var(--secondary); }
+
+    .btn-banner-share {
+      background: var(--grad);
+      border: none;
+      border-radius: 100px;
+      padding: 8px 16px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      color: #fff;
+      cursor: pointer;
+      white-space: nowrap;
+      flex-shrink: 0;
+      transition: opacity 0.2s;
+    }
+
+    .btn-banner-share:hover { opacity: 0.85; }
+
+    /* Profile header */
     .profile-header {
       background: var(--card);
       border: 1px solid var(--border);
-      border-radius: 24px;
-      padding: 28px 28px;
+      border-radius: 22px;
+      padding: 24px 28px;
       display: flex;
       align-items: center;
       gap: 20px;
-      margin-bottom: 20px;
+      margin-bottom: 16px;
       backdrop-filter: blur(16px);
       animation: fadeUp 0.4s ease both;
       position: relative;
@@ -139,21 +172,21 @@
     .profile-header::before {
       content: '';
       position: absolute; inset: 0;
-      background: linear-gradient(120deg, rgba(255,107,53,0.07), transparent 55%);
+      background: linear-gradient(120deg, rgba(124,58,237,0.07), transparent 55%);
       pointer-events: none;
     }
 
     .avatar {
-      width: 64px; height: 64px;
+      width: 62px; height: 62px;
       border-radius: 50%;
       background: var(--grad);
       display: flex; align-items: center; justify-content: center;
       font-family: 'Syne', sans-serif;
       font-weight: 800;
-      font-size: 26px;
+      font-size: 24px;
       color: #fff;
       flex-shrink: 0;
-      box-shadow: 0 0 0 3px rgba(255,107,53,0.2);
+      box-shadow: 0 0 0 3px rgba(124,58,237,0.2);
     }
 
     .profile-info { flex: 1; min-width: 0; }
@@ -161,7 +194,7 @@
     .profile-info h1 {
       font-family: 'Syne', sans-serif;
       font-weight: 800;
-      font-size: 22px;
+      font-size: 21px;
       letter-spacing: -0.3px;
       white-space: nowrap;
       overflow: hidden;
@@ -170,15 +203,13 @@
 
     .profile-info p { font-size: 14px; color: var(--text2); }
 
-    .share-link-group { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
-
-    /* ── Stats row ───────────────────────────────────────────── */
+    /* Stats row */
     .stats-row {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 12px;
-      margin-bottom: 20px;
-      animation: fadeUp 0.4s 0.08s ease both;
+      margin-bottom: 16px;
+      animation: fadeUp 0.4s 0.07s ease both;
     }
 
     .stat-card {
@@ -193,7 +224,7 @@
     .stat-value {
       font-family: 'Syne', sans-serif;
       font-weight: 800;
-      font-size: 32px;
+      font-size: 30px;
       letter-spacing: -1px;
       background: var(--grad-text);
       -webkit-background-clip: text;
@@ -203,28 +234,28 @@
 
     .stat-label { font-size: 12px; color: var(--text3); font-weight: 500; margin-top: 2px; }
 
-    /* ── Toolbar ─────────────────────────────────────────────── */
+    /* Toolbar */
     .toolbar {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 16px;
+      margin-bottom: 14px;
       gap: 12px;
       flex-wrap: wrap;
-      animation: fadeUp 0.4s 0.12s ease both;
+      animation: fadeUp 0.4s 0.11s ease both;
     }
 
     .toolbar-left {
       font-family: 'Syne', sans-serif;
       font-weight: 700;
-      font-size: 20px;
+      font-size: 19px;
       letter-spacing: -0.3px;
     }
 
     .toolbar-right { display: flex; gap: 8px; align-items: center; }
 
     .filter-btn {
-      padding: 7px 16px;
+      padding: 7px 14px;
       border-radius: 100px;
       background: var(--card);
       border: 1px solid var(--border);
@@ -239,25 +270,25 @@
       background: var(--grad);
       color: #fff;
       border-color: transparent;
-      box-shadow: 0 2px 12px rgba(255,107,53,0.25);
+      box-shadow: 0 2px 12px rgba(124,58,237,0.28);
     }
 
-    .filter-btn:not(.active):hover { background: rgba(255,255,255,0.09); color: var(--text); }
+    .filter-btn:not(.active):hover { background: rgba(255,255,255,0.08); color: var(--text); }
 
-    /* ── Message list ────────────────────────────────────────── */
+    /* Message list */
     .messages-list {
       display: flex;
       flex-direction: column;
-      gap: 14px;
-      animation: fadeUp 0.4s 0.16s ease both;
+      gap: 12px;
+      animation: fadeUp 0.4s 0.15s ease both;
     }
 
-    /* ── Message card ────────────────────────────────────────── */
+    /* Message card */
     .msg-card {
       background: var(--card);
       border: 1px solid var(--border);
       border-radius: 18px;
-      padding: 22px 22px 18px;
+      padding: 20px 20px 16px;
       backdrop-filter: blur(12px);
       position: relative;
       overflow: hidden;
@@ -266,7 +297,7 @@
     }
 
     @keyframes cardIn {
-      from { opacity: 0; transform: translateY(12px) scale(0.98); }
+      from { opacity: 0; transform: translateY(10px) scale(0.99); }
       to   { opacity: 1; transform: translateY(0) scale(1); }
     }
 
@@ -276,18 +307,13 @@
       top: 0; left: 0; bottom: 0;
       width: 3px;
       background: var(--grad);
-      border-radius: 3px 0 0 3px;
       opacity: 0;
       transition: opacity 0.25s;
     }
 
-    .msg-card:hover { border-color: rgba(255,107,53,0.25); transform: translateX(2px); }
+    .msg-card:hover { border-color: rgba(124,58,237,0.28); transform: translateX(2px); }
     .msg-card:hover::before { opacity: 1; }
-
-    .msg-card.new {
-      border-color: rgba(255,107,53,0.3);
-    }
-
+    .msg-card.new { border-color: rgba(124,58,237,0.32); }
     .msg-card.new::before { opacity: 1; }
 
     .msg-text {
@@ -306,7 +332,7 @@
       flex-wrap: wrap;
     }
 
-    .msg-meta-left { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .msg-meta-left { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
 
     .msg-time {
       font-size: 12px;
@@ -319,40 +345,13 @@
     .msg-expiry {
       font-size: 11px;
       color: var(--text3);
-      background: rgba(255,255,255,0.05);
+      background: rgba(255,255,255,0.04);
       border: 1px solid var(--border);
       border-radius: 6px;
       padding: 2px 8px;
     }
 
     .msg-expiry.expiring { color: #fbbf24; border-color: rgba(251,191,36,0.3); }
-
-    .ip-hint {
-      font-size: 11px;
-      color: var(--secondary);
-      background: rgba(255,159,28,0.1);
-      border: 1px solid rgba(255,159,28,0.25);
-      border-radius: 6px;
-      padding: 2px 8px;
-      display: flex;
-      align-items: center;
-      gap: 4px;
-    }
-
-    .msg-actions { display: flex; gap: 8px; }
-
-    .btn-delete {
-      width: 30px; height: 30px;
-      border-radius: 8px;
-      background: rgba(255,71,126,0.1);
-      border: 1px solid rgba(255,71,126,0.2);
-      display: flex; align-items: center; justify-content: center;
-      cursor: pointer;
-      transition: background 0.2s, transform 0.15s;
-      color: var(--pink);
-    }
-
-    .btn-delete:hover { background: rgba(255,71,126,0.22); transform: scale(1.08); }
 
     .new-badge {
       font-size: 10px;
@@ -365,38 +364,54 @@
       padding: 2px 8px;
     }
 
-    /* ── Empty state ─────────────────────────────────────────── */
-    .empty-state {
-      text-align: center;
-      padding: 80px 20px;
-      display: none;
+    .knows-badge {
+      font-size: 11px;
+      color: var(--secondary);
+      background: rgba(124,58,237,0.12);
+      border: 1px solid rgba(124,58,237,0.22);
+      border-radius: 6px;
+      padding: 2px 8px;
     }
 
+    .msg-actions { display: flex; gap: 8px; }
+
+    .btn-action {
+      width: 30px; height: 30px;
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.04);
+      color: var(--text2);
+    }
+
+    .btn-action:hover { background: rgba(255,255,255,0.1); transform: scale(1.08); color: var(--text); }
+    .btn-action.del { color: var(--pink); background: rgba(236,72,153,0.08); border-color: rgba(236,72,153,0.18); }
+    .btn-action.del:hover { background: rgba(236,72,153,0.18); }
+
+    /* States */
+    .empty-state { text-align: center; padding: 80px 20px; display: none; }
     .empty-state.show { display: block; }
 
-    .empty-emoji { font-size: 60px; margin-bottom: 20px; }
-
-    .empty-title {
-      font-family: 'Syne', sans-serif;
-      font-weight: 800;
-      font-size: 24px;
-      letter-spacing: -0.4px;
-      margin-bottom: 10px;
+    .empty-icon {
+      width: 72px; height: 72px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 20px;
     }
 
+    .empty-title { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 22px; letter-spacing: -0.4px; margin-bottom: 10px; }
     .empty-sub { color: var(--text2); font-size: 15px; margin-bottom: 28px; }
 
-    /* ── Loading state ───────────────────────────────────────── */
-    .loading-state {
-      text-align: center;
-      padding: 60px 20px;
-    }
-
+    .loading-state { text-align: center; padding: 60px 20px; }
     .loading-state.hide { display: none; }
 
     .loader {
       width: 40px; height: 40px;
-      border: 3px solid rgba(255,107,53,0.2);
+      border: 3px solid rgba(124,58,237,0.18);
       border-top-color: var(--primary);
       border-radius: 50%;
       animation: spin 0.8s linear infinite;
@@ -407,34 +422,22 @@
 
     .loading-state p { color: var(--text2); font-size: 14px; }
 
-    /* ── Error state ─────────────────────────────────────────── */
-    .error-state {
-      text-align: center;
-      padding: 60px 20px;
-      display: none;
-    }
-
+    .error-state { text-align: center; padding: 60px 20px; display: none; }
     .error-state.show { display: block; }
     .error-state p { color: var(--pink); font-size: 15px; margin-bottom: 20px; }
 
-    /* ── Share link card ─────────────────────────────────────── */
+    /* Share card */
     .share-card {
       background: var(--card);
       border: 1px solid var(--border);
       border-radius: 20px;
       padding: 24px;
-      margin-top: 24px;
+      margin-top: 20px;
       backdrop-filter: blur(16px);
-      animation: fadeUp 0.4s 0.2s ease both;
+      animation: fadeUp 0.4s 0.19s ease both;
     }
 
-    .share-card-title {
-      font-family: 'Syne', sans-serif;
-      font-weight: 700;
-      font-size: 16px;
-      margin-bottom: 6px;
-    }
-
+    .share-card-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 16px; margin-bottom: 6px; }
     .share-card-sub { font-size: 13px; color: var(--text2); margin-bottom: 16px; }
 
     .share-platforms { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 16px; }
@@ -444,29 +447,24 @@
       align-items: center;
       gap: 6px;
       padding: 8px 14px;
-      background: rgba(255,255,255,0.05);
+      background: rgba(255,255,255,0.04);
       border: 1px solid var(--border);
       border-radius: 100px;
       font-size: 13px;
       color: var(--text2);
       text-decoration: none;
       cursor: pointer;
-      transition: background 0.2s, color 0.2s, border-color 0.2s, transform 0.15s;
+      transition: background 0.2s, color 0.2s, transform 0.15s;
     }
 
-    .platform-pill:hover {
-      background: rgba(255,255,255,0.1);
-      color: var(--text);
-      transform: translateY(-1px);
-    }
-
+    .platform-pill:hover { background: rgba(255,255,255,0.09); color: var(--text); transform: translateY(-1px); }
     .platform-pill svg { width: 16px; height: 16px; }
 
     .link-copy-row { display: flex; gap: 8px; }
 
     .link-display {
       flex: 1;
-      background: rgba(255,255,255,0.05);
+      background: rgba(255,255,255,0.04);
       border: 1px solid var(--border);
       border-radius: var(--radius-sm);
       padding: 11px 14px;
@@ -477,7 +475,7 @@
       white-space: nowrap;
     }
 
-    .btn-copy {
+    .btn-copy-main {
       background: var(--grad);
       border: none;
       border-radius: var(--radius-sm);
@@ -489,38 +487,16 @@
       cursor: pointer;
       white-space: nowrap;
       transition: opacity 0.2s;
-      box-shadow: 0 2px 12px rgba(255,107,53,0.25);
+      box-shadow: 0 2px 12px rgba(124,58,237,0.26);
     }
 
-    .btn-copy:hover { opacity: 0.85; }
-    .btn-copy.copied { background: linear-gradient(135deg, #4ade80, #22c55e); }
+    .btn-copy-main:hover { opacity: 0.85; }
+    .btn-copy-main.copied { background: linear-gradient(135deg, #4ade80, #22c55e); }
 
-    /* ── Toast ───────────────────────────────────────────────── */
-    .toast {
-      position: fixed;
-      bottom: 28px; left: 50%;
-      transform: translateX(-50%) translateY(12px);
-      background: var(--bg2);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 10px 20px;
-      font-size: 13px;
-      font-weight: 500;
-      color: var(--text);
-      z-index: 999;
-      opacity: 0;
-      transition: opacity 0.25s, transform 0.25s;
-      pointer-events: none;
-      backdrop-filter: blur(20px);
-      white-space: nowrap;
-    }
-
-    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-
-    /* ── Delete confirm ──────────────────────────────────────── */
+    /* Delete confirm */
     .confirm-overlay {
       position: fixed; inset: 0;
-      background: rgba(0,0,0,0.7);
+      background: rgba(0,0,0,0.75);
       backdrop-filter: blur(8px);
       z-index: 998;
       display: none;
@@ -532,76 +508,184 @@
     .confirm-overlay.show { display: flex; }
 
     .confirm-box {
-      background: #1a140e;
+      background: #111320;
       border: 1px solid var(--border);
-      border-radius: 20px;
+      border-radius: 22px;
       padding: 32px;
       max-width: 360px;
       width: 100%;
       text-align: center;
-      animation: pop 0.25s cubic-bezier(0.34, 1.4, 0.64, 1) both;
+      animation: popIn 0.25s cubic-bezier(0.34, 1.4, 0.64, 1) both;
     }
 
-    @keyframes pop { from { transform: scale(0.85); } to { transform: scale(1); } }
+    @keyframes popIn { from { transform: scale(0.85); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 
-    .confirm-icon { font-size: 40px; margin-bottom: 16px; }
-
-    .confirm-title {
-      font-family: 'Syne', sans-serif;
-      font-weight: 700;
-      font-size: 20px;
-      margin-bottom: 8px;
-      letter-spacing: -0.3px;
+    .confirm-icon {
+      width: 52px; height: 52px;
+      background: rgba(236,72,153,0.12);
+      border: 1px solid rgba(236,72,153,0.22);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 16px;
     }
 
+    .confirm-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 20px; margin-bottom: 8px; letter-spacing: -0.3px; }
     .confirm-sub { font-size: 14px; color: var(--text2); margin-bottom: 24px; }
-
     .confirm-btns { display: flex; gap: 10px; }
 
     .btn-cancel {
-      flex: 1;
-      padding: 13px;
+      flex: 1; padding: 13px;
       background: var(--card);
       border: 1px solid var(--border);
       border-radius: var(--radius-sm);
       font-family: 'DM Sans', sans-serif;
-      font-size: 14px;
-      font-weight: 500;
-      color: var(--text2);
-      cursor: pointer;
+      font-size: 14px; font-weight: 500;
+      color: var(--text2); cursor: pointer;
       transition: background 0.2s;
     }
 
-    .btn-cancel:hover { background: rgba(255,255,255,0.1); }
+    .btn-cancel:hover { background: rgba(255,255,255,0.09); }
 
     .btn-confirm-del {
-      flex: 1;
-      padding: 13px;
-      background: linear-gradient(135deg, #ff477e, #c2185b);
+      flex: 1; padding: 13px;
+      background: linear-gradient(135deg, #ec4899, #be185d);
       border: none;
       border-radius: var(--radius-sm);
       font-family: 'DM Sans', sans-serif;
-      font-size: 14px;
-      font-weight: 500;
-      color: #fff;
-      cursor: pointer;
+      font-size: 14px; font-weight: 500;
+      color: #fff; cursor: pointer;
       transition: opacity 0.2s;
     }
 
     .btn-confirm-del:hover { opacity: 0.85; }
 
-    /* ── Animations ──────────────────────────────────────────── */
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(16px); }
-      to   { opacity: 1; transform: translateY(0); }
+    /* Story card modal */
+    .story-overlay {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.88);
+      backdrop-filter: blur(12px);
+      z-index: 999;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      flex-direction: column;
+      gap: 16px;
     }
 
-    /* ── Responsive ──────────────────────────────────────────── */
-    @media (max-width: 600px) {
+    .story-overlay.show { display: flex; }
+
+    .story-modal {
+      display: flex;
+      align-items: flex-start;
+      gap: 20px;
+      max-width: 600px;
+      width: 100%;
+      animation: popIn 0.3s cubic-bezier(0.34, 1.3, 0.64, 1) both;
+    }
+
+    .story-canvas-wrap {
+      position: relative;
+      flex-shrink: 0;
+    }
+
+    #story-canvas {
+      width: 160px;
+      height: 284px;
+      border-radius: 14px;
+      display: block;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+    }
+
+    .story-actions {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .story-title { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 20px; letter-spacing: -0.3px; margin-bottom: 4px; }
+    .story-sub { font-size: 14px; color: var(--text2); margin-bottom: 8px; }
+
+    .story-gradient-row { display: flex; gap: 8px; margin-bottom: 8px; }
+
+    .grad-swatch {
+      width: 32px; height: 32px;
+      border-radius: 8px;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: border-color 0.15s, transform 0.15s;
+    }
+
+    .grad-swatch:hover { transform: scale(1.1); }
+    .grad-swatch.selected { border-color: #fff; }
+
+    .btn-story {
+      padding: 13px;
+      border-radius: var(--radius-sm);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      transition: opacity 0.2s, transform 0.15s;
+    }
+
+    .btn-story:hover { opacity: 0.88; transform: translateY(-1px); }
+
+    .btn-story.share-btn { background: var(--grad); border: none; color: #fff; box-shadow: 0 4px 16px rgba(124,58,237,0.3); }
+    .btn-story.dl-btn { background: var(--card); border: 1px solid var(--border); color: var(--text); }
+
+    .btn-story-close {
+      position: absolute;
+      top: -12px; right: -12px;
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      color: var(--text2);
+      transition: color 0.2s, background 0.2s;
+    }
+
+    .btn-story-close:hover { color: var(--text); background: rgba(255,255,255,0.1); }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 28px; left: 50%;
+      transform: translateX(-50%) translateY(12px);
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 20px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text);
+      z-index: 1000;
+      opacity: 0;
+      transition: opacity 0.25s, transform 0.25s;
+      pointer-events: none;
+      backdrop-filter: blur(20px);
+      white-space: nowrap;
+    }
+
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+
+    @media (max-width: 580px) {
       .stats-row { grid-template-columns: repeat(3, 1fr); }
-      .stat-value { font-size: 26px; }
-      .profile-header { flex-direction: column; align-items: flex-start; gap: 14px; }
+      .stat-value { font-size: 24px; }
+      .profile-header { flex-direction: column; align-items: flex-start; gap: 12px; }
       .toolbar { flex-direction: column; align-items: flex-start; }
+      .story-modal { flex-direction: column; align-items: center; }
+      #story-canvas { width: 180px; height: 320px; }
     }
   </style>
 </head>
@@ -614,14 +698,25 @@
 
 <main class="page">
 
-  <!-- Nav -->
   <nav class="top-nav">
-    <a href="/" class="logo" aria-label="Whispr home">whispr</a>
+    <a href="/" class="logo" aria-label="whoispr home">whoispr</a>
     <div class="nav-right">
-      <a href="/" class="btn-sm outline">← Home</a>
-      <a id="nav-ask-link" href="#" class="btn-sm grad">Share my link 🔥</a>
+      <a href="/" class="btn-sm outline">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M8 10L4 6l4-4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+        Home
+      </a>
+      <a id="nav-share-link" href="#" class="btn-sm grad">
+        <svg width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M4 4.5l2.5-3 2.5 3M6.5 1.5v7M2.5 10v1.5h8V10" stroke="white" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Share my link
+      </a>
     </div>
   </nav>
+
+  <!-- New messages banner -->
+  <div class="new-banner" id="new-banner">
+    <div class="new-banner-text">You have <span id="new-count">new</span> new messages — share your link to get more</div>
+    <button class="btn-banner-share" id="banner-share-btn">Share now</button>
+  </div>
 
   <!-- Profile header -->
   <div class="profile-header" id="profile-header">
@@ -635,10 +730,10 @@
   </div>
 
   <!-- Stats -->
-  <div class="stats-row" id="stats-row">
+  <div class="stats-row">
     <div class="stat-card">
       <div class="stat-value" id="stat-total">—</div>
-      <div class="stat-label">Total msgs</div>
+      <div class="stat-label">Total</div>
     </div>
     <div class="stat-card">
       <div class="stat-value" id="stat-new">—</div>
@@ -646,65 +741,70 @@
     </div>
     <div class="stat-card">
       <div class="stat-value" id="stat-expiry">48h</div>
-      <div class="stat-label">TTL</div>
+      <div class="stat-label">Expires</div>
     </div>
   </div>
 
   <!-- Toolbar -->
-  <div class="toolbar" id="toolbar">
+  <div class="toolbar">
     <span class="toolbar-left">Messages</span>
     <div class="toolbar-right">
       <button class="filter-btn active" data-filter="all">All</button>
       <button class="filter-btn" data-filter="new">Unread</button>
-      <button class="filter-btn" id="refresh-btn" aria-label="Refresh">↻ Refresh</button>
+      <button class="filter-btn" id="refresh-btn" aria-label="Refresh">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7a5 5 0 005 5 5 5 0 004.5-2.8M12 7a5 5 0 00-5-5 5 5 0 00-4.5 2.8" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><path d="M12 4v3h-3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Refresh
+      </button>
     </div>
   </div>
 
   <!-- Loading -->
   <div class="loading-state" id="loading-state">
     <div class="loader"></div>
-    <p>Fetching your messages…</p>
+    <p>Loading your inbox…</p>
   </div>
 
   <!-- Error -->
   <div class="error-state" id="error-state">
-    <p id="error-msg">Failed to load messages.</p>
+    <p id="error-msg">Something went wrong loading your messages.</p>
     <button class="btn-sm outline" id="retry-btn">Try again</button>
   </div>
 
-  <!-- Message list -->
+  <!-- Messages -->
   <div class="messages-list" id="messages-list" aria-live="polite" aria-label="Your messages"></div>
 
   <!-- Empty -->
   <div class="empty-state" id="empty-state">
-    <div class="empty-emoji">💌</div>
+    <div class="empty-icon">
+      <svg width="32" height="32" viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M6 10h20v14a2 2 0 01-2 2H8a2 2 0 01-2-2V10zM6 10l10 8 10-8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
     <h2 class="empty-title">No messages yet</h2>
-    <p class="empty-sub">Share your link so friends can send you anonymous messages!</p>
+    <p class="empty-sub">Share your link and find out what people really think.</p>
   </div>
 
   <!-- Share card -->
   <div class="share-card" id="share-card">
-    <p class="share-card-title">📢 Share your link</p>
-    <p class="share-card-sub">Post it on your socials and watch the messages roll in.</p>
+    <p class="share-card-title">Share your link</p>
+    <p class="share-card-sub">Post it on your socials and watch the messages come in.</p>
 
-    <div class="share-platforms" id="share-platforms">
-      <!-- Populated by JS -->
-    </div>
+    <div class="share-platforms" id="share-platforms"></div>
 
     <div class="link-copy-row">
       <div class="link-display" id="link-display"></div>
-      <button class="btn-copy" id="copy-btn">Copy link</button>
+      <button class="btn-copy-main" id="copy-btn">Copy link</button>
     </div>
   </div>
 
 </main>
 
 <!-- Delete confirm modal -->
-<div class="confirm-overlay" id="confirm-overlay" role="dialog" aria-modal="true" aria-label="Confirm deletion">
+<div class="confirm-overlay" id="confirm-overlay" role="dialog" aria-modal="true">
   <div class="confirm-box">
-    <div class="confirm-icon">🗑️</div>
+    <div class="confirm-icon">
+      <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true"><path d="M3 5.5h16M8 5.5V4a1 1 0 011-1h4a1 1 0 011 1v1.5M6.5 5.5l1 12a1 1 0 001 .9h5a1 1 0 001-.9l1-12" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+    </div>
     <h2 class="confirm-title">Delete message?</h2>
-    <p class="confirm-sub">This action can't be undone.</p>
+    <p class="confirm-sub">This cannot be undone.</p>
     <div class="confirm-btns">
       <button class="btn-cancel" id="cancel-del-btn">Cancel</button>
       <button class="btn-confirm-del" id="confirm-del-btn">Delete</button>
@@ -712,22 +812,47 @@
   </div>
 </div>
 
+<!-- Story card modal -->
+<div class="story-overlay" id="story-overlay" role="dialog" aria-modal="true" aria-label="Share as story">
+  <div class="story-modal" id="story-modal">
+    <div class="story-canvas-wrap">
+      <canvas id="story-canvas" width="1080" height="1920"></canvas>
+      <button class="btn-story-close" id="close-story-btn" aria-label="Close">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 2l10 10M12 2L2 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+    <div class="story-actions">
+      <p class="story-title">Share as story</p>
+      <p class="story-sub">Pick a style, then share or download.</p>
+
+      <div class="story-gradient-row" id="gradient-swatches"></div>
+
+      <button class="btn-story share-btn" id="story-share-btn">
+        <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M4 4.5l3.5-3.5L11 4.5M7.5 1v8.5M2 11.5v2h11v-2" stroke="white" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Share
+      </button>
+
+      <button class="btn-story dl-btn" id="story-download-btn">
+        <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M7.5 1v9M4 7l3.5 3.5L11 7M2 12.5h11" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Download
+      </button>
+    </div>
+  </div>
+</div>
+
 <div class="toast" id="toast" role="alert" aria-live="assertive"></div>
 
 <script>
-  // ── Extract username from ?u= param OR /dashboard/:username path ──
   const _params    = new URLSearchParams(window.location.search);
   const _pathParts = window.location.pathname.split('/').filter(Boolean);
   const username   = _params.get('u') || _pathParts[_pathParts.length - 1] || '';
-
   const USERNAME_PATTERN = /^[a-zA-Z0-9_.-]+$/;
 
-  // Elements
   const profileHeader  = document.getElementById('profile-header');
   const avatarLetter   = document.getElementById('avatar-letter');
   const profileName    = document.getElementById('profile-name');
   const profileSub     = document.getElementById('profile-sub');
-  const navAskLink     = document.getElementById('nav-ask-link');
+  const navShareLink   = document.getElementById('nav-share-link');
   const statTotal      = document.getElementById('stat-total');
   const statNew        = document.getElementById('stat-new');
   const messagesList   = document.getElementById('messages-list');
@@ -743,23 +868,39 @@
   const confirmOverlay = document.getElementById('confirm-overlay');
   const cancelDelBtn   = document.getElementById('cancel-del-btn');
   const confirmDelBtn  = document.getElementById('confirm-del-btn');
+  const newBanner      = document.getElementById('new-banner');
+  const newCount       = document.getElementById('new-count');
+  const bannerShareBtn = document.getElementById('banner-share-btn');
+  const storyOverlay   = document.getElementById('story-overlay');
+  const closeStoryBtn  = document.getElementById('close-story-btn');
+  const storyShareBtn  = document.getElementById('story-share-btn');
+  const storyDlBtn     = document.getElementById('story-download-btn');
 
-  // State
-  let allMessages    = [];
-  let currentFilter  = 'all';
-  let pendingDeleteId = null;
-  let readSet        = new Set(); // track IDs we've "seen"
+  let allMessages      = [];
+  let currentFilter    = 'all';
+  let pendingDeleteId  = null;
+  let readSet          = new Set();
+  let prevMessageCount = -1;
+  let currentStoryMsg  = null;
+  let selectedGrad     = 0;
 
-  // ── Load read set from sessionStorage ─────────────────────────
+  // Story gradients
+  const STORY_GRADIENTS = [
+    { label: 'Dusk',     stops: ['#1a0533', '#7c3aed', '#ec4899'] },
+    { label: 'Midnight', stops: ['#050c1a', '#0f2450', '#1e3a8a'] },
+    { label: 'Ember',    stops: ['#1a0800', '#7f1d1d', '#ea580c'] },
+    { label: 'Sage',     stops: ['#051a10', '#14532d', '#065f46'] },
+    { label: 'Noir',     stops: ['#050505', '#1a1a1a', '#262626'] },
+  ];
+
   try {
-    const stored = sessionStorage.getItem('whispr_read_' + username);
+    const stored = sessionStorage.getItem('wpr_read_' + username);
     if (stored) readSet = new Set(JSON.parse(stored));
   } catch (_) {}
 
-  // ── Init ──────────────────────────────────────────────────────
   if (!username || !USERNAME_PATTERN.test(username) || username.length > 30) {
     profileName.textContent = 'Invalid link';
-    profileSub.textContent  = 'This dashboard link looks wrong.';
+    profileSub.textContent  = 'This dashboard link does not look right.';
     loadingState.classList.add('hide');
     emptyState.classList.add('show');
   } else {
@@ -770,25 +911,21 @@
     const display = '@' + username;
     const askUrl  = window.location.origin + '/ask/' + username;
 
-    document.title = `${display}'s Dashboard — Whispr`;
+    document.title = `${display}'s inbox — whoispr`;
     profileName.textContent = display;
     avatarLetter.textContent = username[0].toUpperCase();
-    navAskLink.href = '/ask.html?u=' + username;
+    navShareLink.href = askUrl;
 
-    // Link display
     linkDisplay.textContent = askUrl;
 
-    // Copy button
     copyBtn.addEventListener('click', () => copyLink(askUrl));
+    bannerShareBtn.addEventListener('click', () => copyLink(askUrl));
 
-    // Share platforms
     buildSharePlatforms(askUrl);
-
-    // Load messages
+    buildGradientSwatches();
     loadMessages();
   }
 
-  // ── Load messages ─────────────────────────────────────────────
   async function loadMessages() {
     loadingState.classList.remove('hide');
     errorState.classList.remove('show');
@@ -798,34 +935,43 @@
     try {
       const res  = await fetch(`/api/get?username=${encodeURIComponent(username)}`);
       const data = await res.json();
-
       if (!res.ok) throw new Error(data.error || 'Failed to load');
 
-      allMessages = data.messages || [];
-      updateStats();
+      const newMessages = data.messages || [];
+      const unread = newMessages.filter((m) => !readSet.has(m.id)).length;
+
+      // Show viral banner if new messages since last load
+      if (prevMessageCount !== -1 && newMessages.length > prevMessageCount) {
+        const diff = newMessages.length - prevMessageCount;
+        newCount.textContent = diff;
+        newBanner.classList.add('show');
+        setTimeout(() => newBanner.classList.remove('show'), 12000);
+      }
+
+      prevMessageCount = newMessages.length;
+      allMessages = newMessages;
+
+      updateStats(unread);
       renderMessages();
 
-      // Mark all current IDs as read
       allMessages.forEach((m) => readSet.add(m.id));
       saveReadSet();
 
     } catch (err) {
-      errorMsg.textContent = err.message || 'Network error. Try again.';
+      errorMsg.textContent = 'Could not load your messages. Check your connection.';
       errorState.classList.add('show');
     } finally {
       loadingState.classList.add('hide');
     }
   }
 
-  // ── Update stats ──────────────────────────────────────────────
-  function updateStats() {
-    const unread = allMessages.filter((m) => !readSet.has(m.id)).length;
-    statTotal.textContent = allMessages.length;
-    statNew.textContent   = unread;
-    profileSub.textContent = `${allMessages.length} message${allMessages.length !== 1 ? 's' : ''} received`;
+  function updateStats(unread) {
+    const u = unread !== undefined ? unread : allMessages.filter((m) => !readSet.has(m.id)).length;
+    statTotal.textContent   = allMessages.length;
+    statNew.textContent     = u;
+    profileSub.textContent  = `${allMessages.length} message${allMessages.length !== 1 ? 's' : ''} received`;
   }
 
-  // ── Render ────────────────────────────────────────────────────
   function renderMessages() {
     const filtered = currentFilter === 'new'
       ? allMessages.filter((m) => !readSet.has(m.id))
@@ -833,64 +979,56 @@
 
     messagesList.innerHTML = '';
 
-    if (filtered.length === 0) {
-      emptyState.classList.add('show');
-      return;
-    }
-
+    if (filtered.length === 0) { emptyState.classList.add('show'); return; }
     emptyState.classList.remove('show');
 
     filtered.forEach((msg, i) => {
-      const isNew  = !readSet.has(msg.id);
-      const card   = buildMsgCard(msg, isNew, i * 30);
-      messagesList.appendChild(card);
+      const isNew = !readSet.has(msg.id);
+      messagesList.appendChild(buildMsgCard(msg, isNew, i * 28));
     });
   }
 
-  // ── Build message card ────────────────────────────────────────
   function buildMsgCard(msg, isNew, delay) {
     const card = document.createElement('article');
     card.className = 'msg-card' + (isNew ? ' new' : '');
     card.dataset.id = msg.id;
     card.style.animationDelay = delay + 'ms';
 
-    const timeAgo  = formatRelative(msg.timestamp);
+    const timeAgo   = formatRelative(msg.timestamp);
     const expiresIn = getExpiresIn(msg.expiresAt);
     const expClass  = getExpiresClass(msg.expiresAt);
 
-    // Safely render text (already sanitised server-side, but double-safe)
-    const safeText = msg.text
-      .replace(/&lt;/g, '<').replace(/&gt;/g, '>') // restore for display
-      .replace(/</g, '&lt;').replace(/>/g, '&gt;'); // re-escape for innerHTML
+    const safeText = escapeHtml(msg.text.replace(/&amp;/g,'&').replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&quot;/g,'"').replace(/&#x27;/g,"'"));
 
     card.innerHTML = `
       <p class="msg-text">${safeText}</p>
       <div class="msg-meta">
         <div class="msg-meta-left">
           ${isNew ? '<span class="new-badge">New</span>' : ''}
+          ${msg.revealIdentity ? '<span class="knows-badge">Someone who knows you</span>' : ''}
           <span class="msg-time">
-            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
-              <circle cx="6" cy="6" r="5" stroke="currentColor" stroke-width="1.2"/>
-              <path d="M6 3.5V6l1.5 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
-            </svg>
+            <svg width="11" height="11" viewBox="0 0 11 11" fill="none" aria-hidden="true"><circle cx="5.5" cy="5.5" r="4.5" stroke="currentColor" stroke-width="1.2"/><path d="M5.5 3v2.5l1.5 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
             ${timeAgo}
           </span>
-          <span class="msg-expiry ${expClass}" title="Expires at ${new Date(msg.expiresAt).toLocaleString()}">
-            ⏳ ${expiresIn}
-          </span>
-          ${msg.revealIdentity && msg.ipHint ? `<span class="ip-hint">🌐 ${escapeHtml(msg.ipHint)}</span>` : ''}
+          <span class="msg-expiry ${expClass}">${expiresIn}</span>
         </div>
         <div class="msg-actions">
-          <button class="btn-delete" data-id="${escapeHtml(msg.id)}" title="Delete message" aria-label="Delete this message">
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-              <path d="M2 3.5h10M5 3.5V2.5a.5.5 0 01.5-.5h3a.5.5 0 01.5.5v1M4 3.5l.7 7.5a.5.5 0 00.5.5h3.6a.5.5 0 00.5-.5L10 3.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
-            </svg>
+          <button class="btn-action story-btn" data-id="${escapeHtml(msg.id)}" title="Share as story" aria-label="Share as story">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><rect x="2" y="1.5" width="10" height="11" rx="2" stroke="currentColor" stroke-width="1.3"/><path d="M5 5h4M5 7.5h4M5 9.5h2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+          </button>
+          <button class="btn-action del" data-id="${escapeHtml(msg.id)}" title="Delete message" aria-label="Delete this message">
+            <svg width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M2 3.5h9M4.5 3.5V2.5a.5.5 0 01.5-.5h3a.5.5 0 01.5.5v1M3.5 3.5l.7 7a.5.5 0 00.5.4h3.6a.5.5 0 00.5-.4l.7-7" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
           </button>
         </div>
       </div>
     `;
 
-    card.querySelector('.btn-delete').addEventListener('click', (e) => {
+    card.querySelector('.story-btn').addEventListener('click', (e) => {
+      e.stopPropagation();
+      openStoryCard(msg);
+    });
+
+    card.querySelector('.btn-action.del').addEventListener('click', (e) => {
       e.stopPropagation();
       showDeleteConfirm(msg.id);
     });
@@ -898,24 +1036,15 @@
     return card;
   }
 
-  // ── Delete flow ───────────────────────────────────────────────
+  // Delete flow
   function showDeleteConfirm(id) {
     pendingDeleteId = id;
     confirmOverlay.classList.add('show');
     confirmDelBtn.focus();
   }
 
-  cancelDelBtn.addEventListener('click', () => {
-    pendingDeleteId = null;
-    confirmOverlay.classList.remove('show');
-  });
-
-  confirmOverlay.addEventListener('click', (e) => {
-    if (e.target === confirmOverlay) {
-      pendingDeleteId = null;
-      confirmOverlay.classList.remove('show');
-    }
-  });
+  cancelDelBtn.addEventListener('click', () => { pendingDeleteId = null; confirmOverlay.classList.remove('show'); });
+  confirmOverlay.addEventListener('click', (e) => { if (e.target === confirmOverlay) { pendingDeleteId = null; confirmOverlay.classList.remove('show'); } });
 
   confirmDelBtn.addEventListener('click', async () => {
     if (!pendingDeleteId) return;
@@ -923,12 +1052,11 @@
     confirmOverlay.classList.remove('show');
     pendingDeleteId = null;
 
-    // Optimistic remove
     const card = messagesList.querySelector(`[data-id="${id}"]`);
     if (card) {
       card.style.transition = 'opacity 0.3s, transform 0.3s';
       card.style.opacity = '0';
-      card.style.transform = 'translateX(12px)';
+      card.style.transform = 'translateX(10px)';
       setTimeout(() => card.remove(), 300);
     }
 
@@ -937,30 +1065,20 @@
 
     try {
       const res = await fetch('/api/delete', {
-        method:  'DELETE',
+        method: 'DELETE',
         headers: { 'Content-Type': 'application/json' },
-        body:    JSON.stringify({ username, id }),
+        body: JSON.stringify({ username, id }),
       });
-
-      if (!res.ok) {
-        showToast('Delete failed — refreshing…');
-        loadMessages();
-      } else {
-        showToast('Message deleted ✓');
-      }
-    } catch {
-      showToast('Network error. Message may still exist.');
-      loadMessages();
-    }
+      if (!res.ok) { showToast('Delete failed — refreshing.'); loadMessages(); }
+      else showToast('Message deleted.');
+    } catch { showToast('Network error.'); loadMessages(); }
   });
 
-  // ── Filter buttons ────────────────────────────────────────────
+  // Filter buttons
   document.querySelectorAll('.filter-btn[data-filter]').forEach((btn) => {
     btn.addEventListener('click', () => {
       currentFilter = btn.dataset.filter;
-      document.querySelectorAll('.filter-btn[data-filter]').forEach((b) =>
-        b.classList.remove('active')
-      );
+      document.querySelectorAll('.filter-btn[data-filter]').forEach((b) => b.classList.remove('active'));
       btn.classList.add('active');
       renderMessages();
     });
@@ -969,32 +1087,16 @@
   refreshBtn.addEventListener('click', loadMessages);
   retryBtn.addEventListener('click', loadMessages);
 
-  // ── Share platforms ───────────────────────────────────────────
+  // Share platforms
   function buildSharePlatforms(url) {
     const encoded = encodeURIComponent(url);
-    const text    = encodeURIComponent('Ask me anything anonymously 🔥 ' + url);
+    const text    = encodeURIComponent('Ask me anything — anonymously ' + url);
 
     const platforms = [
-      {
-        name: 'WhatsApp',
-        href: `https://wa.me/?text=${text}`,
-        icon: `<svg viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7.5" fill="#25D366"/><path d="M11.2 4.8A4.3 4.3 0 005 10.4l-1 3 3.1-1a4.3 4.3 0 006-4 4.3 4.3 0 00-1.9-3.6zm-3.2 6.6A3.5 3.5 0 015.6 11l-.1-.1-1.2.3.3-1.1-.2-.2a3.5 3.5 0 115 .9 3.5 3.5 0 01-1.4.6zm2-1.8c-.1 0-.6-.3-.7-.3H9c-.1 0-.2 0-.2.1l-.4.4c-.1.1-.1.1-.2 0A3 3 0 017.3 9a3 3 0 01-.6-.8c-.1-.1 0-.2.1-.2l.2-.3v-.2l-.3-.8c-.1-.2-.2-.2-.3-.2h-.2c-.1 0-.2.1-.3.2a1.4 1.4 0 00-.5 1A2.4 2.4 0 007.2 10c.2.1.7.6 1.6.8h.6a1.2 1.2 0 00.8-.3c.1-.1.2-.4.3-.6v-.3z" fill="white"/></svg>`
-      },
-      {
-        name: 'Telegram',
-        href: `https://t.me/share/url?url=${encoded}&text=${encodeURIComponent('Ask me anything!')}`,
-        icon: `<svg viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7.5" fill="#26A5E4"/><path d="M3.8 7.9l6.3-2.5c.3-.1.6.1.5.5L9.5 11c-.1.3-.3.4-.6.3l-1.5-1.2-.8.7c-.1.1-.2.1-.3.1l.1-1.6 2.8-2.5c.1-.1 0-.2-.2-.1L5.6 9.1l-1.5-.5c-.3-.1-.3-.3.2-.5z" fill="white"/></svg>`
-      },
-      {
-        name: 'Twitter / X',
-        href: `https://twitter.com/intent/tweet?text=${text}`,
-        icon: `<svg viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7.5" fill="#000"/><path d="M8.9 7.5 11.6 4.3h-.7l-2.3 2.7-1.9-2.7H4.6l2.9 4.2-2.9 3.3h.7L7.9 9l2 2.8H12L8.9 7.5zm-1 1.1-.3-.4-2.4-3.4h1l1.9 2.7.3.4 2.5 3.5h-1l-2-2.8z" fill="white"/></svg>`
-      },
-      {
-        name: 'Instagram',
-        action: 'copy',
-        icon: `<svg viewBox="0 0 16 16" fill="none"><defs><radialGradient id="ig2" cx="30%" cy="107%" r="120%"><stop offset="0%" stop-color="#feda75"/><stop offset="50%" stop-color="#d62976"/><stop offset="100%" stop-color="#4f5bd5"/></radialGradient></defs><circle cx="8" cy="8" r="7.5" fill="url(#ig2)"/><rect x="4.5" y="4.5" width="7" height="7" rx="2" stroke="white" stroke-width="1" fill="none"/><circle cx="8" cy="8" r="1.8" stroke="white" stroke-width="1" fill="none"/><circle cx="10.5" cy="5.5" r="0.5" fill="white"/></svg>`
-      },
+      { name: 'WhatsApp',  href: `https://wa.me/?text=${text}`, icon: `<svg viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7.5" fill="#25D366"/><path d="M11.2 4.8A4.3 4.3 0 005 10.4l-1 3 3.1-1a4.3 4.3 0 006-4 4.3 4.3 0 00-1.9-3.6zm-3.2 6.6A3.5 3.5 0 015.6 11l-.1-.1-1.2.3.3-1.1-.2-.2a3.5 3.5 0 115 .9 3.5 3.5 0 01-1.4.6zm2-1.8c-.1 0-.6-.3-.7-.3H9c-.1 0-.2 0-.2.1l-.4.4c-.1.1-.1.1-.2 0A3 3 0 017.3 9a3 3 0 01-.6-.8c-.1-.1 0-.2.1-.2l.2-.3v-.2l-.3-.8c-.1-.2-.2-.2-.3-.2h-.2c-.1 0-.2.1-.3.2a1.4 1.4 0 00-.5 1A2.4 2.4 0 007.2 10c.2.1.7.6 1.6.8h.6a1.2 1.2 0 00.8-.3c.1-.1.2-.4.3-.6v-.3z" fill="white"/></svg>` },
+      { name: 'Telegram',  href: `https://t.me/share/url?url=${encoded}&text=${encodeURIComponent('Ask me anything!')}`, icon: `<svg viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7.5" fill="#26A5E4"/><path d="M3.8 7.9l6.3-2.5c.3-.1.6.1.5.5L9.5 11c-.1.3-.3.4-.6.3l-1.5-1.2-.8.7c-.1.1-.2.1-.3.1l.1-1.6 2.8-2.5c.1-.1 0-.2-.2-.1L5.6 9.1l-1.5-.5c-.3-.1-.3-.3.2-.5z" fill="white"/></svg>` },
+      { name: 'X',         href: `https://twitter.com/intent/tweet?text=${text}`, icon: `<svg viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7.5" fill="#000"/><path d="M8.9 7.5 11.6 4.3h-.7l-2.3 2.7-1.9-2.7H4.6l2.9 4.2-2.9 3.3h.7L7.9 9l2 2.8H12L8.9 7.5zm-1 1.1-.3-.4-2.4-3.4h1l1.9 2.7.3.4 2.5 3.5h-1l-2-2.8z" fill="white"/></svg>` },
+      { name: 'Instagram', action: 'copy', icon: `<svg viewBox="0 0 16 16" fill="none"><defs><radialGradient id="ig3" cx="30%" cy="107%" r="120%"><stop offset="0%" stop-color="#feda75"/><stop offset="50%" stop-color="#d62976"/><stop offset="100%" stop-color="#4f5bd5"/></radialGradient></defs><circle cx="8" cy="8" r="7.5" fill="url(#ig3)"/><rect x="4.5" y="4.5" width="7" height="7" rx="2" stroke="white" stroke-width="1" fill="none"/><circle cx="8" cy="8" r="1.8" stroke="white" stroke-width="1" fill="none"/><circle cx="10.5" cy="5.5" r="0.5" fill="white"/></svg>` },
     ];
 
     const container = document.getElementById('share-platforms');
@@ -1003,46 +1105,232 @@
     platforms.forEach((p) => {
       const pill = document.createElement(p.action ? 'button' : 'a');
       pill.className = 'platform-pill';
-      if (!p.action) {
-        pill.href   = p.href;
-        pill.target = '_blank';
-        pill.rel    = 'noopener noreferrer';
-      }
+      if (!p.action) { pill.href = p.href; pill.target = '_blank'; pill.rel = 'noopener noreferrer'; }
       pill.innerHTML = `${p.icon} ${p.name}`;
-      pill.setAttribute('aria-label', `Share on ${p.name}`);
-
       if (p.action === 'copy') {
         pill.addEventListener('click', () => {
-          const url = window.location.origin + '/ask/' + username;
-          navigator.clipboard.writeText(url).catch(() => {});
-          showToast('Link copied! Paste it in your Instagram Story 📸');
+          const askUrl = window.location.origin + '/ask/' + username;
+          navigator.clipboard.writeText(askUrl).catch(() => {});
+          showToast('Link copied — paste it on your Instagram Story');
         });
       }
-
       container.appendChild(pill);
     });
   }
 
-  // ── Copy link ─────────────────────────────────────────────────
   function copyLink(url) {
     navigator.clipboard.writeText(url).then(() => {
-      copyBtn.textContent = '✓ Copied!';
+      copyBtn.textContent = 'Copied!';
       copyBtn.classList.add('copied');
-      showToast('Link copied to clipboard!');
-      setTimeout(() => {
-        copyBtn.textContent = 'Copy link';
-        copyBtn.classList.remove('copied');
-      }, 2000);
+      showToast('Link copied to clipboard');
+      setTimeout(() => { copyBtn.textContent = 'Copy link'; copyBtn.classList.remove('copied'); }, 2200);
     }).catch(() => showToast('Could not copy — try manually.'));
   }
 
-  // ── Helpers ───────────────────────────────────────────────────
+  // Story card
+  function buildGradientSwatches() {
+    const container = document.getElementById('gradient-swatches');
+    STORY_GRADIENTS.forEach((g, i) => {
+      const sw = document.createElement('button');
+      sw.className = 'grad-swatch' + (i === 0 ? ' selected' : '');
+      sw.title = g.label;
+      sw.style.background = `linear-gradient(160deg, ${g.stops[0]}, ${g.stops[1]}, ${g.stops[2]})`;
+      sw.addEventListener('click', () => {
+        selectedGrad = i;
+        document.querySelectorAll('.grad-swatch').forEach((s) => s.classList.remove('selected'));
+        sw.classList.add('selected');
+        if (currentStoryMsg) renderStoryCanvas(currentStoryMsg);
+      });
+      container.appendChild(sw);
+    });
+  }
+
+  function openStoryCard(msg) {
+    currentStoryMsg = msg;
+    storyOverlay.classList.add('show');
+    renderStoryCanvas(msg);
+  }
+
+  closeStoryBtn.addEventListener('click', () => { storyOverlay.classList.remove('show'); currentStoryMsg = null; });
+  storyOverlay.addEventListener('click', (e) => { if (e.target === storyOverlay) { storyOverlay.classList.remove('show'); currentStoryMsg = null; } });
+
+  function renderStoryCanvas(msg) {
+    const canvas = document.getElementById('story-canvas');
+    const ctx    = canvas.getContext('2d');
+    const W = 1080, H = 1920;
+    canvas.width = W;
+    canvas.height = H;
+
+    const g = STORY_GRADIENTS[selectedGrad];
+
+    // Background gradient
+    const bg = ctx.createLinearGradient(0, 0, W * 0.5, H);
+    bg.addColorStop(0, g.stops[0]);
+    bg.addColorStop(0.5, g.stops[1]);
+    bg.addColorStop(1, g.stops[2]);
+    ctx.fillStyle = bg;
+    ctx.fillRect(0, 0, W, H);
+
+    // Noise overlay
+    const noiseCanvas = document.createElement('canvas');
+    noiseCanvas.width = 256; noiseCanvas.height = 256;
+    const nCtx = noiseCanvas.getContext('2d');
+    const imageData = nCtx.createImageData(256, 256);
+    for (let i = 0; i < imageData.data.length; i += 4) {
+      const v = Math.random() * 255;
+      imageData.data[i] = imageData.data[i+1] = imageData.data[i+2] = v;
+      imageData.data[i+3] = 18;
+    }
+    nCtx.putImageData(imageData, 0, 0);
+    ctx.save();
+    ctx.globalAlpha = 0.35;
+    for (let x = 0; x < W; x += 256) for (let y = 0; y < H; y += 256) ctx.drawImage(noiseCanvas, x, y);
+    ctx.globalAlpha = 1;
+    ctx.restore();
+
+    // Glow orb
+    const orb = ctx.createRadialGradient(W/2, H/2, 0, W/2, H/2, W * 0.7);
+    orb.addColorStop(0, 'rgba(200,150,255,0.08)');
+    orb.addColorStop(1, 'rgba(0,0,0,0)');
+    ctx.fillStyle = orb;
+    ctx.fillRect(0, 0, W, H);
+
+    // Card background
+    const cardX = 80, cardW = W - 160;
+    const cardY = H * 0.28, cardH = H * 0.38;
+    ctx.save();
+    ctx.beginPath();
+    roundRect(ctx, cardX, cardY, cardW, cardH, 60);
+    ctx.fillStyle = 'rgba(255,255,255,0.06)';
+    ctx.fill();
+    ctx.strokeStyle = 'rgba(255,255,255,0.10)';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+    ctx.restore();
+
+    // Message text
+    const rawText = msg.text.replace(/&amp;/g,'&').replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&quot;/g,'"').replace(/&#x27;/g,"'");
+    ctx.fillStyle = '#ffffff';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+
+    const maxFontSize = 80;
+    const minFontSize = 42;
+    let fontSize = maxFontSize;
+    let lines = [];
+
+    while (fontSize >= minFontSize) {
+      ctx.font = `700 ${fontSize}px 'Syne', sans-serif`;
+      lines = wrapText(ctx, rawText, cardW - 100);
+      const totalHeight = lines.length * fontSize * 1.4;
+      if (totalHeight < cardH - 120) break;
+      fontSize -= 4;
+    }
+
+    ctx.font = `700 ${fontSize}px 'Syne', sans-serif`;
+    ctx.shadowColor = 'rgba(0,0,0,0.4)';
+    ctx.shadowBlur = 20;
+    const textStartY = cardY + (cardH - (lines.length * fontSize * 1.4)) / 2 + fontSize * 0.7;
+
+    lines.forEach((line, i) => {
+      ctx.fillText(line, W/2, textStartY + i * fontSize * 1.4);
+    });
+
+    ctx.shadowBlur = 0;
+    ctx.shadowColor = 'transparent';
+
+    // Top label
+    ctx.font = `500 36px 'DM Sans', sans-serif`;
+    ctx.fillStyle = 'rgba(255,255,255,0.45)';
+    ctx.fillText('anonymous message', W/2, cardY - 50);
+
+    // Branding pill
+    const pillW = 260, pillH = 70;
+    const pillX = W/2 - pillW/2;
+    const pillY = H * 0.76;
+    ctx.save();
+    ctx.beginPath();
+    roundRect(ctx, pillX, pillY, pillW, pillH, 35);
+    ctx.fillStyle = 'rgba(255,255,255,0.08)';
+    ctx.fill();
+    ctx.restore();
+
+    ctx.font = `700 34px 'Syne', sans-serif`;
+    ctx.fillStyle = 'rgba(255,255,255,0.7)';
+    ctx.fillText('via whoispr', W/2, pillY + pillH/2 + 2);
+
+    // CTA text
+    ctx.font = `400 40px 'DM Sans', sans-serif`;
+    ctx.fillStyle = 'rgba(255,255,255,0.35)';
+    ctx.fillText('whoispr.app', W/2, H * 0.84);
+  }
+
+  function wrapText(ctx, text, maxWidth) {
+    const words = text.split(' ');
+    const lines = [];
+    let line = '';
+
+    for (const word of words) {
+      const test = line ? line + ' ' + word : word;
+      if (ctx.measureText(test).width > maxWidth && line) {
+        lines.push(line);
+        line = word;
+      } else {
+        line = test;
+      }
+    }
+
+    if (line) lines.push(line);
+    return lines;
+  }
+
+  function roundRect(ctx, x, y, w, h, r) {
+    ctx.moveTo(x + r, y);
+    ctx.lineTo(x + w - r, y);
+    ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+    ctx.lineTo(x + w, y + h - r);
+    ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+    ctx.lineTo(x + r, y + h);
+    ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+    ctx.lineTo(x, y + r);
+    ctx.quadraticCurveTo(x, y, x + r, y);
+  }
+
+  storyShareBtn.addEventListener('click', async () => {
+    const canvas = document.getElementById('story-canvas');
+    canvas.toBlob(async (blob) => {
+      if (!blob) return;
+      const file = new File([blob], 'whoispr-story.png', { type: 'image/png' });
+
+      if (navigator.share && navigator.canShare({ files: [file] })) {
+        try {
+          await navigator.share({ files: [file], title: 'Check this out on whoispr' });
+        } catch {}
+      } else {
+        downloadCanvas(canvas);
+        showToast('Image saved — share it on your story');
+      }
+    }, 'image/png');
+  });
+
+  storyDlBtn.addEventListener('click', () => {
+    downloadCanvas(document.getElementById('story-canvas'));
+    showToast('Story card downloaded');
+  });
+
+  function downloadCanvas(canvas) {
+    const a = document.createElement('a');
+    a.download = 'whoispr-story.png';
+    a.href = canvas.toDataURL('image/png');
+    a.click();
+  }
+
+  // Helpers
   function formatRelative(ts) {
     const diff = Date.now() - ts;
-    const m    = Math.floor(diff / 60_000);
-    const h    = Math.floor(diff / 3_600_000);
-    const d    = Math.floor(diff / 86_400_000);
-
+    const m = Math.floor(diff / 60_000);
+    const h = Math.floor(diff / 3_600_000);
+    const d = Math.floor(diff / 86_400_000);
     if (m < 1)  return 'Just now';
     if (m < 60) return `${m}m ago`;
     if (h < 24) return `${h}h ago`;
@@ -1055,40 +1343,31 @@
     const h = Math.floor(diff / 3_600_000);
     const m = Math.floor((diff % 3_600_000) / 60_000);
     if (h === 0) return `${m}m left`;
-    return `${h}h ${m}m left`;
+    return `${h}h left`;
   }
 
   function getExpiresClass(expiresAt) {
-    const diff = expiresAt - Date.now();
-    return diff < 6 * 3_600_000 ? 'expiring' : '';
+    return (expiresAt - Date.now()) < 6 * 3_600_000 ? 'expiring' : '';
   }
 
   function escapeHtml(str) {
-    return String(str)
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;')
-      .replace(/'/g, '&#x27;');
+    return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#x27;');
   }
 
   function saveReadSet() {
-    try {
-      sessionStorage.setItem('whispr_read_' + username, JSON.stringify([...readSet]));
-    } catch (_) {}
+    try { sessionStorage.setItem('wpr_read_' + username, JSON.stringify([...readSet])); } catch (_) {}
   }
 
-  // ── Toast ─────────────────────────────────────────────────────
   let toastTimer;
   function showToast(msg) {
     const t = document.getElementById('toast');
     t.textContent = msg;
     t.classList.add('show');
     clearTimeout(toastTimer);
-    toastTimer = setTimeout(() => t.classList.remove('show'), 3200);
+    toastTimer = setTimeout(() => t.classList.remove('show'), 3400);
   }
 
-  // ── Auto-refresh every 30s ────────────────────────────────────
+  // Auto-refresh every 30s
   setInterval(loadMessages, 30_000);
 </script>
 </body>
