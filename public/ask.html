@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Ask me anonymously — Whispr</title>
+  <meta name="description" content="Send an anonymous message. They'll never know it was you.">
+  <meta property="og:title" content="Ask me anything — Whispr">
+  <meta property="og:description" content="Send an anonymous message. They'll never know it was you.">
+  <meta property="og:type" content="website">
+  <meta name="theme-color" content="#0d0a08">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #0d0a08;
+      --bg2:      #13100c;
+      --card:     rgba(255,210,150,0.06);
+      --border:   rgba(255,210,150,0.12);
+      --primary:  #ff6b35;
+      --secondary:#ff9f1c;
+      --accent:   #ffbf69;
+      --pink:     #ff477e;
+      --grad:     linear-gradient(135deg, #ff477e 0%, #ff6b35 45%, #ffbf69 100%);
+      --grad-text:linear-gradient(135deg, #ff477e, #ff6b35, #ffbf69);
+      --text:     #fff8f0;
+      --text2:    rgba(255,248,240,0.65);
+      --text3:    rgba(255,248,240,0.38);
+      --radius:   20px;
+      --radius-sm:14px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── Orbs ─────────────────────────────────────────────────── */
+    .orbs { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+    .orb  { position: absolute; border-radius: 50%; filter: blur(90px); opacity: 0.14; animation: drift 20s ease-in-out infinite alternate; }
+    .orb-1 { width: 440px; height: 440px; background: #ff6b35; top: -20%; left: -15%; }
+    .orb-2 { width: 360px; height: 360px; background: #ff477e; bottom: 0; right: -10%; animation-delay: -10s; }
+    @keyframes drift { from { transform: translate(0,0); } to { transform: translate(24px,-32px); } }
+
+    body::before {
+      content: '';
+      position: fixed; inset: 0; z-index: 1; pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      background-size: 256px 256px;
+      opacity: 0.5;
+    }
+
+    /* ── Layout ──────────────────────────────────────────────── */
+    .page {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 24px 20px 60px;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* ── Top nav ─────────────────────────────────────────────── */
+    .top-nav {
+      width: 100%;
+      max-width: 480px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 40px;
+    }
+
+    .logo {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 22px;
+      background: var(--grad-text);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-decoration: none;
+    }
+
+    .nav-chip {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      padding: 5px 14px;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text2);
+    }
+
+    /* ── Profile card (top section) ──────────────────────────── */
+    .profile-section {
+      width: 100%;
+      max-width: 480px;
+      text-align: center;
+      margin-bottom: 28px;
+      animation: fadeUp 0.5s ease both;
+    }
+
+    .avatar {
+      width: 84px; height: 84px;
+      border-radius: 50%;
+      background: var(--grad);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 32px;
+      color: #fff;
+      margin: 0 auto 16px;
+      box-shadow: 0 0 0 4px rgba(255,107,53,0.2), 0 8px 32px rgba(255,107,53,0.3);
+      position: relative;
+    }
+
+    .avatar-ring {
+      position: absolute; inset: -6px;
+      border-radius: 50%;
+      background: var(--grad);
+      opacity: 0.25;
+      animation: pulse-ring 2.5s ease-in-out infinite;
+    }
+
+    @keyframes pulse-ring {
+      0%, 100% { transform: scale(1); opacity: 0.25; }
+      50%       { transform: scale(1.08); opacity: 0.12; }
+    }
+
+    .profile-name {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 28px;
+      letter-spacing: -0.5px;
+      margin-bottom: 6px;
+    }
+
+    .profile-tagline {
+      font-size: 15px;
+      color: var(--text2);
+      font-weight: 300;
+    }
+
+    /* ── Message box card ────────────────────────────────────── */
+    .msg-card {
+      width: 100%;
+      max-width: 480px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 28px;
+      backdrop-filter: blur(20px);
+      animation: fadeUp 0.5s 0.1s ease both;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .msg-card::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(255,71,126,0.04), transparent 60%);
+      pointer-events: none;
+    }
+
+    .msg-label {
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text3);
+      margin-bottom: 14px;
+    }
+
+    .msg-textarea {
+      width: 100%;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 16px;
+      font-size: 15px;
+      font-family: 'DM Sans', sans-serif;
+      color: var(--text);
+      outline: none;
+      resize: none;
+      min-height: 130px;
+      line-height: 1.6;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .msg-textarea::placeholder { color: var(--text3); }
+    .msg-textarea:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(255,107,53,0.14);
+    }
+
+    /* ── Char count ──────────────────────────────────────────── */
+    .char-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 10px;
+      margin-bottom: 18px;
+    }
+
+    .char-count { font-size: 12px; color: var(--text3); }
+    .char-count.warn { color: var(--secondary); }
+    .char-count.over { color: var(--pink); }
+
+    /* ── Reveal toggle ───────────────────────────────────────── */
+    .reveal-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 20px;
+      padding: 12px 16px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      user-select: none;
+      transition: background 0.2s;
+    }
+
+    .reveal-row:hover { background: rgba(255,255,255,0.07); }
+
+    .toggle {
+      width: 38px; height: 22px;
+      background: rgba(255,255,255,0.14);
+      border-radius: 100px;
+      position: relative;
+      flex-shrink: 0;
+      transition: background 0.25s;
+    }
+
+    .toggle::after {
+      content: '';
+      position: absolute;
+      top: 3px; left: 3px;
+      width: 16px; height: 16px;
+      border-radius: 50%;
+      background: #fff;
+      transition: transform 0.25s;
+    }
+
+    .reveal-row.active .toggle { background: var(--primary); }
+    .reveal-row.active .toggle::after { transform: translateX(16px); }
+
+    .reveal-text { font-size: 13px; color: var(--text2); line-height: 1.4; flex: 1; }
+    .reveal-text strong { color: var(--text); font-weight: 500; }
+
+    /* ── Submit button ───────────────────────────────────────── */
+    .btn-send {
+      width: 100%;
+      padding: 17px;
+      background: var(--grad);
+      border: none;
+      border-radius: var(--radius-sm);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      font-weight: 500;
+      color: #fff;
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.18s;
+      box-shadow: 0 4px 28px rgba(255,107,53,0.35);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-send::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: rgba(255,255,255,0);
+      transition: background 0.2s;
+    }
+
+    .btn-send:hover { opacity: 0.88; transform: translateY(-1px); }
+    .btn-send:active { transform: translateY(0) scale(0.99); }
+    .btn-send:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+    /* ── Success state ───────────────────────────────────────── */
+    .success-overlay {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 32px 16px;
+    }
+
+    .success-overlay.show { display: flex; }
+
+    .success-icon {
+      font-size: 56px;
+      margin-bottom: 16px;
+      animation: pop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    }
+
+    @keyframes pop {
+      from { transform: scale(0); }
+      to   { transform: scale(1); }
+    }
+
+    .success-title {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 26px;
+      letter-spacing: -0.5px;
+      margin-bottom: 8px;
+    }
+
+    .success-sub {
+      font-size: 15px;
+      color: var(--text2);
+      margin-bottom: 24px;
+    }
+
+    .btn-again {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 12px 28px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text);
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .btn-again:hover { background: rgba(255,255,255,0.1); }
+
+    /* ── Share section ───────────────────────────────────────── */
+    .share-section {
+      width: 100%;
+      max-width: 480px;
+      margin-top: 24px;
+      animation: fadeUp 0.5s 0.2s ease both;
+    }
+
+    .share-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .share-line {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .share-label {
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text3);
+      white-space: nowrap;
+    }
+
+    .share-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .share-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      padding: 14px 8px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: transform 0.2s, border-color 0.2s, background 0.2s;
+      text-decoration: none;
+      color: var(--text);
+    }
+
+    .share-btn:hover {
+      transform: translateY(-3px);
+      border-color: rgba(255,210,150,0.24);
+      background: rgba(255,210,150,0.1);
+    }
+
+    .share-btn svg { width: 28px; height: 28px; }
+    .share-btn span { font-size: 11px; font-weight: 500; color: var(--text2); }
+
+    /* Copy link bar */
+    .copy-bar {
+      display: flex;
+      gap: 8px;
+      align-items: stretch;
+    }
+
+    .copy-url {
+      flex: 1;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 12px 16px;
+      font-size: 13px;
+      color: var(--text2);
+      font-family: 'DM Sans', sans-serif;
+      cursor: text;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .btn-copy {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 12px 18px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text);
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background 0.2s, color 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-copy:hover { background: rgba(255,255,255,0.1); }
+    .btn-copy.copied { color: #4ade80; border-color: rgba(74,222,128,0.3); }
+
+    /* ── Get your own ────────────────────────────────────────── */
+    .get-own {
+      width: 100%;
+      max-width: 480px;
+      margin-top: 20px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 18px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      animation: fadeUp 0.5s 0.3s ease both;
+      text-decoration: none;
+      color: var(--text);
+      transition: border-color 0.2s, background 0.2s;
+    }
+
+    .get-own:hover {
+      border-color: rgba(255,107,53,0.3);
+      background: rgba(255,107,53,0.06);
+    }
+
+    .get-own-text strong {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 15px;
+      display: block;
+    }
+
+    .get-own-text span { font-size: 13px; color: var(--text2); }
+
+    .get-own-arrow {
+      width: 36px; height: 36px;
+      background: var(--grad);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+
+    /* ── Error ───────────────────────────────────────────────── */
+    .error-msg {
+      font-size: 13px;
+      color: var(--pink);
+      margin-top: 10px;
+      display: none;
+    }
+
+    .error-msg.show { display: block; }
+
+    /* ── 404 state ───────────────────────────────────────────── */
+    .not-found {
+      width: 100%;
+      max-width: 480px;
+      text-align: center;
+      padding: 60px 20px;
+      display: none;
+    }
+
+    .not-found.show { display: block; }
+
+    .not-found-emoji { font-size: 64px; margin-bottom: 24px; }
+
+    .not-found h2 {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 28px;
+      letter-spacing: -0.5px;
+      margin-bottom: 12px;
+    }
+
+    .not-found p { color: var(--text2); margin-bottom: 28px; }
+
+    .btn-home {
+      display: inline-block;
+      background: var(--grad);
+      border-radius: var(--radius-sm);
+      padding: 14px 28px;
+      color: #fff;
+      font-weight: 500;
+      text-decoration: none;
+      transition: opacity 0.2s;
+    }
+
+    .btn-home:hover { opacity: 0.85; }
+
+    /* ── Animations ──────────────────────────────────────────── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── Spinner ─────────────────────────────────────────────── */
+    .spinner {
+      width: 18px; height: 18px;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      display: none;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── Toast ───────────────────────────────────────────────── */
+    .toast {
+      position: fixed;
+      bottom: 28px; left: 50%;
+      transform: translateX(-50%) translateY(12px);
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 20px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text);
+      z-index: 999;
+      opacity: 0;
+      transition: opacity 0.25s, transform 0.25s;
+      pointer-events: none;
+      backdrop-filter: blur(20px);
+    }
+
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+  </style>
+</head>
+<body>
+
+<div class="orbs" aria-hidden="true">
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+</div>
+
+<main class="page" id="main-page">
+
+  <!-- Nav -->
+  <nav class="top-nav">
+    <a href="/" class="logo" aria-label="Whispr home">whispr</a>
+    <span class="nav-chip">🔒 100% Anonymous</span>
+  </nav>
+
+  <!-- Profile -->
+  <div class="profile-section" id="profile-section">
+    <div class="avatar" id="avatar" aria-hidden="true">
+      <div class="avatar-ring"></div>
+      <span id="avatar-letter">?</span>
+    </div>
+    <h1 class="profile-name" id="profile-name">Loading…</h1>
+    <p class="profile-tagline">wants your honest, anonymous questions 🔥</p>
+  </div>
+
+  <!-- Not found state -->
+  <div class="not-found" id="not-found-state">
+    <div class="not-found-emoji">👻</div>
+    <h2>Page not found</h2>
+    <p>This link doesn't look right. Check the URL and try again.</p>
+    <a href="/" class="btn-home">Create your own link →</a>
+  </div>
+
+  <!-- Message card -->
+  <div class="msg-card" id="msg-card">
+
+    <!-- Normal form -->
+    <div id="form-area">
+      <p class="msg-label">Your anonymous message</p>
+
+      <textarea
+        class="msg-textarea"
+        id="msg-input"
+        placeholder="Ask anything… 🔥 No one will know it's you."
+        maxlength="500"
+        aria-label="Anonymous message"
+        rows="5"
+      ></textarea>
+
+      <div class="char-row">
+        <span class="char-count" id="char-count">0 / 500</span>
+        <span style="font-size:12px;color:var(--text3)">Delivered anonymously</span>
+      </div>
+
+      <!-- Reveal toggle -->
+      <div class="reveal-row" id="reveal-toggle" role="checkbox" aria-checked="false" tabindex="0">
+        <div class="toggle"></div>
+        <div class="reveal-text">
+          <strong>Show a partial IP hint</strong><br>
+          Let them see the first 3 octets of your IP (city-level only)
+        </div>
+      </div>
+
+      <button class="btn-send" id="send-btn">
+        <span id="btn-text">Send anonymously 🔥</span>
+        <div class="spinner" id="btn-spinner"></div>
+      </button>
+
+      <p class="error-msg" id="send-error"></p>
+    </div>
+
+    <!-- Success state -->
+    <div class="success-overlay" id="success-area">
+      <div class="success-icon">🎉</div>
+      <h2 class="success-title">Message sent!</h2>
+      <p class="success-sub">They'll never know it was you. 👀</p>
+      <button class="btn-again" id="send-again-btn">Send another →</button>
+    </div>
+
+  </div>
+
+  <!-- Share section -->
+  <section class="share-section" id="share-section" aria-label="Share your link">
+    <div class="share-header">
+      <div class="share-line"></div>
+      <span class="share-label">Share this page</span>
+      <div class="share-line"></div>
+    </div>
+
+    <div class="share-grid" id="share-grid">
+      <!-- Populated by JS -->
+    </div>
+
+    <div class="copy-bar">
+      <div class="copy-url" id="copy-url-display"></div>
+      <button class="btn-copy" id="copy-btn" aria-label="Copy link">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+          <rect x="1" y="4" width="8" height="9" rx="1.5" stroke="currentColor" stroke-width="1.4"/>
+          <path d="M4 3V2.5A1.5 1.5 0 015.5 1h6A1.5 1.5 0 0113 2.5v7a1.5 1.5 0 01-1.5 1.5H11" stroke="currentColor" stroke-width="1.4"/>
+        </svg>
+        Copy
+      </button>
+    </div>
+  </section>
+
+  <!-- Get your own -->
+  <a href="/" class="get-own" id="get-own-link">
+    <div class="get-own-text">
+      <strong>Get your own Whispr link</strong>
+      <span>Free forever · No sign-up needed</span>
+    </div>
+    <div class="get-own-arrow" aria-hidden="true">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+        <path d="M2 7h10M8 3l4 4-4 4" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+  </a>
+
+</main>
+
+<div class="toast" id="toast" role="alert" aria-live="assertive"></div>
+
+<script>
+  // ── Extract username from ?u= param OR /ask/:username path ──
+  const _params   = new URLSearchParams(window.location.search);
+  const _pathParts = window.location.pathname.split('/').filter(Boolean);
+  const username  = _params.get('u') || _pathParts[_pathParts.length - 1] || '';
+
+  // ── Elements ────────────────────────────────────────────────
+  const profileSection = document.getElementById('profile-section');
+  const avatarLetter   = document.getElementById('avatar-letter');
+  const profileName    = document.getElementById('profile-name');
+  const notFoundState  = document.getElementById('not-found-state');
+  const msgCard        = document.getElementById('msg-card');
+  const shareSection   = document.getElementById('share-section');
+  const getOwnLink     = document.getElementById('get-own-link');
+  const msgInput       = document.getElementById('msg-input');
+  const charCount      = document.getElementById('char-count');
+  const revealToggle   = document.getElementById('reveal-toggle');
+  const sendBtn        = document.getElementById('send-btn');
+  const btnText        = document.getElementById('btn-text');
+  const btnSpinner     = document.getElementById('btn-spinner');
+  const sendError      = document.getElementById('send-error');
+  const formArea       = document.getElementById('form-area');
+  const successArea    = document.getElementById('success-area');
+  const sendAgainBtn   = document.getElementById('send-again-btn');
+  const copyUrlDisplay = document.getElementById('copy-url-display');
+  const copyBtn        = document.getElementById('copy-btn');
+
+  // ── Validate username ────────────────────────────────────────
+  const USERNAME_PATTERN = /^[a-zA-Z0-9_.-]+$/;
+
+  if (!username || !USERNAME_PATTERN.test(username) || username.length > 30) {
+    profileSection.style.display = 'none';
+    notFoundState.classList.add('show');
+    msgCard.style.display = 'none';
+    shareSection.style.display = 'none';
+    getOwnLink.style.display = 'none';
+  } else {
+    initPage();
+  }
+
+  function initPage() {
+    // Set profile display
+    const display = '@' + username;
+    document.title = `Ask ${display} anonymously — Whispr`;
+    profileName.textContent = display;
+    avatarLetter.textContent = username[0].toUpperCase();
+
+    // Share URL
+    const shareUrl = window.location.origin + '/ask/' + username;
+    copyUrlDisplay.textContent = shareUrl;
+
+    // Build share buttons
+    buildShareButtons(shareUrl, display);
+
+    // Copy button
+    copyBtn.addEventListener('click', () => {
+      navigator.clipboard.writeText(shareUrl).then(() => {
+        copyBtn.textContent = '✓ Copied!';
+        copyBtn.classList.add('copied');
+        setTimeout(() => {
+          copyBtn.innerHTML = `
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+              <rect x="1" y="4" width="8" height="9" rx="1.5" stroke="currentColor" stroke-width="1.4"/>
+              <path d="M4 3V2.5A1.5 1.5 0 015.5 1h6A1.5 1.5 0 0113 2.5v7a1.5 1.5 0 01-1.5 1.5H11" stroke="currentColor" stroke-width="1.4"/>
+            </svg>
+            Copy`;
+          copyBtn.classList.remove('copied');
+        }, 2000);
+      }).catch(() => {
+        showToast('Could not copy — try manually.');
+      });
+    });
+  }
+
+  // ── Share buttons ────────────────────────────────────────────
+  function buildShareButtons(url, displayName) {
+    const encoded = encodeURIComponent(url);
+    const text    = encodeURIComponent(`Ask me anything anonymously 🔥 ${url}`);
+
+    const platforms = [
+      {
+        name: 'WhatsApp',
+        href: `https://wa.me/?text=${text}`,
+        color: '#25D366',
+        icon: `<svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="14" cy="14" r="13" fill="#25D366"/>
+          <path d="M19.5 8.5A7.5 7.5 0 009.3 19.2L7.5 21l1.9-.5a7.5 7.5 0 0010.1-10zM14 20a6 6 0 01-3.1-.9l-.2-.1-2 .5.5-1.9-.2-.3A6 6 0 1114 20zm3.4-4.6c-.2-.1-1.1-.5-1.2-.6-.2 0-.3 0-.4.2l-.6.7c-.1.1-.2.1-.4 0a5 5 0 01-1.5-1 5.5 5.5 0 01-1-1.4c-.1-.2 0-.3.1-.4l.3-.4c0-.1.1-.2.1-.3v-.3l-.6-1.4c-.1-.3-.3-.3-.4-.3h-.3c-.1 0-.4.1-.5.3a2.4 2.4 0 00-.8 1.8 4.2 4.2 0 001.7 3.1c.3.2 1.2 1 2.8 1.4.4.1.7.1 1 .1a2.2 2.2 0 001.3-.5c.2-.2.4-.7.5-1 0-.2 0-.4-.1-.5z" fill="white"/>
+        </svg>`
+      },
+      {
+        name: 'Telegram',
+        href: `https://t.me/share/url?url=${encoded}&text=${encodeURIComponent('Ask me anything anonymously 🔥')}`,
+        color: '#26A5E4',
+        icon: `<svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="14" cy="14" r="13" fill="#26A5E4"/>
+          <path d="M6.6 13.8l11-4.3c.5-.2 1 .1.8.9l-1.9 8.7c-.1.6-.5.7-1 .4l-2.7-2-1.3 1.2c-.1.2-.3.2-.5.2l.2-2.8 4.8-4.3c.2-.2 0-.3-.3-.1l-5.9 3.7-2.5-.8c-.6-.2-.6-.5.3-.8z" fill="white"/>
+        </svg>`
+      },
+      {
+        name: 'Twitter/X',
+        href: `https://twitter.com/intent/tweet?text=${text}`,
+        color: '#000',
+        icon: `<svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="14" cy="14" r="13" fill="#000"/>
+          <path d="M15.5 13.1L20.3 7.5h-1.1l-4.1 4.8L11.8 7.5H8l5.1 7.4L8 20.5h1.1l4.4-5.2 3.6 5.2H21l-5.5-7.4zm-1.6 1.9l-.5-.7-4.1-5.8h1.7l3.3 4.7.5.7 4.3 6.1h-1.7l-3.5-5z" fill="white"/>
+        </svg>`
+      },
+      {
+        name: 'Snapchat',
+        href: `https://www.snapchat.com/share?url=${encoded}`,
+        color: '#FFFC00',
+        icon: `<svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="14" cy="14" r="13" fill="#FFFC00"/>
+          <path d="M14 7c-1.8 0-3.2 1.4-3.2 3.2v1.4c-.3.1-.8.3-1.1.1-.1-.1-.2 0-.2.1 0 .3.5.7.9.9-.1.3-.4 1-.8 1.3a4.5 4.5 0 01-1.6.5c-.1 0-.2.1-.2.2 0 .4 1.2.8 1.5.9.1.4.2.8.5.8.2 0 .4-.1.7-.1 1.2 0 2 .9 3.5.9 1.5 0 2.3-.9 3.5-.9.3 0 .5.1.7.1.3 0 .4-.4.5-.8.3-.1 1.5-.5 1.5-.9 0-.1-.1-.2-.2-.2a4.5 4.5 0 01-1.6-.5c-.4-.3-.7-1-.8-1.3.4-.2.9-.6.9-.9 0-.1-.1-.2-.2-.1-.3.2-.8 0-1.1-.1v-1.4C17.2 8.4 15.8 7 14 7z" fill="black"/>
+        </svg>`
+      },
+      {
+        name: 'Instagram',
+        href: '#',
+        color: '#E1306C',
+        icon: `<svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <radialGradient id="ig-grad" cx="30%" cy="107%" r="120%">
+              <stop offset="0%" stop-color="#feda75"/>
+              <stop offset="25%" stop-color="#fa7e1e"/>
+              <stop offset="50%" stop-color="#d62976"/>
+              <stop offset="75%" stop-color="#962fbf"/>
+              <stop offset="100%" stop-color="#4f5bd5"/>
+            </radialGradient>
+          </defs>
+          <circle cx="14" cy="14" r="13" fill="url(#ig-grad)"/>
+          <rect x="8.5" y="8.5" width="11" height="11" rx="3" stroke="white" stroke-width="1.4" fill="none"/>
+          <circle cx="14" cy="14" r="2.8" stroke="white" stroke-width="1.4" fill="none"/>
+          <circle cx="18.2" cy="9.8" r="0.8" fill="white"/>
+        </svg>`,
+        action: 'copy'
+      }
+    ];
+
+    const grid = document.getElementById('share-grid');
+    grid.innerHTML = '';
+
+    platforms.forEach((p) => {
+      const btn = document.createElement('a');
+      btn.className = 'share-btn';
+      btn.href = p.href === '#' ? 'javascript:void(0)' : p.href;
+      btn.target = '_blank';
+      btn.rel = 'noopener noreferrer';
+      btn.setAttribute('aria-label', `Share on ${p.name}`);
+      btn.innerHTML = `${p.icon}<span>${p.name}</span>`;
+
+      if (p.action === 'copy' || p.href === '#') {
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          navigator.clipboard.writeText(url).catch(() => {});
+          showToast('Link copied! Paste it in your Instagram Story 📸');
+        });
+      }
+
+      grid.appendChild(btn);
+    });
+  }
+
+  // ── Char counter ─────────────────────────────────────────────
+  msgInput.addEventListener('input', () => {
+    const len = msgInput.value.length;
+    charCount.textContent = `${len} / 500`;
+    charCount.classList.toggle('warn', len > 400);
+    charCount.classList.toggle('over', len > 500);
+  });
+
+  // ── Reveal toggle ────────────────────────────────────────────
+  let revealIdentity = false;
+  revealToggle.addEventListener('click', () => {
+    revealIdentity = !revealIdentity;
+    revealToggle.classList.toggle('active', revealIdentity);
+    revealToggle.setAttribute('aria-checked', String(revealIdentity));
+  });
+  revealToggle.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') revealToggle.click();
+  });
+
+  // ── Send message ─────────────────────────────────────────────
+  sendBtn.addEventListener('click', sendMessage);
+  msgInput.addEventListener('keydown', (e) => {
+    if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') sendMessage();
+  });
+
+  async function sendMessage() {
+    const msg = msgInput.value.trim();
+
+    sendError.classList.remove('show');
+
+    if (!msg) {
+      showFieldError('Please write a message first.');
+      return;
+    }
+
+    if (msg.length > 500) {
+      showFieldError('Message is too long (max 500 characters).');
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      const res = await fetch('/api/send', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, message: msg, revealIdentity }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        showFieldError(data.error || 'Failed to send. Try again.');
+        return;
+      }
+
+      // Show success
+      formArea.style.display = 'none';
+      successArea.classList.add('show');
+
+    } catch (err) {
+      showFieldError('Network error. Please check your connection.');
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  sendAgainBtn.addEventListener('click', () => {
+    successArea.classList.remove('show');
+    formArea.style.display = '';
+    msgInput.value = '';
+    charCount.textContent = '0 / 500';
+    revealIdentity = false;
+    revealToggle.classList.remove('active');
+  });
+
+  function setLoading(val) {
+    sendBtn.disabled = val;
+    btnText.style.display = val ? 'none' : '';
+    btnSpinner.style.display = val ? 'block' : 'none';
+  }
+
+  function showFieldError(msg) {
+    sendError.textContent = msg;
+    sendError.classList.add('show');
+  }
+
+  // ── Toast ────────────────────────────────────────────────────
+  let toastTimer;
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => t.classList.remove('show'), 3200);
+  }
+</script>
+</body>
+</html>
