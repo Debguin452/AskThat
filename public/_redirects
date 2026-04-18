@@ -1,0 +1,6 @@
+# Route SPA pages
+/ask/*        /ask.html        200
+/dashboard/*  /dashboard.html  200
+
+# Fallback
+/*            /index.html      404
