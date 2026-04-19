@@ -35,8 +35,7 @@
     .page { min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 24px 20px 60px; position: relative; z-index: 2; }
     .top-nav { width: 100%; max-width: 480px; display: flex; align-items: center; justify-content: space-between; margin-bottom: 40px; }
     .logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 20px; background: var(--grad-t); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; text-decoration: none; }
-    .anon-chip { display: flex; align-items: center; gap: 6px; background: rgba(255,107,53,0.12); border: 1px solid rgba(255,107,53,0.24); border-radius: 100px; padding: 5px 14px; font-size: 12px; font-weight: 500; color: var(--accent); }
-    @media (max-width: 560px) { .anon-chip { display: none; } }
+
     /* Profile */
     .profile { width: 100%; max-width: 480px; text-align: center; margin-bottom: 28px; animation: up .45s ease both; }
     .avatar { width: 84px; height: 84px; border-radius: 50%; background: var(--grad); display: flex; align-items: center; justify-content: center; font-family: 'Syne', sans-serif; font-weight: 800; font-size: 32px; color: #fff; margin: 0 auto 16px; box-shadow: 0 0 0 4px rgba(124,58,237,0.2), 0 8px 32px rgba(255,107,53,0.30); position: relative; }
@@ -128,10 +127,6 @@
 <main class="page">
   <nav class="top-nav">
     <a href="/" class="logo">AskThat</a>
-    <span class="anon-chip">
-      <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><rect x="2" y="5.5" width="8" height="5" rx="1.2" stroke="currentColor" stroke-width="1.2"/><path d="M4 5.5V4a2 2 0 014 0v1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
-      100% Anonymous
-    </span>
   </nav>
 
   <!-- Profile -->
