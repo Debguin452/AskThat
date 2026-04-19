@@ -1,11 +1,11 @@
-# Pretty URL routing
-/ask/:username    /ask.html         200
-/dashboard/:username  /dashboard.html   200
-/about            /about.html       200
-/privacy          /privacy.html     200
-/terms            /terms.html       200
-/faq              /faq.html         200
-/security         /.well-known/security.txt  302
+# Cloudflare Pages _redirects
+# NOTE: 404.html is served automatically — do NOT add a /* catch-all here.
+# A wildcard /* causes ERR_TOO_MANY_REDIRECTS and breaks the entire site.
 
-# 404 fallback — serves 404.html with a 404 status code
-/*                /404.html         404
+/ask/*         /ask.html        200
+/dashboard/*   /dashboard.html  200
+/about         /about.html      200
+/privacy       /privacy.html    200
+/terms         /terms.html      200
+/faq           /faq.html        200
+/security      /.well-known/security.txt  302
