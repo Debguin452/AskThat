@@ -1,6 +1,11 @@
-# Route SPA pages
-/ask/*        /ask.html        200
-/dashboard/*  /dashboard.html  200
+# Pretty URL routing
+/ask/:username    /ask.html         200
+/dashboard/:username  /dashboard.html   200
+/about            /about.html       200
+/privacy          /privacy.html     200
+/terms            /terms.html       200
+/faq              /faq.html         200
+/security         /.well-known/security.txt  302
 
-# Fallback
-/*            /index.html      404
+# 404 fallback — serves 404.html with a 404 status code
+/*                /404.html         404

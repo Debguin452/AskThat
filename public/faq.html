@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="google-site-verification" content="1cIP8Y5Xf6O5GOeWqWvDquYAe8mI1JjlfXgCe4M9B-E" />
+  <title>FAQ — AskThat</title>
+  <meta name="description" content="Frequently asked questions about AskThat anonymous Q&A.">
+  <meta name="theme-color" content="#0d0a08">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #0d0a08; --bg2: #13100c;
+      --card: rgba(255,200,130,0.06); --border: rgba(255,200,130,0.18); --border2: rgba(255,200,130,0.07);
+      --primary: #ff6b35; --pri-hi: #ff8c5a; --pink: #ff477e; --accent: #ffcf96;
+      --grad: linear-gradient(135deg,#ff477e 0%,#ff6b35 48%,#ffbf69 100%);
+      --grad-t: linear-gradient(135deg,#ff477e,#ff6b35,#ffbf69);
+      --text: #fff8f0; --text2: rgba(255,248,240,0.65); --text3: rgba(255,248,240,0.36);
+      --r: 20px; --r-sm: 12px;
+    }
+    body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 16px; line-height: 1.7; overflow-x: hidden; }
+    .orbs { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+    .orb  { position: absolute; border-radius: 50%; filter: blur(110px); }
+    .orb-1 { width: 480px; height: 480px; background: #ff6b35; opacity: 0.11; top: -15%; right: -10%; animation: d 26s ease-in-out infinite alternate; }
+    @keyframes d { to { transform: translate(-18px,22px); } }
+    .container { max-width: 720px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 2; }
+    nav { padding: 22px 0; display: flex; align-items: center; justify-content: space-between; }
+    .logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 20px; background: var(--grad-t); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; text-decoration: none; }
+    .nav-links { display: flex; gap: 20px; }
+    .nav-links a { font-size: 14px; color: var(--text2); text-decoration: none; transition: color .2s; }
+    .nav-links a:hover { color: var(--text); }
+    .page-hero { padding: 56px 0 40px; }
+    .page-tag { display: inline-block; font-size: 12px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; color: var(--pri-hi); background: rgba(124,58,237,0.1); border: 1px solid rgba(255,107,53,0.22); border-radius: 100px; padding: 5px 14px; margin-bottom: 16px; }
+    .page-title { font-family: 'Syne', sans-serif; font-weight: 800; font-size: clamp(30px, 5vw, 52px); letter-spacing: -2px; margin-bottom: 12px; }
+    .page-sub { font-size: 16px; color: var(--text2); font-weight: 300; }
+    .faq-list { padding-bottom: 80px; padding-top: 10px; }
+    .faq-section-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: var(--pri-hi); margin: 40px 0 14px; }
+    .faq-item { border: 1px solid var(--border2); border-radius: 14px; margin-bottom: 10px; overflow: hidden; background: var(--card); transition: border-color .2s; }
+    .faq-item:hover { border-color: rgba(255,107,53,0.28); }
+    .faq-q { padding: 18px 20px; display: flex; align-items: center; justify-content: space-between; gap: 14px; cursor: pointer; font-weight: 500; font-size: 15px; user-select: none; }
+    .faq-q svg { flex-shrink: 0; color: var(--text3); transition: transform .25s; }
+    .faq-item.open .faq-q svg { transform: rotate(180deg); color: var(--accent); }
+    .faq-a { max-height: 0; overflow: hidden; transition: max-height .3s ease; }
+    .faq-a-inner { padding: 0 20px 18px; font-size: 15px; color: var(--text2); line-height: 1.7; }
+    .faq-a-inner a { color: var(--accent); text-decoration: none; }
+    .faq-a-inner a:hover { text-decoration: underline; }
+    .cta-strip { background: var(--card); border: 1px solid var(--border2); border-radius: 20px; padding: 32px; text-align: center; margin-bottom: 64px; }
+    .cta-strip h3 { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 22px; letter-spacing: -.4px; margin-bottom: 8px; }
+    .cta-strip p { font-size: 15px; color: var(--text2); margin-bottom: 20px; }
+    .btn-grad { display: inline-block; background: var(--grad); border-radius: var(--r-sm); padding: 12px 26px; color: #fff; font-weight: 500; text-decoration: none; font-family: 'DM Sans', sans-serif; transition: opacity .2s; }
+    .btn-grad:hover { opacity: .85; }
+    footer { border-top: 1px solid var(--border2); padding: 26px 0; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px; }
+    .footer-copy { font-size: 13px; color: var(--text3); }
+    .footer-links { display: flex; gap: 18px; flex-wrap: wrap; }
+    .footer-links a { font-size: 13px; color: var(--text3); text-decoration: none; transition: color .2s; }
+    .footer-links a:hover { color: var(--text); }
+    @media (max-width:560px) { footer { flex-direction: column; align-items: center; } }
+  </style>
+</head>
+<body>
+<div class="orbs" aria-hidden="true"><div class="orb orb-1"></div></div>
+<div class="container">
+  <nav>
+    <a href="/" class="logo">AskThat</a>
+    <div class="nav-links">
+      <a href="/about.html">About</a>
+      <a href="/privacy.html">Privacy</a>
+      <a href="/terms.html">Terms</a>
+    </div>
+  </nav>
+</div>
+<div class="container">
+  <div class="page-hero">
+    <div class="page-tag">FAQ</div>
+    <h1 class="page-title">Questions we actually get asked</h1>
+    <p class="page-sub">And answers that are actually honest. Refreshing, we know.</p>
+  </div>
+
+  <div class="faq-list">
+
+    <p class="faq-section-title">Getting started</p>
+
+    <div class="faq-item">
+      <div class="faq-q" tabindex="0" role="button" aria-expanded="false">
+        How do I get my AskThat link?
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div class="faq-a"><div class="faq-a-inner">Go to <a href="/">askthat.pages.dev</a>, type any username, and click Create. You will land on your personal dashboard which shows your shareable link at the top. That is your AskThat link. Share it anywhere.</div></div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q" tabindex="0" role="button" aria-expanded="false">
+        Do I need to create an account?
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div class="faq-a"><div class="faq-a-inner">No. Zero accounts. No email, no password, no phone number. Pick a username and you are done. We made it this way deliberately — because sign-up forms are boring and we are not.</div></div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q" tabindex="0" role="button" aria-expanded="false">
+        How do I get back to my dashboard later?
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div class="faq-a"><div class="faq-a-inner">Go to <strong>askthat.pages.dev/dashboard/yourusername</strong>. Replace "yourusername" with whatever name you picked. Bookmark it. There is no login, so the URL is your access key. Do not lose it — we mean it.</div></div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q" tabindex="0" role="button" aria-expanded="false">
+        Can two people use the same username?
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div class="faq-a"><div class="faq-a-inner">Yes — any username creates its own inbox. If someone else uses the same username, messages sent to that link go to that inbox. We recommend using something unique to you so people know it is actually your link.</div></div>
+    </div>
+
+    <p class="faq-section-title">Anonymity and privacy</p>
+
+    <div class="faq-item">
+      <div class="faq-q" tabindex="0" role="button" aria-expanded="false">
+        Is it actually anonymous? Like, for real?
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div class="faq-a"><div class="faq-a-inner">Yes, for real. We do not store any information that links a message to the person who sent it. We do not log sender identity. The platform is architecturally designed so that even if you asked us very nicely, we could not tell you who sent what. That is the whole point.</div></div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q" tabindex="0" role="button" aria-expanded="false">
+        Can the person I sent a message to find out it was me?
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div class="faq-a"><div class="faq-a-inner">Not through AskThat. We do not reveal sender identity. If you optionally toggle "Someone who knows you" before sending, they see that hint — but it does not narrow it down much. The laws of logic still apply: if you are the only person who knows a certain fact and you include it in your message, Sherlock will figure it out.</div></div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q" tabindex="0" role="button" aria-expanded="false">
+        Do you collect any personal data?
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div class="faq-a"><div class="faq-a-inner">We store the message text and timestamp temporarily (they expire in 48h). We do not store email, phone, device ID, or anything that identifies you personally. See our <a href="/privacy.html">Privacy Policy</a> for the full breakdown.</div></div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q" tabindex="0" role="button" aria-expanded="false">
+        Does AskThat sell data?
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div class="faq-a"><div class="faq-a-inner">No. We do not sell data to anyone. We do not even show ads. We built AskThat because we wanted it to exist, not because we wanted your email address to sell to advertisers.</div></div>
+    </div>
+
+    <p class="faq-section-title">Messages and inbox</p>
+
+    <div class="faq-item">
+      <div class="faq-q" tabindex="0" role="button" aria-expanded="false">
+        Why do messages expire after 48 hours?
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div class="faq-a"><div class="faq-a-inner">Two reasons: privacy (the less we store, the less there is to worry about) and psychological design (scarcity makes people check their inbox more). Also, it forces people to share their link regularly to keep the messages flowing, which is good for everyone.</div></div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q" tabindex="0" role="button" aria-expanded="false">
+        Can I delete a message before it expires?
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div class="faq-a"><div class="faq-a-inner">Yes. Every message in your dashboard has a delete button. Click it, confirm, and it is gone permanently. We do not keep a backup copy. Once deleted, it is deleted.</div></div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q" tabindex="0" role="button" aria-expanded="false">
+        How many messages can I receive?
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div class="faq-a"><div class="faq-a-inner">Up to 100 active (non-expired) messages at any time. Once you hit the cap, the oldest messages are automatically replaced when new ones arrive. In practice, since messages expire every 48 hours, this limit is very rarely hit.</div></div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q" tabindex="0" role="button" aria-expanded="false">
+        Someone sent me something horrible. What do I do?
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div class="faq-a"><div class="faq-a-inner">Delete it. Your inbox, your rules. Our filters catch most abuse automatically, but no system is perfect. If you receive something that constitutes harassment or a genuine threat, contact us at safety@askthat.pages.dev with the message details. Take it seriously if you feel unsafe.</div></div>
+    </div>
+
+    <p class="faq-section-title">Sharing and story cards</p>
+
+    <div class="faq-item">
+      <div class="faq-q" tabindex="0" role="button" aria-expanded="false">
+        How do I share a message to WhatsApp Status?
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div class="faq-a"><div class="faq-a-inner">Open your dashboard, find the message you want to share, and click the story card icon (the document icon next to the delete button). Choose a style, then tap "WhatsApp Status". On supported devices it opens WhatsApp directly. On others, it downloads the image so you can post it yourself.</div></div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q" tabindex="0" role="button" aria-expanded="false">
+        Can I share a message to Instagram Stories?
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div class="faq-a"><div class="faq-a-inner">Yes. Open the story card, tap "Share / Instagram". On mobile browsers that support file sharing, it will open the share sheet. On desktop, it downloads the image — then you can upload it to your story manually. The image is sized at 1080x1920, which is exactly right for Instagram Stories.</div></div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q" tabindex="0" role="button" aria-expanded="false">
+        Why would I share a message on my story?
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div class="faq-a"><div class="faq-a-inner">Because your story viewers will see your AskThat link at the bottom of the card and wonder what people are saying about you. Curiosity is a very powerful thing. Sharing a good message is the most effective way to get more messages. It is a loop, and a surprisingly satisfying one.</div></div>
+    </div>
+
+    <p class="faq-section-title">Technical questions</p>
+
+    <div class="faq-item">
+      <div class="faq-q" tabindex="0" role="button" aria-expanded="false">
+        Does AskThat work on mobile?
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div class="faq-a"><div class="faq-a-inner">Yes, it is designed to work well on mobile first. All pages are fully responsive. The story card sharing feature works best on Chrome for Android and Safari on iPhone, as those support the Web Share API with files.</div></div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q" tabindex="0" role="button" aria-expanded="false">
+        Is there a rate limit on sending messages?
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div class="faq-a"><div class="faq-a-inner">Yes, but you will not notice it unless you are trying to send hundreds of messages per minute, at which point you should probably go outside. Limits exist purely to prevent spam bots from clogging up inboxes.</div></div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q" tabindex="0" role="button" aria-expanded="false">
+        Where is my data stored?
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div class="faq-a"><div class="faq-a-inner">AskThat runs on Cloudflare's global edge network. Messages are stored in Cloudflare KV, which is distributed across Cloudflare's global infrastructure. There is no single server — requests are handled by the nearest Cloudflare location to the user.</div></div>
+    </div>
+
+    <div class="cta-strip">
+      <h3>Still have questions?</h3>
+      <p>Email us at hello@askthat.pages.dev. We actually read the emails.</p>
+      <a href="/" class="btn-grad">Or just try it</a>
+    </div>
+
+  </div>
+
+  <footer>
+    <p class="footer-copy">© 2025 AskThat · Messages auto-delete in 48h</p>
+    <nav class="footer-links">
+      <a href="/about.html">About</a>
+      <a href="/faq.html">FAQ</a>
+      <a href="/privacy.html">Privacy</a>
+      <a href="/terms.html">Terms</a>
+    </nav>
+  </footer>
+</div>
+
+<script>
+  document.querySelectorAll('.faq-item').forEach((item) => {
+    const q = item.querySelector('.faq-q');
+    const a = item.querySelector('.faq-a');
+    q.addEventListener('click', () => {
+      const open = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach((i) => {
+        i.classList.remove('open');
+        i.querySelector('.faq-a').style.maxHeight = '0';
+        i.querySelector('.faq-q').setAttribute('aria-expanded', 'false');
+      });
+      if (!open) {
+        item.classList.add('open');
+        a.style.maxHeight = a.scrollHeight + 'px';
+        q.setAttribute('aria-expanded', 'true');
+      }
+    });
+    q.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); q.click(); } });
+  });
+</script>
+</body>
+</html>

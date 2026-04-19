@@ -3,87 +3,71 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>Terms of Service — whoispr</title>
-  <meta name="description" content="Terms of service for whoispr anonymous Q&A.">
-  <meta name="theme-color" content="#07090e">
+  <meta name="google-site-verification" content="1cIP8Y5Xf6O5GOeWqWvDquYAe8mI1JjlfXgCe4M9B-E" />
+  <title>Terms of Service — AskThat</title>
+  <meta name="description" content="Terms of service for AskThat anonymous Q&A.">
+  <meta name="theme-color" content="#0d0a08">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-      --bg: #07090e; --bg2: #0d1018;
-      --card: rgba(100,70,255,0.06); --border: rgba(100,70,255,0.14);
-      --primary: #7c3aed; --pink: #ec4899;
-      --grad: linear-gradient(135deg, #ec4899 0%, #7c3aed 55%, #818cf8 100%);
-      --grad-text: linear-gradient(135deg, #ec4899, #7c3aed, #818cf8);
-      --text: #f0f2ff; --text2: rgba(240,242,255,0.62); --text3: rgba(240,242,255,0.36);
-      --radius: 20px; --radius-sm: 12px;
+      --bg: #0d0a08; --card: rgba(255,200,130,0.06); --border2: rgba(255,200,130,0.07);
+      --primary: #ff6b35; --pri-hi: #ff8c5a;
+      --grad-t: linear-gradient(135deg,#ff477e,#ff6b35,#ffbf69);
+      --text: #fff8f0; --text2: rgba(255,248,240,0.65); --text3: rgba(255,248,240,0.36);
     }
     body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 16px; line-height: 1.75; overflow-x: hidden; }
-    .orbs { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
-    .orb  { position: absolute; border-radius: 50%; filter: blur(110px); opacity: 0.1; animation: drift 26s ease-in-out infinite alternate; }
-    .orb-1 { width: 480px; height: 480px; background: #ec4899; top: -15%; left: -10%; }
-    @keyframes drift { from { transform: translate(0,0); } to { transform: translate(18px,-24px); } }
+    .orb-bg { position: fixed; width: 460px; height: 460px; background: #ff477e; opacity: 0.09; border-radius: 50%; filter: blur(110px); top: -14%; left: -10%; z-index: 0; pointer-events: none; }
     .container { max-width: 720px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 2; }
-    nav { padding: 24px 0; display: flex; align-items: center; justify-content: space-between; }
-    .logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 22px; background: var(--grad-text); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; text-decoration: none; }
+    nav { padding: 22px 0; display: flex; align-items: center; justify-content: space-between; }
+    .logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 20px; background: var(--grad-t); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; text-decoration: none; }
     .nav-links { display: flex; gap: 20px; }
-    .nav-links a { font-size: 14px; color: var(--text2); text-decoration: none; transition: color 0.2s; }
+    .nav-links a { font-size: 14px; color: var(--text2); text-decoration: none; transition: color .2s; }
     .nav-links a:hover { color: var(--text); }
-    .page-hero { padding: 60px 0 40px; }
-    .page-tag { display: inline-block; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--primary); background: rgba(124,58,237,0.1); border: 1px solid rgba(124,58,237,0.2); border-radius: 100px; padding: 5px 14px; margin-bottom: 18px; }
-    .page-title { font-family: 'Syne', sans-serif; font-weight: 800; font-size: clamp(32px, 5vw, 54px); letter-spacing: -2px; margin-bottom: 10px; }
+    .page-hero { padding: 56px 0 40px; }
+    .page-tag { display: inline-block; font-size: 12px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; color: var(--pri-hi); background: rgba(124,58,237,0.1); border: 1px solid rgba(255,107,53,0.22); border-radius: 100px; padding: 5px 14px; margin-bottom: 16px; }
+    .page-title { font-family: 'Syne', sans-serif; font-weight: 800; font-size: clamp(30px, 5vw, 50px); letter-spacing: -2px; margin-bottom: 10px; }
     .page-date { font-size: 14px; color: var(--text3); }
     .content { padding-bottom: 80px; }
-    .section { margin-bottom: 40px; border-bottom: 1px solid var(--border); padding-bottom: 40px; }
-    .section:last-child { border-bottom: none; }
-    .section h2 { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 20px; letter-spacing: -0.3px; margin-bottom: 14px; }
+    .section { margin-bottom: 40px; border-bottom: 1px solid var(--border2); padding-bottom: 40px; }
+    .section:last-of-type { border-bottom: none; }
+    .section h2 { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 20px; letter-spacing: -.3px; margin-bottom: 14px; }
     .section p { color: var(--text2); margin-bottom: 12px; }
     .section p:last-child { margin-bottom: 0; }
-    .section ul { color: var(--text2); padding-left: 20px; margin-bottom: 12px; }
+    .section ul { color: var(--text2); padding-left: 18px; margin-bottom: 12px; }
     .section ul li { margin-bottom: 6px; }
-    footer { border-top: 1px solid var(--border); padding: 28px 0; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px; }
+    .section a { color: #ff8c5a; text-decoration: none; }
+    .section a:hover { text-decoration: underline; }
+    footer { border-top: 1px solid var(--border2); padding: 26px 0; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px; }
     .footer-copy { font-size: 13px; color: var(--text3); }
-    .footer-links { display: flex; gap: 20px; }
-    .footer-links a { font-size: 13px; color: var(--text3); text-decoration: none; transition: color 0.2s; }
+    .footer-links { display: flex; gap: 18px; }
+    .footer-links a { font-size: 13px; color: var(--text3); text-decoration: none; transition: color .2s; }
     .footer-links a:hover { color: var(--text); }
-    @media (max-width: 560px) { footer { flex-direction: column; align-items: center; } }
+    @media (max-width:560px) { footer { flex-direction: column; align-items: center; } }
   </style>
 </head>
 <body>
-<div class="orbs" aria-hidden="true"><div class="orb orb-1"></div></div>
+<div class="orb-bg" aria-hidden="true"></div>
 <div class="container">
   <nav>
-    <a href="/" class="logo">whoispr</a>
-    <div class="nav-links">
-      <a href="/about.html">About</a>
-      <a href="/privacy.html">Privacy</a>
-    </div>
+    <a href="/" class="logo">AskThat</a>
+    <div class="nav-links"><a href="/faq.html">FAQ</a><a href="/privacy.html">Privacy</a></div>
   </nav>
 </div>
 <div class="container">
   <div class="page-hero">
     <div class="page-tag">Terms of Service</div>
-    <h1 class="page-title">Rules of the road</h1>
+    <h1 class="page-title">The rules. Yes, really.</h1>
     <p class="page-date">Effective: January 1, 2025</p>
   </div>
-
   <div class="content">
-
-    <div class="section">
-      <h2>Acceptance</h2>
-      <p>By using whoispr — including visiting any page, sending a message, or creating a link — you agree to these terms. If you do not agree, please do not use the service.</p>
-    </div>
-
-    <div class="section">
-      <h2>What whoispr is for</h2>
-      <p>whoispr is a platform for anonymous Q&amp;A. It is intended for personal, non-commercial use. The platform is designed so that anyone can send an honest, anonymous message to another person.</p>
-    </div>
-
+    <div class="section"><h2>Acceptance</h2><p>By using AskThat — including visiting any page, sending a message, or creating a link — you agree to these terms. If you do not agree, please do not use the service. We appreciate your directness.</p></div>
+    <div class="section"><h2>What AskThat is for</h2><p>AskThat is a platform for anonymous Q&amp;A. It is intended for personal, non-commercial use. The idea is that honest, anonymous messages lead to better conversations. We are optimists like that.</p></div>
     <div class="section">
       <h2>What you must not do</h2>
-      <p>You must not use whoispr to:</p>
+      <p>You must not use AskThat to:</p>
       <ul>
         <li>Harass, threaten, or bully any person</li>
         <li>Send sexually explicit content involving anyone</li>
@@ -92,53 +76,22 @@
         <li>Attempt to identify anonymous senders through technical means</li>
         <li>Send automated or bulk messages (spam)</li>
         <li>Attempt to access data that is not your own</li>
-        <li>Probe, scan, or test the vulnerability of our systems</li>
+        <li>Test, probe, or attack our systems</li>
       </ul>
-      <p>Messages that violate these rules will be filtered or removed. Repeat offenders may be blocked from the service.</p>
+      <p>Messages that violate these rules will be filtered or removed. Repeat abuse may result in being blocked from the service.</p>
     </div>
-
-    <div class="section">
-      <h2>Content and responsibility</h2>
-      <p>You are responsible for the content of messages you send. whoispr provides the platform; you are responsible for what you put in it. We are not liable for messages sent by third parties.</p>
-      <p>We do not endorse any message content and are not obligated to review messages before they appear in inboxes. We do apply automated filtering, but no filter is perfect.</p>
-    </div>
-
-    <div class="section">
-      <h2>Message expiry and data</h2>
-      <p>All messages expire 48 hours after they are sent. Once expired, they are permanently deleted. We do not guarantee the storage or availability of messages. Do not use whoispr as a permanent archive.</p>
-    </div>
-
-    <div class="section">
-      <h2>Service availability</h2>
-      <p>We aim to keep whoispr available at all times but make no guarantees of uptime. We may update, modify, or discontinue the service at any time without notice. We are not liable for any loss arising from service unavailability.</p>
-    </div>
-
-    <div class="section">
-      <h2>Limitation of liability</h2>
-      <p>whoispr is provided "as is" without warranties of any kind. To the maximum extent permitted by law, we disclaim all implied warranties. Our liability to you for any claim shall not exceed the amount you paid us, which is zero, since the service is free.</p>
-    </div>
-
-    <div class="section">
-      <h2>Governing law</h2>
-      <p>These terms are governed by the laws of the jurisdiction in which the service operator is based. Disputes shall be resolved through good-faith negotiation where possible.</p>
-    </div>
-
-    <div class="section">
-      <h2>Changes to these terms</h2>
-      <p>We may update these terms at any time. We will update the effective date at the top. Continued use of the service constitutes acceptance of updated terms.</p>
-    </div>
-
-    <div class="section">
-      <h2>Contact</h2>
-      <p>For questions about these terms, email legal@whoispr.app. We will respond within 5 business days.</p>
-    </div>
-
+    <div class="section"><h2>Content and responsibility</h2><p>You are responsible for the content of messages you send. AskThat provides the platform; you are responsible for what you put in it. We are not liable for messages sent by third parties. We do not endorse any message content.</p></div>
+    <div class="section"><h2>Message expiry</h2><p>All messages expire 48 hours after they are sent and are permanently deleted. Do not use AskThat as a permanent archive — we are genuinely not set up for that, and you will lose everything.</p></div>
+    <div class="section"><h2>Service availability</h2><p>We aim to keep AskThat available at all times but make no guarantees of uptime. We may update, modify, or discontinue the service at any time. We are not liable for any loss arising from unavailability.</p></div>
+    <div class="section"><h2>Limitation of liability</h2><p>AskThat is provided "as is" without warranties of any kind. To the maximum extent permitted by law, we disclaim all implied warranties. Our liability to you shall not exceed the amount you paid us, which is zero, since the service is free.</p></div>
+    <div class="section"><h2>Changes to these terms</h2><p>We may update these terms. We will update the effective date above. Continued use constitutes acceptance.</p></div>
+    <div class="section"><h2>Contact</h2><p>Questions about these terms: <a href="mailto:legal@askthat.pages.dev">legal@askthat.pages.dev</a>. We respond within 5 business days.</p></div>
   </div>
-
   <footer>
-    <p class="footer-copy">© 2025 whoispr. All messages expire in 48 hours.</p>
+    <p class="footer-copy">© 2025 AskThat · Messages auto-delete in 48h</p>
     <nav class="footer-links">
       <a href="/about.html">About</a>
+      <a href="/faq.html">FAQ</a>
       <a href="/privacy.html">Privacy</a>
       <a href="/terms.html">Terms</a>
     </nav>

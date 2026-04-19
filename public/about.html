@@ -3,67 +3,70 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>About — whoispr</title>
-  <meta name="description" content="Learn about whoispr — anonymous Q&A for honest conversations.">
-  <meta name="theme-color" content="#07090e">
+  <meta name="google-site-verification" content="1cIP8Y5Xf6O5GOeWqWvDquYAe8mI1JjlfXgCe4M9B-E" />
+  <title>About — AskThat</title>
+  <meta name="description" content="About AskThat — anonymous Q&A for honest conversations.">
+  <meta name="theme-color" content="#0d0a08">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-      --bg: #07090e; --bg2: #0d1018;
-      --card: rgba(100,70,255,0.06); --border: rgba(100,70,255,0.14);
-      --primary: #7c3aed; --pink: #ec4899; --blue: #818cf8;
-      --grad: linear-gradient(135deg, #ec4899 0%, #7c3aed 55%, #818cf8 100%);
-      --grad-text: linear-gradient(135deg, #ec4899, #7c3aed, #818cf8);
-      --text: #f0f2ff; --text2: rgba(240,242,255,0.62); --text3: rgba(240,242,255,0.36);
-      --radius: 20px; --radius-sm: 12px;
+      --bg: #0d0a08; --bg2: #13100c;
+      --card: rgba(255,200,130,0.06); --border: rgba(255,200,130,0.18); --border2: rgba(255,200,130,0.07);
+      --primary: #ff6b35; --pri-hi: #ff8c5a; --pink: #ff477e; --accent: #ffcf96;
+      --grad: linear-gradient(135deg,#ff477e 0%,#ff6b35 48%,#ffbf69 100%);
+      --grad-t: linear-gradient(135deg,#ff477e,#ff6b35,#ffbf69);
+      --text: #fff8f0; --text2: rgba(255,248,240,0.65); --text3: rgba(255,248,240,0.36);
+      --r: 20px; --r-sm: 12px;
     }
-    body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 16px; line-height: 1.7; overflow-x: hidden; }
+    body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 16px; line-height: 1.75; overflow-x: hidden; }
     .orbs { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
-    .orb  { position: absolute; border-radius: 50%; filter: blur(110px); opacity: 0.12; animation: drift 24s ease-in-out infinite alternate; }
-    .orb-1 { width: 500px; height: 500px; background: #7c3aed; top: -20%; right: -10%; }
-    .orb-2 { width: 360px; height: 360px; background: #ec4899; bottom: 5%; left: -8%; animation-delay: -12s; }
-    @keyframes drift { from { transform: translate(0,0); } to { transform: translate(-20px,26px); } }
+    .orb  { position: absolute; border-radius: 50%; filter: blur(110px); }
+    .orb-1 { width: 500px; height: 500px; background: #ff6b35; opacity: 0.12; top: -18%; right: -12%; animation: d 26s ease-in-out infinite alternate; }
+    .orb-2 { width: 360px; height: 360px; background: #ff477e; opacity: 0.09; bottom: 10%; left: -8%; animation: d 32s ease-in-out infinite alternate reverse; }
+    @keyframes d { to { transform: translate(-20px,26px); } }
     .container { max-width: 720px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 2; }
-    nav { padding: 24px 0; display: flex; align-items: center; justify-content: space-between; }
-    .logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 22px; background: var(--grad-text); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; text-decoration: none; }
+    nav { padding: 22px 0; display: flex; align-items: center; justify-content: space-between; }
+    .logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 20px; background: var(--grad-t); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; text-decoration: none; }
     .nav-links { display: flex; gap: 20px; }
-    .nav-links a { font-size: 14px; color: var(--text2); text-decoration: none; transition: color 0.2s; }
+    .nav-links a { font-size: 14px; color: var(--text2); text-decoration: none; transition: color .2s; }
     .nav-links a:hover { color: var(--text); }
-    .page-hero { padding: 60px 0 48px; text-align: center; }
-    .page-tag { display: inline-block; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--primary); background: rgba(124,58,237,0.1); border: 1px solid rgba(124,58,237,0.2); border-radius: 100px; padding: 5px 14px; margin-bottom: 20px; }
-    .page-title { font-family: 'Syne', sans-serif; font-weight: 800; font-size: clamp(36px, 6vw, 60px); letter-spacing: -2px; margin-bottom: 16px; }
-    .page-sub { font-size: 17px; color: var(--text2); font-weight: 300; max-width: 500px; margin: 0 auto; }
+    .page-hero { padding: 56px 0 40px; }
+    .page-tag { display: inline-block; font-size: 12px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; color: var(--pri-hi); background: rgba(124,58,237,0.1); border: 1px solid rgba(255,107,53,0.22); border-radius: 100px; padding: 5px 14px; margin-bottom: 16px; }
+    .page-title { font-family: 'Syne', sans-serif; font-weight: 800; font-size: clamp(32px, 5.5vw, 56px); letter-spacing: -2px; margin-bottom: 14px; }
+    .page-sub { font-size: 17px; color: var(--text2); font-weight: 300; max-width: 500px; }
     .content { padding-bottom: 80px; }
     .section { margin-bottom: 48px; }
-    .section h2 { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 22px; letter-spacing: -0.4px; margin-bottom: 14px; }
+    .section h2 { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 22px; letter-spacing: -.3px; margin-bottom: 14px; }
     .section p { color: var(--text2); margin-bottom: 14px; }
     .section p:last-child { margin-bottom: 0; }
-    .values-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 20px; }
-    .value-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 22px 20px; }
-    .value-card h3 { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 15px; margin-bottom: 6px; }
-    .value-card p { font-size: 14px; color: var(--text2); margin: 0; }
-    .cta-strip { background: var(--card); border: 1px solid var(--border); border-radius: 20px; padding: 32px; text-align: center; margin-top: 48px; }
-    .cta-strip h3 { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 24px; letter-spacing: -0.5px; margin-bottom: 10px; }
-    .cta-strip p { font-size: 15px; color: var(--text2); margin-bottom: 22px; }
-    .btn-grad { display: inline-block; background: var(--grad); border-radius: var(--radius-sm); padding: 13px 28px; color: #fff; font-weight: 500; text-decoration: none; font-family: 'DM Sans', sans-serif; transition: opacity 0.2s; }
-    .btn-grad:hover { opacity: 0.85; }
-    footer { border-top: 1px solid var(--border); padding: 28px 0; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px; }
+    .values { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 20px; }
+    .val { background: var(--card); border: 1px solid var(--border2); border-radius: 16px; padding: 22px 20px; }
+    .val h3 { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 15px; margin-bottom: 7px; }
+    .val p { font-size: 14px; color: var(--text2); margin: 0; line-height: 1.6; }
+    .divider { height: 1px; background: var(--border2); margin: 48px 0; }
+    .cta-strip { background: linear-gradient(160deg,rgba(124,58,237,0.1),rgba(232,68,138,0.07)); border: 1px solid rgba(255,107,53,0.22); border-radius: 20px; padding: 32px; text-align: center; margin-bottom: 64px; }
+    .cta-strip h3 { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 22px; letter-spacing: -.4px; margin-bottom: 8px; }
+    .cta-strip p { font-size: 15px; color: var(--text2); margin-bottom: 20px; }
+    .btn-grad { display: inline-block; background: var(--grad); border-radius: var(--r-sm); padding: 12px 26px; color: #fff; font-weight: 500; text-decoration: none; font-family: 'DM Sans', sans-serif; transition: opacity .2s; }
+    .btn-grad:hover { opacity: .85; }
+    footer { border-top: 1px solid var(--border2); padding: 26px 0; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px; }
     .footer-copy { font-size: 13px; color: var(--text3); }
-    .footer-links { display: flex; gap: 20px; }
-    .footer-links a { font-size: 13px; color: var(--text3); text-decoration: none; transition: color 0.2s; }
+    .footer-links { display: flex; gap: 18px; flex-wrap: wrap; }
+    .footer-links a { font-size: 13px; color: var(--text3); text-decoration: none; transition: color .2s; }
     .footer-links a:hover { color: var(--text); }
-    @media (max-width: 560px) { .values-grid { grid-template-columns: 1fr; } footer { flex-direction: column; align-items: center; } }
+    @media (max-width:560px) { .values { grid-template-columns: 1fr; } footer { flex-direction: column; align-items: center; } }
   </style>
 </head>
 <body>
 <div class="orbs" aria-hidden="true"><div class="orb orb-1"></div><div class="orb orb-2"></div></div>
 <div class="container">
   <nav>
-    <a href="/" class="logo">whoispr</a>
+    <a href="/" class="logo">AskThat</a>
     <div class="nav-links">
+      <a href="/faq.html">FAQ</a>
       <a href="/privacy.html">Privacy</a>
       <a href="/terms.html">Terms</a>
     </div>
@@ -72,51 +75,40 @@
 <div class="container">
   <div class="page-hero">
     <div class="page-tag">About</div>
-    <h1 class="page-title">What is whoispr?</h1>
-    <p class="page-sub">An anonymous Q&amp;A platform built for honest, real conversations without the awkwardness.</p>
+    <h1 class="page-title">What is AskThat?</h1>
+    <p class="page-sub">An anonymous Q&amp;A platform built for honest conversations — the ones people never have out loud.</p>
   </div>
   <div class="content">
     <div class="section">
       <h2>The idea</h2>
-      <p>whoispr started with a simple question: what would people say to you if they knew you would never find out it was them? Turns out — quite a lot. And most of it is actually pretty meaningful.</p>
-      <p>We built whoispr to give people a safe, clean space to share honest thoughts, ask genuine questions, and say things they might not feel comfortable saying out loud. No accounts, no tracking, no theatre.</p>
+      <p>AskThat started with a simple observation: people have a lot more to say when their name is not attached to it. Most of it is actually meaningful — feedback people wish they could give, compliments they find awkward to say directly, questions they are too embarrassed to ask out loud.</p>
+      <p>We built AskThat to create a space for that kind of honesty. Simple, private, and designed to feel good — not scary.</p>
     </div>
     <div class="section">
       <h2>How it works</h2>
-      <p>You create a personal link with your username. Anyone who visits that link can send you an anonymous message — a question, a compliment, something they've always wanted to tell you. You read those messages on your private dashboard. Messages expire after 48 hours automatically.</p>
-      <p>Senders choose to remain anonymous. The platform never reveals who sent what. Not to you, not to anyone.</p>
+      <p>You create a personal link with your username. Anyone with that link can send you an anonymous message — a question, an observation, something they have always wanted to say. You read those messages on your dashboard, share the best ones as story cards, and delete anything you do not want to keep.</p>
+      <p>Messages disappear after 48 hours automatically. No archives. No permanent record. Just honest conversations that come and go.</p>
     </div>
     <div class="section">
       <h2>Our values</h2>
-      <div class="values-grid">
-        <div class="value-card">
-          <h3>Anonymity by design</h3>
-          <p>We do not store sender identity. The architecture makes it technically impossible to link a message to a person.</p>
-        </div>
-        <div class="value-card">
-          <h3>No spam, no noise</h3>
-          <p>Automated filtering keeps your inbox full of real messages. Junk does not make it through.</p>
-        </div>
-        <div class="value-card">
-          <h3>No accounts ever</h3>
-          <p>No email, no password, no data collection. Your username is your entire identity on the platform.</p>
-        </div>
-        <div class="value-card">
-          <h3>Honesty by default</h3>
-          <p>We believe people have more to say when the stakes feel lower. We give them the space to say it.</p>
-        </div>
+      <div class="values">
+        <div class="val"><h3>Anonymity by design</h3><p>We do not just promise anonymity — the architecture enforces it. There is no way to link a message to a person after it is sent.</p></div>
+        <div class="val"><h3>No spam, no noise</h3><p>Automated filtering keeps inboxes full of real messages. Junk gets caught before it arrives.</p></div>
+        <div class="val"><h3>No accounts, ever</h3><p>Your username is your identity. No email, no password, no data collection. That is all we need.</p></div>
+        <div class="val"><h3>Honest by default</h3><p>We believe people say more when the stakes feel lower. We lower the stakes and let honesty do the rest.</p></div>
       </div>
     </div>
     <div class="cta-strip">
-      <h3>Give it a try</h3>
-      <p>Create your link in about 10 seconds. No sign-up required.</p>
-      <a href="/" class="btn-grad">Create my link</a>
+      <h3>Try it yourself</h3>
+      <p>Takes about 10 seconds. No sign-up required.</p>
+      <a href="/" class="btn-grad">Create my AskThat link</a>
     </div>
   </div>
   <footer>
-    <p class="footer-copy">© 2025 whoispr. All messages expire in 48 hours.</p>
+    <p class="footer-copy">© 2025 AskThat · Messages auto-delete in 48h</p>
     <nav class="footer-links">
       <a href="/about.html">About</a>
+      <a href="/faq.html">FAQ</a>
       <a href="/privacy.html">Privacy</a>
       <a href="/terms.html">Terms</a>
     </nav>
