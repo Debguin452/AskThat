@@ -2,7 +2,9 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 28'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%23ff477e'/%3E%3Cstop offset='48%25' stop-color='%23ff6b35'/%3E%3Cstop offset='100%25' stop-color='%23ffbf69'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ctext x='14' y='22' font-size='26' font-family='Georgia,serif' font-weight='bold' text-anchor='middle' fill='url(%23g)'%3E@%3C/text%3E%3C/svg%3E">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <link rel="canonical" href="https://askthat.pages.dev">
   <meta name="google-site-verification" content="1cIP8Y5Xf6O5GOeWqWvDquYAe8mI1JjlfXgCe4M9B-E" />
   <title>AskThat — Anonymous Q&A</title>
   <meta name="description" content="Create your anonymous Q&A link. Find out what people really think about you. No accounts. No excuses.">
@@ -547,6 +549,43 @@
       .trust { gap: 20px; }
     }
   </style>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://askthat.pages.dev/#website",
+        "name": "AskThat",
+        "url": "https://askthat.pages.dev",
+        "description": "Create your anonymous Q&A link. Find out what people really think about you. No accounts. No excuses.",
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": "https://askthat.pages.dev/ask/{search_term_string}",
+          "query-input": "required name=search_term_string"
+        }
+      },
+      {
+        "@type": "WebApplication",
+        "@id": "https://askthat.pages.dev/#app",
+        "name": "AskThat — Anonymous Q&A",
+        "url": "https://askthat.pages.dev",
+        "applicationCategory": "SocialNetworkingApplication",
+        "operatingSystem": "Any",
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+        "description": "Create your anonymous Q&A link. Share it anywhere. Receive honest anonymous messages.",
+        "featureList": "Anonymous messaging, Self-destructing messages, Story card sharing, No sign-up required"
+      },
+      {
+        "@type": "Organization",
+        "@id": "https://askthat.pages.dev/#org",
+        "name": "AskThat",
+        "url": "https://askthat.pages.dev",
+        "logo": "https://askthat.pages.dev/og.png"
+      }
+    ]
+  }
+  </script>
 </head>
 <body>
 
@@ -559,12 +598,16 @@
 <!-- Nav -->
 <div class="wrap">
   <nav>
-    <a href="/" class="logo">AskThat</a>
+    <a href="/" class="logo" aria-label="AskThat">
+      <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28" aria-hidden="true" style="flex-shrink:0;margin-right:5px">
+        <defs><linearGradient id="lg-at" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#ff477e"/><stop offset="48%" stop-color="#ff6b35"/><stop offset="100%" stop-color="#ffbf69"/></linearGradient></defs>
+        <text x="14" y="22" font-size="26" font-family="Georgia,serif" font-weight="bold" text-anchor="middle" fill="url(#lg-at)">@</text>
+      </svg>AskThat</a>
     <div class="nav-right">
       <div class="nav-links">
-        <a href="/about.html">About</a>
-        <a href="/faq.html">FAQ</a>
-        <a href="/privacy.html">Privacy</a>
+        <a href="/about">About</a>
+        <a href="/faq">FAQ</a>
+        <a href="/privacy">Privacy</a>
       </div>
       <span class="nav-pill">Anonymous Q&amp;A</span>
     </div>
@@ -763,14 +806,18 @@
 <div class="wrap">
   <footer>
     <div class="footer-left">
-      <a href="/" class="logo" style="font-size:18px">AskThat</a>
+      <a href="/" class="logo" aria-label="AskThat">
+      <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28" aria-hidden="true" style="flex-shrink:0;margin-right:5px">
+        <defs><linearGradient id="lg-at" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#ff477e"/><stop offset="48%" stop-color="#ff6b35"/><stop offset="100%" stop-color="#ffbf69"/></linearGradient></defs>
+        <text x="14" y="22" font-size="26" font-family="Georgia,serif" font-weight="bold" text-anchor="middle" fill="url(#lg-at)">@</text>
+      </svg>AskThat</a>
       <p class="footer-copy">© 2025 AskThat · Messages auto-delete in 48h</p>
     </div>
     <nav class="footer-links">
-      <a href="/about.html">About</a>
-      <a href="/faq.html">FAQ</a>
-      <a href="/privacy.html">Privacy</a>
-      <a href="/terms.html">Terms</a>
+      <a href="/about">About</a>
+      <a href="/faq">FAQ</a>
+      <a href="/privacy">Privacy</a>
+      <a href="/terms">Terms</a>
     </nav>
   </footer>
 </div>
@@ -791,7 +838,7 @@
   // After creating link → go straight to dashboard
   function go(val) {
     const u = val.trim();
-    window.location.href = `/dashboard.html?u=${encodeURIComponent(u)}`;
+    window.location.href = `/dashboard?u=${encodeURIComponent(u)}`;
   }
 
   function showErr(el, msg) { el.textContent = msg; el.classList.add('show'); }
