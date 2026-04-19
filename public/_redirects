@@ -1,10 +1,4 @@
-/about /about.html 200
-/faq /faq.html 200
-/privacy /privacy.html 200
-/terms /terms.html 200
-/ask /ask.html 200
 /ask/* /ask.html 200
-/dashboard /dashboard.html 200
 /dashboard/* /dashboard.html 200
 /security /.well-known/security.txt 302
 /.env /404.html 404

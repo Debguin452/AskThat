@@ -2,7 +2,9 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 28'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%23ff477e'/%3E%3Cstop offset='48%25' stop-color='%23ff6b35'/%3E%3Cstop offset='100%25' stop-color='%23ffbf69'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ctext x='14' y='22' font-size='26' font-family='Georgia,serif' font-weight='bold' text-anchor='middle' fill='url(%23g)'%3E@%3C/text%3E%3C/svg%3E">
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, viewport-fit=cover">
+  <link rel="canonical" href="https://askthat.pages.dev/faq">
   <meta name="google-site-verification" content="1cIP8Y5Xf6O5GOeWqWvDquYAe8mI1JjlfXgCe4M9B-E" />
   <title>FAQ — AskThat</title>
   <meta name="description" content="Frequently asked questions about AskThat anonymous Q&A.">
@@ -21,14 +23,24 @@
       --text: #fff8f0; --text2: rgba(255,248,240,0.65); --text3: rgba(255,248,240,0.36);
       --r: 20px; --r-sm: 12px;
     }
-    body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 16px; line-height: 1.7; overflow-x: hidden; }
+    body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 16px; line-height: 1.7; overflow-x: hidden;
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+      -webkit-transform: translate3d(0,0,0);
+      transform: translate3d(0,0,0); }
     .orbs { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
-    .orb  { position: absolute; border-radius: 50%; filter: blur(110px); }
+    .orb  { position: absolute; border-radius: 50%; filter: blur(68px); will-change: transform; transform: translateZ(0); }
     .orb-1 { width: 480px; height: 480px; background: #ff6b35; opacity: 0.11; top: -15%; right: -10%; animation: d 26s ease-in-out infinite alternate; }
     @keyframes d { to { transform: translate(-18px,22px); } }
     .container { max-width: 720px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 2; }
     nav { padding: 22px 0; display: flex; align-items: center; justify-content: space-between; }
-    .logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 20px; background: var(--grad-t); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; text-decoration: none; }
+    .logo {
+      display: inline-flex;
+      align-items: center;
+      white-space: nowrap;
+      gap: 4px;
+      text-decoration: none !important;
+      -webkit-text-decoration: none; font-family: 'Syne', sans-serif; font-weight: 800; font-size: 20px; background: var(--grad-t); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; text-decoration: none; }
     .nav-links { display: flex; gap: 20px; }
     .nav-links a { font-size: 14px; color: var(--text2); text-decoration: none; transition: color .2s; }
     .nav-links a:hover { color: var(--text); }
@@ -59,12 +71,96 @@
     .footer-links a:hover { color: var(--text); }
     @media (max-width:560px) { footer { flex-direction: column; align-items: center; } }
   </style>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "name": "AskThat FAQ — Frequently Asked Questions",
+    "url": "https://askthat.pages.dev/faq",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How do I get my AskThat link?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Go to askthat.pages.dev, type any username, and click Create. You will land on your personal dashboard which shows your shareable link at the top. Share it anywhere." }
+      },
+      {
+        "@type": "Question",
+        "name": "Do I need to create an account?",
+        "acceptedAnswer": { "@type": "Answer", "text": "No. Zero accounts. No email, no password, no phone number. Pick a username and you are done." }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I get back to my dashboard later?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Go to askthat.pages.dev/dashboard/yourusername. Replace yourusername with whatever name you picked. Bookmark it. There is no login, so the URL is your access key." }
+      },
+      {
+        "@type": "Question",
+        "name": "Is it actually anonymous? Like, for real?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Yes, for real. AskThat does not store any information that links a message to the person who sent it. No sender identity is logged. The platform is architecturally designed so that even if asked, we could not tell you who sent what." }
+      },
+      {
+        "@type": "Question",
+        "name": "Can the person I sent a message to find out it was me?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Not through AskThat. Sender identity is never revealed. If you optionally toggle 'Someone who knows you' before sending, they see that hint, but it does not narrow it down much." }
+      },
+      {
+        "@type": "Question",
+        "name": "Do you collect any personal data?",
+        "acceptedAnswer": { "@type": "Answer", "text": "AskThat stores the message text and timestamp temporarily — messages expire in 48 hours. No email, phone, device ID, or anything that personally identifies you is stored." }
+      },
+      {
+        "@type": "Question",
+        "name": "Does AskThat sell data?",
+        "acceptedAnswer": { "@type": "Answer", "text": "No. AskThat does not sell data to anyone. There are no ads. AskThat was built because we wanted it to exist, not to sell your data to advertisers." }
+      },
+      {
+        "@type": "Question",
+        "name": "Why do messages expire after 48 hours?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Two reasons: privacy (the less stored, the less to worry about) and psychological design (scarcity makes people check their inbox more)." }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I delete a message before it expires?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Yes. Every message in your dashboard has a delete button. Click it, confirm, and it is gone permanently. No backup copy is kept." }
+      },
+      {
+        "@type": "Question",
+        "name": "How many messages can I receive?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Up to 100 active non-expired messages at any time. Since messages expire every 48 hours, this limit is very rarely hit." }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I share a message to Instagram Stories?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Open your dashboard, find the message you want to share, and click the story card icon. Choose a style, then tap Share / Instagram. On mobile browsers that support file sharing, it will open the share sheet. The image is sized at 1080x1920 for Instagram Stories." }
+      },
+      {
+        "@type": "Question",
+        "name": "Does AskThat work on mobile?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Yes, AskThat is designed mobile-first. All pages are fully responsive. The story card sharing feature works best on Chrome for Android and Safari on iPhone." }
+      },
+      {
+        "@type": "Question",
+        "name": "Is there a rate limit on sending messages?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Yes, but you will not notice it unless you are trying to send hundreds of messages per minute. Limits exist purely to prevent spam bots." }
+      },
+      {
+        "@type": "Question",
+        "name": "Where is my data stored?",
+        "acceptedAnswer": { "@type": "Answer", "text": "AskThat runs on Cloudflare's global edge network. Messages are stored in Cloudflare KV, distributed across Cloudflare's global infrastructure. There is no single server — requests are handled by the nearest Cloudflare location to the user." }
+      }
+    ]
+  }
+  </script>
 </head>
 <body>
 <div class="orbs" aria-hidden="true"><div class="orb orb-1"></div></div>
 <div class="container">
   <nav>
-    <a href="/" class="logo">AskThat</a>
+    <a href="/" class="logo" aria-label="AskThat">
+      <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28" aria-hidden="true" style="flex-shrink:0;margin-right:5px">
+        <defs><linearGradient id="lg-at" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#ff477e"/><stop offset="48%" stop-color="#ff6b35"/><stop offset="100%" stop-color="#ffbf69"/></linearGradient></defs>
+        <text x="14" y="22" font-size="26" font-family="Georgia,serif" font-weight="bold" text-anchor="middle" fill="url(#lg-at)">@</text>
+      </svg>AskThat</a>
     <div class="nav-links">
       <a href="/about.html">About</a>
       <a href="/privacy.html">Privacy</a>
