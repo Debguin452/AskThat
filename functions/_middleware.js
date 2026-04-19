@@ -1,34 +1,27 @@
 // functions/_middleware.js
-// Global middleware: rate limiting, security headers, CORS preflight
 
-const RATE_LIMIT_MAX   = 10;   // max requests per window per IP
-const RATE_WINDOW_SECS = 60;   // rolling window in seconds
-const MAX_BODY_BYTES   = 4096; // max raw request body size
+const RATE_LIMIT_MAX   = 10;
+const RATE_WINDOW_SECS = 60;
+const MAX_BODY_BYTES   = 4096;
 
 export async function onRequest(context) {
   const { request, env, next } = context;
   const url = new URL(request.url);
 
-  // ── CORS pre-flight ───────────────────────────────────────────
   if (request.method === 'OPTIONS') {
-    return new Response(null, {
-      status: 204,
-      headers: corsHeaders(),
-    });
+    return new Response(null, { status: 204, headers: corsHeaders() });
   }
 
-  // ── Only apply heavy checks to /api/* routes ──────────────────
   if (url.pathname.startsWith('/api/')) {
     const ip =
       request.headers.get('CF-Connecting-IP') ||
       request.headers.get('X-Forwarded-For')?.split(',')[0].trim() ||
       'unknown';
 
-    // ── Rate limiting (POST + DELETE only) ───────────────────────
     if (request.method === 'POST' || request.method === 'DELETE') {
-      const now        = Math.floor(Date.now() / 1000);
-      const window     = Math.floor(now / RATE_WINDOW_SECS);
-      const rateKey    = `rate:${ip}:${window}`;
+      const now     = Math.floor(Date.now() / 1000);
+      const window  = Math.floor(now / RATE_WINDOW_SECS);
+      const rateKey = `rate:${ip}:${window}`;
 
       let count = 0;
       try {
@@ -37,11 +30,9 @@ export async function onRequest(context) {
       } catch (_) {}
 
       if (count >= RATE_LIMIT_MAX) {
-        return errorResponse(
-          'Too many requests. Please wait a minute.',
-          429,
-          { 'Retry-After': String(RATE_WINDOW_SECS) }
-        );
+        return errorResponse('Whoa, slow down. Try again in a minute.', 429, {
+          'Retry-After': String(RATE_WINDOW_SECS),
+        });
       }
 
       try {
@@ -51,35 +42,25 @@ export async function onRequest(context) {
       } catch (_) {}
     }
 
-    // ── Body size guard for POST requests ────────────────────────
     if (request.method === 'POST') {
-      const contentLength = parseInt(
-        request.headers.get('Content-Length') || '0',
-        10
-      );
+      const contentLength = parseInt(request.headers.get('Content-Length') || '0', 10);
       if (contentLength > MAX_BODY_BYTES) {
-        return errorResponse('Request body too large.', 413);
+        return errorResponse('Message is too large.', 413);
       }
     }
   }
 
-  // ── Call next handler ─────────────────────────────────────────
-  const response = await next();
-
-  // ── Attach security headers to every response ─────────────────
+  const response   = await next();
   const newHeaders = new Headers(response.headers);
+
   Object.entries(securityHeaders()).forEach(([k, v]) => newHeaders.set(k, v));
   if (url.pathname.startsWith('/api/')) {
     Object.entries(corsHeaders()).forEach(([k, v]) => newHeaders.set(k, v));
   }
 
-  return new Response(response.body, {
-    status:  response.status,
-    headers: newHeaders,
-  });
+  return new Response(response.body, { status: response.status, headers: newHeaders });
 }
 
-// ── Helpers ───────────────────────────────────────────────────────
 function securityHeaders() {
   return {
     'X-Content-Type-Options': 'nosniff',
@@ -100,10 +81,6 @@ function corsHeaders() {
 function errorResponse(message, status, extra = {}) {
   return new Response(JSON.stringify({ error: message }), {
     status,
-    headers: {
-      'Content-Type': 'application/json',
-      ...corsHeaders(),
-      ...extra,
-    },
+    headers: { 'Content-Type': 'application/json', ...corsHeaders(), ...extra },
   });
 }
