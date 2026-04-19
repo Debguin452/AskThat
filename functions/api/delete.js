@@ -1,5 +1,5 @@
 // functions/api/delete.js
-// DELETE /api/delete  →  remove a specific message (body: {username, id})
+// DELETE /api/delete
 
 const USERNAME_PATTERN = /^[a-zA-Z0-9_.-]+$/;
 
@@ -7,20 +7,17 @@ export async function onRequestDelete(context) {
   const { request, env } = context;
 
   let body;
-  try {
-    body = await request.json();
-  } catch {
-    return json({ error: 'Invalid JSON body.' }, 400);
-  }
+  try { body = await request.json(); }
+  catch { return json({ error: 'Something went wrong. Try again.' }, 400); }
 
   const { username, id } = body ?? {};
 
-  if (!username || !USERNAME_PATTERN.test(username)) {
-    return json({ error: 'Invalid username.' }, 400);
+  if (!username || !USERNAME_PATTERN.test(username) || username.length > 30) {
+    return json({ error: 'That username does not look right.' }, 400);
   }
 
-  if (!id || typeof id !== 'string' || id.length > 40) {
-    return json({ error: 'Invalid message id.' }, 400);
+  if (!id || typeof id !== 'string' || id.length > 60) {
+    return json({ error: 'Invalid message reference.' }, 400);
   }
 
   const key = `msg:${username.toLowerCase()}`;
@@ -30,7 +27,7 @@ export async function onRequestDelete(context) {
     const raw = await env.MESSAGES_KV.get(key);
     if (raw) messages = JSON.parse(raw);
   } catch {
-    return json({ error: 'Failed to load messages.' }, 500);
+    return json({ error: 'Could not load messages.' }, 500);
   }
 
   const before = messages.length;
@@ -43,13 +40,13 @@ export async function onRequestDelete(context) {
   try {
     await env.MESSAGES_KV.put(key, JSON.stringify(messages));
   } catch {
-    return json({ error: 'Failed to delete message.' }, 500);
+    return json({ error: 'Could not delete message. Try again.' }, 500);
   }
 
   return json({ success: true });
 }
 
-export async function onRequest(context) {
+export async function onRequest() {
   return json({ error: 'Method not allowed.' }, 405);
 }
 
