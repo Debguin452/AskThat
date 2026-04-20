@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Page Not Found — AskThat</title>
+  <meta name="description" content="This page doesn't exist on AskThat.">
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="theme-color" content="#0d0a08">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/icon-32x32.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #0d0a08; --bg2: #13100c;
+      --card: rgba(255,200,130,0.06); --border: rgba(255,200,130,0.18); --border2: rgba(255,200,130,0.07);
+      --primary: #ff6b35; --pink: #ff477e; --gold: #ffbf69; --accent: #ffcf96;
+      --grad: linear-gradient(135deg,#ff477e 0%,#ff6b35 48%,#ffbf69 100%);
+      --grad-t: linear-gradient(135deg,#ff477e,#ff6b35,#ffbf69);
+      --text: #fff8f0; --text2: rgba(255,248,240,0.65); --text3: rgba(255,248,240,0.36);
+      --r: 22px; --r-sm: 14px;
+    }
+    html, body { height: 100%; }
+    body {
+      background: var(--bg); color: var(--text);
+      font-family: 'DM Sans', sans-serif; font-size: 16px; line-height: 1.6;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      min-height: 100vh; overflow-x: hidden; padding: 24px 16px;
+    }
+
+    /* Orbs */
+    .orbs { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+    .orb  { position: absolute; border-radius: 50%; filter: blur(80px); }
+    .orb-1 { width: 480px; height: 480px; background: #ff6b35; opacity: 0.10; top: -15%; left: -10%; animation: d1 22s ease-in-out infinite alternate; }
+    .orb-2 { width: 360px; height: 360px; background: #ff477e; opacity: 0.08; bottom: -10%; right: -8%; animation: d2 28s ease-in-out infinite alternate; }
+    @keyframes d1 { to { transform: translate(20px, -28px); } }
+    @keyframes d2 { to { transform: translate(-16px, 20px); } }
+
+    /* Noise overlay */
+    body::before {
+      content: ''; position: fixed; inset: 0; z-index: 1; pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      background-size: 256px; opacity: 0.45;
+    }
+
+    .page { position: relative; z-index: 2; text-align: center; max-width: 440px; width: 100%; animation: up .5s ease both; }
+
+    /* Logo */
+    .logo {
+      display: inline-flex; align-items: center; gap: 5px; text-decoration: none;
+      font-family: 'Syne', sans-serif; font-weight: 800; font-size: 19px;
+      background: var(--grad-t); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text; margin-bottom: 40px;
+    }
+
+    /* 404 number */
+    .big-num {
+      font-family: 'Syne', sans-serif; font-weight: 800; font-size: clamp(96px, 28vw, 140px);
+      line-height: 1; letter-spacing: -4px;
+      background: var(--grad-t); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text; margin-bottom: 8px;
+      filter: drop-shadow(0 0 40px rgba(255,107,53,0.25));
+    }
+
+    .title {
+      font-family: 'Syne', sans-serif; font-weight: 700; font-size: 22px;
+      letter-spacing: -.4px; margin-bottom: 12px;
+    }
+    .sub {
+      font-size: 15px; color: var(--text2); margin-bottom: 36px; line-height: 1.65;
+    }
+
+    /* Try a username card */
+    .try-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--r); padding: 22px 20px; margin-bottom: 20px;
+    }
+    .try-label {
+      font-size: 11px; font-weight: 600; letter-spacing: .08em;
+      text-transform: uppercase; color: var(--text3); margin-bottom: 12px; display: block;
+    }
+    .input-row { display: flex; gap: 8px; }
+    .prefix {
+      background: rgba(255,255,255,.04); border: 1px solid var(--border2);
+      border-radius: var(--r-sm); padding: 12px 12px; font-size: 12px; color: var(--text3);
+      white-space: nowrap; display: flex; align-items: center; flex-shrink: 0;
+    }
+    .field {
+      flex: 1; background: rgba(255,255,255,.04); border: 1px solid var(--border2);
+      border-radius: var(--r-sm); padding: 12px 14px; font-size: 14px;
+      font-family: 'DM Sans', sans-serif; color: var(--text); outline: none;
+      transition: border-color .2s, box-shadow .2s; min-width: 0;
+    }
+    .field::placeholder { color: var(--text3); }
+    .field:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(255,107,53,.12); }
+    .btn-create {
+      padding: 12px 18px; background: var(--grad); border: none; border-radius: var(--r-sm);
+      font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 500; color: #fff;
+      cursor: pointer; white-space: nowrap; transition: opacity .2s, transform .15s;
+      box-shadow: 0 4px 20px rgba(255,107,53,.32);
+    }
+    .btn-create:hover { opacity: .88; transform: translateY(-1px); }
+
+    /* Home link */
+    .btn-home {
+      display: inline-flex; align-items: center; gap: 7px; padding: 12px 24px;
+      background: var(--card); border: 1px solid var(--border2); border-radius: 100px;
+      font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 500;
+      color: var(--text2); text-decoration: none; transition: all .18s;
+    }
+    .btn-home:hover { background: rgba(255,255,255,.08); color: var(--text); border-color: rgba(255,107,53,.3); }
+
+    /* Divider */
+    .or { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+    .or-line { flex: 1; height: 1px; background: var(--border2); }
+    .or-txt { font-size: 11px; color: var(--text3); font-weight: 600; letter-spacing: .06em; text-transform: uppercase; }
+
+    @keyframes up { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+  </style>
+</head>
+<body>
+<div class="orbs" aria-hidden="true">
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+</div>
+
+<main class="page">
+  <a href="/" class="logo" aria-label="AskThat">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 28 28" aria-hidden="true">
+      <defs><linearGradient id="lg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#ff477e"/><stop offset="48%" stop-color="#ff6b35"/><stop offset="100%" stop-color="#ffbf69"/></linearGradient></defs>
+      <text x="14" y="22" font-size="26" font-family="Georgia,serif" font-weight="bold" text-anchor="middle" fill="url(#lg)">@</text>
+    </svg>
+    AskThat
+  </a>
+
+  <div class="big-num">404</div>
+  <h1 class="title">This page doesn't exist</h1>
+  <p class="sub">The link you followed might be broken, or the page may have been removed. But your inbox is still waiting.</p>
+
+  <div class="try-card">
+    <span class="try-label">Claim your own link</span>
+    <div class="input-row">
+      <div class="prefix">askthat.pages.dev/ask/</div>
+      <input class="field" id="username-input" type="text" placeholder="yourname"
+        maxlength="30" autocomplete="off" autocapitalize="off" spellcheck="false"
+        aria-label="Your username">
+      <button class="btn-create" id="btn-create">Go</button>
+    </div>
+  </div>
+
+  <div class="or">
+    <div class="or-line"></div><span class="or-txt">or</span><div class="or-line"></div>
+  </div>
+
+  <a href="/" class="btn-home">
+    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+      <path d="M1 7l6-5 6 5M2.5 6v5.5h3V9h3v2.5h3V6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    Back to Home
+  </a>
+</main>
+
+<script>
+  const PAT = /^[a-zA-Z0-9_.-]+$/;
+  const input = document.getElementById('username-input');
+  const btn   = document.getElementById('btn-create');
+
+  function go() {
+    const u = input.value.trim().toLowerCase();
+    if (!u) { input.focus(); return; }
+    if (!PAT.test(u) || u.length > 30) {
+      input.style.borderColor = '#f87171';
+      setTimeout(() => input.style.borderColor = '', 1400);
+      return;
+    }
+    window.location.href = '/dashboard/' + encodeURIComponent(u);
+  }
+
+  btn.addEventListener('click', go);
+  input.addEventListener('keydown', e => { if (e.key === 'Enter') go(); });
+  input.addEventListener('input',   () => { input.style.borderColor = ''; });
+</script>
+</body>
+</html>
