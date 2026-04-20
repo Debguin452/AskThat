@@ -1101,107 +1101,66 @@
 
     ctx.clearRect(0,0,W,H);
 
-    // Background
+    // Background + orbs
     T.bg(ctx, W, H);
     T.orbs(ctx, W, H);
 
-    // Subtle noise
-    ctx.globalAlpha=0.020;
-    for(let i=0;i<5000;i++){ctx.fillStyle=`rgba(255,255,255,${Math.random()})`;ctx.fillRect(Math.random()*W,Math.random()*H,1,1);}
-    ctx.globalAlpha=1;
+    ctx.textAlign = 'center';
 
-    // Decorative circles (NGL-style floating elements)
-    ctx.globalAlpha=0.07;
-    ctx.strokeStyle=T.headline; ctx.lineWidth=3;
-    ctx.beginPath(); ctx.arc(W*.08,H*.08,130,0,Math.PI*2); ctx.stroke();
-    ctx.beginPath(); ctx.arc(W*.92,H*.06,80,0,Math.PI*2); ctx.stroke();
-    ctx.beginPath(); ctx.arc(W*.05,H*.9,100,0,Math.PI*2); ctx.stroke();
-    ctx.globalAlpha=1;
+    // ── Brand ─────────────────────────────────────────────────────────────
+    ctx.font = '700 44px sans-serif';
+    ctx.fillStyle = T.sub;
+    ctx.globalAlpha = 0.7;
+    ctx.fillText('@ AskThat', W/2, 200);
+    ctx.globalAlpha = 1;
 
-    // Brand mark
-    ctx.textAlign='center';
-    ctx.font='bold 70px Georgia,serif';
-    const gLogo=ctx.createLinearGradient(W/2-60,0,W/2+60,80);
-    gLogo.addColorStop(0,T.headline); gLogo.addColorStop(1,T.sub);
-    ctx.fillStyle=gLogo; ctx.fillText('@',W/2,260);
-    ctx.font='700 42px sans-serif'; ctx.fillStyle=T.sub;
-    ctx.fillText('AskThat',W/2,320);
+    // ── Avatar circle ─────────────────────────────────────────────────────
+    const avatarY = 420, avatarR = 120;
+    ctx.fillStyle = 'rgba(255,255,255,0.15)';
+    ctx.beginPath(); ctx.arc(W/2, avatarY, avatarR, 0, Math.PI*2); ctx.fill();
+    ctx.strokeStyle = 'rgba(255,255,255,0.35)'; ctx.lineWidth = 4;
+    ctx.beginPath(); ctx.arc(W/2, avatarY, avatarR, 0, Math.PI*2); ctx.stroke();
+    ctx.font = '700 100px sans-serif'; ctx.fillStyle = T.headline;
+    ctx.fillText(user.charAt(0).toUpperCase(), W/2, avatarY + 36);
 
-    // Divider
-    ctx.strokeStyle=T.sub; ctx.globalAlpha=0.25; ctx.lineWidth=2;
-    ctx.beginPath(); ctx.moveTo(W/2-180,356); ctx.lineTo(W/2+180,356); ctx.stroke();
-    ctx.globalAlpha=1;
+    // ── Username ──────────────────────────────────────────────────────────
+    ctx.font = '800 78px sans-serif'; ctx.fillStyle = T.headline;
+    ctx.fillText(user, W/2, 630);
 
-    // Big message bubble (NGL-style card)
-    const cardW=760, cardH=500, cardX=(W-cardW)/2, cardY=440;
-    ctx.fillStyle='rgba(255,255,255,0.15)';
-    ctx.strokeStyle='rgba(255,255,255,0.25)'; ctx.lineWidth=2;
-    roundRectFill(ctx, cardX, cardY, cardW, cardH, 50);
+    // ── Headline ──────────────────────────────────────────────────────────
+    ctx.font = '800 108px sans-serif'; ctx.fillStyle = T.headline;
+    wrapText(ctx, 'Ask me anything!', W/2, 850, 860, 120);
 
-    // Emoji inside card
-    ctx.font='160px serif'; ctx.textAlign='center';
-    ctx.fillText('💬',W/2,cardY+210);
+    // ── Subtitle ──────────────────────────────────────────────────────────
+    ctx.font = '400 54px sans-serif'; ctx.fillStyle = T.sub;
+    ctx.globalAlpha = 0.8;
+    wrapText(ctx, 'Send an anonymous message — I\'ll never know it was you', W/2, 1080, 820, 68);
+    ctx.globalAlpha = 1;
 
-    // Headline in card
-    ctx.font=`800 90px sans-serif`; ctx.fillStyle=T.headline;
-    wrapText(ctx,'Ask me anything!',W/2,cardY+330,660,100);
+    // ── Link box ──────────────────────────────────────────────────────────
+    const linkBoxW = 820, linkBoxH = 120, linkBoxX = (W-linkBoxW)/2, linkBoxY = 1280;
+    ctx.fillStyle = 'rgba(255,255,255,0.12)';
+    ctx.strokeStyle = 'rgba(255,255,255,0.3)'; ctx.lineWidth = 3;
+    ctx.beginPath(); ctx.roundRect(linkBoxX, linkBoxY, linkBoxW, linkBoxH, 60); ctx.fill(); ctx.stroke();
+    ctx.font = 'bold 40px sans-serif'; ctx.fillStyle = T.link;
+    ctx.fillText(`askthat.pages.dev/ask/${user}`, W/2, linkBoxY + 78);
 
-    // Subtitle
-    ctx.font='400 52px sans-serif'; ctx.fillStyle=T.sub;
-    wrapText(ctx,'Send a totally anonymous message — I\'ll never know who you are',W/2,1110,800,64);
-
-    // Floating speech bubbles (NGL-style)
-    drawSpeechBubble(ctx,T,'ur the best ✨',W*.08,H*.64,22, true);
-    drawSpeechBubble(ctx,T,'we should talk more!',W*.92,H*.66,22, false);
-    drawSpeechBubble(ctx,T,'I love your energy 💛',W*.12,H*.84,20, true);
-
-    // Link pill (the most important element)
-    const pillW=780, pillH=110, pillX=(W-pillW)/2, pillY=1300;
-    ctx.fillStyle=T.pillFill;
-    ctx.strokeStyle=T.pillStroke; ctx.lineWidth=3;
-    roundRectStroke(ctx, pillX, pillY, pillW, pillH, 55);
-    ctx.font='bold 42px sans-serif'; ctx.fillStyle=T.link; ctx.textAlign='center';
-    ctx.fillText(`askthat.pages.dev/ask/${user}`, W/2, pillY+71);
-
-    // CTA Button
-    const ctaY=1465;
+    // ── CTA button ────────────────────────────────────────────────────────
+    const ctaBtnW = 500, ctaBtnH = 120, ctaBtnX = (W-ctaBtnW)/2, ctaBtnY = 1460;
     const ctaFill = T.ctaFill(ctx, W);
-    if (ctaFill) ctx.fillStyle=ctaFill;
-    roundRectFill(ctx, W/2-230, ctaY, 460, 110, 55);
-    ctx.font='700 44px sans-serif'; ctx.fillStyle=T.ctaText;
-    ctx.fillText('Tap to send ✉',W/2,ctaY+72);
+    if (ctaFill) ctx.fillStyle = ctaFill;
+    ctx.beginPath(); ctx.roundRect(ctaBtnX, ctaBtnY, ctaBtnW, ctaBtnH, 60); ctx.fill();
+    ctx.font = '700 48px sans-serif'; ctx.fillStyle = T.ctaText;
+    ctx.fillText('Tap to send ✉', W/2, ctaBtnY + 78);
 
-    // Upward arrows (NGL-style)
-    ctx.fillStyle=T.sub; ctx.globalAlpha=0.5; ctx.font='80px serif';
-    ctx.fillText('↑',W/2-100,H-220); ctx.fillText('↑',W/2,H-200); ctx.fillText('↑',W/2+100,H-220);
-    ctx.globalAlpha=1;
-
-    // Footer
-    ctx.font='400 32px sans-serif'; ctx.fillStyle=T.sub; ctx.globalAlpha=0.5;
-    ctx.fillText('100% anonymous · askthat.pages.dev',W/2,H-90);
-    ctx.globalAlpha=1;
-  }
-
-  function drawSpeechBubble(ctx, T, text, cx, cy, fontSize, leftAlign) {
-    const pad=30, r=28;
-    ctx.font=`600 ${fontSize * 3}px sans-serif`;
-    const tw=ctx.measureText(text).width;
-    const bw=tw+pad*2, bh=fontSize*3+pad*2;
-    const bx=leftAlign ? cx : cx-bw;
-    const by=cy-bh/2;
-    ctx.fillStyle='rgba(255,255,255,0.18)';
-    ctx.strokeStyle='rgba(255,255,255,0.3)'; ctx.lineWidth=2;
-    roundRectStroke(ctx, bx, by, bw, bh, r);
-    ctx.fillStyle=T.headline; ctx.textAlign='left';
-    ctx.fillText(text, bx+pad, by+bh/2+fontSize*1.1);
-    ctx.textAlign='center';
+    // ── Footer ────────────────────────────────────────────────────────────
+    ctx.font = '400 34px sans-serif'; ctx.fillStyle = T.sub; ctx.globalAlpha = 0.4;
+    ctx.fillText('100% anonymous · askthat.pages.dev', W/2, H - 90);
+    ctx.globalAlpha = 1;
   }
 
   function roundRectFill(ctx, x, y, w, h, r) {
     ctx.beginPath(); ctx.roundRect(x,y,w,h,r); ctx.fill();
-  }
-  function roundRectStroke(ctx, x, y, w, h, r) {
-    ctx.beginPath(); ctx.roundRect(x,y,w,h,r); ctx.fill(); ctx.stroke();
   }
   function wrapText(ctx, text, x, y, maxW, lh) {
     const words=text.split(' '); let line='', cy=y;

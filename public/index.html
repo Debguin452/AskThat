@@ -834,10 +834,30 @@
     return null;
   }
 
-  // After creating link → go straight to dashboard
-  function go(val) {
-    const u = val.trim();
-    window.location.href = `/dashboard.html?u=${encodeURIComponent(u)}`;
+  // After creating link → silently claim username, store token, go to dashboard
+  async function go(val) {
+    const u = val.trim().toLowerCase();
+
+    // Disable buttons while claiming
+    heroBtn.disabled = true; heroBtn.textContent = '…';
+    if (ctaBtn) { ctaBtn.disabled = true; ctaBtn.textContent = '…'; }
+
+    try {
+      const res  = await fetch('/api/auth', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username: u, action: 'claim' }),
+      });
+      const data = await res.json();
+      if (data.ok && data.token) {
+        // Silently store token in localStorage — no login screen needed
+        try { localStorage.setItem(`askthat_token_${u}`, data.token); } catch (_) {}
+      }
+    } catch (_) {
+      // Proceed anyway — worst case dashboard shows "claim" button
+    }
+
+    window.location.href = `/dashboard/${encodeURIComponent(u)}`;
   }
 
   function showErr(el, msg) { el.textContent = msg; el.classList.add('show'); }

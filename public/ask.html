@@ -20,174 +20,155 @@
     :root {
       --bg: #0d0a08; --bg2: #13100c;
       --card: rgba(255,200,130,0.06); --border: rgba(255,200,130,0.18); --border2: rgba(255,200,130,0.07);
-      --primary: #ff6b35; --pri-hi: #ff8c5a; --pink: #ff477e; --gold: #ffbf69; --accent: #ffcf96;
+      --primary: #ff6b35; --pink: #ff477e; --gold: #ffbf69; --accent: #ffcf96;
       --grad: linear-gradient(135deg,#ff477e 0%,#ff6b35 48%,#ffbf69 100%);
       --grad-t: linear-gradient(135deg,#ff477e,#ff6b35,#ffbf69);
       --text: #fff8f0; --text2: rgba(255,248,240,0.65); --text3: rgba(255,248,240,0.36);
       --r: 22px; --r-sm: 14px;
     }
-    body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 16px; line-height: 1.6; min-height: 100vh; overflow-x: hidden;
-      -webkit-backface-visibility: hidden;
-      backface-visibility: hidden;
-      -webkit-transform: translate3d(0,0,0);
-      transform: translate3d(0,0,0); }
+    body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 16px; line-height: 1.6; min-height: 100vh; overflow-x: hidden; }
     .orbs { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
-    .orb  { position: absolute; border-radius: 50%; filter: blur(68px); will-change: transform; transform: translateZ(0); }
+    .orb  { position: absolute; border-radius: 50%; filter: blur(68px); transform: translateZ(0); }
     .orb-1 { width: 500px; height: 500px; background: #ff6b35; opacity: 0.13; top: -22%; left: -14%; animation: d1 22s ease-in-out infinite alternate; }
     .orb-2 { width: 380px; height: 380px; background: #ff477e; opacity: 0.10; bottom: -5%; right: -10%; animation: d2 28s ease-in-out infinite alternate; }
     @keyframes d1 { to { transform: translate(24px,-30px); } }
     @keyframes d2 { to { transform: translate(-18px,24px); } }
-    body::before { content:''; position: absolute; inset:0; z-index:1; pointer-events:none; background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E"); background-size:256px; opacity:0.5; }
-
-    .page { min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 20px 16px 60px; position: relative; z-index: 2; }
-
-    /* Nav */
-    .top-nav { width: 100%; max-width: 480px; display: flex; align-items: center; justify-content: space-between; margin-bottom: 32px; }
-    .logo {
-      display: inline-flex;
-      align-items: center;
-      white-space: nowrap;
-      gap: 4px;
-      text-decoration: none !important;
-      -webkit-text-decoration: none; display: inline-flex; align-items: center; font-family: 'Syne', sans-serif; font-weight: 800; font-size: 19px; background: var(--grad-t); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; text-decoration: none; gap: 4px; }
-    .home-link { font-size: 13px; color: var(--text3); text-decoration: none; transition: color .2s; }
-    .home-link:hover { color: var(--text2); }
-
-    /* Profile */
-    .profile { width: 100%; max-width: 480px; text-align: center; margin-bottom: 22px; animation: up .45s ease both; }
-    .avatar-wrap { position: relative; width: 80px; margin: 0 auto 14px; }
-    .avatar { width: 80px; height: 80px; border-radius: 50%; background: var(--grad); display: flex; align-items: center; justify-content: center; font-family: 'Syne', sans-serif; font-weight: 800; font-size: 30px; color: #fff; box-shadow: 0 0 0 4px rgba(255,107,53,.18), 0 8px 32px rgba(255,107,53,.28); position: relative; z-index: 1; }
-    .avatar-ring { position: absolute; inset: -7px; border-radius: 50%; background: var(--grad); opacity: 0.14; animation: pulse 3s ease-in-out infinite; z-index: 0; }
+    body::before { content:''; position:fixed; inset:0; z-index:1; pointer-events:none; background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E"); background-size:256px; opacity:0.5; }
+    .page { min-height:100vh; display:flex; flex-direction:column; align-items:center; padding:20px 16px 60px; position:relative; z-index:2; }
+    .top-nav { width:100%; max-width:480px; display:flex; align-items:center; justify-content:space-between; margin-bottom:32px; }
+    .logo { display:inline-flex; align-items:center; gap:4px; text-decoration:none; font-family:'Syne',sans-serif; font-weight:800; font-size:19px; background:var(--grad-t); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+    .home-link { font-size:13px; color:var(--text3); text-decoration:none; transition:color .2s; }
+    .home-link:hover { color:var(--text2); }
+    .profile { width:100%; max-width:480px; text-align:center; margin-bottom:22px; animation:up .45s ease both; }
+    .avatar-wrap { position:relative; width:80px; margin:0 auto 14px; }
+    .avatar { width:80px; height:80px; border-radius:50%; background:var(--grad); display:flex; align-items:center; justify-content:center; font-family:'Syne',sans-serif; font-weight:800; font-size:30px; color:#fff; box-shadow:0 0 0 4px rgba(255,107,53,.18),0 8px 32px rgba(255,107,53,.28); position:relative; z-index:1; }
+    .avatar-ring { position:absolute; inset:-7px; border-radius:50%; background:var(--grad); opacity:0.14; animation:pulse 3s ease-in-out infinite; }
     @keyframes pulse { 0%,100%{transform:scale(1);opacity:.14} 50%{transform:scale(1.08);opacity:.06} }
-    .profile-name { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 24px; letter-spacing: -.5px; margin-bottom: 5px; }
-    .profile-tag  { font-size: 14px; color: var(--text2); font-weight: 300; }
+    .profile-name { font-family:'Syne',sans-serif; font-weight:800; font-size:24px; letter-spacing:-.5px; margin-bottom:5px; }
+    .profile-tag { font-size:14px; color:var(--text2); font-weight:300; }
 
-    /* Message card */
-    .msg-card { width: 100%; max-width: 480px; background: linear-gradient(160deg,rgba(255,200,130,.08),rgba(111,76,255,.03)); border: 1px solid var(--border); border-radius: var(--r); padding: 24px; backdrop-filter: blur(20px); animation: up .45s .08s ease both; position: relative; overflow: hidden; }
+    /* Tabs */
+    .tab-nav { width:100%; max-width:480px; display:flex; gap:8px; margin-bottom:14px; animation:up .4s .05s ease both; }
+    .tab-btn { flex:1; padding:11px 14px; background:var(--card); border:1px solid var(--border2); border-radius:var(--r-sm); font-family:'DM Sans',sans-serif; font-size:14px; font-weight:500; color:var(--text2); cursor:pointer; transition:all .2s; display:flex; align-items:center; justify-content:center; gap:6px; }
+    .tab-btn:hover { background:rgba(255,255,255,.07); color:var(--text); }
+    .tab-btn.active { background:rgba(255,107,53,.12); border-color:rgba(255,107,53,.35); color:var(--text); }
+
+    /* Card */
+    .msg-card { width:100%; max-width:480px; background:linear-gradient(160deg,rgba(255,200,130,.08),rgba(111,76,255,.03)); border:1px solid var(--border); border-radius:var(--r); padding:24px; backdrop-filter:blur(20px); animation:up .45s .08s ease both; position:relative; overflow:hidden; }
     .msg-card::before { content:''; position:absolute; inset:0; background:linear-gradient(135deg,rgba(255,107,53,.05),transparent 60%); pointer-events:none; }
-    .m-label { font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--text3); margin-bottom: 12px; display: block; }
-
-    /* Textarea + char counter */
-    .textarea-wrap { position: relative; margin-bottom: 10px; }
-    .m-textarea { width: 100%; background: rgba(255,255,255,.04); border: 1px solid var(--border); border-radius: var(--r-sm); padding: 14px 16px; font-size: 15px; font-family: 'DM Sans', sans-serif; color: var(--text); outline: none; resize: none; min-height: 120px; line-height: 1.65; transition: border-color .2s, box-shadow .2s; }
-    .m-textarea::placeholder { color: var(--text3); }
-    .m-textarea:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(255,107,53,.12); }
-    .char-ring-wrap { position: absolute; bottom: 12px; right: 12px; }
-    .char-ring { width: 28px; height: 28px; transform: rotate(-90deg); }
-    .char-ring-bg { fill: none; stroke: rgba(255,255,255,.06); stroke-width: 2.5; }
-    .char-ring-fill { fill: none; stroke: var(--primary); stroke-width: 2.5; stroke-dasharray: 69.1; stroke-dashoffset: 69.1; stroke-linecap: round; transition: stroke-dashoffset .15s ease, stroke .15s; }
-    .char-text { display: flex; justify-content: space-between; font-size: 11px; color: var(--text3); margin-bottom: 14px; }
-    .char-text.warn .char-num { color: #fbbf24; }
-    .char-text.over .char-num { color: #f472b6; }
-
-    /* Hint box */
-    .msg-hint { font-size: 12px; color: var(--text3); background: rgba(255,255,255,.03); border: 1px solid var(--border2); border-radius: 8px; padding: 8px 12px; margin-bottom: 14px; line-height: 1.55; }
-    .msg-hint strong { color: var(--text2); font-weight: 500; }
-
-    /* Reveal toggle */
-    .reveal-row { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; padding: 12px 14px; background: rgba(255,255,255,.03); border: 1px solid var(--border2); border-radius: var(--r-sm); cursor: pointer; user-select: none; transition: background .18s; }
-    .reveal-row:hover { background: rgba(255,255,255,.06); }
-    .toggle { width: 36px; height: 20px; background: rgba(255,255,255,.12); border-radius: 100px; position: relative; flex-shrink: 0; transition: background .22s; }
-    .toggle::after { content:''; position:absolute; top:3px; left:3px; width:14px; height:14px; border-radius:50%; background:#fff; transition:transform .22s; box-shadow: 0 1px 3px rgba(0,0,0,.3); }
-    .reveal-row.active .toggle { background: var(--primary); }
-    .reveal-row.active .toggle::after { transform: translateX(16px); }
-    .reveal-text { font-size: 13px; color: var(--text2); flex: 1; line-height: 1.4; }
-    .reveal-text strong { color: var(--text); font-weight: 500; display: block; font-size: 13px; margin-bottom: 1px; }
-
-    /* ── Poll section ── */
-    .poll-wrap { margin-bottom: 14px; border: 1px solid rgba(255,191,105,.15); border-radius: var(--r-sm); overflow: hidden; transition: border-color .2s; }
-    .poll-wrap:hover { border-color: rgba(255,191,105,.28); }
-    .poll-toggle { display: flex; align-items: center; gap: 10px; padding: 12px 14px; cursor: pointer; user-select: none; background: rgba(255,191,105,.04); }
-    .poll-toggle-icon { font-size: 16px; flex-shrink: 0; }
-    .poll-toggle-label { flex: 1; }
-    .poll-toggle-label strong { font-size: 13px; color: var(--text); font-weight: 500; display: block; }
-    .poll-toggle-label span  { font-size: 12px; color: var(--text3); }
-    .poll-chevron { color: var(--text3); transition: transform .25s; flex-shrink: 0; }
-    .poll-wrap.open .poll-chevron { transform: rotate(180deg); }
-    .poll-body { max-height: 0; overflow: hidden; transition: max-height .3s ease; }
-    .poll-body-inner { padding: 14px; border-top: 1px solid rgba(255,191,105,.1); }
-    .poll-q-label { font-size: 11px; font-weight: 600; letter-spacing: .07em; text-transform: uppercase; color: var(--accent); margin-bottom: 8px; display: block; }
-    .poll-q-text  { font-size: 14px; color: var(--text2); margin-bottom: 10px; font-weight: 400; }
-    .poll-opts { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-bottom: 14px; }
-    .poll-opt { padding: 9px 10px; background: rgba(255,255,255,.03); border: 1px solid var(--border2); border-radius: 10px; font-size: 13px; color: var(--text2); cursor: pointer; text-align: center; transition: all .16s; user-select: none; line-height: 1.3; }
-    .poll-opt:hover { background: rgba(255,107,53,.07); border-color: rgba(255,107,53,.25); color: var(--text); }
-    .poll-opt.sel { background: rgba(255,107,53,.15); border-color: var(--primary); color: var(--text); font-weight: 500; }
-    .poll-divider { height: 1px; background: rgba(255,191,105,.1); margin: 0 0 14px; }
-
-    /* Send button */
-    .btn-send { width: 100%; padding: 16px; background: var(--grad); border: none; border-radius: var(--r-sm); font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 500; color: #fff; cursor: pointer; transition: opacity .2s, transform .15s; box-shadow: 0 4px 28px rgba(255,107,53,.36); display: flex; align-items: center; justify-content: center; gap: 8px; }
-    .btn-send:hover  { opacity: .88; transform: translateY(-1px); }
-    .btn-send:active { transform: scale(.99); }
-    .btn-send:disabled { opacity: .44; cursor: not-allowed; transform: none; }
-    .send-note { text-align: center; font-size: 12px; color: var(--text3); margin-top: 10px; }
-    .err-msg { font-size: 13px; color: #f472b6; margin-top: 10px; display: none; }
-    .err-msg.show { display: block; }
-    .spinner { width: 16px; height: 16px; border: 2px solid rgba(255,255,255,.3); border-top-color: #fff; border-radius: 50%; animation: spin .6s linear infinite; display: none; }
-    .spinner.show { display: block; }
+    .m-label { font-size:11px; font-weight:600; letter-spacing:.08em; text-transform:uppercase; color:var(--text3); margin-bottom:12px; display:block; }
+    .textarea-wrap { position:relative; margin-bottom:10px; }
+    .m-textarea { width:100%; background:rgba(255,255,255,.04); border:1px solid var(--border); border-radius:var(--r-sm); padding:14px 16px; font-size:15px; font-family:'DM Sans',sans-serif; color:var(--text); outline:none; resize:none; min-height:120px; line-height:1.65; transition:border-color .2s,box-shadow .2s; }
+    .m-textarea::placeholder { color:var(--text3); }
+    .m-textarea:focus { border-color:var(--primary); box-shadow:0 0 0 3px rgba(255,107,53,.12); }
+    .char-ring-wrap { position:absolute; bottom:12px; right:12px; }
+    .char-ring { width:28px; height:28px; transform:rotate(-90deg); }
+    .char-ring-bg { fill:none; stroke:rgba(255,255,255,.06); stroke-width:2.5; }
+    .char-ring-fill { fill:none; stroke:var(--primary); stroke-width:2.5; stroke-dasharray:69.1; stroke-dashoffset:69.1; stroke-linecap:round; transition:stroke-dashoffset .15s,stroke .15s; }
+    .char-text { display:flex; justify-content:space-between; font-size:11px; color:var(--text3); margin-bottom:14px; }
+    .char-text.warn .char-num { color:#fbbf24; }
+    .char-text.over .char-num { color:#f472b6; }
+    .msg-hint { font-size:12px; color:var(--text3); background:rgba(255,255,255,.03); border:1px solid var(--border2); border-radius:8px; padding:8px 12px; margin-bottom:14px; line-height:1.55; }
+    .msg-hint strong { color:var(--text2); font-weight:500; }
+    .reveal-row { display:flex; align-items:center; gap:10px; margin-bottom:14px; padding:12px 14px; background:rgba(255,255,255,.03); border:1px solid var(--border2); border-radius:var(--r-sm); cursor:pointer; user-select:none; transition:background .18s; }
+    .reveal-row:hover { background:rgba(255,255,255,.06); }
+    .toggle { width:36px; height:20px; background:rgba(255,255,255,.12); border-radius:100px; position:relative; flex-shrink:0; transition:background .22s; }
+    .toggle::after { content:''; position:absolute; top:3px; left:3px; width:14px; height:14px; border-radius:50%; background:#fff; transition:transform .22s; box-shadow:0 1px 3px rgba(0,0,0,.3); }
+    .reveal-row.active .toggle { background:var(--primary); }
+    .reveal-row.active .toggle::after { transform:translateX(16px); }
+    .reveal-text { font-size:13px; color:var(--text2); flex:1; line-height:1.4; }
+    .reveal-text strong { color:var(--text); font-weight:500; display:block; font-size:13px; margin-bottom:1px; }
+    .btn-send { width:100%; padding:16px; background:var(--grad); border:none; border-radius:var(--r-sm); font-family:'DM Sans',sans-serif; font-size:15px; font-weight:500; color:#fff; cursor:pointer; transition:opacity .2s,transform .15s; box-shadow:0 4px 28px rgba(255,107,53,.36); display:flex; align-items:center; justify-content:center; gap:8px; }
+    .btn-send:hover { opacity:.88; transform:translateY(-1px); }
+    .btn-send:active { transform:scale(.99); }
+    .btn-send:disabled { opacity:.44; cursor:not-allowed; transform:none; }
+    .send-note { text-align:center; font-size:12px; color:var(--text3); margin-top:10px; }
+    .err-msg { font-size:13px; color:#f472b6; margin-top:10px; display:none; }
+    .err-msg.show { display:block; }
+    .spinner { width:16px; height:16px; border:2px solid rgba(255,255,255,.3); border-top-color:#fff; border-radius:50%; animation:spin .6s linear infinite; display:none; }
+    .spinner.show { display:block; }
     @keyframes spin { to{transform:rotate(360deg)} }
-
-    /* Success */
-    .success-overlay { display: none; flex-direction: column; align-items: center; text-align: center; padding: 24px 12px; }
-    .success-overlay.show { display: flex; }
-    .success-check { width: 60px; height: 60px; border-radius: 50%; background: var(--grad); display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; animation: pop .4s cubic-bezier(.34,1.56,.64,1) both; box-shadow: 0 8px 32px rgba(255,107,53,.38); }
+    .success-overlay { display:none; flex-direction:column; align-items:center; text-align:center; padding:24px 12px; }
+    .success-overlay.show { display:flex; }
+    .success-check { width:60px; height:60px; border-radius:50%; background:var(--grad); display:flex; align-items:center; justify-content:center; margin:0 auto 16px; animation:pop .4s cubic-bezier(.34,1.56,.64,1) both; box-shadow:0 8px 32px rgba(255,107,53,.38); }
     @keyframes pop { from{transform:scale(0)} to{transform:scale(1)} }
-    .s-title { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 24px; letter-spacing: -.5px; margin-bottom: 7px; }
-    .s-sub   { font-size: 14px; color: var(--text2); margin-bottom: 22px; }
-    .btn-again { background: var(--card); border: 1px solid var(--border2); border-radius: var(--r-sm); padding: 11px 26px; font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 500; color: var(--text); cursor: pointer; transition: background .18s; }
-    .btn-again:hover { background: rgba(255,255,255,.08); }
+    .s-title { font-family:'Syne',sans-serif; font-weight:800; font-size:24px; letter-spacing:-.5px; margin-bottom:7px; }
+    .s-sub { font-size:14px; color:var(--text2); margin-bottom:22px; }
+    .btn-again { background:var(--card); border:1px solid var(--border2); border-radius:var(--r-sm); padding:11px 26px; font-family:'DM Sans',sans-serif; font-size:14px; font-weight:500; color:var(--text); cursor:pointer; transition:background .18s; }
+    .btn-again:hover { background:rgba(255,255,255,.08); }
 
-    /* Share section */
-    .share-sec { width: 100%; max-width: 480px; margin-top: 20px; animation: up .45s .16s ease both; }
-    .share-divider { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
-    .sh-line  { flex: 1; height: 1px; background: var(--border2); }
-    .sh-label { font-size: 11px; font-weight: 600; letter-spacing: .07em; text-transform: uppercase; color: var(--text3); white-space: nowrap; }
-    .share-grid { display: grid; grid-template-columns: repeat(5,1fr); gap: 8px; margin-bottom: 12px; }
-    .sh-btn { display: flex; flex-direction: column; align-items: center; gap: 5px; padding: 12px 6px; background: var(--card); border: 1px solid var(--border2); border-radius: var(--r-sm); cursor: pointer; transition: all .18s; text-decoration: none; color: var(--text); }
-    .sh-btn:hover { transform: translateY(-3px); border-color: rgba(255,107,53,.3); background: rgba(255,107,53,.07); }
-    .sh-btn svg  { width: 24px; height: 24px; }
-    .sh-btn span { font-size: 10px; font-weight: 500; color: var(--text3); }
-    .copy-bar { display: flex; gap: 7px; }
-    .copy-url { flex: 1; background: rgba(255,255,255,.03); border: 1px solid var(--border2); border-radius: var(--r-sm); padding: 11px 14px; font-size: 12px; color: var(--text2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-    .btn-copy { background: var(--card); border: 1px solid var(--border2); border-radius: var(--r-sm); padding: 11px 16px; font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500; color: var(--text); cursor: pointer; transition: background .18s; display: flex; align-items: center; gap: 5px; white-space: nowrap; }
-    .btn-copy:hover { background: rgba(255,255,255,.08); }
-    .btn-copy.copied { color: #4ade80; border-color: rgba(74,222,128,.3); }
+    /* Poll tab */
+    .poll-loading { text-align:center; padding:32px; color:var(--text3); font-size:14px; display:flex; flex-direction:column; align-items:center; gap:12px; }
+    .spin-sm { width:22px; height:22px; border:2px solid rgba(255,255,255,.1); border-top-color:var(--primary); border-radius:50%; animation:spin .7s linear infinite; }
+    .poll-disabled-msg { text-align:center; padding:32px 16px; color:var(--text3); font-size:14px; }
+    .poll-disabled-msg p { margin-top:8px; font-size:12px; }
+    .poll-section-title { font-family:'Syne',sans-serif; font-weight:700; font-size:17px; margin-bottom:4px; }
+    .poll-section-sub { font-size:13px; color:var(--text2); margin-bottom:20px; }
+    .poll-question-block { margin-bottom:20px; }
+    .poll-q-label { font-size:11px; font-weight:600; letter-spacing:.07em; text-transform:uppercase; color:var(--accent); margin-bottom:8px; display:block; }
+    .poll-q-text { font-size:15px; color:var(--text); margin-bottom:12px; font-weight:500; line-height:1.4; }
+    .poll-opts-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+    .poll-opt-btn { padding:12px 10px; background:rgba(255,255,255,.04); border:1px solid var(--border2); border-radius:12px; font-size:13px; color:var(--text2); cursor:pointer; text-align:center; transition:all .18s; user-select:none; line-height:1.35; font-family:'DM Sans',sans-serif; }
+    .poll-opt-btn:hover { background:rgba(255,107,53,.08); border-color:rgba(255,107,53,.3); color:var(--text); }
+    .poll-opt-btn.selected { background:rgba(255,107,53,.18); border-color:var(--primary); color:var(--text); font-weight:600; }
+    .poll-divider-line { height:1px; background:var(--border2); margin:4px 0 20px; }
+    .btn-vote { width:100%; padding:15px; background:linear-gradient(135deg,#7c3aed,#ff477e,#ff6b35); border:none; border-radius:var(--r-sm); font-family:'DM Sans',sans-serif; font-size:15px; font-weight:500; color:#fff; cursor:pointer; transition:opacity .2s,transform .15s; box-shadow:0 4px 24px rgba(124,58,237,.3); display:flex; align-items:center; justify-content:center; gap:8px; }
+    .btn-vote:hover { opacity:.88; transform:translateY(-1px); }
+    .btn-vote:disabled { opacity:.4; cursor:not-allowed; transform:none; }
+    .poll-success { display:none; flex-direction:column; align-items:center; text-align:center; padding:24px 12px; }
+    .poll-success.show { display:flex; }
 
-    /* Instagram Story card */
-    .insta-story-card { background: linear-gradient(160deg,rgba(124,58,237,.10),rgba(232,68,138,.06)); border: 1px solid rgba(124,58,237,.22); border-radius: var(--r); padding: 18px; margin-top: 12px; }
-    .insta-story-card h3 { font-family:'Syne',sans-serif; font-weight: 700; font-size: 14px; margin-bottom: 5px; display: flex; align-items: center; gap: 7px; }
-    .insta-story-card p  { font-size: 13px; color: var(--text2); margin-bottom: 12px; }
-    .btn-gen-story { display: inline-flex; align-items: center; gap: 7px; background: linear-gradient(135deg,#7c3aed,#ff477e); border: none; border-radius: var(--r-sm); padding: 11px 20px; font-family:'DM Sans',sans-serif; font-size: 13px; font-weight: 500; color: #fff; cursor: pointer; transition: opacity .2s; box-shadow: 0 4px 16px rgba(124,58,237,.3); }
-    .btn-gen-story:hover { opacity: .88; }
+    /* CTA section */
+    .share-sec { width:100%; max-width:480px; margin-top:20px; animation:up .45s .16s ease both; }
+    .share-divider { display:flex; align-items:center; gap:10px; margin-bottom:14px; }
+    .sh-line { flex:1; height:1px; background:var(--border2); }
+    .sh-label { font-size:11px; font-weight:600; letter-spacing:.07em; text-transform:uppercase; color:var(--text3); white-space:nowrap; }
+    /* CTA button */
+    .btn-create-own { display:flex; align-items:center; justify-content:center; gap:9px; width:100%; padding:17px; background:var(--grad); border:none; border-radius:var(--r-sm); font-family:'DM Sans',sans-serif; font-size:15px; font-weight:600; color:#fff; cursor:pointer; text-decoration:none; transition:opacity .2s,transform .15s; box-shadow:0 4px 28px rgba(255,107,53,.38); }
+    .btn-create-own:hover { opacity:.88; transform:translateY(-1px); }
 
-    /* Story modal (reused from dashboard pattern) */
-    .modal-ov { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.75); z-index: 200; backdrop-filter: blur(6px); align-items: center; justify-content: center; padding: 20px; }
-    .modal-ov.show { display: flex; }
-    .modal-box { background: var(--bg2); border: 1px solid var(--border); border-radius: 22px; width: 100%; max-width: 420px; max-height: 90vh; overflow-y: auto; padding: 24px; position: relative; }
-    .modal-x { position: absolute; top: 14px; right: 14px; width: 30px; height: 30px; border-radius: 8px; border: 1px solid var(--border2); background: rgba(255,255,255,.05); display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--text3); }
-    .modal-x:hover { color: var(--text); background: rgba(255,255,255,.10); }
-    .modal-ttl { font-family:'Syne',sans-serif; font-weight: 800; font-size: 17px; margin-bottom: 4px; }
-    .modal-sub { font-size: 13px; color: var(--text2); margin-bottom: 16px; }
-    .story-preview { border-radius: 12px; overflow: hidden; aspect-ratio: 9/16; max-height: 280px; display: flex; align-items: center; justify-content: center; background: #0d0a08; margin-bottom: 14px; }
-    canvas#ask-canvas { max-width: 100%; max-height: 100%; }
-    .story-btns { display: flex; gap: 7px; }
-    .btn-dl  { flex: 1; padding: 12px; background: var(--grad); border: none; border-radius: var(--r-sm); font-family:'DM Sans',sans-serif; font-size: 14px; font-weight: 500; color: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; }
-    .btn-shr { padding: 12px 14px; background: var(--card); border: 1px solid var(--border2); border-radius: var(--r-sm); font-size: 14px; font-weight: 500; color: var(--text2); cursor: pointer; font-family:'DM Sans',sans-serif; }
+    /* Story modal */
+    .modal-ov { display:none; position:fixed; inset:0; background:rgba(0,0,0,.75); z-index:200; backdrop-filter:blur(6px); align-items:center; justify-content:center; padding:20px; }
+    .modal-ov.show { display:flex; }
+    .modal-box { background:var(--bg2); border:1px solid var(--border); border-radius:22px; width:100%; max-width:420px; max-height:90vh; overflow-y:auto; padding:24px; position:relative; }
+    .modal-x { position:absolute; top:14px; right:14px; width:30px; height:30px; border-radius:8px; border:1px solid var(--border2); background:rgba(255,255,255,.05); display:flex; align-items:center; justify-content:center; cursor:pointer; color:var(--text3); }
+    .modal-x:hover { color:var(--text); background:rgba(255,255,255,.10); }
+    .modal-ttl { font-family:'Syne',sans-serif; font-weight:800; font-size:17px; margin-bottom:4px; }
+    .modal-sub { font-size:13px; color:var(--text2); margin-bottom:16px; }
 
-    /* Toast */
-    .toast { position: fixed; bottom: 22px; left: 50%; transform: translateX(-50%) translateY(12px); background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; padding: 10px 20px; font-size: 14px; font-weight: 500; z-index: 999; opacity: 0; transition: opacity .22s, transform .22s; pointer-events: none; backdrop-filter: blur(20px); white-space: nowrap; }
-    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+    /* Story loading */
+    .story-loading { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:14px; padding:48px 20px; border-radius:12px; background:rgba(255,255,255,.03); margin-bottom:14px; border:1px solid var(--border2); }
+    .spin-lg { width:32px; height:32px; border:3px solid rgba(255,255,255,.1); border-top-color:var(--primary); border-radius:50%; animation:spin .7s linear infinite; }
+    .story-loading p { font-size:13px; color:var(--text3); }
+    .story-preview { border-radius:12px; overflow:hidden; aspect-ratio:9/16; max-height:280px; display:flex; align-items:center; justify-content:center; background:#0d0a08; margin-bottom:14px; }
+    canvas#ask-canvas { max-width:100%; max-height:100%; }
 
+    /* Story buttons */
+    .story-btns { display:grid; grid-template-columns:1fr 1fr 1fr; gap:7px; margin-bottom:10px; }
+    .btn-dl { padding:12px 8px; background:var(--grad); border:none; border-radius:var(--r-sm); font-family:'DM Sans',sans-serif; font-size:12px; font-weight:500; color:#fff; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:5px; transition:opacity .2s; }
+    .btn-dl:hover { opacity:.88; }
+    .btn-shr-wa { padding:12px 8px; background:rgba(37,211,102,.1); border:1px solid rgba(37,211,102,.28); border-radius:var(--r-sm); font-size:12px; font-weight:500; color:#25D366; cursor:pointer; font-family:'DM Sans',sans-serif; display:flex; align-items:center; justify-content:center; gap:5px; transition:background .18s; }
+    .btn-shr-wa:hover { background:rgba(37,211,102,.18); }
+    .btn-shr { padding:12px 8px; background:var(--card); border:1px solid var(--border2); border-radius:var(--r-sm); font-size:12px; font-weight:500; color:var(--text2); cursor:pointer; font-family:'DM Sans',sans-serif; transition:background .2s; display:flex; align-items:center; justify-content:center; gap:5px; }
+    .btn-shr:hover { background:rgba(255,255,255,.08); }
+    .story-caption-row { display:flex; gap:7px; align-items:center; padding:10px 12px; background:rgba(255,255,255,.03); border:1px solid var(--border2); border-radius:var(--r-sm); }
+    .story-caption-url { flex:1; font-size:11px; color:var(--text2); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+    .btn-copy-caption { background:transparent; border:1px solid var(--border2); border-radius:8px; padding:5px 10px; font-family:'DM Sans',sans-serif; font-size:11px; font-weight:500; color:var(--text3); cursor:pointer; transition:all .18s; white-space:nowrap; }
+    .btn-copy-caption:hover { background:rgba(255,255,255,.06); color:var(--text); }
+    .btn-copy-caption.copied { color:#4ade80; border-color:rgba(74,222,128,.3); }
+
+    .toast { position:fixed; bottom:22px; left:50%; transform:translateX(-50%) translateY(12px); background:var(--bg2); border:1px solid var(--border); border-radius:12px; padding:10px 20px; font-size:14px; font-weight:500; z-index:999; opacity:0; transition:opacity .22s,transform .22s; pointer-events:none; backdrop-filter:blur(20px); white-space:nowrap; }
+    .toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
     @keyframes up { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
-
-    @media (max-width: 480px) {
-      .share-grid { grid-template-columns: repeat(5,1fr); gap: 6px; }
-      .poll-opts  { grid-template-columns: 1fr 1fr; }
+    @media(max-width:480px){
+      .share-grid{grid-template-columns:repeat(5,1fr);gap:6px;}
+      .poll-opts-grid{grid-template-columns:1fr 1fr;}
+      .story-btns{gap:5px;}
     }
   </style>
 </head>
 <body>
 <div class="orbs" aria-hidden="true"><div class="orb orb-1"></div><div class="orb orb-2"></div></div>
-
 <div class="page">
 
   <nav class="top-nav">
@@ -200,7 +181,6 @@
     <a href="/" class="home-link">← Home</a>
   </nav>
 
-  <!-- Profile -->
   <div class="profile">
     <div class="avatar-wrap">
       <div class="avatar-ring" aria-hidden="true"></div>
@@ -210,16 +190,20 @@
     <p class="profile-tag" id="profile-tag">wants your honest anonymous message</p>
   </div>
 
-  <!-- Message card -->
-  <div class="msg-card" id="msg-card" role="main">
+  <!-- Tab nav — hidden until poll confirmed enabled -->
+  <div class="tab-nav" id="tab-nav" style="display:none">
+    <button class="tab-btn active" id="tab-ask-btn">💬 Ask a Question</button>
+    <button class="tab-btn" id="tab-poll-btn">📊 Vote in Poll</button>
+  </div>
+
+  <!-- ASK PANE -->
+  <div class="msg-card" id="pane-ask" role="main">
     <div id="form-area">
       <span class="m-label">Your message</span>
       <div class="textarea-wrap">
         <textarea class="m-textarea" id="msg-input"
           placeholder="Ask anything. Say what you actually think. They will genuinely never know it was you."
-          maxlength="500" rows="5"
-          aria-label="Your anonymous message"
-          autocomplete="off" spellcheck="true"></textarea>
+          maxlength="500" rows="5" aria-label="Your anonymous message" autocomplete="off" spellcheck="true"></textarea>
         <div class="char-ring-wrap" aria-hidden="true">
           <svg class="char-ring" viewBox="0 0 28 28">
             <circle class="char-ring-bg" cx="14" cy="14" r="11"/>
@@ -227,76 +211,18 @@
           </svg>
         </div>
       </div>
-
       <div class="char-text" id="char-text">
         <span class="char-num" id="char-num">0 / 500</span>
         <span>100% anonymous</span>
       </div>
-
-      <div class="msg-hint">
-        <strong>Hint:</strong> The best messages are honest but not cruel. Think "feedback they actually need" not "2am thoughts."
-      </div>
-
-      <!-- Reveal toggle -->
-      <div class="reveal-row" id="reveal-toggle" role="checkbox" aria-checked="false" tabindex="0">
-        <div class="toggle" aria-hidden="true"></div>
-        <div class="reveal-text">
-          <strong>Let them know you're not a stranger</strong>
-          Shows "Someone who knows you" — still fully anonymous
-        </div>
-      </div>
-
-      <!-- Poll section -->
-      <div class="poll-wrap" id="poll-wrap">
-        <div class="poll-toggle" id="poll-toggle" role="button" aria-expanded="false" tabindex="0">
-          <span class="poll-toggle-icon" aria-hidden="true">📊</span>
-          <div class="poll-toggle-label">
-            <strong>Add a poll answer</strong>
-            <span>Optional — answer two quick questions</span>
-          </div>
-          <svg class="poll-chevron" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-            <path d="M3 5l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-          </svg>
-        </div>
-        <div class="poll-body" id="poll-body">
-          <div class="poll-body-inner">
-            <span class="poll-q-label">Quick poll</span>
-            <p class="poll-q-text">How would you describe this person in one word?</p>
-            <div class="poll-opts" id="poll-vibe-opts" role="group" aria-label="Describe this person">
-              <div class="poll-opt" data-cat="vibe" data-val="Hilarious" tabindex="0" role="radio" aria-checked="false">😂 Hilarious</div>
-              <div class="poll-opt" data-cat="vibe" data-val="Mysterious" tabindex="0" role="radio" aria-checked="false">🕵️ Mysterious</div>
-              <div class="poll-opt" data-cat="vibe" data-val="Wholesome" tabindex="0" role="radio" aria-checked="false">🌟 Wholesome</div>
-              <div class="poll-opt" data-cat="vibe" data-val="Chaotic" tabindex="0" role="radio" aria-checked="false">🌪️ Chaotic</div>
-            </div>
-
-            <div class="poll-divider"></div>
-
-            <span class="poll-q-label">Bonus</span>
-            <p class="poll-q-text">How well do you know them?</p>
-            <div class="poll-opts" id="poll-know-opts" role="group" aria-label="How well do you know them">
-              <div class="poll-opt" data-cat="know" data-val="Very well" tabindex="0" role="radio" aria-checked="false">👋 Very well</div>
-              <div class="poll-opt" data-cat="know" data-val="Somewhat" tabindex="0" role="radio" aria-checked="false">🤔 Somewhat</div>
-              <div class="poll-opt" data-cat="know" data-val="Barely" tabindex="0" role="radio" aria-checked="false">👀 Barely</div>
-              <div class="poll-opt" data-cat="know" data-val="Just lurking" tabindex="0" role="radio" aria-checked="false">🫣 Just lurking</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Send button -->
       <button class="btn-send" id="send-btn" aria-label="Send anonymous message">
-        <svg width="15" height="15" viewBox="0 0 15 15" fill="none" aria-hidden="true">
-          <path d="M2 7.5L13 2.5l-5 11-1.5-4.5L2 7.5z" stroke="white" stroke-width="1.5" stroke-linejoin="round"/>
-        </svg>
+        <svg width="15" height="15" viewBox="0 0 15 15" fill="none" aria-hidden="true"><path d="M2 7.5L13 2.5l-5 11-1.5-4.5L2 7.5z" stroke="white" stroke-width="1.5" stroke-linejoin="round"/></svg>
         <span id="btn-txt">Send anonymously</span>
         <div class="spinner" id="btn-spin" aria-hidden="true"></div>
       </button>
-
       <p class="send-note">No account needed · Sender identity never revealed</p>
       <p class="err-msg" id="err-msg" role="alert" aria-live="assertive"></p>
     </div>
-
-    <!-- Success state -->
     <div class="success-overlay" id="success-area" aria-live="polite">
       <div class="success-check" aria-hidden="true">
         <svg width="26" height="26" viewBox="0 0 26 26" fill="none"><path d="M5 13l5 5 11-11" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -307,96 +233,122 @@
     </div>
   </div>
 
-  <!-- Share section -->
-  <section class="share-sec" id="share-sec" aria-label="Share your own link">
+  <!-- POLL PANE (hidden by default) -->
+  <div class="msg-card" id="pane-poll" style="display:none" role="main" aria-label="Anonymous poll">
+    <div class="poll-loading" id="poll-loading">
+      <div class="spin-sm"></div>
+      <span>Loading poll…</span>
+    </div>
+    <div class="poll-disabled-msg" id="poll-disabled" style="display:none">
+      <div style="font-size:32px;margin-bottom:8px">📊</div>
+      <div style="font-size:15px;font-weight:600;color:var(--text)">No poll active</div>
+      <p>The owner hasn't set up a poll yet.</p>
+    </div>
+    <div id="poll-content-area" style="display:none">
+      <div class="poll-section-title" id="poll-title">Quick Poll</div>
+      <div class="poll-section-sub">Vote anonymously — your identity is never revealed</div>
+      <div id="poll-questions"></div>
+      <button class="btn-vote" id="btn-vote" disabled>
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1.5v11M2.5 8L7 12.5 11.5 8" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span id="vote-btn-txt">Submit Vote</span>
+        <div class="spinner" id="vote-spin"></div>
+      </button>
+      <p class="send-note" style="margin-top:10px">Completely anonymous · No login needed</p>
+      <p class="err-msg" id="vote-err"></p>
+    </div>
+    <div class="poll-success" id="poll-success">
+      <div class="success-check" aria-hidden="true">
+        <svg width="26" height="26" viewBox="0 0 26 26" fill="none"><path d="M5 13l5 5 11-11" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <h2 class="s-title">Voted! 📊</h2>
+      <p class="s-sub">Your anonymous vote has been counted.</p>
+    </div>
+  </div>
+
+  <!-- CTA section -->
+  <section class="share-sec" id="share-sec" aria-label="Create your own link">
     <div class="share-divider">
-      <div class="sh-line"></div>
-      <span class="sh-label">Want your own?</span>
-      <div class="sh-line"></div>
+      <div class="sh-line"></div><span class="sh-label">Want your own?</span><div class="sh-line"></div>
     </div>
-
-    <div class="share-grid" id="share-btns" aria-label="Share on social media">
-      <!-- Injected by JS -->
-    </div>
-
-    <div class="copy-bar">
-      <div class="copy-url" id="copy-url-display" aria-label="Your AskThat link"></div>
-      <button class="btn-copy" id="btn-copy" aria-label="Copy link">
-        <svg width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true"><rect x="1" y="4" width="8" height="8" rx="1.5" stroke="currentColor" stroke-width="1.4"/><path d="M4 4V3a1 1 0 011-1h5a1 1 0 011 1v5a1 1 0 01-1 1h-1" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
-        Copy
-      </button>
-    </div>
-
-    <!-- Instagram Story card -->
-    <div class="insta-story-card">
-      <h3>
-        <svg width="15" height="15" viewBox="0 0 15 15" fill="none" aria-hidden="true"><circle cx="7.5" cy="7.5" r="6.5" stroke="currentColor" stroke-width="1.4"/><circle cx="7.5" cy="7.5" r="2.5" stroke="currentColor" stroke-width="1.3"/></svg>
-        Create Instagram Story
-      </h3>
-      <p>Generate a beautiful story template to promote your AskThat link on Instagram.</p>
-      <button class="btn-gen-story" id="btn-gen-story">
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M7 1l1.8 3.8L13 5.5l-3 2.9.7 4.1L7 10.5 3.3 12.5l.7-4.1L1 5.5l4.2-.7L7 1z" stroke="white" stroke-width="1.3" stroke-linejoin="round"/></svg>
-        Generate Story Template
-      </button>
-    </div>
+    <a href="/" class="btn-create-own">
+      <svg width="15" height="15" viewBox="0 0 15 15" fill="none" aria-hidden="true"><path d="M2 7.5L13 2.5l-5 11-1.5-4.5L2 7.5z" stroke="white" stroke-width="1.5" stroke-linejoin="round"/></svg>
+      Create your own link — it's free
+    </a>
   </section>
-
 </div>
 
 <!-- Story Modal -->
-<div class="modal-ov" id="story-modal" role="dialog" aria-modal="true" aria-label="Instagram Story generator">
+<div class="modal-ov" id="story-modal" role="dialog" aria-modal="true" aria-label="Story generator">
   <div class="modal-box">
     <button class="modal-x" id="modal-close" aria-label="Close">
       <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 2l9 9M11 2L2 11" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
     </button>
     <h2 class="modal-ttl">Your Story Template</h2>
-    <p class="modal-sub">Download and post this to your Instagram Story to get messages.</p>
-    <div class="story-preview">
+    <p class="modal-sub">Download and post to Instagram Stories or WhatsApp Status.</p>
+
+    <!-- Loading state -->
+    <div class="story-loading" id="story-loading">
+      <div class="spin-lg"></div>
+      <p>Generating your story…</p>
+    </div>
+
+    <!-- Canvas (hidden until ready) -->
+    <div class="story-preview" id="story-preview" style="display:none">
       <canvas id="ask-canvas" width="1080" height="1920" aria-label="Story preview"></canvas>
     </div>
-    <div class="story-btns">
-      <button class="btn-dl" id="btn-story-dl">
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1v9M3.5 7L7 10.5l3.5-3.5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M2 12h10" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg>
-        Download
-      </button>
-      <button class="btn-shr" id="btn-story-shr">Share</button>
+
+    <div id="story-actions" style="display:none">
+      <div class="story-btns">
+        <button class="btn-dl" id="btn-story-dl">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1v8M2.5 6L6 9.5 9.5 6" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M1 11h10" stroke="white" stroke-width="1.4" stroke-linecap="round"/></svg>
+          Download
+        </button>
+        <button class="btn-shr-wa" id="btn-story-wa">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="#25D366" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.125.557 4.118 1.528 5.845L0 24l6.335-1.652A11.954 11.954 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.006-1.371l-.36-.214-3.727.977.994-3.638-.235-.374A9.818 9.818 0 012.182 12C2.182 6.578 6.578 2.182 12 2.182S21.818 6.578 21.818 12 17.422 21.818 12 21.818z"/></svg>
+          WhatsApp
+        </button>
+        <button class="btn-shr" id="btn-story-shr">
+          <svg width="12" height="12" viewBox="0 0 13 13" fill="none"><circle cx="10.5" cy="2.5" r="1.5" stroke="currentColor" stroke-width="1.3"/><circle cx="10.5" cy="10.5" r="1.5" stroke="currentColor" stroke-width="1.3"/><circle cx="2.5" cy="6.5" r="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M4 5.5l5-2.5M4 7.5l5 2.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+          Share
+        </button>
+      </div>
+      <div class="story-caption-row">
+        <span class="story-caption-url" id="story-caption-url"></span>
+        <button class="btn-copy-caption" id="btn-copy-caption">Copy link</button>
+      </div>
     </div>
   </div>
 </div>
 
 <div class="toast" id="toast" role="alert" aria-live="assertive"></div>
-
-<!-- Honeypot (hidden from users, bots fill it) -->
 <input type="text" name="_hp" id="_hp" style="position:absolute;left:-9999px;opacity:0;pointer-events:none;" tabindex="-1" aria-hidden="true" autocomplete="off">
 
 <script>
-(function () {
+(function(){
   'use strict';
 
-  // ── State ─────────────────────────────────────────────────────────────
+  // ── Username: injected by CF Function (window.__ASKTHAT_USER__) is most reliable ──
   const USERNAME_RE = /^[a-zA-Z0-9_.-]+$/;
   const params      = new URLSearchParams(location.search);
+  const pathMatch   = location.pathname.match(/\/ask\/([^/?#]+)/);
+  const pathUser    = pathMatch ? pathMatch[1] : '';
 
-  // Extract username from all possible formats:
-  //   /ask/username          (Cloudflare rewrite, path preserved)
-  //   /ask/username?...      (with query params)
-  //   /ask.html?u=username   (legacy query param format)
-  //   ?u=username            (direct query param)
-  const pathMatch = location.pathname.match(/\/ask\/([^/?#]+)/);
-  const pathUser  = pathMatch ? pathMatch[1] : '';
-  let   user      = (params.get('u') || pathUser || '').trim().toLowerCase();
+  let user = (
+    (typeof window.__ASKTHAT_USER__ === 'string' && window.__ASKTHAT_USER__ ? window.__ASKTHAT_USER__ : null) ||
+    params.get('u') ||
+    pathUser ||
+    ''
+  ).trim().toLowerCase();
 
-  // Strip any accidental .html suffix
   if (user.endsWith('.html')) user = user.slice(0, -5);
 
+  // ── Guard: no valid user ────────────────────────────────────────────────
   if (!user || user.length < 1 || user.length > 30 || !USERNAME_RE.test(user)) {
-    // No valid user — show landing-style prompt instead of hard redirect
     document.getElementById('profile-name').textContent = 'Someone';
     document.getElementById('profile-tag').textContent  = 'Enter a username in your link: /ask/yourname';
     document.getElementById('avatar-el').textContent    = '?';
     document.getElementById('send-btn').disabled        = true;
     document.getElementById('send-btn').style.opacity   = '0.4';
-    document.getElementById('send-btn').title           = 'No username in URL';
     const note = document.createElement('p');
     note.style.cssText = 'text-align:center;font-size:13px;color:#fbbf24;margin-top:12px;padding:10px;background:rgba(251,191,36,.07);border:1px solid rgba(251,191,36,.2);border-radius:10px;';
     note.textContent   = '⚠ No username found in URL. Share a link like: askthat.pages.dev/ask/yourname';
@@ -404,327 +356,326 @@
     return;
   }
 
-  const BASE_URL = `${location.origin}/ask/${user}`;
-  let   revealed = false;
-  let   pollAnswers = {};
-  let   pollOpen = false;
+  const BASE_URL  = `${location.origin}/ask/${user}`;
   let   toastTimer;
 
-  // ── DOM ───────────────────────────────────────────────────────────────
-  const avatarEl     = document.getElementById('avatar-el');
-  const profileName  = document.getElementById('profile-name');
-  const textarea     = document.getElementById('msg-input');
-  const charNum      = document.getElementById('char-num');
-  const charText     = document.getElementById('char-text');
-  const charRingFill = document.getElementById('char-ring-fill');
-  const revealToggle = document.getElementById('reveal-toggle');
-  const sendBtn      = document.getElementById('send-btn');
-  const btnTxt       = document.getElementById('btn-txt');
-  const btnSpin      = document.getElementById('btn-spin');
-  const errMsg       = document.getElementById('err-msg');
-  const formArea     = document.getElementById('form-area');
-  const successArea  = document.getElementById('success-area');
-  const shareGrid    = document.getElementById('share-btns');
-  const copyDisplay  = document.getElementById('copy-url-display');
-  const btnCopy      = document.getElementById('btn-copy');
-
-  // ── Init ──────────────────────────────────────────────────────────────
-  avatarEl.textContent    = user.charAt(0).toUpperCase();
-  profileName.textContent = user;
-  document.title          = `Ask ${user} anonymously — AskThat`;
-  copyDisplay.textContent = BASE_URL;
-
-  // Update OG tags dynamically
+  // ── Profile ─────────────────────────────────────────────────────────────
+  document.getElementById('avatar-el').textContent    = user.charAt(0).toUpperCase();
+  document.getElementById('profile-name').textContent = user;
+  document.title  = `Ask ${user} anonymously — AskThat`;
   document.querySelector('meta[property="og:title"]').content = `Ask ${user} anonymously — AskThat`;
 
-  buildShareButtons();
-  void recordView();
+  // ── Link display ────────────────────────────────────────────────────────
+  document.getElementById('copy-url-display').textContent = BASE_URL;
+  document.getElementById('story-caption-url').textContent = BASE_URL;
 
-  // ── Character counter ─────────────────────────────────────────────────
-  const MAX = 500;
-  const CIRC = 2 * Math.PI * 11; // 69.1
+  function copyLink(url) {
+    const target = url || BASE_URL;
+    navigator.clipboard.writeText(target).then(() => {
+      const btn = document.getElementById('btn-copy');
+      btn.textContent = '✓ Copied'; btn.classList.add('copied');
+      setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
+    }).catch(() => showToast('Copy failed'));
+  }
+  document.getElementById('btn-copy').addEventListener('click', () => copyLink());
 
+  document.getElementById('btn-copy-caption').addEventListener('click', function() {
+    navigator.clipboard.writeText(BASE_URL).then(() => {
+      this.textContent = '✓ Copied!'; this.classList.add('copied');
+      setTimeout(() => { this.textContent = 'Copy link'; this.classList.remove('copied'); }, 2000);
+    });
+  });
+
+  // ── Share grid ──────────────────────────────────────────────────────────
+  const txt = encodeURIComponent(`Ask me anything anonymously! ${BASE_URL}`);
+  [
+    { label:'Twitter',  url:`https://twitter.com/intent/tweet?text=${txt}`, icon:`<svg viewBox="0 0 24 24" fill="#1DA1F2"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.259 5.63zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>` },
+    { label:'WhatsApp', url:`https://wa.me/?text=${txt}`, icon:`<svg viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.125.557 4.118 1.528 5.845L0 24l6.335-1.652A11.954 11.954 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.006-1.371l-.36-.214-3.727.977.994-3.638-.235-.374A9.818 9.818 0 012.182 12C2.182 6.578 6.578 2.182 12 2.182S21.818 6.578 21.818 12 17.422 21.818 12 21.818z"/></svg>` },
+    { label:'Telegram', url:`https://t.me/share/url?url=${encodeURIComponent(BASE_URL)}&text=${encodeURIComponent('Ask me anything!')}`, icon:`<svg viewBox="0 0 24 24" fill="#26A5E4"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L7.14 13.913l-2.98-.924c-.648-.203-.66-.648.136-.961l11.647-4.49c.537-.194 1.006.131.951.683z"/></svg>` },
+    { label:'Discord',  url:`https://discord.com/channels/@me`, icon:`<svg viewBox="0 0 24 24" fill="#5865F2"><path d="M20.317 4.37a19.791 19.791 0 00-4.885-1.515.074.074 0 00-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 00-5.487 0 12.64 12.64 0 00-.617-1.25.077.077 0 00-.079-.037A19.736 19.736 0 003.677 4.37a.07.07 0 00-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 00.031.057 19.9 19.9 0 005.993 3.03.078.078 0 00.084-.028 14.09 14.09 0 001.226-1.994.076.076 0 00-.041-.106 13.107 13.107 0 01-1.872-.892.077.077 0 01-.008-.128 10.2 10.2 0 00.372-.292.074.074 0 01.077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 01.078.01c.12.098.246.198.373.292a.077.077 0 01-.006.127 12.299 12.299 0 01-1.873.892.077.077 0 00-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 00.084.028 19.839 19.839 0 006.002-3.03.077.077 0 00.032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 00-.031-.03z"/></svg>` },
+    { label:'Copy',     url:null, icon:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>` },
+  ].forEach(s => {
+    const el = s.url ? document.createElement('a') : document.createElement('button');
+    el.className = 'sh-btn';
+    if (s.url) { el.href=s.url; el.target='_blank'; el.rel='noopener noreferrer'; }
+    else el.addEventListener('click', () => copyLink());
+    el.innerHTML = `${s.icon}<span>${s.label}</span>`;
+    document.getElementById('share-btns').appendChild(el);
+  });
+
+  // ── Char counter ────────────────────────────────────────────────────────
+  const textarea = document.getElementById('msg-input');
+  const charNum  = document.getElementById('char-num');
+  const charText = document.getElementById('char-text');
+  const ringFill = document.getElementById('char-ring-fill');
+  const CIRC = 69.1, MAX = 500;
   textarea.addEventListener('input', () => {
-    const n   = textarea.value.length;
-    const pct = n / MAX;
-    const offset = CIRC * (1 - Math.min(pct, 1));
-    charRingFill.style.strokeDashoffset = offset;
-    charNum.textContent = `${n} / ${MAX}`;
-
-    charText.className = 'char-text' + (n > MAX * 0.9 ? (n >= MAX ? ' over' : ' warn') : '');
-    charRingFill.style.stroke = n >= MAX ? '#f472b6' : n > MAX * 0.9 ? '#fbbf24' : 'var(--primary)';
-    clearErr();
+    const len = textarea.value.length;
+    charNum.textContent = `${len} / ${MAX}`;
+    ringFill.style.strokeDashoffset = String(CIRC - CIRC * Math.min(len/MAX, 1));
+    ringFill.style.stroke = len > MAX ? '#f472b6' : len/MAX > .8 ? '#fbbf24' : 'var(--primary)';
+    charText.className = len > MAX ? 'char-text over' : len/MAX > .8 ? 'char-text warn' : 'char-text';
   });
 
-  // ── Reveal toggle ─────────────────────────────────────────────────────
-  function toggleReveal() {
-    revealed = !revealed;
-    revealToggle.classList.toggle('active', revealed);
-    revealToggle.setAttribute('aria-checked', revealed);
-  }
-  revealToggle.addEventListener('click', toggleReveal);
-  revealToggle.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleReveal(); } });
+  // ── Send message ────────────────────────────────────────────────────────
+  const sendBtn = document.getElementById('send-btn');
+  const btnTxt  = document.getElementById('btn-txt');
+  const btnSpin = document.getElementById('btn-spin');
+  const errMsg  = document.getElementById('err-msg');
 
-  // ── Poll ──────────────────────────────────────────────────────────────
-  const pollToggle = document.getElementById('poll-toggle');
-  const pollBody   = document.getElementById('poll-body');
-  const pollWrap   = document.getElementById('poll-wrap');
-
-  pollToggle.addEventListener('click', () => {
-    pollOpen = !pollOpen;
-    pollWrap.classList.toggle('open', pollOpen);
-    pollToggle.setAttribute('aria-expanded', pollOpen);
-    pollBody.style.maxHeight = pollOpen ? pollBody.scrollHeight + 'px' : '0';
-  });
-  pollToggle.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); pollToggle.click(); } });
-
-  document.querySelectorAll('.poll-opt').forEach(opt => {
-    opt.addEventListener('click', () => {
-      const { cat, val } = opt.dataset;
-      // Deselect others in same category
-      document.querySelectorAll(`.poll-opt[data-cat="${cat}"]`).forEach(o => {
-        o.classList.remove('sel');
-        o.setAttribute('aria-checked', 'false');
-      });
-      if (pollAnswers[cat] === val) {
-        // Toggle off
-        delete pollAnswers[cat];
-      } else {
-        pollAnswers[cat] = val;
-        opt.classList.add('sel');
-        opt.setAttribute('aria-checked', 'true');
-      }
-    });
-    opt.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); opt.click(); } });
-  });
-
-  // ── Send ──────────────────────────────────────────────────────────────
-  async function send() {
-    const msg = textarea.value.trim();
-    if (!msg) { showErr('Write something first.'); return; }
-    if (msg.length > MAX) { showErr(`Keep it under ${MAX} characters.`); return; }
-
-    setSending(true);
-
-    const payload = {
-      username:       user,
-      message:        msg,
-      revealIdentity: revealed,
-      _hp:            document.getElementById('_hp').value,
-    };
-    if (Object.keys(pollAnswers).length) payload.poll = { ...pollAnswers };
-
+  async function sendMessage() {
+    if (document.getElementById('_hp').value) return;
+    const text = textarea.value.trim();
+    if (!text) { errMsg.textContent='Write something first.'; errMsg.classList.add('show'); return; }
+    if (text.length > 500) { errMsg.textContent='Message too long.'; errMsg.classList.add('show'); return; }
+    sendBtn.disabled=true; btnTxt.textContent='Sending…'; btnSpin.classList.add('show'); errMsg.classList.remove('show');
     try {
-      const res  = await fetch('/api/send', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-      });
+      const res  = await fetch('/api/send', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({username:user, text}) });
       const data = await res.json();
-
-      if (!res.ok || data.error) {
-        showErr(data.error || 'Something went wrong. Try again.');
-        setSending(false);
-        return;
-      }
-
-      formArea.style.display = 'none';
-      successArea.classList.add('show');
-    } catch {
-      showErr('Network error. Check your connection and try again.');
-      setSending(false);
-    }
+      if (!res.ok) { errMsg.textContent=data.error||'Failed. Try again.'; errMsg.classList.add('show'); return; }
+      document.getElementById('form-area').style.display='none';
+      document.getElementById('success-area').classList.add('show');
+    } catch { errMsg.textContent='Network error.'; errMsg.classList.add('show'); }
+    finally { sendBtn.disabled=false; btnTxt.textContent='Send anonymously'; btnSpin.classList.remove('show'); }
   }
-
-  sendBtn.addEventListener('click', send);
-  textarea.addEventListener('keydown', e => { if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) send(); });
-
+  sendBtn.addEventListener('click', sendMessage);
+  textarea.addEventListener('keydown', e => { if(e.key==='Enter'&&(e.metaKey||e.ctrlKey)) sendMessage(); });
   document.getElementById('send-again-btn').addEventListener('click', () => {
-    textarea.value = '';
-    charNum.textContent = '0 / 500';
-    charRingFill.style.strokeDashoffset = CIRC;
-    charText.className = 'char-text';
-    revealed = false;
-    pollAnswers = {};
-    document.querySelectorAll('.poll-opt').forEach(o => { o.classList.remove('sel'); o.setAttribute('aria-checked','false'); });
-    revealToggle.classList.remove('active');
-    revealToggle.setAttribute('aria-checked','false');
-    successArea.classList.remove('show');
-    formArea.style.display = '';
-    textarea.focus();
+    textarea.value=''; charNum.textContent='0 / 500';
+    ringFill.style.strokeDashoffset=String(CIRC); charText.className='char-text';
+    document.getElementById('form-area').style.display='';
+    document.getElementById('success-area').classList.remove('show');
   });
 
-  function setSending(v) {
-    sendBtn.disabled = v;
-    btnTxt.style.display  = v ? 'none' : '';
-    btnSpin.className = v ? 'spinner show' : 'spinner';
+  // ── Poll ────────────────────────────────────────────────────────────────
+  let pollData    = null;
+  let pollAnswers = {};
+
+  async function loadPoll() {
+    try {
+      const res = await fetch(`/api/poll?username=${encodeURIComponent(user)}`);
+      if (!res.ok) return null;
+      return await res.json();
+    } catch { return null; }
   }
 
-  function showErr(msg) { errMsg.textContent = msg; errMsg.className = 'err-msg show'; }
-  function clearErr()   { errMsg.className = 'err-msg'; }
-
-  // ── Share buttons ─────────────────────────────────────────────────────
-  function buildShareButtons() {
-    const enc = encodeURIComponent(BASE_URL);
-    const txt = encodeURIComponent(`Ask me anything anonymously! ${BASE_URL}`);
-    const btns = [
-      { label:'WhatsApp', url:`https://wa.me/?text=${txt}`, icon:`<svg viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.125.557 4.118 1.528 5.845L0 24l6.335-1.652A11.954 11.954 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.006-1.371l-.36-.214-3.727.977.994-3.638-.235-.374A9.818 9.818 0 012.182 12C2.182 6.578 6.578 2.182 12 2.182S21.818 6.578 21.818 12 17.422 21.818 12 21.818z"/></svg>` },
-      { label:'Instagram', url:null, action:'insta', icon:`<svg viewBox="0 0 24 24" fill="none"><defs><linearGradient id="ig" x1="0" y1="24" x2="24" y2="0"><stop offset="0%" stop-color="#f09433"/><stop offset="25%" stop-color="#e6683c"/><stop offset="50%" stop-color="#dc2743"/><stop offset="75%" stop-color="#cc2366"/><stop offset="100%" stop-color="#bc1888"/></linearGradient></defs><rect x="2" y="2" width="20" height="20" rx="5.5" fill="url(#ig)"/><circle cx="12" cy="12" r="4.5" stroke="white" stroke-width="1.6"/><circle cx="17" cy="7" r="1.2" fill="white"/></svg>` },
-      { label:'Twitter/X', url:`https://twitter.com/intent/tweet?text=${txt}`, icon:`<svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.738l7.73-8.835L1.254 2.25H8.08l4.265 5.633 5.9-5.633zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>` },
-      { label:'Telegram', url:`https://t.me/share/url?url=${enc}&text=${txt}`, icon:`<svg viewBox="0 0 24 24" fill="#229ED9"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L7.196 13.9l-2.967-.924c-.645-.203-.657-.645.136-.953l11.57-4.461c.537-.194 1.006.131.959.659z"/></svg>` },
-      { label:'Copy', url:null, action:'copy', icon:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>` },
-    ];
-
-    shareGrid.innerHTML = btns.map(b => `
-      <${b.url ? `a href="${b.url}" target="_blank" rel="noopener noreferrer"` : 'button'} class="sh-btn" ${b.action ? `data-action="${b.action}"` : ''} aria-label="${b.label}">
-        ${b.icon}
-        <span>${b.label}</span>
-      </${b.url ? 'a' : 'button'}>`).join('');
-
-    shareGrid.querySelectorAll('[data-action]').forEach(el => {
-      el.addEventListener('click', e => {
-        if (el.dataset.action === 'copy') { e.preventDefault(); copyLink(el); }
-        if (el.dataset.action === 'insta') { e.preventDefault(); openStoryModal(); }
+  function renderPoll(data) {
+    document.getElementById('poll-loading').style.display = 'none';
+    if (!data || !data.enabled || !data.questions?.length) {
+      document.getElementById('poll-disabled').style.display = '';
+      return;
+    }
+    pollData = data;
+    document.getElementById('poll-title').textContent = data.title || 'Quick Poll';
+    document.getElementById('poll-content-area').style.display = '';
+    const container = document.getElementById('poll-questions');
+    container.innerHTML = '';
+    data.questions.forEach((q, qi) => {
+      const block = document.createElement('div');
+      block.className = 'poll-question-block';
+      block.innerHTML = `
+        <span class="poll-q-label">Question ${qi+1}</span>
+        <p class="poll-q-text">${esc(q.text)}</p>
+        <div class="poll-opts-grid" role="group" aria-label="${esc(q.text)}">
+          ${q.options.map(opt=>`<button class="poll-opt-btn" data-qid="${esc(q.id)}" data-val="${esc(opt)}" type="button">${esc(opt)}</button>`).join('')}
+        </div>
+        ${qi<data.questions.length-1?'<div class="poll-divider-line"></div>':''}
+      `;
+      container.appendChild(block);
+    });
+    container.querySelectorAll('.poll-opt-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const qid = btn.dataset.qid, val = btn.dataset.val;
+        container.querySelectorAll(`.poll-opt-btn[data-qid="${qid}"]`).forEach(b => { b.classList.remove('selected'); b.setAttribute('aria-pressed','false'); });
+        btn.classList.add('selected'); btn.setAttribute('aria-pressed','true');
+        pollAnswers[qid] = val;
+        document.getElementById('btn-vote').disabled = Object.keys(pollAnswers).length===0;
       });
     });
   }
 
-  async function copyLink(btn) {
+  async function submitVote() {
+    if (!pollData || !Object.keys(pollAnswers).length) return;
+    const voteBtn=document.getElementById('btn-vote'), voteTxt=document.getElementById('vote-btn-txt'),
+          voteSpin=document.getElementById('vote-spin'), voteErr=document.getElementById('vote-err');
+    voteBtn.disabled=true; voteTxt.textContent='Submitting…'; voteSpin.classList.add('show'); voteErr.classList.remove('show');
     try {
-      await navigator.clipboard.writeText(BASE_URL);
-      if (btn) { btn.style.color = '#4ade80'; setTimeout(() => btn.style.color = '', 2000); }
-      btnCopy.classList.add('copied');
-      btnCopy.textContent = '✓ Copied';
-      setTimeout(() => { btnCopy.classList.remove('copied'); btnCopy.innerHTML = `<svg width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true"><rect x="1" y="4" width="8" height="8" rx="1.5" stroke="currentColor" stroke-width="1.4"/><path d="M4 4V3a1 1 0 011-1h5a1 1 0 011 1v5a1 1 0 01-1 1h-1" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg> Copy`; }, 2500);
-    } catch { showToast(BASE_URL); }
+      const res  = await fetch('/api/poll', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({username:user, answers:pollAnswers}) });
+      const data = await res.json();
+      if (!res.ok) { voteErr.textContent=data.error||'Failed. Try again.'; voteErr.classList.add('show'); return; }
+      document.getElementById('poll-content-area').style.display='none';
+      document.getElementById('poll-success').classList.add('show');
+    } catch { voteErr.textContent='Network error.'; voteErr.classList.add('show'); }
+    finally { voteTxt.textContent='Submit Vote'; voteSpin.classList.remove('show'); voteBtn.disabled=false; }
   }
+  document.getElementById('btn-vote').addEventListener('click', submitVote);
 
-  btnCopy.addEventListener('click', () => copyLink(null));
+  // Tab switching
+  let activeTab = 'ask';
+  function switchTab(tab) {
+    activeTab = tab;
+    const isAsk = tab==='ask';
+    document.getElementById('pane-ask').style.display  = isAsk?'':'none';
+    document.getElementById('pane-poll').style.display = isAsk?'none':'';
+    document.getElementById('tab-ask-btn').classList.toggle('active', isAsk);
+    document.getElementById('tab-poll-btn').classList.toggle('active', !isAsk);
+  }
+  document.getElementById('tab-ask-btn').addEventListener('click', ()=>switchTab('ask'));
+  document.getElementById('tab-poll-btn').addEventListener('click', ()=>switchTab('poll'));
 
-  // ── Story canvas ──────────────────────────────────────────────────────
+  // Load poll in background
+  loadPoll().then(data => {
+    if (data?.enabled) {
+      document.getElementById('tab-nav').style.display = '';
+    }
+    renderPoll(data);
+  });
+
+  // ── Story ───────────────────────────────────────────────────────────────
   function openStoryModal() {
     document.getElementById('story-modal').classList.add('show');
-    drawStory();
+    document.getElementById('story-loading').style.display   = '';
+    document.getElementById('story-preview').style.display   = 'none';
+    document.getElementById('story-actions').style.display   = 'none';
+    // Defer drawing so loading state renders first
+    requestAnimationFrame(() => {
+      setTimeout(() => {
+        drawStory();
+        document.getElementById('story-loading').style.display  = 'none';
+        document.getElementById('story-preview').style.display  = '';
+        document.getElementById('story-actions').style.display  = '';
+      }, 80);
+    });
   }
 
   function drawStory() {
     const canvas = document.getElementById('ask-canvas');
     const ctx    = canvas.getContext('2d');
-    const W = 1080, H = 1920;
+    const W=1080, H=1920;
 
-    const bg = ctx.createLinearGradient(0, 0, W, H);
-    bg.addColorStop(0, '#0d0a08'); bg.addColorStop(1, '#1a0e06');
-    ctx.fillStyle = bg; ctx.fillRect(0, 0, W, H);
+    const bg=ctx.createLinearGradient(0,0,W,H);
+    bg.addColorStop(0,'#0d0a08'); bg.addColorStop(1,'#1a0e06');
+    ctx.fillStyle=bg; ctx.fillRect(0,0,W,H);
 
-    const orb = (x, y, r, c, a) => {
-      const g = ctx.createRadialGradient(x,y,0,x,y,r);
-      g.addColorStop(0, c+(Math.round(a*255).toString(16).padStart(2,'0')));
-      g.addColorStop(1, c+'00');
+    const orb=(x,y,r,c,a)=>{
+      const g=ctx.createRadialGradient(x,y,0,x,y,r);
+      g.addColorStop(0,c+Math.round(a*255).toString(16).padStart(2,'0'));
+      g.addColorStop(1,c+'00');
       ctx.fillStyle=g; ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2); ctx.fill();
     };
-    orb(180,350,480,'#ff6b35',0.36); orb(900,1600,400,'#ff477e',0.28);
+    orb(180,350,480,'#ff6b35',0.38); orb(900,1600,400,'#ff477e',0.30);
 
-    // Border
-    const brd = ctx.createLinearGradient(0,0,W,H);
-    brd.addColorStop(0,'#ff477e55'); brd.addColorStop(1,'#ffbf6955');
-    ctx.strokeStyle=brd; ctx.lineWidth=8;
-    ctx.beginPath(); ctx.roundRect(16,16,W-32,H-32,56); ctx.stroke();
+    ctx.textAlign='center';
 
-    // @ logo
-    ctx.font='bold 80px Georgia,serif'; ctx.textAlign='center';
-    const gl=ctx.createLinearGradient(W/2-70,0,W/2+70,90);
-    gl.addColorStop(0,'#ff477e'); gl.addColorStop(0.5,'#ff6b35'); gl.addColorStop(1,'#ffbf69');
-    ctx.fillStyle=gl; ctx.fillText('@',W/2,275);
+    // Brand
+    ctx.font='700 44px sans-serif'; ctx.fillStyle='rgba(255,248,240,0.55)';
+    ctx.fillText('@ AskThat',W/2,200);
 
-    ctx.font='700 46px sans-serif'; ctx.fillStyle='rgba(255,248,240,0.55)';
-    ctx.fillText('AskThat',W/2,335);
+    // Avatar circle
+    ctx.fillStyle='rgba(255,255,255,0.12)';
+    ctx.beginPath(); ctx.arc(W/2,420,120,0,Math.PI*2); ctx.fill();
+    ctx.strokeStyle='rgba(255,107,53,0.5)'; ctx.lineWidth=4;
+    ctx.beginPath(); ctx.arc(W/2,420,120,0,Math.PI*2); ctx.stroke();
+    ctx.font='700 100px sans-serif'; ctx.fillStyle='#fff8f0';
+    ctx.fillText(user.charAt(0).toUpperCase(),W/2,458);
 
-    ctx.strokeStyle='rgba(255,107,53,0.3)'; ctx.lineWidth=2;
-    ctx.beginPath(); ctx.moveTo(W/2-160,370); ctx.lineTo(W/2+160,370); ctx.stroke();
-
-    // Emoji
-    ctx.font='200px serif'; ctx.fillText('❓',W/2,680);
+    // Username
+    ctx.font='800 78px sans-serif'; ctx.fillStyle='#fff8f0';
+    ctx.fillText(user,W/2,628);
 
     // Headline
-    ctx.font='800 100px sans-serif'; ctx.fillStyle='#fff8f0';
-    wrapText(ctx,'Ask me anything',W/2,840,860,115);
+    ctx.font='800 108px sans-serif'; ctx.fillStyle='#fff8f0';
+    wrapText(ctx,'Ask me anything!',W/2,850,860,120);
 
-    ctx.font='400 58px sans-serif'; ctx.fillStyle='rgba(255,248,240,0.6)';
-    wrapText(ctx,'Send an anonymous message — I genuinely will not know it was you',W/2,1040,840,70);
+    // Subtitle
+    ctx.font='400 54px sans-serif'; ctx.fillStyle='rgba(255,248,240,0.65)';
+    wrapText(ctx,'Send an anonymous message — I\'ll never know it was you',W/2,1080,820,68);
 
-    // User pill
-    ctx.fillStyle='rgba(255,255,255,0.07)'; ctx.strokeStyle='rgba(255,255,255,0.13)'; ctx.lineWidth=2;
-    ctx.beginPath(); ctx.roundRect(W/2-340,1240,680,108,54); ctx.fill(); ctx.stroke();
-    ctx.font='700 40px sans-serif'; ctx.fillStyle='#ffcf96';
-    ctx.fillText(`askthat.pages.dev/ask/${user}`,W/2,1307);
+    // Link box
+    ctx.fillStyle='rgba(255,255,255,0.10)'; ctx.strokeStyle='rgba(255,255,255,0.25)'; ctx.lineWidth=3;
+    ctx.beginPath(); ctx.roundRect(W/2-410,1280,820,120,60); ctx.fill(); ctx.stroke();
+    ctx.font='bold 40px sans-serif'; ctx.fillStyle='#ffcf96';
+    ctx.fillText(`askthat.pages.dev/ask/${user}`,W/2,1355);
 
-    // CTA
-    const cta=ctx.createLinearGradient(W/2-210,0,W/2+210,0);
+    // CTA button
+    const cta=ctx.createLinearGradient(W/2-250,0,W/2+250,0);
     cta.addColorStop(0,'#ff477e'); cta.addColorStop(0.5,'#ff6b35'); cta.addColorStop(1,'#ffbf69');
     ctx.fillStyle=cta;
-    ctx.beginPath(); ctx.roundRect(W/2-210,1420,420,108,54); ctx.fill();
-    ctx.font='700 46px sans-serif'; ctx.fillStyle='#fff';
-    ctx.fillText('Tap to send ✦',W/2,1488);
+    ctx.beginPath(); ctx.roundRect(W/2-250,1460,500,120,60); ctx.fill();
+    ctx.font='700 48px sans-serif'; ctx.fillStyle='#fff';
+    ctx.fillText('Tap to send ✉',W/2,1537);
 
+    // Footer
     ctx.font='400 34px sans-serif'; ctx.fillStyle='rgba(255,248,240,0.28)';
-    ctx.fillText('100% anonymous · 48h auto-delete',W/2,1830);
+    ctx.fillText('100% anonymous · askthat.pages.dev',W/2,1848);
   }
 
-  function wrapText(ctx, text, x, y, maxW, lh) {
-    const words = text.split(' '); let line = ''; let cy = y;
-    for (const w of words) {
-      const t = line ? line+' '+w : w;
-      if (ctx.measureText(t).width > maxW && line) { ctx.fillText(line,x,cy); line=w; cy+=lh; }
+  function wrapText(ctx,text,x,y,maxW,lh){
+    const words=text.split(' '); let line='',cy=y;
+    for(const w of words){
+      const t=line?line+' '+w:w;
+      if(ctx.measureText(t).width>maxW&&line){ctx.fillText(line,x,cy);line=w;cy+=lh;}
       else line=t;
     }
-    if (line) ctx.fillText(line,x,cy);
+    if(line)ctx.fillText(line,x,cy);
   }
 
-  document.getElementById('modal-close').addEventListener('click', () => document.getElementById('story-modal').classList.remove('show'));
-  document.getElementById('story-modal').addEventListener('click', e => { if (e.target===e.currentTarget) e.currentTarget.classList.remove('show'); });
   document.getElementById('btn-gen-story').addEventListener('click', openStoryModal);
+  document.getElementById('modal-close').addEventListener('click', ()=>document.getElementById('story-modal').classList.remove('show'));
+  document.getElementById('story-modal').addEventListener('click', e=>{if(e.target===e.currentTarget)e.currentTarget.classList.remove('show');});
 
-  document.getElementById('btn-story-dl').addEventListener('click', () => {
-    const a = document.createElement('a');
-    a.download = `askthat-${user}-story.png`;
-    a.href = document.getElementById('ask-canvas').toDataURL('image/png');
+  document.getElementById('btn-story-dl').addEventListener('click', ()=>{
+    const a=document.createElement('a');
+    a.download=`askthat-${user}-story.png`;
+    a.href=document.getElementById('ask-canvas').toDataURL('image/png');
     a.click();
   });
 
-  document.getElementById('btn-story-shr').addEventListener('click', () => {
-    document.getElementById('ask-canvas').toBlob(async blob => {
-      const file = new File([blob], 'askthat-story.png', { type:'image/png' });
-      if (navigator.canShare?.({ files:[file] })) {
-        try { await navigator.share({ files:[file], title:`Ask ${user} anonymously` }); return; } catch (_) {}
+  // WhatsApp story share
+  document.getElementById('btn-story-wa').addEventListener('click', ()=>{
+    const canvas=document.getElementById('ask-canvas');
+    canvas.toBlob(async blob=>{
+      const file=new File([blob],'askthat-story.png',{type:'image/png'});
+      const shareData={files:[file],text:`Ask me anything anonymously! 🙈\n${BASE_URL}`,title:`Ask ${user} anonymously`};
+      if(navigator.canShare?.({files:[file]})){
+        try{await navigator.share(shareData);return;}catch(err){if(err.name==='AbortError')return;}
+      }
+      // Fallback: download image then open WhatsApp
+      const a=document.createElement('a');
+      a.download=`askthat-${user}-story.png`; a.href=URL.createObjectURL(blob); a.click();
+      setTimeout(()=>{
+        window.open(`https://wa.me/?text=${encodeURIComponent(`Ask me anything anonymously! 🙈\n${BASE_URL}`)}`);
+        showToast('📸 Image downloaded — add it to WhatsApp Status!');
+      },700);
+    },'image/png');
+  });
+
+  // Generic share
+  document.getElementById('btn-story-shr').addEventListener('click', ()=>{
+    const canvas=document.getElementById('ask-canvas');
+    canvas.toBlob(async blob=>{
+      const file=new File([blob],'askthat-story.png',{type:'image/png'});
+      if(navigator.canShare?.({files:[file]})){
+        try{await navigator.share({files:[file],text:`Ask me anything!\n${BASE_URL}`,title:`Ask ${user} anonymously`});return;}catch(_){}
       }
       document.getElementById('btn-story-dl').click();
-    }, 'image/png');
+    },'image/png');
   });
 
-  // ── Stats view ────────────────────────────────────────────────────────
-  async function recordView() {
-    try {
-      await fetch('/api/stats', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username: user, event: 'view' }),
-      });
-    } catch (_) {}
-  }
+  // ── Stats ───────────────────────────────────────────────────────────────
+  try{fetch('/api/stats',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:user,event:'view'})});}catch(_){}
 
-  // ── Toast ─────────────────────────────────────────────────────────────
-  function showToast(msg) {
-    const el = document.getElementById('toast');
-    el.textContent = msg;
-    el.className   = 'toast show';
+  // ── Toast ───────────────────────────────────────────────────────────────
+  function showToast(msg){
+    const el=document.getElementById('toast');
+    el.textContent=msg; el.className='toast show';
     clearTimeout(toastTimer);
-    toastTimer = setTimeout(() => el.className = 'toast', 3200);
+    toastTimer=setTimeout(()=>el.className='toast',3600);
   }
 
-  document.addEventListener('keydown', e => {
-    if (e.key === 'Escape') document.getElementById('story-modal').classList.remove('show');
-  });
+  document.addEventListener('keydown',e=>{if(e.key==='Escape')document.getElementById('story-modal').classList.remove('show');});
 
+  function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 })();
 </script>
 </body>
