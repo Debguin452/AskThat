@@ -87,7 +87,6 @@
     .profile-info h1 { font-family:'Syne',sans-serif; font-weight: 800; font-size: 18px; letter-spacing: -.3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .link-pill { display: inline-flex; align-items: center; gap: 6px; background: rgba(255,255,255,.04); border: 1px solid var(--border2); border-radius: 100px; padding: 4px 10px 4px 6px; font-size: 12px; color: var(--text3); margin-top: 5px; max-width: 100%; overflow: hidden; }
     .link-pill span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-    .profile-actions { display: flex; gap: 7px; flex-wrap: wrap; }
 
     /* ── Toolbar ── */
     .toolbar { display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap; align-items: center; }
@@ -257,11 +256,6 @@
     .btn-poll-manage { display:flex; align-items:center; gap:6px; padding:8px 14px; background:rgba(255,191,105,.08); border:1px solid rgba(255,191,105,.2); border-radius:100px; color:var(--gold); font-family:'DM Sans',sans-serif; font-size:12px; font-weight:500; cursor:pointer; transition:all .18s; margin-top:12px; }
     .btn-poll-manage:hover { background:rgba(255,191,105,.16); border-color:rgba(255,191,105,.4); }
 
-    /* ── Auth badge ── */
-    .auth-badge { display:none; align-items:center; gap:5px; font-size:11px; color:var(--green); background:rgba(74,222,128,.08); border:1px solid rgba(74,222,128,.18); border-radius:100px; padding:3px 10px; }
-    .auth-badge.show { display:flex; }
-    .auth-badge svg { width:10px; height:10px; }
-
     @keyframes spin { to{transform:rotate(360deg)} }
 
     /* ── Hint ── */
@@ -277,7 +271,6 @@
     @media (max-width: 560px) {
       .stats-bar { grid-template-columns: repeat(2,1fr); }
       .profile-hdr { flex-direction: column; align-items: flex-start; gap: 12px; }
-      .profile-actions { width: 100%; }
       .tabs { width: 100%; justify-content: space-between; }
       .tab { flex: 1; justify-content: center; padding: 7px 8px; }
     }
@@ -308,14 +301,6 @@
         <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="5.5" stroke="currentColor" stroke-width="1.4"/><circle cx="6.5" cy="6.5" r="2" stroke="currentColor" stroke-width="1.3"/></svg>
         Poster
       </button>
-      <span class="auth-badge" id="auth-badge">
-        <svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        Owner
-      </span>
-      <a href="/ask" id="nav-ask-link" class="btn-sm gr" target="_blank" rel="noopener">
-        <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 6.5L11 2.5l-4.5 9L5 8 2 6.5z" stroke="white" stroke-width="1.4" stroke-linejoin="round"/></svg>
-        My Link
-      </a>
     </div>
   </nav>
 
@@ -354,12 +339,6 @@
         <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M7 1h4v4M5 7L11 1" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><path d="M5 2H2a1 1 0 00-1 1v7a1 1 0 001 1h7a1 1 0 001-1V8" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
         <span id="link-display">—</span>
       </div>
-    </div>
-    <div class="profile-actions">
-      <button class="btn-sm ol" id="btn-share-link">
-        <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="10" cy="2.5" r="1.5" stroke="currentColor" stroke-width="1.3"/><circle cx="10" cy="10.5" r="1.5" stroke="currentColor" stroke-width="1.3"/><circle cx="2.5" cy="6.5" r="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M8.6 3.3l-4.7 2.4M8.6 9.7L3.9 7.3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
-        Share
-      </button>
     </div>
   </div>
 
@@ -507,10 +486,19 @@
   'use strict';
 
   const USERNAME_RE = /^[a-zA-Z0-9_.-]+$/;
-  const params      = new URLSearchParams(location.search);
-  const pathMatch   = location.pathname.match(/\/dashboard\/([^/?#]+)/);
-  const pathUser    = pathMatch ? pathMatch[1] : '';
-  let   user        = (params.get('u') || pathUser || '').trim().toLowerCase();
+
+  // Primary: injected server-side by CF Function (window.__ASKTHAT_DASHBOARD_USER__)
+  // Fallbacks: ?u= query param, or /dashboard/username path segment
+  const params    = new URLSearchParams(location.search);
+  const pathMatch = location.pathname.match(/\/dashboard\/([^/?#]+)/);
+  const pathUser  = pathMatch ? pathMatch[1] : '';
+  let   user      = (
+    (typeof window.__ASKTHAT_DASHBOARD_USER__ === 'string' && window.__ASKTHAT_DASHBOARD_USER__
+      ? window.__ASKTHAT_DASHBOARD_USER__ : null) ||
+    params.get('u') ||
+    pathUser ||
+    ''
+  ).trim().toLowerCase();
   if (user.endsWith('.html')) user = user.slice(0, -5);
 
   if (!user || user.length < 1 || user.length > 30 || !USERNAME_RE.test(user)) {
@@ -578,7 +566,7 @@
         if (data.ok && data.token) {
           authToken = data.token;
           try { localStorage.setItem(`askthat_token_${user}`, authToken); } catch (_) {}
-          document.getElementById('auth-badge').classList.add('show');
+          // token stored silently — no badge needed
         }
       } catch (_) {}
       return;
@@ -588,7 +576,7 @@
       const res  = await fetch(`/api/auth?username=${encodeURIComponent(user)}&token=${encodeURIComponent(authToken)}`);
       const data = await res.json();
       if (data.valid) {
-        document.getElementById('auth-badge').classList.add('show');
+        // token is valid — no UI needed
       } else {
         // Token invalid → reclaim silently
         authToken = null;
@@ -602,7 +590,6 @@
   avatarEl.textContent    = user.charAt(0).toUpperCase();
   linkDisplay.textContent = `askthat.pages.dev/ask/${user}`;
   document.title          = `${user}'s Inbox — AskThat`;
-  document.getElementById('nav-ask-link').href = `/ask/${user}`;
   hintLink.textContent    = `askthat.pages.dev/ask/${user}`;
   document.getElementById('caption-url-txt').textContent = BASE_URL;
 
@@ -852,12 +839,6 @@
     });
   }
   document.getElementById('btn-copy-link').addEventListener('click', copyLink);
-  document.getElementById('btn-share-link').addEventListener('click', async () => {
-    if (navigator.share) {
-      try { await navigator.share({ url: BASE_URL, title: `Ask ${user} anonymously` }); return; } catch (_) {}
-    }
-    copyLink();
-  });
 
   // ── Poll Results ──────────────────────────────────────────────────────────
   function renderPollResults() {

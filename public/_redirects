@@ -1,6 +1,5 @@
-# NOTE: /ask/* is handled by functions/ask/[[slug]].js (CF Function)
-# which injects __ASKTHAT_USER__ and serves ask.html
-/dashboard/* /dashboard.html 200
+# /ask/* is handled by functions/ask/[[slug]].js
+# /dashboard/* is handled by functions/dashboard/[[slug]].js
 /security    /.well-known/security.txt 302
 /.env        /404.html 404
 /.env.*      /404.html 404
