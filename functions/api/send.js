@@ -28,7 +28,7 @@ export async function onRequestPost({ request, env }) {
     return json({ success: true, id: 'ok' });
   }
 
-  const { username, message, revealIdentity = false, poll } = body ?? {};
+  const { username, message, text, poll } = body ?? {};
 
   // Validate username
   if (!username || typeof username !== 'string' ||
@@ -37,8 +37,8 @@ export async function onRequestPost({ request, env }) {
     return json({ error: 'Invalid username.' }, 400);
   }
 
-  // Validate message
-  const trimmed = typeof message === 'string' ? message.trim() : '';
+  // Validate message (accept 'text' or 'message' field for compatibility)
+  const trimmed = typeof (text || message) === 'string' ? (text || message).trim() : '';
   if (!trimmed) return json({ error: 'Write something first.' }, 400);
   if (trimmed.length > MAX_MSG_LEN) {
     return json({ error: `Keep it under ${MAX_MSG_LEN} characters.` }, 400);
@@ -99,14 +99,13 @@ export async function onRequestPost({ request, env }) {
     : active;
 
   const newMsg = {
-    id:             uid(),
-    text:           sanitise(trimmed),
-    timestamp:      now,
-    expiresAt:      now + MSG_TTL_HOURS * 3_600_000,
-    revealIdentity: Boolean(revealIdentity),
-    read:           false,
-    pinned:         false,
-    poll:           pollData,
+    id:        uid(),
+    text:      sanitise(trimmed),
+    timestamp: now,
+    expiresAt: now + MSG_TTL_HOURS * 3_600_000,
+    read:      false,
+    pinned:    false,
+    poll:      pollData,
   };
 
   capped.push(newMsg);
