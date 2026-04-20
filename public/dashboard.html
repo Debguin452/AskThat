@@ -201,9 +201,64 @@
     .refresh-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); animation: blink 2s ease-in-out infinite; }
     @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
 
-    /* ── Spinner ── */
-    .spin { width: 18px; height: 18px; border: 2px solid rgba(255,255,255,.2); border-top-color: #fff; border-radius: 50%; animation: spin .6s linear infinite; }
-    @keyframes spin { to { transform: rotate(360deg); } }
+    /* ── Poll management ── */
+    .poll-enable-row { display:flex; align-items:center; gap:12px; padding:14px 16px; background:rgba(255,255,255,.04); border:1px solid var(--border2); border-radius:12px; margin-bottom:16px; }
+    .poll-enable-lbl { flex:1; font-size:14px; color:var(--text); }
+    .poll-enable-lbl small { color:var(--text3); font-size:12px; }
+    .tog-wrap { width:44px; height:24px; background:rgba(255,255,255,.12); border-radius:100px; cursor:pointer; position:relative; flex-shrink:0; transition:background .22s; }
+    .tog-wrap[aria-checked="true"] { background:var(--primary); }
+    .tog-inner { width:18px; height:18px; background:#fff; border-radius:50%; position:absolute; top:3px; left:3px; transition:transform .22s; box-shadow:0 1px 4px rgba(0,0,0,.3); }
+    .tog-wrap[aria-checked="true"] .tog-inner { transform:translateX(20px); }
+    .poll-q-editor-block { background:rgba(255,255,255,.03); border:1px solid var(--border2); border-radius:12px; padding:14px; margin-bottom:10px; position:relative; }
+    .poll-q-editor-block input { width:100%; background:rgba(255,255,255,.05); border:1px solid var(--border2); border-radius:8px; padding:9px 12px; font-size:13px; font-family:'DM Sans',sans-serif; color:var(--text); outline:none; margin-bottom:8px; }
+    .poll-q-editor-block input:focus { border-color:var(--primary); }
+    .poll-q-editor-block input::placeholder { color:var(--text3); }
+    .poll-q-opts-row { display:grid; grid-template-columns:1fr 1fr; gap:6px; }
+    .poll-q-opts-row input { margin-bottom:0; }
+    .poll-q-del { position:absolute; top:10px; right:10px; width:24px; height:24px; border-radius:6px; border:1px solid var(--border2); background:rgba(248,113,113,.08); color:#f87171; cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:14px; }
+    .poll-q-del:hover { background:rgba(248,113,113,.18); }
+    .poll-q-lbl { font-size:11px; color:var(--text3); margin-bottom:6px; text-transform:uppercase; letter-spacing:.06em; }
+    .btn-add-q { width:100%; padding:11px; background:rgba(255,255,255,.04); border:1px dashed var(--border2); border-radius:10px; color:var(--text2); font-family:'DM Sans',sans-serif; font-size:13px; cursor:pointer; transition:all .18s; margin-bottom:14px; }
+    .btn-add-q:hover { background:rgba(255,255,255,.08); border-color:var(--border); }
+    .btn-save-poll { width:100%; padding:14px; background:var(--grad); border:none; border-radius:12px; color:#fff; font-family:'DM Sans',sans-serif; font-size:14px; font-weight:500; cursor:pointer; transition:opacity .2s; }
+    .btn-save-poll:hover { opacity:.88; }
+    .poll-save-note { text-align:center; font-size:12px; color:var(--text3); margin-top:8px; }
+    .poll-save-note.ok { color:var(--green); }
+    .poll-save-note.err { color:#f87171; }
+
+    /* ── Poster styles ── */
+    .story-modal-wide { max-width:440px; }
+    .poster-styles-row { display:flex; gap:7px; overflow-x:auto; padding-bottom:4px; margin-bottom:16px; scrollbar-width:none; }
+    .poster-styles-row::-webkit-scrollbar { display:none; }
+    .poster-style-pill { flex-shrink:0; padding:8px 14px; background:var(--card); border:1px solid var(--border2); border-radius:100px; font-family:'DM Sans',sans-serif; font-size:12px; font-weight:500; color:var(--text2); cursor:pointer; transition:all .18s; white-space:nowrap; }
+    .poster-style-pill:hover { background:rgba(255,255,255,.08); color:var(--text); }
+    .poster-style-pill.active { background:rgba(255,107,53,.15); border-color:var(--primary); color:var(--text); }
+    .story-gen-loading { display:flex; flex-direction:column; align-items:center; gap:12px; padding:48px 20px; border-radius:14px; background:rgba(255,255,255,.03); border:1px solid var(--border2); margin-bottom:14px; }
+    .spin-ring { width:28px; height:28px; border:2.5px solid rgba(255,255,255,.1); border-top-color:var(--primary); border-radius:50%; animation:spin .7s linear infinite; }
+    .story-gen-loading span { font-size:13px; color:var(--text3); }
+    .story-actions { display:grid; grid-template-columns:1fr 1fr 1fr; gap:7px; margin-bottom:10px; }
+    .btn-story-dl { padding:12px 8px; background:var(--grad); border:none; border-radius:var(--r-sm); color:#fff; font-family:'DM Sans',sans-serif; font-size:12px; font-weight:500; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:5px; transition:opacity .2s; }
+    .btn-story-dl:hover { opacity:.88; }
+    .btn-story-wa { padding:12px 8px; background:rgba(37,211,102,.1); border:1px solid rgba(37,211,102,.28); border-radius:var(--r-sm); color:#25D366; font-family:'DM Sans',sans-serif; font-size:12px; font-weight:500; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:5px; transition:background .18s; }
+    .btn-story-wa:hover { background:rgba(37,211,102,.2); }
+    .btn-story-share { padding:12px 8px; background:var(--card); border:1px solid var(--border2); border-radius:var(--r-sm); color:var(--text2); font-family:'DM Sans',sans-serif; font-size:12px; font-weight:500; cursor:pointer; transition:background .2s; display:flex; align-items:center; justify-content:center; gap:5px; }
+    .btn-story-share:hover { background:rgba(255,255,255,.08); }
+    .caption-row { display:flex; gap:8px; align-items:center; padding:10px 13px; background:rgba(255,255,255,.03); border:1px solid var(--border2); border-radius:10px; }
+    .caption-url { flex:1; font-size:11px; color:var(--text2); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+    .btn-copy-caption { background:transparent; border:1px solid var(--border2); border-radius:7px; padding:5px 10px; font-family:'DM Sans',sans-serif; font-size:11px; color:var(--text3); cursor:pointer; white-space:nowrap; transition:all .18s; }
+    .btn-copy-caption:hover { background:rgba(255,255,255,.06); color:var(--text); }
+    .btn-copy-caption.copied { color:var(--green); border-color:rgba(74,222,128,.3); }
+
+    /* ── Poll manage btn ── */
+    .btn-poll-manage { display:flex; align-items:center; gap:6px; padding:8px 14px; background:rgba(255,191,105,.08); border:1px solid rgba(255,191,105,.2); border-radius:100px; color:var(--gold); font-family:'DM Sans',sans-serif; font-size:12px; font-weight:500; cursor:pointer; transition:all .18s; margin-top:12px; }
+    .btn-poll-manage:hover { background:rgba(255,191,105,.16); border-color:rgba(255,191,105,.4); }
+
+    /* ── Auth badge ── */
+    .auth-badge { display:none; align-items:center; gap:5px; font-size:11px; color:var(--green); background:rgba(74,222,128,.08); border:1px solid rgba(74,222,128,.18); border-radius:100px; padding:3px 10px; }
+    .auth-badge.show { display:flex; }
+    .auth-badge svg { width:10px; height:10px; }
+
+    @keyframes spin { to{transform:rotate(360deg)} }
 
     /* ── Hint ── */
     .first-hint { background: rgba(255,107,53,.07); border: 1px solid rgba(255,107,53,.18); border-radius: 14px; padding: 14px 18px; margin-bottom: 14px; display: none; }
@@ -242,10 +297,17 @@
         <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><rect x="1" y="4" width="8" height="8" rx="1.5" stroke="currentColor" stroke-width="1.4"/><path d="M4 4V3a1 1 0 011-1h5a1 1 0 011 1v5a1 1 0 01-1 1h-1" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
         Copy Link
       </button>
-      <button class="btn-sm pu" id="btn-story" title="Create Instagram Story">
-        <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="5.5" stroke="currentColor" stroke-width="1.4"/><circle cx="6.5" cy="6.5" r="2" stroke="currentColor" stroke-width="1.3"/></svg>
-        Story
+      <button class="btn-sm ol" id="btn-poll" title="Manage Poll" style="border-color:rgba(255,191,105,.3);color:var(--gold)">
+        📊 Poll
       </button>
+      <button class="btn-sm pu" id="btn-story" title="Create Story Poster">
+        <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="5.5" stroke="currentColor" stroke-width="1.4"/><circle cx="6.5" cy="6.5" r="2" stroke="currentColor" stroke-width="1.3"/></svg>
+        Poster
+      </button>
+      <span class="auth-badge" id="auth-badge">
+        <svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Owner
+      </span>
       <a href="/ask" id="nav-ask-link" class="btn-sm gr" target="_blank" rel="noopener">
         <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 6.5L11 2.5l-4.5 9L5 8 2 6.5z" stroke="white" stroke-width="1.4" stroke-linejoin="round"/></svg>
         My Link
@@ -359,31 +421,77 @@
 
 </div>
 
-<!-- Instagram Story Modal -->
-<div class="modal-overlay" id="story-modal" role="dialog" aria-modal="true" aria-label="Create Instagram Story">
-  <div class="modal">
+<!-- Poll Management Modal -->
+<div class="modal-overlay" id="poll-modal" role="dialog" aria-modal="true" aria-label="Manage Poll">
+  <div class="modal" style="max-width:480px">
+    <button class="modal-close" id="poll-modal-close" aria-label="Close">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 2l10 10M12 2L2 12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+    </button>
+    <h2 class="modal-title">📊 Manage Poll</h2>
+    <p class="modal-sub">Create custom questions — visitors vote anonymously on your link page.</p>
+    <div id="poll-mgmt-content">
+      <div class="poll-enable-row">
+        <span class="poll-enable-lbl"><strong>Enable poll</strong><br><small>Show poll tab to visitors</small></span>
+        <div class="tog-wrap" id="poll-enable-tog" role="switch" aria-checked="false" tabindex="0">
+          <div class="tog-inner"></div>
+        </div>
+      </div>
+      <div id="poll-questions-editor" style="margin-top:18px"></div>
+      <button class="btn-add-q" id="btn-add-question">+ Add Question</button>
+      <button class="btn-save-poll" id="btn-save-poll">Save Poll Settings</button>
+      <p class="poll-save-note" id="poll-save-note"></p>
+    </div>
+  </div>
+</div>
+
+<!-- Story / Poster Modal -->
+<div class="modal-overlay" id="story-modal" role="dialog" aria-modal="true" aria-label="Create Story Poster">
+  <div class="modal story-modal-wide">
     <button class="modal-close" id="story-modal-close" aria-label="Close">
       <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 2l10 10M12 2L2 12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
     </button>
-    <h2 class="modal-title">Instagram Story</h2>
-    <p class="modal-sub">Generate a shareable story template for your anonymous link.</p>
+    <h2 class="modal-title">Share Your Link</h2>
+    <p class="modal-sub">Pick a poster style → download → post to Stories or Status.</p>
 
-    <div class="story-styles" role="group" aria-label="Story style">
-      <button class="story-style-btn active" data-style="dark">🌑 Dark</button>
-      <button class="story-style-btn" data-style="warm">🔥 Warm</button>
-      <button class="story-style-btn" data-style="neon">⚡ Neon</button>
+    <!-- Poster style picker (NGL-style scrollable row) -->
+    <div class="poster-styles-row" role="group" aria-label="Poster style">
+      <button class="poster-style-pill active" data-style="fire">🔥 Fire</button>
+      <button class="poster-style-pill" data-style="dark">🌑 Dark</button>
+      <button class="poster-style-pill" data-style="neon">⚡ Neon</button>
+      <button class="poster-style-pill" data-style="pastel">🌸 Pastel</button>
+      <button class="poster-style-pill" data-style="midnight">🌙 Midnight</button>
+      <button class="poster-style-pill" data-style="holo">✨ Holo</button>
     </div>
 
-    <div class="story-preview-wrap">
+    <!-- Story loading indicator -->
+    <div class="story-gen-loading" id="story-gen-loading">
+      <div class="spin-ring"></div>
+      <span>Generating poster…</span>
+    </div>
+
+    <div class="story-preview-wrap" id="story-preview-wrap" style="display:none">
       <canvas id="story-canvas" width="1080" height="1920" aria-label="Story preview"></canvas>
     </div>
 
-    <div class="story-actions">
+    <div class="story-actions" id="story-actions-bar" style="display:none">
       <button class="btn-story-dl" id="btn-story-download">
-        <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M7.5 1v9M4 7l3.5 3.5L11 7" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M2 13h11" stroke="white" stroke-width="1.6" stroke-linecap="round"/></svg>
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1v10M3 8l4 4 4-4" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M1 13h12" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg>
         Download
       </button>
-      <button class="btn-story-share" id="btn-story-share-native">Share</button>
+      <button class="btn-story-wa" id="btn-story-wa">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a9.626 9.626 0 00-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.125.557 4.118 1.528 5.845L0 24l6.335-1.652A11.954 11.954 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.006-1.371l-.36-.214-3.727.977.994-3.638-.235-.374A9.818 9.818 0 012.182 12C2.182 6.578 6.578 2.182 12 2.182S21.818 6.578 21.818 12 17.422 21.818 12 21.818z"/></svg>
+        WhatsApp
+      </button>
+      <button class="btn-story-share" id="btn-story-share-native">
+        <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="10.5" cy="2.5" r="1.5" stroke="currentColor" stroke-width="1.3"/><circle cx="10.5" cy="10.5" r="1.5" stroke="currentColor" stroke-width="1.3"/><circle cx="2.5" cy="6.5" r="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M4 5.5l5-2.5M4 7.5l5 2.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+        Share
+      </button>
+    </div>
+
+    <!-- Link / caption copy row -->
+    <div class="caption-row" id="caption-row" style="display:none">
+      <span class="caption-url" id="caption-url-txt"></span>
+      <button class="btn-copy-caption" id="btn-copy-caption">Copy link</button>
     </div>
   </div>
 </div>
@@ -394,23 +502,15 @@
 (function() {
   'use strict';
 
-  // ── State ────────────────────────────────────────────────────────────────
   const USERNAME_RE = /^[a-zA-Z0-9_.-]+$/;
   const params      = new URLSearchParams(location.search);
-
-  // Support both URL formats:
-  //   /dashboard.html?u=username    (from index.html create flow)
-  //   /dashboard/username           (clean URL with rewrite)
-  //   /dashboard?u=username         (clean URL with query param)
-  const pathMatch = location.pathname.match(/\/dashboard\/([^/?#]+)/);
-  const pathUser  = pathMatch ? pathMatch[1] : '';
-  let   user      = (params.get('u') || pathUser || '').trim().toLowerCase();
-
+  const pathMatch   = location.pathname.match(/\/dashboard\/([^/?#]+)/);
+  const pathUser    = pathMatch ? pathMatch[1] : '';
+  let   user        = (params.get('u') || pathUser || '').trim().toLowerCase();
   if (user.endsWith('.html')) user = user.slice(0, -5);
 
   if (!user || user.length < 1 || user.length > 30 || !USERNAME_RE.test(user)) {
-    window.location.href = '/';
-    return;
+    window.location.href = '/'; return;
   }
 
   const BASE_URL = `${location.origin}/ask/${user}`;
@@ -427,86 +527,119 @@
   let bulkMode    = false;
   let selected    = new Set();
   let lastTotal   = -1;
-  let storyStyle  = 'dark';
+  let posterStyle = 'fire';
   let refreshTimer;
   let toastTimer;
+  let authToken   = null;
 
-  // ── DOM refs ─────────────────────────────────────────────────────────────
-  const msgsList      = document.getElementById('msgs-list');
-  const statBar       = document.getElementById('stats-bar');
-  const statTotal     = document.getElementById('stat-total');
-  const statUnread    = document.getElementById('stat-unread');
-  const statPinned    = document.getElementById('stat-pinned');
-  const statViews     = document.getElementById('stat-views');
-  const countAll      = document.getElementById('count-all');
-  const countUnread   = document.getElementById('count-unread');
-  const countPinned   = document.getElementById('count-pinned');
-  const profileName   = document.getElementById('profile-name');
-  const avatarEl      = document.getElementById('avatar-el');
-  const linkDisplay   = document.getElementById('link-display');
-  const newBanner     = document.getElementById('new-banner');
-  const newBannerCount= document.getElementById('new-banner-count');
-  const firstHint     = document.getElementById('first-hint');
-  const hintLink      = document.getElementById('hint-link');
-  const searchInput   = document.getElementById('search-input');
-  const sortSelect    = document.getElementById('sort-select');
-  const bulkBar       = document.getElementById('bulk-bar');
-  const bulkCountTxt  = document.getElementById('bulk-count-txt');
-  const loadMoreWrap  = document.getElementById('load-more-wrap');
-  const pollSection   = document.getElementById('poll-section');
-  const pollContent   = document.getElementById('poll-content');
+  // ── DOM refs ──────────────────────────────────────────────────────────────
+  const msgsList       = document.getElementById('msgs-list');
+  const statBar        = document.getElementById('stats-bar');
+  const statTotal      = document.getElementById('stat-total');
+  const statUnread     = document.getElementById('stat-unread');
+  const statPinned     = document.getElementById('stat-pinned');
+  const statViews      = document.getElementById('stat-views');
+  const countAll       = document.getElementById('count-all');
+  const countUnread    = document.getElementById('count-unread');
+  const countPinned    = document.getElementById('count-pinned');
+  const profileName    = document.getElementById('profile-name');
+  const avatarEl       = document.getElementById('avatar-el');
+  const linkDisplay    = document.getElementById('link-display');
+  const newBanner      = document.getElementById('new-banner');
+  const newBannerCount = document.getElementById('new-banner-count');
+  const firstHint      = document.getElementById('first-hint');
+  const hintLink       = document.getElementById('hint-link');
+  const searchInput    = document.getElementById('search-input');
+  const sortSelect     = document.getElementById('sort-select');
+  const bulkBar        = document.getElementById('bulk-bar');
+  const bulkCountTxt   = document.getElementById('bulk-count-txt');
+  const loadMoreWrap   = document.getElementById('load-more-wrap');
+  const pollSection    = document.getElementById('poll-section');
+  const pollContent    = document.getElementById('poll-content');
 
-  // ── Init ─────────────────────────────────────────────────────────────────
-  const label = user.charAt(0).toUpperCase();
+  // ── Silent Auth ────────────────────────────────────────────────────────────
+  // Read stored token — no login page, totally silent
+  try { authToken = localStorage.getItem(`askthat_token_${user}`); } catch (_) {}
+
+  async function initAuth() {
+    if (!authToken) {
+      // Auto-claim silently (first device to do so gets the token)
+      try {
+        const res  = await fetch('/api/auth', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username: user, action: 'claim' }),
+        });
+        const data = await res.json();
+        if (data.ok && data.token) {
+          authToken = data.token;
+          try { localStorage.setItem(`askthat_token_${user}`, authToken); } catch (_) {}
+          document.getElementById('auth-badge').classList.add('show');
+        }
+      } catch (_) {}
+      return;
+    }
+    // Verify existing token
+    try {
+      const res  = await fetch(`/api/auth?username=${encodeURIComponent(user)}&token=${encodeURIComponent(authToken)}`);
+      const data = await res.json();
+      if (data.valid) {
+        document.getElementById('auth-badge').classList.add('show');
+      } else {
+        // Token invalid → reclaim silently
+        authToken = null;
+        try { localStorage.removeItem(`askthat_token_${user}`); } catch (_) {}
+      }
+    } catch (_) {}
+  }
+
+  // ── Init ──────────────────────────────────────────────────────────────────
   profileName.textContent = user;
-  avatarEl.textContent    = label;
+  avatarEl.textContent    = user.charAt(0).toUpperCase();
   linkDisplay.textContent = `askthat.pages.dev/ask/${user}`;
   document.title          = `${user}'s Inbox — AskThat`;
   document.getElementById('nav-ask-link').href = `/ask/${user}`;
   hintLink.textContent    = `askthat.pages.dev/ask/${user}`;
+  document.getElementById('caption-url-txt').textContent = BASE_URL;
 
   load(true);
   loadStats();
   startRefresh();
+  initAuth();
 
-  // ── Data loading ─────────────────────────────────────────────────────────
+  // ── Data loading ──────────────────────────────────────────────────────────
   async function load(isInitial = false) {
     if (isInitial) {
-      msgsList.innerHTML = `<div style="text-align:center;padding:36px"><div class="spin" style="margin:0 auto"></div></div>`;
+      cursor = 0; messages = [];
+      msgsList.innerHTML = `<div style="text-align:center;padding:36px"><div class="spin" style="margin:0 auto;width:22px;height:22px;border:2px solid rgba(255,255,255,.2);border-top-color:#ff6b35;border-radius:50%;animation:spin .6s linear infinite"></div></div>`;
     }
+    const url = `/api/get?username=${encodeURIComponent(user)}&filter=${filter}&sort=${sortOrder}&cursor=${isInitial ? 0 : cursor}&markRead=${isInitial ? '1' : '0'}`;
     try {
-      const url = `/api/get?username=${encodeURIComponent(user)}&filter=${filter}&sort=${sortOrder}&cursor=${isInitial ? 0 : cursor}&markRead=${isInitial ? '1' : '0'}`;
-      const res = await fetch(url);
-      if (!res.ok) throw new Error(res.status);
+      const res  = await fetch(url);
       const data = await res.json();
+      if (!res.ok) { if (isInitial) msgsList.innerHTML = '<div style="text-align:center;padding:24px;color:var(--text3)">Failed to load messages.</div>'; return; }
 
-      if (isInitial) {
-        messages    = data.messages;
-        cursor      = data.nextCursor ?? null;
-        unreadCount = data.unreadCount ?? 0;
-        pinnedCount = data.pinnedCount ?? 0;
-        pollStats   = data.pollStats;
-        totalServer = data.total;
-        if (lastTotal === -1) lastTotal = totalServer;
-      } else {
-        messages = [...messages, ...data.messages];
-        cursor   = data.nextCursor ?? null;
-      }
+      const incoming = data.messages || [];
+      if (isInitial) messages = incoming;
+      else messages = [...messages, ...incoming];
 
-      totalServer = data.total;
+      cursor      = isInitial ? (data.nextCursor ?? 0) : (data.nextCursor ?? cursor);
+      pollStats   = data.pollStats;
+
       updateCounts(data.total, data.unreadCount ?? 0, data.pinnedCount ?? 0);
-      render();
-      statBar.style.opacity = '1';
-
+      render(isInitial);
       if (pollStats) renderPollResults();
+      loadMoreWrap.style.display = data.nextCursor != null ? '' : 'none';
 
-      if (isInitial && messages.length === 0) {
-        firstHint.classList.add('show');
+      if (!isInitial && data.total > lastTotal && lastTotal >= 0) {
+        const diff = data.total - lastTotal;
+        newBannerCount.textContent = `${diff} new message${diff > 1 ? 's' : ''}`;
+        newBanner.classList.add('show');
       }
-    } catch (e) {
-      if (isInitial) {
-        msgsList.innerHTML = `<div style="text-align:center;padding:32px;color:var(--text2)">Could not load messages. <button onclick="load(true)" style="background:none;border:none;color:var(--accent);cursor:pointer;font-size:14px;">Retry</button></div>`;
-      }
+      lastTotal = data.total;
+      statBar.style.opacity = '1';
+    } catch (_) {
+      if (isInitial) msgsList.innerHTML = '<div style="text-align:center;padding:24px;color:var(--text3)">Network error.</div>';
     }
   }
 
@@ -514,248 +647,233 @@
     try {
       const res  = await fetch(`/api/stats?username=${encodeURIComponent(user)}`);
       const data = await res.json();
-      statViews.textContent = fmtNum(data.views || 0);
-    } catch (_) {
-      statViews.textContent = '—';
-    }
+      if (data.views != null) statViews.textContent = fmtNum(data.views);
+      if (data.total != null) {
+        const isFirst = data.total === 0;
+        firstHint.style.display = isFirst ? '' : 'none';
+      }
+    } catch (_) {}
   }
 
   function startRefresh() {
     clearInterval(refreshTimer);
-    refreshTimer = setInterval(async () => {
-      try {
-        const res  = await fetch(`/api/get?username=${encodeURIComponent(user)}&filter=all&sort=newest&cursor=0`);
-        const data = await res.json();
-        if (lastTotal !== -1 && data.total > lastTotal) {
-          const diff = data.total - lastTotal;
-          newBannerCount.textContent = `${diff} new message${diff !== 1 ? 's' : ''}`;
-          newBanner.classList.add('show');
-        }
-        lastTotal = data.total;
-      } catch (_) {}
-    }, 30_000);
+    refreshTimer = setInterval(() => load(false), 30000);
   }
 
-  // ── Render ───────────────────────────────────────────────────────────────
-  function render() {
-    let view = [...messages];
+  // ── Render ────────────────────────────────────────────────────────────────
+  function render(replace = true) {
+    const filtered = searchQ
+      ? messages.filter(m => m.text.toLowerCase().includes(searchQ))
+      : messages;
 
-    // Client-side search
-    if (searchQ) {
-      const q = searchQ.toLowerCase();
-      view = view.filter(m => m.text.toLowerCase().includes(q));
-    }
+    if (replace) msgsList.innerHTML = '';
 
-    if (view.length === 0) {
-      msgsList.innerHTML = emptyHTML();
-      loadMoreWrap.style.display = 'none';
+    if (!filtered.length) {
+      const msgs = {
+        all:    ['📭','No messages yet','Share your link to start receiving anonymous messages.'],
+        unread: ['✓','All caught up','No unread messages.'],
+        pinned: ['📌','Nothing pinned yet','Pin messages to keep them here.'],
+      };
+      const [ico, t, s] = msgs[filter] || msgs.all;
+      msgsList.innerHTML = `<div class="empty-state"><span style="font-size:36px">${ico}</span><h3>${t}</h3><p>${s}</p></div>`;
       return;
     }
 
-    msgsList.innerHTML = '';
-    view.forEach(m => msgsList.appendChild(buildCard(m)));
-
-    loadMoreWrap.style.display = cursor !== null ? 'block' : 'none';
-
-    // Bulk mode checkboxes
-    if (bulkMode) msgsList.querySelectorAll('.card-checkbox').forEach(cb => {
-      cb.checked = selected.has(cb.dataset.id);
+    filtered.forEach(m => {
+      if (document.querySelector(`[data-id="${m.id}"]`)) return;
+      msgsList.appendChild(buildCard(m));
     });
   }
 
   function buildCard(m) {
-    const card = document.createElement('div');
-    const isPinned = m.pinned;
     const isUnread = !m.read;
-    card.className = `msg-card${isPinned ? ' pinned-card' : ''}${isUnread ? ' unread-card' : ''}`;
+    const isPinned = m.pinned;
+    const card = document.createElement('div');
     card.dataset.id = m.id;
+    card.className = `msg-card${isPinned ? ' pinned-card' : ''}${isUnread ? ' unread-card' : ''}`;
 
-    const now       = Date.now();
-    const msLeft    = m.expiresAt - now;
-    const hrsLeft   = Math.max(0, Math.round(msLeft / 3_600_000));
-    const timeAgo   = relTime(m.timestamp);
-    const isExpiring = hrsLeft < 6;
-
-    const pollHTML = m.poll ? `<div class="card-poll">
-      ${m.poll.vibe ? `<span class="poll-chip">😄 ${esc(m.poll.vibe)}</span>` : ''}
-      ${m.poll.know ? `<span class="poll-chip">🤝 ${esc(m.poll.know)}</span>` : ''}
-    </div>` : '';
+    const age  = timeAgo(m.timestamp);
+    const exp  = timeAgo(m.expiresAt, true);
+    const pollHTML = m.poll
+      ? `<div class="card-poll">${m.poll.vibe ? `<span class="poll-chip">😄 ${esc(m.poll.vibe)}</span>` : ''}${m.poll.know ? `<span class="poll-chip">🤝 ${esc(m.poll.know)}</span>` : ''}</div>`
+      : '';
 
     card.innerHTML = `
-      <div class="card-top">
-        <input type="checkbox" class="card-checkbox" data-id="${m.id}" aria-label="Select message">
+      ${bulkMode ? `<input type="checkbox" class="bulk-check" data-id="${m.id}" aria-label="Select message">` : ''}
+      <div class="card-body">
         <p class="card-text">${esc(m.text)}</p>
-        <div class="card-badges">
-          ${isUnread ? '<span class="badge badge-new">New</span>' : ''}
-          ${m.revealIdentity ? '<span class="badge badge-known">Knows you</span>' : ''}
+        ${pollHTML}
+        <div class="card-meta">
+          <span>${age}</span>
           ${isPinned ? '<span class="badge badge-pin">📌</span>' : ''}
+          ${isUnread ? '<span class="badge badge-new">new</span>' : ''}
+          <span style="margin-left:auto;font-size:11px;color:var(--text3)">expires ${exp}</span>
         </div>
       </div>
-      ${pollHTML}
-      <div class="card-footer">
-        ${isUnread ? '<div class="read-dot" title="Unread"></div>' : ''}
-        <span class="card-time">
-          ${timeAgo}
-          <span class="dot-sep">·</span>
-          <span class="${isExpiring ? 'expiry-warn' : ''}">${isExpiring ? `⚠️ ${hrsLeft}h left` : `${hrsLeft}h left`}</span>
-        </span>
-        <div class="card-actions">
-          <button class="icon-btn story" data-action="story" data-id="${m.id}" title="Create story card" aria-label="Create story card">
-            <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="5.5" stroke="currentColor" stroke-width="1.3"/><circle cx="6.5" cy="6.5" r="2" stroke="currentColor" stroke-width="1.2"/></svg>
-          </button>
-          <button class="icon-btn ${isPinned ? 'pinned' : ''}" data-action="pin" data-id="${m.id}" title="${isPinned ? 'Unpin' : 'Pin message'}" aria-label="${isPinned ? 'Unpin' : 'Pin message'}">
-            <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M5 2l6 6-2 2-1-1-2 2v1l-1 1-2-2 1-1 2-2-1-1 2-2zM2 11l2-2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </button>
-          <button class="icon-btn del" data-action="del" data-id="${m.id}" title="Delete" aria-label="Delete message">
-            <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 3.5h9M4.5 3.5V2.5a.5.5 0 01.5-.5h3a.5.5 0 01.5.5v1M5.5 6v3.5M7.5 6v3.5M3.5 3.5l.5 7h5l.5-7" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </button>
-        </div>
+      <div class="card-actions">
+        <button class="icon-btn ${isPinned ? 'pinned' : ''}" data-action="pin" data-id="${m.id}" title="${isPinned ? 'Unpin' : 'Pin'}" aria-label="${isPinned ? 'Unpin' : 'Pin'}">
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M4.5 1.5l7 7-2.5.5-3-3-.5 2.5-2-2 1-2.5-2 1 .5-2.5 3-1z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><path d="M2 11l2-2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+        </button>
+        <button class="icon-btn story" data-action="story" data-id="${m.id}" title="Create story" aria-label="Create story">
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="5.5" stroke="currentColor" stroke-width="1.3"/><circle cx="6.5" cy="6.5" r="2" stroke="currentColor" stroke-width="1.2"/></svg>
+        </button>
+        <button class="icon-btn del" data-action="delete" data-id="${m.id}" title="Delete" aria-label="Delete">
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 3h9M5 3V2h3v1M5.5 5.5v4M7.5 5.5v4M3.5 3l.5 7.5a1 1 0 001 .9h4a1 1 0 001-.9L11 3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
       </div>`;
 
-    // Event delegation on card
-    card.addEventListener('click', handleCardClick);
-    card.querySelector('.card-checkbox').addEventListener('change', handleCheckbox);
+    // Bulk checkbox
+    const chk = card.querySelector('.bulk-check');
+    if (chk) chk.addEventListener('change', e => {
+      if (e.target.checked) selected.add(m.id); else selected.delete(m.id);
+      card.classList.toggle('selected-card', e.target.checked);
+      bulkCountTxt.textContent = `${selected.size} selected`;
+    });
+
+    // Action buttons
+    card.querySelectorAll('[data-action]').forEach(btn => {
+      btn.addEventListener('click', e => {
+        const id     = e.currentTarget.dataset.id;
+        const action = e.currentTarget.dataset.action;
+        if (action === 'delete') deleteMsg(id);
+        if (action === 'pin')    togglePin(id);
+        if (action === 'story')  openStoryModal();
+      });
+    });
 
     return card;
   }
 
-  function emptyHTML() {
-    const msgs = { all: ['📭','No messages yet','Share your link to start receiving anonymous messages.'], unread: ['✓','All caught up','No unread messages.'], pinned: ['📌','Nothing pinned yet','Pin your favourite messages to keep them here.'] };
-    const [icon, title, sub] = msgs[filter] || msgs.all;
-    return `<div class="empty"><div class="empty-icon">${icon}</div><h3 class="empty-title">${title}</h3><p class="empty-sub">${sub}</p></div>`;
-  }
-
-  // ── Card actions ─────────────────────────────────────────────────────────
-  function handleCardClick(e) {
-    const btn = e.target.closest('[data-action]');
-    if (!btn) return;
-    const { action, id } = btn.dataset;
-    if (action === 'del') confirmDelete(id);
-    if (action === 'pin') togglePin(id);
-    if (action === 'story') openStoryModal();
-  }
-
-  function handleCheckbox(e) {
-    const { id } = e.target.dataset;
-    if (e.target.checked) selected.add(id);
-    else selected.delete(id);
-    updateBulkBar();
-    const card = e.target.closest('.msg-card');
-    if (card) card.classList.toggle('selected-card', e.target.checked);
-  }
-
-  async function confirmDelete(id) {
-    if (!confirm('Delete this message permanently?')) return;
+  // ── Delete & Pin ──────────────────────────────────────────────────────────
+  async function deleteMsg(id) {
+    const card = document.querySelector(`[data-id="${id}"]`);
+    if (card) card.style.opacity = '.4';
     try {
-      const res = await fetch('/api/delete', {
-        method: 'DELETE',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username: user, id }),
-      });
-      if (!res.ok) throw new Error();
+      const res  = await fetch('/api/delete', { method:'DELETE', headers:{'Content-Type':'application/json'}, body:JSON.stringify({username:user, id, token: authToken}) });
+      const data = await res.json();
+      if (!res.ok) { showToast(data.error || 'Failed to delete.', 'red'); if (card) card.style.opacity=''; return; }
       messages = messages.filter(m => m.id !== id);
-      selected.delete(id);
-      totalServer = Math.max(0, totalServer - 1);
-      updateCounts(totalServer, unreadCount, pinnedCount);
-      render();
-      showToast('Message deleted.', 'green');
-    } catch {
-      showToast('Could not delete. Try again.', 'red');
-    }
+      if (card) card.remove();
+      updateCounts(totalServer - 1, unreadCount, pinnedCount);
+      if (!messages.length) render();
+    } catch { showToast('Network error.', 'red'); if (card) card.style.opacity = ''; }
   }
 
   async function togglePin(id) {
     try {
-      const res = await fetch('/api/pin', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username: user, id }),
-      });
-      if (!res.ok) throw new Error();
-      const { pinned } = await res.json();
+      const res  = await fetch('/api/pin', { method:'PATCH', headers:{'Content-Type':'application/json'}, body:JSON.stringify({username:user, id, token: authToken}) });
+      const data = await res.json();
+      if (!res.ok) { showToast('Could not pin.', 'red'); return; }
       const msg = messages.find(m => m.id === id);
       if (msg) {
-        msg.pinned = pinned;
-        if (pinned) pinnedCount++; else pinnedCount = Math.max(0, pinnedCount - 1);
+        msg.pinned = data.pinned;
+        if (data.pinned) pinnedCount++; else pinnedCount = Math.max(0, pinnedCount - 1);
         updateCounts(totalServer, unreadCount, pinnedCount);
-        render();
+        const card = document.querySelector(`[data-id="${id}"]`);
+        if (card) { card.replaceWith(buildCard(msg)); }
       }
-      showToast(pinned ? 'Message pinned 📌' : 'Unpinned.', 'green');
-    } catch {
-      showToast('Could not pin. Try again.', 'red');
-    }
+      showToast(data.pinned ? 'Pinned 📌' : 'Unpinned.', 'green');
+    } catch { showToast('Network error.', 'red'); }
   }
 
-  async function bulkDelete() {
-    const ids = [...selected];
-    if (!ids.length) return;
-    if (!confirm(`Delete ${ids.length} message${ids.length !== 1 ? 's' : ''}? This cannot be undone.`)) return;
-    try {
-      const res = await fetch('/api/delete', {
-        method: 'DELETE',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username: user, bulk: ids }),
-      });
-      if (!res.ok) throw new Error();
-      const { deleted } = await res.json();
-      messages     = messages.filter(m => !selected.has(m.id));
-      totalServer  = Math.max(0, totalServer - deleted);
-      selected.clear();
-      updateCounts(totalServer, unreadCount, pinnedCount);
-      render();
-      showToast(`${deleted} message${deleted !== 1 ? 's' : ''} deleted.`, 'green');
-    } catch {
-      showToast('Could not delete. Try again.', 'red');
-    }
-  }
-
-  // ── Bulk mode ─────────────────────────────────────────────────────────────
+  // ── Bulk ─────────────────────────────────────────────────────────────────
   function setBulkMode(on) {
-    bulkMode = on;
-    selected.clear();
+    bulkMode = on; selected.clear();
     document.querySelector('.page').classList.toggle('bulk-mode', on);
     bulkBar.classList.toggle('show', on);
-    if (!on) updateBulkBar();
-    render();
+    if (!on) render();
+    else {
+      msgsList.querySelectorAll('.msg-card').forEach(c => {
+        const id  = c.dataset.id;
+        const chk = document.createElement('input');
+        chk.type = 'checkbox'; chk.className = 'bulk-check'; chk.dataset.id = id; chk.setAttribute('aria-label','Select');
+        chk.addEventListener('change', e => {
+          if (e.target.checked) selected.add(id); else selected.delete(id);
+          c.classList.toggle('selected-card', e.target.checked);
+          bulkCountTxt.textContent = `${selected.size} selected`;
+        });
+        c.prepend(chk);
+      });
+    }
   }
 
-  function updateBulkBar() {
-    const n = selected.size;
-    bulkCountTxt.textContent = `${n} selected`;
-  }
+  document.getElementById('btn-bulk-toggle').addEventListener('click', () => setBulkMode(!bulkMode));
+  document.getElementById('btn-bulk-cancel').addEventListener('click', () => setBulkMode(false));
+  document.getElementById('btn-select-all').addEventListener('click', () => {
+    msgsList.querySelectorAll('.bulk-check').forEach(c => { c.checked=true; selected.add(c.dataset.id); c.closest('.msg-card').classList.add('selected-card'); });
+    bulkCountTxt.textContent = `${selected.size} selected`;
+  });
+  document.getElementById('btn-bulk-del').addEventListener('click', async () => {
+    if (!selected.size) return;
+    const ids = [...selected];
+    try {
+      const res  = await fetch('/api/delete', { method:'DELETE', headers:{'Content-Type':'application/json'}, body:JSON.stringify({username:user, bulk:ids, token: authToken}) });
+      const data = await res.json();
+      if (!res.ok) { showToast(data.error || 'Delete failed.', 'red'); return; }
+      messages = messages.filter(m => !ids.includes(m.id));
+      ids.forEach(id => document.querySelector(`[data-id="${id}"]`)?.remove());
+      updateCounts(totalServer - ids.length, unreadCount, pinnedCount);
+      setBulkMode(false);
+      showToast(`Deleted ${ids.length} message${ids.length > 1 ? 's' : ''}.`, 'green');
+    } catch { showToast('Error.', 'red'); }
+  });
 
-  // ── Poll results ─────────────────────────────────────────────────────────
+  // ── Search & Sort ─────────────────────────────────────────────────────────
+  searchInput.addEventListener('input', () => { searchQ = searchInput.value.toLowerCase().trim(); render(); });
+  sortSelect.addEventListener('change', () => { sortOrder = sortSelect.value; load(true); });
+
+  // ── Tabs ──────────────────────────────────────────────────────────────────
+  document.querySelectorAll('.tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      filter = tab.dataset.filter;
+      document.querySelectorAll('.tab').forEach(t => { t.classList.remove('active'); t.setAttribute('aria-selected','false'); });
+      tab.classList.add('active'); tab.setAttribute('aria-selected','true');
+      load(true);
+    });
+  });
+
+  // ── Load more ─────────────────────────────────────────────────────────────
+  document.getElementById('btn-load-more').addEventListener('click', () => load(false));
+
+  // ── New banner ────────────────────────────────────────────────────────────
+  document.getElementById('btn-load-new').addEventListener('click', () => { newBanner.classList.remove('show'); load(true); });
+
+  // ── Copy link ─────────────────────────────────────────────────────────────
+  function copyLink() {
+    navigator.clipboard.writeText(BASE_URL).then(() => {
+      const btn = document.getElementById('btn-copy-link');
+      btn.textContent = '✓ Copied';
+      setTimeout(() => { btn.innerHTML = '<svg width="13" height="13" viewBox="0 0 13 13" fill="none"><rect x="1" y="4" width="8" height="8" rx="1.5" stroke="currentColor" stroke-width="1.4"/><path d="M4 4V3a1 1 0 011-1h5a1 1 0 011 1v5a1 1 0 01-1 1h-1" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg> Copy Link'; }, 2000);
+      showToast('Link copied!', 'green');
+    });
+  }
+  document.getElementById('btn-copy-link').addEventListener('click', copyLink);
+  document.getElementById('btn-share-link').addEventListener('click', async () => {
+    if (navigator.share) {
+      try { await navigator.share({ url: BASE_URL, title: `Ask ${user} anonymously` }); return; } catch (_) {}
+    }
+    copyLink();
+  });
+
+  // ── Poll Results ──────────────────────────────────────────────────────────
   function renderPollResults() {
     if (!pollStats || !Object.keys(pollStats).length) return;
     pollSection.classList.add('show');
-
-    const labels = { vibe: 'How they describe you', know: 'How well they know you' };
+    const labels = { vibe:'How they describe you', know:'How well they know you' };
     let html = '';
-
     for (const [cat, counts] of Object.entries(pollStats)) {
-      const total = Object.values(counts).reduce((a, b) => a + b, 0);
-      const sorted = Object.entries(counts).sort((a, b) => b[1] - a[1]);
-      html += `<div class="poll-cat">
-        <div class="poll-cat-label">${labels[cat] || cat}</div>
-        <div class="poll-bar-wrap">
-          ${sorted.map(([val, n]) => `
-            <div class="poll-bar-row">
-              <span class="poll-bar-label">${esc(val)}</span>
-              <div class="poll-bar-track"><div class="poll-bar-fill" style="width:${Math.round(n/total*100)}%"></div></div>
-              <span class="poll-bar-count">${n}</span>
-            </div>`).join('')}
-        </div>
-      </div>`;
+      const total  = Object.values(counts).reduce((a,b) => a+b, 0);
+      const sorted = Object.entries(counts).sort((a,b) => b[1]-a[1]);
+      html += `<div class="poll-cat"><div class="poll-cat-label">${labels[cat]||cat}</div><div class="poll-bar-wrap">
+        ${sorted.map(([val,n]) => `<div class="poll-bar-row"><span class="poll-bar-label">${esc(val)}</span><div class="poll-bar-track"><div class="poll-bar-fill" style="width:${Math.round(n/total*100)}%"></div></div><span class="poll-bar-count">${n}</span></div>`).join('')}
+      </div></div>`;
     }
-
     pollContent.innerHTML = html;
   }
 
-  // ── Counters ─────────────────────────────────────────────────────────────
+  // ── Counters ──────────────────────────────────────────────────────────────
   function updateCounts(total, unread, pinned) {
-    totalServer  = total;
-    unreadCount  = unread;
-    pinnedCount  = pinned;
+    totalServer  = total; unreadCount = unread; pinnedCount = pinned;
     statTotal.textContent   = fmtNum(total);
     statUnread.textContent  = fmtNum(unread);
     statPinned.textContent  = fmtNum(pinned);
@@ -764,309 +882,418 @@
     countPinned.textContent = fmtNum(pinned);
   }
 
-  // ── Instagram Story ───────────────────────────────────────────────────────
-  const STORY_THEMES = {
-    dark: {
-      bg1: '#0d0a08', bg2: '#1a1208',
-      orb1: '#ff6b35', orb2: '#ff477e',
-      text: '#fff8f0', sub: 'rgba(255,248,240,0.65)',
-      accent: '#ffcf96',
+  // ── Poll Management ───────────────────────────────────────────────────────
+  let pollEnabled  = false;
+  let pollQEditors = [];
+
+  const pollModal      = document.getElementById('poll-modal');
+  const pollModalClose = document.getElementById('poll-modal-close');
+  const pollEnableTog  = document.getElementById('poll-enable-tog');
+  const pollQsEditor   = document.getElementById('poll-questions-editor');
+
+  async function openPollModal() {
+    pollModal.classList.add('show');
+    pollQEditors = [];
+    pollQsEditor.innerHTML = '';
+    // Load current config
+    try {
+      const res  = await fetch(`/api/poll?username=${encodeURIComponent(user)}`);
+      const data = await res.json();
+      if (data.enabled) {
+        pollEnabled = true;
+        pollEnableTog.setAttribute('aria-checked','true');
+        (data.questions || []).forEach(q => addQEditor(q));
+      } else {
+        pollEnabled = false;
+        pollEnableTog.setAttribute('aria-checked','false');
+        // Add a default question
+        addQEditor({ text: '', options: ['', '', '', ''] });
+      }
+    } catch {
+      addQEditor({ text: '', options: ['', '', '', ''] });
+    }
+  }
+
+  function addQEditor(q = { text: '', options: ['', '', '', ''] }) {
+    const idx   = pollQEditors.length;
+    const block = document.createElement('div');
+    block.className = 'poll-q-editor-block';
+    block.innerHTML = `
+      <button class="poll-q-del" title="Remove question" aria-label="Remove">✕</button>
+      <div class="poll-q-lbl">Question ${idx + 1}</div>
+      <input type="text" placeholder="e.g. How would you describe me?" value="${esc(q.text || '')}" class="pq-text">
+      <div class="poll-q-lbl" style="margin-top:8px">Options (2–4)</div>
+      <div class="poll-q-opts-row">
+        ${(q.options || ['','','','']).map((o,i) => `<input type="text" placeholder="Option ${i+1}" value="${esc(o||'')}" class="pq-opt">`).join('')}
+      </div>`;
+    block.querySelector('.poll-q-del').addEventListener('click', () => {
+      block.remove();
+      pollQEditors = pollQEditors.filter(b => b !== block);
+      // Renumber
+      pollQsEditor.querySelectorAll('.poll-q-lbl:first-of-type').forEach((lbl, i) => lbl.textContent = `Question ${i+1}`);
+    });
+    pollQsEditor.appendChild(block);
+    pollQEditors.push(block);
+  }
+
+  pollEnableTog.addEventListener('click', () => {
+    pollEnabled = !pollEnabled;
+    pollEnableTog.setAttribute('aria-checked', String(pollEnabled));
+  });
+  pollEnableTog.addEventListener('keydown', e => { if (e.key==='Enter'||e.key===' ') { e.preventDefault(); pollEnableTog.click(); } });
+
+  document.getElementById('btn-add-question').addEventListener('click', () => {
+    if (pollQEditors.length >= 3) { showToast('Max 3 questions.', 'red'); return; }
+    addQEditor();
+  });
+
+  document.getElementById('btn-save-poll').addEventListener('click', async () => {
+    const saveBtn  = document.getElementById('btn-save-poll');
+    const saveNote = document.getElementById('poll-save-note');
+    saveBtn.disabled = true; saveBtn.textContent = 'Saving…';
+
+    const questions = [];
+    pollQsEditor.querySelectorAll('.poll-q-editor-block').forEach((block, qi) => {
+      const text = block.querySelector('.pq-text').value.trim();
+      const opts = [...block.querySelectorAll('.pq-opt')].map(i => i.value.trim()).filter(Boolean);
+      if (text && opts.length >= 2) {
+        questions.push({ id: `q${qi}`, text, options: opts.slice(0, 4) });
+      }
+    });
+
+    try {
+      const res  = await fetch('/api/poll', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username: user, settings: { enabled: pollEnabled, title: 'Quick Poll', questions } }),
+      });
+      const data = await res.json();
+      if (!res.ok) { saveNote.textContent = data.error || 'Save failed.'; saveNote.className = 'poll-save-note err'; }
+      else { saveNote.textContent = '✓ Saved! Visitors will see the poll on your link.'; saveNote.className = 'poll-save-note ok'; }
+    } catch { saveNote.textContent = 'Network error.'; saveNote.className = 'poll-save-note err'; }
+    finally { saveBtn.disabled = false; saveBtn.textContent = 'Save Poll Settings'; }
+  });
+
+  document.getElementById('btn-poll').addEventListener('click', openPollModal);
+  pollModalClose.addEventListener('click', () => pollModal.classList.remove('show'));
+  pollModal.addEventListener('click', e => { if (e.target === e.currentTarget) pollModal.classList.remove('show'); });
+
+  // ── Story / Poster Modal ──────────────────────────────────────────────────
+  const storyModal = document.getElementById('story-modal');
+
+  function openStoryModal() {
+    storyModal.classList.add('show');
+    renderPoster(posterStyle);
+  }
+
+  function renderPoster(style) {
+    posterStyle = style;
+    document.getElementById('story-gen-loading').style.display  = '';
+    document.getElementById('story-preview-wrap').style.display = 'none';
+    document.getElementById('story-actions-bar').style.display  = 'none';
+    document.getElementById('caption-row').style.display        = 'none';
+
+    requestAnimationFrame(() => {
+      setTimeout(() => {
+        drawPoster(style);
+        document.getElementById('story-gen-loading').style.display  = 'none';
+        document.getElementById('story-preview-wrap').style.display = '';
+        document.getElementById('story-actions-bar').style.display  = '';
+        document.getElementById('caption-row').style.display        = '';
+      }, 60);
+    });
+  }
+
+  // ── 6 Poster Styles ───────────────────────────────────────────────────────
+  const POSTER_THEMES = {
+    fire: {
+      bg: (ctx, W, H) => {
+        const g = ctx.createLinearGradient(0,0,W,H);
+        g.addColorStop(0,'#ff2d55'); g.addColorStop(0.5,'#ff6b35'); g.addColorStop(1,'#ffbf00');
+        ctx.fillStyle=g; ctx.fillRect(0,0,W,H);
+      },
+      orbs: (ctx,W,H) => { orb(ctx,W*.15,H*.12,600,'#ffffff',0.06); orb(ctx,W*.9,H*.85,500,'#ffffff',0.05); },
+      headline: '#ffffff', sub: 'rgba(255,255,255,0.75)', link: '#fff8f0',
+      pillFill: 'rgba(255,255,255,0.2)', pillStroke: 'rgba(255,255,255,0.35)',
+      ctaFill: (ctx,W) => { const g=ctx.createLinearGradient(W/2-220,0,W/2+220,0); g.addColorStop(0,'rgba(255,255,255,.3)'); g.addColorStop(1,'rgba(255,255,255,.15)'); return g; },
+      ctaText: '#fff',
     },
-    warm: {
-      bg1: '#1a0800', bg2: '#2a1000',
-      orb1: '#ff8c35', orb2: '#ffbf69',
-      text: '#fff8f0', sub: 'rgba(255,248,240,0.7)',
-      accent: '#ffbf69',
+    dark: {
+      bg: (ctx, W, H) => {
+        const g = ctx.createLinearGradient(0,0,W,H);
+        g.addColorStop(0,'#0d0a08'); g.addColorStop(1,'#1a1208');
+        ctx.fillStyle=g; ctx.fillRect(0,0,W,H);
+      },
+      orbs: (ctx,W,H) => { orb(ctx,200,400,480,'#ff6b35',0.32); orb(ctx,900,1600,400,'#ff477e',0.28); },
+      headline: '#fff8f0', sub: 'rgba(255,248,240,0.6)', link: '#ffcf96',
+      pillFill: 'rgba(255,255,255,0.07)', pillStroke: 'rgba(255,255,255,0.14)',
+      ctaFill: (ctx,W) => { const g=ctx.createLinearGradient(W/2-220,0,W/2+220,0); g.addColorStop(0,'#ff477e'); g.addColorStop(0.5,'#ff6b35'); g.addColorStop(1,'#ffbf69'); return g; },
+      ctaText: '#fff',
     },
     neon: {
-      bg1: '#050510', bg2: '#0a0820',
-      orb1: '#7c3aed', orb2: '#ff477e',
-      text: '#f0f0ff', sub: 'rgba(240,240,255,0.65)',
-      accent: '#a78bfa',
+      bg: (ctx, W, H) => {
+        ctx.fillStyle='#050510'; ctx.fillRect(0,0,W,H);
+      },
+      orbs: (ctx,W,H) => { orb(ctx,180,380,500,'#7c3aed',0.40); orb(ctx,900,1540,440,'#ff477e',0.35); orb(ctx,W/2,H/2,300,'#06b6d4',0.12); },
+      headline: '#f0f0ff', sub: 'rgba(240,240,255,0.6)', link: '#a78bfa',
+      pillFill: 'rgba(124,58,237,0.18)', pillStroke: 'rgba(124,58,237,0.45)',
+      ctaFill: (ctx,W) => { const g=ctx.createLinearGradient(W/2-220,0,W/2+220,0); g.addColorStop(0,'#7c3aed'); g.addColorStop(1,'#ff477e'); return g; },
+      ctaText: '#fff',
+    },
+    pastel: {
+      bg: (ctx, W, H) => {
+        const g = ctx.createLinearGradient(0,0,W,H);
+        g.addColorStop(0,'#fce4ec'); g.addColorStop(0.5,'#f3e5f5'); g.addColorStop(1,'#e3f2fd');
+        ctx.fillStyle=g; ctx.fillRect(0,0,W,H);
+      },
+      orbs: (ctx,W,H) => { orb(ctx,200,350,500,'#ec407a',0.12); orb(ctx,880,1600,420,'#7b1fa2',0.08); },
+      headline: '#2d1b69', sub: 'rgba(45,27,105,0.6)', link: '#6a1b9a',
+      pillFill: 'rgba(255,255,255,0.6)', pillStroke: 'rgba(150,100,200,0.3)',
+      ctaFill: (ctx,W) => { const g=ctx.createLinearGradient(W/2-220,0,W/2+220,0); g.addColorStop(0,'#ec407a'); g.addColorStop(1,'#ab47bc'); return g; },
+      ctaText: '#fff',
+    },
+    midnight: {
+      bg: (ctx, W, H) => {
+        const g = ctx.createLinearGradient(0,0,0,H);
+        g.addColorStop(0,'#0a0a1a'); g.addColorStop(1,'#151530');
+        ctx.fillStyle=g; ctx.fillRect(0,0,W,H);
+        // Star field
+        ctx.globalAlpha=0.6;
+        for(let i=0;i<200;i++){const x=Math.random()*W,y=Math.random()*H,r=Math.random()*2;ctx.fillStyle=`rgba(255,255,255,${Math.random()*.8+.1})`;ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);ctx.fill();}
+        ctx.globalAlpha=1;
+      },
+      orbs: (ctx,W,H) => { orb(ctx,W/2,H*0.3,400,'#3b82f6',0.20); orb(ctx,W*.8,H*.7,300,'#8b5cf6',0.16); },
+      headline: '#e0f2fe', sub: 'rgba(224,242,254,0.65)', link: '#93c5fd',
+      pillFill: 'rgba(59,130,246,0.15)', pillStroke: 'rgba(147,197,253,0.3)',
+      ctaFill: (ctx,W) => { const g=ctx.createLinearGradient(W/2-220,0,W/2+220,0); g.addColorStop(0,'#3b82f6'); g.addColorStop(1,'#8b5cf6'); return g; },
+      ctaText: '#fff',
+    },
+    holo: {
+      bg: (ctx, W, H) => {
+        // Rainbow holographic
+        const g = ctx.createLinearGradient(0,0,W,H);
+        g.addColorStop(0,'#ff0080'); g.addColorStop(0.2,'#ff6b00'); g.addColorStop(0.4,'#ffee00');
+        g.addColorStop(0.6,'#00d4ff'); g.addColorStop(0.8,'#7c3aed'); g.addColorStop(1,'#ff0080');
+        ctx.fillStyle=g; ctx.fillRect(0,0,W,H);
+        // Iridescent overlay
+        ctx.fillStyle='rgba(255,255,255,0.15)'; ctx.fillRect(0,0,W,H);
+      },
+      orbs: (ctx,W,H) => { orb(ctx,W/2,H/2,700,'#ffffff',0.08); },
+      headline: '#1a1a2e', sub: 'rgba(26,26,46,0.7)', link: '#1a1a2e',
+      pillFill: 'rgba(255,255,255,0.4)', pillStroke: 'rgba(255,255,255,0.6)',
+      ctaFill: (ctx,W) => { ctx.fillStyle='rgba(26,26,46,0.85)'; return null; },
+      ctaText: '#fff',
     },
   };
 
-  function drawStory(theme = 'dark') {
+  function orb(ctx, x, y, r, color, alpha) {
+    const g = ctx.createRadialGradient(x,y,0,x,y,r);
+    g.addColorStop(0, color + Math.round(alpha*255).toString(16).padStart(2,'0'));
+    g.addColorStop(1, color + '00');
+    ctx.fillStyle=g; ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2); ctx.fill();
+  }
+
+  function drawPoster(styleName) {
     const canvas = document.getElementById('story-canvas');
     const ctx    = canvas.getContext('2d');
-    const W = 1080, H = 1920;
-    const T = STORY_THEMES[theme];
+    const W=1080, H=1920;
+    const T = POSTER_THEMES[styleName] || POSTER_THEMES.fire;
+
+    ctx.clearRect(0,0,W,H);
 
     // Background
-    const bg = ctx.createLinearGradient(0, 0, W, H);
-    bg.addColorStop(0, T.bg1);
-    bg.addColorStop(1, T.bg2);
-    ctx.fillStyle = bg;
-    ctx.fillRect(0, 0, W, H);
+    T.bg(ctx, W, H);
+    T.orbs(ctx, W, H);
 
-    // Orbs
-    const orb = (x, y, r, color, alpha) => {
-      const g = ctx.createRadialGradient(x, y, 0, x, y, r);
-      g.addColorStop(0, color + Math.round(alpha * 255).toString(16).padStart(2,'0'));
-      g.addColorStop(1, color + '00');
-      ctx.fillStyle = g;
-      ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI*2); ctx.fill();
-    };
-    orb(200, 400, 480, T.orb1, 0.35);
-    orb(880, 1500, 420, T.orb2, 0.28);
-    orb(540, 960, 300, T.orb1, 0.12);
+    // Subtle noise
+    ctx.globalAlpha=0.020;
+    for(let i=0;i<5000;i++){ctx.fillStyle=`rgba(255,255,255,${Math.random()})`;ctx.fillRect(Math.random()*W,Math.random()*H,1,1);}
+    ctx.globalAlpha=1;
 
-    // Noise overlay (subtle)
-    ctx.globalAlpha = 0.03;
-    for (let i = 0; i < 12000; i++) {
-      const x = Math.random()*W, y = Math.random()*H;
-      ctx.fillStyle = `rgba(255,255,255,${Math.random()})`;
-      ctx.fillRect(x, y, 1, 1);
-    }
-    ctx.globalAlpha = 1;
+    // Decorative circles (NGL-style floating elements)
+    ctx.globalAlpha=0.07;
+    ctx.strokeStyle=T.headline; ctx.lineWidth=3;
+    ctx.beginPath(); ctx.arc(W*.08,H*.08,130,0,Math.PI*2); ctx.stroke();
+    ctx.beginPath(); ctx.arc(W*.92,H*.06,80,0,Math.PI*2); ctx.stroke();
+    ctx.beginPath(); ctx.arc(W*.05,H*.9,100,0,Math.PI*2); ctx.stroke();
+    ctx.globalAlpha=1;
 
-    // Border glow
-    const border = ctx.createLinearGradient(0, 0, W, H);
-    border.addColorStop(0, '#ff477e60');
-    border.addColorStop(0.5, '#ff6b3560');
-    border.addColorStop(1, '#ffbf6960');
-    ctx.strokeStyle = border;
-    ctx.lineWidth   = 8;
-    roundRect(ctx, 20, 20, W-40, H-40, 60);
-    ctx.stroke();
+    // Brand mark
+    ctx.textAlign='center';
+    ctx.font='bold 70px Georgia,serif';
+    const gLogo=ctx.createLinearGradient(W/2-60,0,W/2+60,80);
+    gLogo.addColorStop(0,T.headline); gLogo.addColorStop(1,T.sub);
+    ctx.fillStyle=gLogo; ctx.fillText('@',W/2,260);
+    ctx.font='700 42px sans-serif'; ctx.fillStyle=T.sub;
+    ctx.fillText('AskThat',W/2,320);
 
-    // @ Logo mark at top
-    ctx.font = 'bold 72px Georgia, serif';
-    ctx.textAlign = 'center';
-    const gLogo = ctx.createLinearGradient(W/2-60, 0, W/2+60, 80);
-    gLogo.addColorStop(0, '#ff477e');
-    gLogo.addColorStop(0.5, '#ff6b35');
-    gLogo.addColorStop(1, '#ffbf69');
-    ctx.fillStyle = gLogo;
-    ctx.fillText('@', W/2, 260);
+    // Divider
+    ctx.strokeStyle=T.sub; ctx.globalAlpha=0.25; ctx.lineWidth=2;
+    ctx.beginPath(); ctx.moveTo(W/2-180,356); ctx.lineTo(W/2+180,356); ctx.stroke();
+    ctx.globalAlpha=1;
 
-    // Brand name
-    ctx.font = '800 44px "DM Sans", sans-serif';
-    ctx.fillStyle = T.sub;
-    ctx.fillText('AskThat', W/2, 320);
+    // Big message bubble (NGL-style card)
+    const cardW=760, cardH=500, cardX=(W-cardW)/2, cardY=440;
+    ctx.fillStyle='rgba(255,255,255,0.15)';
+    ctx.strokeStyle='rgba(255,255,255,0.25)'; ctx.lineWidth=2;
+    roundRectFill(ctx, cardX, cardY, cardW, cardH, 50);
 
-    // Decorative line
-    const lineG = ctx.createLinearGradient(W/2-180, 0, W/2+180, 0);
-    lineG.addColorStop(0, 'transparent');
-    lineG.addColorStop(0.5, '#ff6b3580');
-    lineG.addColorStop(1, 'transparent');
-    ctx.strokeStyle = lineG;
-    ctx.lineWidth   = 2;
-    ctx.beginPath(); ctx.moveTo(W/2-180, 360); ctx.lineTo(W/2+180, 360); ctx.stroke();
+    // Emoji inside card
+    ctx.font='160px serif'; ctx.textAlign='center';
+    ctx.fillText('💬',W/2,cardY+210);
 
-    // Question mark emoji / icon area
-    ctx.font = '180px serif';
-    ctx.textAlign = 'center';
-    ctx.fillText('❓', W/2, 700);
+    // Headline in card
+    ctx.font=`800 90px sans-serif`; ctx.fillStyle=T.headline;
+    wrapText(ctx,'Ask me anything!',W/2,cardY+330,660,100);
 
-    // Main headline
-    ctx.font = '800 96px "Syne", sans-serif';
-    ctx.textAlign = 'center';
-    ctx.fillStyle = T.text;
-    wrapText(ctx, 'Ask me anything', W/2, 860, 880, 110);
+    // Subtitle
+    ctx.font='400 52px sans-serif'; ctx.fillStyle=T.sub;
+    wrapText(ctx,'Send a totally anonymous message — I\'ll never know who you are',W/2,1110,800,64);
 
-    // Sub text
-    ctx.font = '400 56px "DM Sans", sans-serif';
-    ctx.fillStyle = T.sub;
-    wrapText(ctx, 'Send me an anonymous message — no account needed', W/2, 1060, 860, 70);
+    // Floating speech bubbles (NGL-style)
+    drawSpeechBubble(ctx,T,'ur the best ✨',W*.08,H*.64,22, true);
+    drawSpeechBubble(ctx,T,'we should talk more!',W*.92,H*.66,22, false);
+    drawSpeechBubble(ctx,T,'I love your energy 💛',W*.12,H*.84,20, true);
 
-    // User handle pill
-    const pillY = 1260;
-    const pillW = 680, pillH = 110;
-    ctx.fillStyle = 'rgba(255,255,255,0.07)';
-    ctx.strokeStyle = 'rgba(255,255,255,0.14)';
-    ctx.lineWidth   = 2;
-    roundRect(ctx, W/2-pillW/2, pillY, pillW, pillH, 55);
-    ctx.fill(); ctx.stroke();
+    // Link pill (the most important element)
+    const pillW=780, pillH=110, pillX=(W-pillW)/2, pillY=1300;
+    ctx.fillStyle=T.pillFill;
+    ctx.strokeStyle=T.pillStroke; ctx.lineWidth=3;
+    roundRectStroke(ctx, pillX, pillY, pillW, pillH, 55);
+    ctx.font='bold 42px sans-serif'; ctx.fillStyle=T.link; ctx.textAlign='center';
+    ctx.fillText(`askthat.pages.dev/ask/${user}`, W/2, pillY+71);
 
-    ctx.font = '700 42px "DM Sans", sans-serif';
-    ctx.fillStyle = T.accent;
-    ctx.textAlign = 'center';
-    ctx.fillText(`askthat.pages.dev/ask/${user}`, W/2, pillY + 67);
+    // CTA Button
+    const ctaY=1465;
+    const ctaFill = T.ctaFill(ctx, W);
+    if (ctaFill) ctx.fillStyle=ctaFill;
+    roundRectFill(ctx, W/2-230, ctaY, 460, 110, 55);
+    ctx.font='700 44px sans-serif'; ctx.fillStyle=T.ctaText;
+    ctx.fillText('Tap to send ✉',W/2,ctaY+72);
 
-    // CTA arrow badge
-    const cta = ctx.createLinearGradient(W/2-200, 0, W/2+200, 100);
-    cta.addColorStop(0, '#ff477e');
-    cta.addColorStop(0.5, '#ff6b35');
-    cta.addColorStop(1, '#ffbf69');
-    ctx.fillStyle = cta;
-    roundRect(ctx, W/2-220, 1440, 440, 110, 55);
-    ctx.fill();
-
-    ctx.font = '700 46px "DM Sans", sans-serif';
-    ctx.fillStyle = '#ffffff';
-    ctx.textAlign = 'center';
-    ctx.fillText('Tap to send ✦', W/2, 1508);
+    // Upward arrows (NGL-style)
+    ctx.fillStyle=T.sub; ctx.globalAlpha=0.5; ctx.font='80px serif';
+    ctx.fillText('↑',W/2-100,H-220); ctx.fillText('↑',W/2,H-200); ctx.fillText('↑',W/2+100,H-220);
+    ctx.globalAlpha=1;
 
     // Footer
-    ctx.font = '400 34px "DM Sans", sans-serif';
-    ctx.fillStyle = 'rgba(255,248,240,0.28)';
-    ctx.fillText('100% anonymous · messages expire in 48h', W/2, 1820);
+    ctx.font='400 32px sans-serif'; ctx.fillStyle=T.sub; ctx.globalAlpha=0.5;
+    ctx.fillText('100% anonymous · askthat.pages.dev',W/2,H-90);
+    ctx.globalAlpha=1;
   }
 
-  function roundRect(ctx, x, y, w, h, r) {
-    ctx.beginPath();
-    ctx.moveTo(x+r, y);
-    ctx.lineTo(x+w-r, y);
-    ctx.quadraticCurveTo(x+w, y, x+w, y+r);
-    ctx.lineTo(x+w, y+h-r);
-    ctx.quadraticCurveTo(x+w, y+h, x+w-r, y+h);
-    ctx.lineTo(x+r, y+h);
-    ctx.quadraticCurveTo(x, y+h, x, y+h-r);
-    ctx.lineTo(x, y+r);
-    ctx.quadraticCurveTo(x, y, x+r, y);
-    ctx.closePath();
+  function drawSpeechBubble(ctx, T, text, cx, cy, fontSize, leftAlign) {
+    const pad=30, r=28;
+    ctx.font=`600 ${fontSize * 3}px sans-serif`;
+    const tw=ctx.measureText(text).width;
+    const bw=tw+pad*2, bh=fontSize*3+pad*2;
+    const bx=leftAlign ? cx : cx-bw;
+    const by=cy-bh/2;
+    ctx.fillStyle='rgba(255,255,255,0.18)';
+    ctx.strokeStyle='rgba(255,255,255,0.3)'; ctx.lineWidth=2;
+    roundRectStroke(ctx, bx, by, bw, bh, r);
+    ctx.fillStyle=T.headline; ctx.textAlign='left';
+    ctx.fillText(text, bx+pad, by+bh/2+fontSize*1.1);
+    ctx.textAlign='center';
   }
 
-  function wrapText(ctx, text, x, y, maxWidth, lineH) {
-    const words = text.split(' ');
-    let line = '';
-    let curY  = y;
-    for (const word of words) {
-      const test = line ? line + ' ' + word : word;
-      if (ctx.measureText(test).width > maxWidth && line) {
-        ctx.fillText(line, x, curY);
-        line = word; curY += lineH;
-      } else { line = test; }
-    }
-    if (line) ctx.fillText(line, x, curY);
+  function roundRectFill(ctx, x, y, w, h, r) {
+    ctx.beginPath(); ctx.roundRect(x,y,w,h,r); ctx.fill();
+  }
+  function roundRectStroke(ctx, x, y, w, h, r) {
+    ctx.beginPath(); ctx.roundRect(x,y,w,h,r); ctx.fill(); ctx.stroke();
+  }
+  function wrapText(ctx, text, x, y, maxW, lh) {
+    const words=text.split(' '); let line='', cy=y;
+    for(const w of words){const t=line?line+' '+w:w;if(ctx.measureText(t).width>maxW&&line){ctx.fillText(line,x,cy);line=w;cy+=lh;}else line=t;}
+    if(line)ctx.fillText(line,x,cy);
   }
 
-  function openStoryModal() {
-    document.getElementById('story-modal').classList.add('show');
-    drawStory(storyStyle);
-  }
+  // Style picker
+  document.querySelectorAll('.poster-style-pill').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.poster-style-pill').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderPoster(btn.dataset.style);
+    });
+  });
 
-  function closeStoryModal() {
-    document.getElementById('story-modal').classList.remove('show');
-  }
-
-  // ── Share / Copy ──────────────────────────────────────────────────────────
-  async function copyLink() {
-    try {
-      await navigator.clipboard.writeText(BASE_URL);
-      showToast('Link copied! ✓', 'green');
-    } catch {
-      showToast(BASE_URL);
-    }
-  }
-
-  async function shareLink() {
-    if (navigator.share) {
-      try {
-        await navigator.share({ title: `Ask ${user} anonymously`, url: BASE_URL });
-        return;
-      } catch (_) {}
-    }
-    copyLink();
-  }
-
-  // ── Toast ─────────────────────────────────────────────────────────────────
-  function showToast(msg, type = '') {
-    const el = document.getElementById('toast');
-    el.textContent = msg;
-    el.className   = `toast ${type} show`;
-    clearTimeout(toastTimer);
-    toastTimer = setTimeout(() => el.className = 'toast', 3200);
-  }
-
-  // ── Util ──────────────────────────────────────────────────────────────────
-  function esc(str) {
-    return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-  }
-
-  function relTime(ts) {
-    const diff = Date.now() - ts;
-    if (diff < 60_000)   return 'Just now';
-    if (diff < 3600_000) return `${Math.round(diff/60_000)}m ago`;
-    if (diff < 86400_000)return `${Math.round(diff/3600_000)}h ago`;
-    return `${Math.round(diff/86400_000)}d ago`;
-  }
-
-  function fmtNum(n) {
-    return n >= 1000 ? `${(n/1000).toFixed(1)}k` : String(n);
-  }
-
-  // ── Event Listeners ───────────────────────────────────────────────────────
-  document.getElementById('btn-copy-link').addEventListener('click', copyLink);
-  document.getElementById('btn-share-link').addEventListener('click', shareLink);
+  // Story modal events
   document.getElementById('btn-story').addEventListener('click', openStoryModal);
-  document.getElementById('story-modal-close').addEventListener('click', closeStoryModal);
-  document.getElementById('story-modal').addEventListener('click', e => { if (e.target === e.currentTarget) closeStoryModal(); });
+  document.getElementById('story-modal-close').addEventListener('click', () => storyModal.classList.remove('show'));
+  storyModal.addEventListener('click', e => { if(e.target===e.currentTarget) storyModal.classList.remove('show'); });
 
+  // Download
   document.getElementById('btn-story-download').addEventListener('click', () => {
-    const canvas = document.getElementById('story-canvas');
-    const a = document.createElement('a');
-    a.download = `askthat-story-${user}.png`;
-    a.href = canvas.toDataURL('image/png');
+    const a=document.createElement('a');
+    a.download=`askthat-${user}-${posterStyle}.png`;
+    a.href=document.getElementById('story-canvas').toDataURL('image/png');
     a.click();
   });
 
-  document.getElementById('btn-story-share-native').addEventListener('click', async () => {
-    const canvas = document.getElementById('story-canvas');
+  // WhatsApp share
+  document.getElementById('btn-story-wa').addEventListener('click', () => {
+    const canvas=document.getElementById('story-canvas');
     canvas.toBlob(async blob => {
-      const file = new File([blob], 'askthat-story.png', { type: 'image/png' });
-      if (navigator.canShare?.({ files: [file] })) {
-        try { await navigator.share({ files: [file], title: 'My AskThat link' }); return; }
-        catch (_) {}
+      const file=new File([blob],'askthat-story.png',{type:'image/png'});
+      const shareText=`Ask me anything anonymously! 🙈\n${BASE_URL}`;
+      if(navigator.canShare?.({files:[file]})){
+        try{await navigator.share({files:[file],text:shareText,title:`Ask ${user} anonymously`});return;}
+        catch(err){if(err.name==='AbortError')return;}
+      }
+      // Fallback: download + open WhatsApp
+      const a=document.createElement('a'); a.download=`askthat-${user}-story.png`; a.href=URL.createObjectURL(blob); a.click();
+      setTimeout(()=>{
+        window.open(`https://wa.me/?text=${encodeURIComponent(shareText)}`);
+        showToast('📸 Image saved — paste it into WhatsApp Status!','green');
+      },700);
+    },'image/png');
+  });
+
+  // Generic share
+  document.getElementById('btn-story-share-native').addEventListener('click', () => {
+    const canvas=document.getElementById('story-canvas');
+    canvas.toBlob(async blob=>{
+      const file=new File([blob],'askthat-story.png',{type:'image/png'});
+      if(navigator.canShare?.({files:[file]})){
+        try{await navigator.share({files:[file],text:`Ask me anything!\n${BASE_URL}`,title:`Ask ${user} anonymously`});return;}catch(_){}
       }
       document.getElementById('btn-story-download').click();
-    }, 'image/png');
+    },'image/png');
   });
 
-  document.querySelectorAll('.story-style-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('.story-style-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      storyStyle = btn.dataset.style;
-      drawStory(storyStyle);
+  // Caption copy
+  document.getElementById('btn-copy-caption').addEventListener('click', function(){
+    navigator.clipboard.writeText(BASE_URL).then(()=>{
+      this.textContent='✓ Copied!'; this.classList.add('copied');
+      setTimeout(()=>{this.textContent='Copy link';this.classList.remove('copied');},2000);
     });
   });
 
-  document.querySelectorAll('.tab').forEach(tab => {
-    tab.addEventListener('click', () => {
-      document.querySelectorAll('.tab').forEach(t => { t.classList.remove('active'); t.setAttribute('aria-selected','false'); });
-      tab.classList.add('active');
-      tab.setAttribute('aria-selected','true');
-      filter = tab.dataset.filter;
-      cursor = 0;
-      load(true);
-    });
-  });
+  // ── Helpers ────────────────────────────────────────────────────────────────
+  function fmtNum(n){ return n>=1000 ? (n/1000).toFixed(1)+'k' : String(n); }
 
-  searchInput.addEventListener('input', () => {
-    searchQ = searchInput.value.trim();
-    render();
-  });
+  function timeAgo(ts, future=false){
+    const diff=Math.round((future?ts-Date.now():Date.now()-ts)/1000);
+    if(diff<60) return future?'in a minute':'just now';
+    if(diff<3600) return future?`in ${Math.floor(diff/60)}m`:`${Math.floor(diff/60)}m ago`;
+    if(diff<86400) return future?`in ${Math.floor(diff/3600)}h`:`${Math.floor(diff/3600)}h ago`;
+    return future?`in ${Math.floor(diff/86400)}d`:`${Math.floor(diff/86400)}d ago`;
+  }
 
-  sortSelect.addEventListener('change', () => {
-    sortOrder = sortSelect.value;
-    cursor = 0;
-    load(true);
-  });
+  function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 
-  document.getElementById('btn-bulk-toggle').addEventListener('click', () => setBulkMode(!bulkMode));
-  document.getElementById('btn-bulk-cancel').addEventListener('click', () => setBulkMode(false));
-  document.getElementById('btn-bulk-del').addEventListener('click', bulkDelete);
-  document.getElementById('btn-select-all').addEventListener('click', () => {
-    messages.forEach(m => selected.add(m.id));
-    updateBulkBar();
-    render();
-  });
+  function showToast(msg, type='green'){
+    const el=document.getElementById('toast');
+    el.textContent=msg; el.className=`toast show ${type}`;
+    clearTimeout(toastTimer);
+    toastTimer=setTimeout(()=>el.className='toast',3400);
+  }
 
-  document.getElementById('btn-load-more').addEventListener('click', () => {
-    if (cursor !== null) load(false);
-  });
-
-  document.getElementById('btn-load-new').addEventListener('click', () => {
-    newBanner.classList.remove('show');
-    load(true);
-  });
-
-  document.addEventListener('keydown', e => {
-    if (e.key === 'Escape') {
-      closeStoryModal();
-      if (bulkMode) setBulkMode(false);
+  document.addEventListener('keydown',e=>{
+    if(e.key==='Escape'){
+      storyModal.classList.remove('show');
+      pollModal.classList.remove('show');
     }
   });
 

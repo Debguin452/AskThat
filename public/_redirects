@@ -1,9 +1,10 @@
-/ask/* /ask.html 200
+# NOTE: /ask/* is handled by functions/ask/[[slug]].js (CF Function)
+# which injects __ASKTHAT_USER__ and serves ask.html
 /dashboard/* /dashboard.html 200
-/security /.well-known/security.txt 302
-/.env /404.html 404
-/.env.* /404.html 404
-/.git/* /404.html 404
-/wp-admin/* /404.html 404
+/security    /.well-known/security.txt 302
+/.env        /404.html 404
+/.env.*      /404.html 404
+/.git/*      /404.html 404
+/wp-admin/*  /404.html 404
 /wp-login.php /404.html 404
-/xmlrpc.php /404.html 404
+/xmlrpc.php  /404.html 404
