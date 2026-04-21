@@ -622,7 +622,7 @@
   <section class="hero">
     <div class="eyebrow">
       <span class="eyebrow-dot"></span>
-      No account · 100% anonymous
+      No account · No tracking · Pure honesty
     </div>
 
     <h1 class="hero-title">
@@ -632,7 +632,7 @@
 
     <p class="hero-sub">
       Create your link in 10 seconds. Share it anywhere.
-      Receive honest anonymous messages. No account needed.
+      Receive brutally honest anonymous messages from friends — and people who are definitely not your friends.
     </p>
 
     <div class="input-card">
@@ -658,6 +658,7 @@
         </button>
       </div>
       <p class="i-error" id="hero-error"></p>
+      <p class="i-hint">Letters, numbers, underscores and dots only · No spaces · Max 30 chars</p>
     </div>
   </section>
 </div>
@@ -837,9 +838,22 @@
     return null;
   }
 
+  // Navigate immediately — dashboard handles auth claim on load
   function go(val) {
     const u = val.trim().toLowerCase();
-    location.assign(`/dashboard/${encodeURIComponent(u)}?u=${encodeURIComponent(u)}`);
+
+    // Navigate right away — no waiting on API
+    window.location.href = `/dashboard/${encodeURIComponent(u)}`;
+
+    // Fire-and-forget: try to pre-claim token so dashboard is ready faster
+    fetch('/api/auth', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username: u, action: 'claim' }),
+    })
+    .then(r => r.json())
+    .then(d => { if (d.ok && d.token) { try { localStorage.setItem(`askthat_token_${u}`, d.token); } catch(_){} } })
+    .catch(() => {}); // dashboard will claim silently if this fails
   }
 
   function showErr(el, msg) { el.textContent = msg; el.classList.add('show'); }
@@ -875,6 +889,19 @@
     el.classList.add('show');
     clearTimeout(tt);
     tt = setTimeout(() => el.classList.remove('show'), 3200);
+  }
+
+  // Show message if username already taken
+  const takenParam = new URLSearchParams(location.search).get('taken');
+  if (takenParam) {
+    const heroErr = document.getElementById('hero-error');
+    if (heroErr) {
+      heroErr.textContent = `"${takenParam}" is already taken — try a different name.`;
+      heroErr.classList.add('show');
+      const heroInput = document.getElementById('hero-input');
+      if (heroInput) heroInput.value = takenParam;
+    }
+    history.replaceState(null, '', '/');
   }
 
   const obs = new IntersectionObserver(
