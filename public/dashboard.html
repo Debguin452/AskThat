@@ -520,6 +520,7 @@
   let selected    = new Set();
   let lastTotal   = -1;
   let posterStyle = 'fire';
+  let posterMsgText = '';
   let refreshTimer;
   let toastTimer;
   let authToken   = null;
@@ -728,7 +729,7 @@
         const action = e.currentTarget.dataset.action;
         if (action === 'delete') deleteMsg(id);
         if (action === 'pin')    togglePin(id);
-        if (action === 'story')  openStoryModal();
+        if (action === 'story')  openStoryModal(messages.find(m=>m.id===id)?.text||'');
       });
     });
 
@@ -966,7 +967,8 @@
   // ── Story / Poster Modal ──────────────────────────────────────────────────
   const storyModal = document.getElementById('story-modal');
 
-  function openStoryModal() {
+  function openStoryModal(msgText) {
+    posterMsgText = (typeof msgText === 'string') ? msgText : '';
     storyModal.classList.add('show');
     renderPoster(posterStyle);
   }
@@ -1083,63 +1085,88 @@
     const ctx    = canvas.getContext('2d');
     const W=1080, H=1920;
     const T = POSTER_THEMES[styleName] || POSTER_THEMES.fire;
+    const hasMsg = posterMsgText && posterMsgText.trim().length > 0;
 
     ctx.clearRect(0,0,W,H);
-
-    // Background + orbs
     T.bg(ctx, W, H);
     T.orbs(ctx, W, H);
-
     ctx.textAlign = 'center';
 
-    // ── Brand ─────────────────────────────────────────────────────────────
-    ctx.font = '700 44px sans-serif';
-    ctx.fillStyle = T.sub;
-    ctx.globalAlpha = 0.7;
-    ctx.fillText('@ AskThat', W/2, 200);
+    // Brand
+    ctx.font = '600 40px sans-serif'; ctx.fillStyle = T.sub; ctx.globalAlpha = 0.6;
+    ctx.fillText('@ AskThat', W/2, 180);
     ctx.globalAlpha = 1;
 
-    // ── Avatar circle ─────────────────────────────────────────────────────
-    const avatarY = 420, avatarR = 120;
-    ctx.fillStyle = 'rgba(255,255,255,0.15)';
-    ctx.beginPath(); ctx.arc(W/2, avatarY, avatarR, 0, Math.PI*2); ctx.fill();
-    ctx.strokeStyle = 'rgba(255,255,255,0.35)'; ctx.lineWidth = 4;
-    ctx.beginPath(); ctx.arc(W/2, avatarY, avatarR, 0, Math.PI*2); ctx.stroke();
-    ctx.font = '700 100px sans-serif'; ctx.fillStyle = T.headline;
-    ctx.fillText(user.charAt(0).toUpperCase(), W/2, avatarY + 36);
+    if (hasMsg) {
+      // ── Message poster mode ────────────────────────────────────────────
+      // Avatar + username small at top
+      ctx.fillStyle = 'rgba(255,255,255,0.12)';
+      ctx.beginPath(); ctx.arc(W/2, 380, 80, 0, Math.PI*2); ctx.fill();
+      ctx.font = '700 66px sans-serif'; ctx.fillStyle = T.headline;
+      ctx.fillText(user.charAt(0).toUpperCase(), W/2, 406);
+      ctx.font = '700 52px sans-serif'; ctx.fillStyle = T.headline;
+      ctx.fillText(user, W/2, 500);
 
-    // ── Username ──────────────────────────────────────────────────────────
-    ctx.font = '800 78px sans-serif'; ctx.fillStyle = T.headline;
-    ctx.fillText(user, W/2, 630);
+      // Big message bubble
+      const msgPad = 70, msgMaxW = 860;
+      ctx.font = '500 62px sans-serif'; ctx.fillStyle = T.headline;
+      const msgLines = splitLines(ctx, posterMsgText.trim(), msgMaxW);
+      const msgH = msgLines.length * 80 + msgPad * 2;
+      const msgY = 600;
+      ctx.fillStyle = 'rgba(255,255,255,0.13)';
+      ctx.strokeStyle = 'rgba(255,255,255,0.22)'; ctx.lineWidth = 3;
+      ctx.beginPath(); ctx.roundRect((W-msgMaxW-msgPad*2)/2, msgY, msgMaxW+msgPad*2, msgH, 40); ctx.fill(); ctx.stroke();
+      ctx.fillStyle = T.headline; ctx.font = '500 58px sans-serif';
+      msgLines.forEach((line, i) => ctx.fillText(line, W/2, msgY + msgPad + 58 + i * 80));
 
-    // ── Headline ──────────────────────────────────────────────────────────
-    ctx.font = '800 108px sans-serif'; ctx.fillStyle = T.headline;
-    wrapText(ctx, 'Ask me anything!', W/2, 850, 860, 120);
+      // Link
+      const lY = msgY + msgH + 120;
+      ctx.fillStyle = 'rgba(255,255,255,0.10)'; ctx.strokeStyle = 'rgba(255,255,255,0.25)'; ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.roundRect((W-700)/2, lY, 700, 100, 50); ctx.fill(); ctx.stroke();
+      ctx.font = 'bold 36px sans-serif'; ctx.fillStyle = T.link;
+      ctx.fillText('askthat.pages.dev/ask/' + user, W/2, lY + 62);
 
-    // ── Subtitle ──────────────────────────────────────────────────────────
-    ctx.font = '400 54px sans-serif'; ctx.fillStyle = T.sub;
-    ctx.globalAlpha = 0.8;
-    wrapText(ctx, 'Send an anonymous message — I\'ll never know it was you', W/2, 1080, 820, 68);
-    ctx.globalAlpha = 1;
+      // CTA
+      const cY = lY + 160;
+      const ctaF = T.ctaFill(ctx, W);
+      if (ctaF) ctx.fillStyle = ctaF;
+      ctx.beginPath(); ctx.roundRect((W-460)/2, cY, 460, 110, 55); ctx.fill();
+      ctx.font = '700 44px sans-serif'; ctx.fillStyle = T.ctaText;
+      ctx.fillText('Send me one too ✉', W/2, cY + 72);
 
-    // ── Link box ──────────────────────────────────────────────────────────
-    const linkBoxW = 820, linkBoxH = 120, linkBoxX = (W-linkBoxW)/2, linkBoxY = 1280;
-    ctx.fillStyle = 'rgba(255,255,255,0.12)';
-    ctx.strokeStyle = 'rgba(255,255,255,0.3)'; ctx.lineWidth = 3;
-    ctx.beginPath(); ctx.roundRect(linkBoxX, linkBoxY, linkBoxW, linkBoxH, 60); ctx.fill(); ctx.stroke();
-    ctx.font = 'bold 40px sans-serif'; ctx.fillStyle = T.link;
-    ctx.fillText(`askthat.pages.dev/ask/${user}`, W/2, linkBoxY + 78);
+    } else {
+      // ── Generic ask poster mode ────────────────────────────────────────
+      const avatarY = 420;
+      ctx.fillStyle = 'rgba(255,255,255,0.14)';
+      ctx.beginPath(); ctx.arc(W/2, avatarY, 120, 0, Math.PI*2); ctx.fill();
+      ctx.strokeStyle = 'rgba(255,255,255,0.3)'; ctx.lineWidth = 4;
+      ctx.beginPath(); ctx.arc(W/2, avatarY, 120, 0, Math.PI*2); ctx.stroke();
+      ctx.font = '700 100px sans-serif'; ctx.fillStyle = T.headline;
+      ctx.fillText(user.charAt(0).toUpperCase(), W/2, avatarY + 36);
 
-    // ── CTA button ────────────────────────────────────────────────────────
-    const ctaBtnW = 500, ctaBtnH = 120, ctaBtnX = (W-ctaBtnW)/2, ctaBtnY = 1460;
-    const ctaFill = T.ctaFill(ctx, W);
-    if (ctaFill) ctx.fillStyle = ctaFill;
-    ctx.beginPath(); ctx.roundRect(ctaBtnX, ctaBtnY, ctaBtnW, ctaBtnH, 60); ctx.fill();
-    ctx.font = '700 48px sans-serif'; ctx.fillStyle = T.ctaText;
-    ctx.fillText('Tap to send ✉', W/2, ctaBtnY + 78);
+      ctx.font = '800 80px sans-serif'; ctx.fillStyle = T.headline;
+      ctx.fillText(user, W/2, 640);
 
-    // ── Footer ────────────────────────────────────────────────────────────
-    ctx.font = '400 34px sans-serif'; ctx.fillStyle = T.sub; ctx.globalAlpha = 0.4;
+      ctx.font = '800 110px sans-serif'; ctx.fillStyle = T.headline;
+      wrapText(ctx, 'Ask me anything!', W/2, 870, 860, 124);
+
+      ctx.font = '400 52px sans-serif'; ctx.fillStyle = T.sub; ctx.globalAlpha = 0.75;
+      wrapText(ctx, "Send an anonymous message — I'll never know it was you", W/2, 1090, 820, 66);
+      ctx.globalAlpha = 1;
+
+      ctx.fillStyle = 'rgba(255,255,255,0.12)'; ctx.strokeStyle = 'rgba(255,255,255,0.28)'; ctx.lineWidth = 3;
+      ctx.beginPath(); ctx.roundRect((W-820)/2, 1290, 820, 110, 55); ctx.fill(); ctx.stroke();
+      ctx.font = 'bold 38px sans-serif'; ctx.fillStyle = T.link;
+      ctx.fillText('askthat.pages.dev/ask/' + user, W/2, 1355);
+
+      const ctaF = T.ctaFill(ctx, W);
+      if (ctaF) ctx.fillStyle = ctaF;
+      ctx.beginPath(); ctx.roundRect((W-480)/2, 1460, 480, 110, 55); ctx.fill();
+      ctx.font = '700 46px sans-serif'; ctx.fillStyle = T.ctaText;
+      ctx.fillText('Tap to send ✉', W/2, 1530);
+    }
+
+    ctx.font = '400 32px sans-serif'; ctx.fillStyle = T.sub; ctx.globalAlpha = 0.35;
     ctx.fillText('100% anonymous · askthat.pages.dev', W/2, H - 90);
     ctx.globalAlpha = 1;
   }
@@ -1152,6 +1179,12 @@
     for(const w of words){const t=line?line+' '+w:w;if(ctx.measureText(t).width>maxW&&line){ctx.fillText(line,x,cy);line=w;cy+=lh;}else line=t;}
     if(line)ctx.fillText(line,x,cy);
   }
+  function splitLines(ctx, text, maxW) {
+    const words=text.split(' '); const lines=[]; let line='';
+    for(const w of words){const t=line?line+' '+w:w;if(ctx.measureText(t).width>maxW&&line){lines.push(line);line=w;}else line=t;}
+    if(line)lines.push(line);
+    return lines;
+  }
 
   // Style picker
   document.querySelectorAll('.poster-style-pill').forEach(btn => {
@@ -1163,7 +1196,7 @@
   });
 
   // Story modal events
-  document.getElementById('btn-story').addEventListener('click', openStoryModal);
+  document.getElementById('btn-story').addEventListener('click', () => openStoryModal(''));
   document.getElementById('story-modal-close').addEventListener('click', () => storyModal.classList.remove('show'));
   storyModal.addEventListener('click', e => { if(e.target===e.currentTarget) storyModal.classList.remove('show'); });
 

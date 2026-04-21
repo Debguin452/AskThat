@@ -1,5 +1,4 @@
-# /ask/* is handled by functions/ask/[[slug]].js
-# /dashboard/* is handled by functions/dashboard/[[slug]].js
+/dashboard/* /dashboard.html 200
 /security    /.well-known/security.txt 302
 /.env        /404.html 404
 /.env.*      /404.html 404

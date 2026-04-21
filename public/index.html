@@ -622,7 +622,7 @@
   <section class="hero">
     <div class="eyebrow">
       <span class="eyebrow-dot"></span>
-      No account · No tracking · Pure honesty
+      No account · 100% anonymous
     </div>
 
     <h1 class="hero-title">
@@ -632,7 +632,7 @@
 
     <p class="hero-sub">
       Create your link in 10 seconds. Share it anywhere.
-      Receive brutally honest anonymous messages from friends — and people who are definitely not your friends.
+      Receive honest anonymous messages. No account needed.
     </p>
 
     <div class="input-card">
@@ -658,7 +658,6 @@
         </button>
       </div>
       <p class="i-error" id="hero-error"></p>
-      <p class="i-hint">Letters, numbers, underscores and dots only · No spaces · Max 30 chars</p>
     </div>
   </section>
 </div>
@@ -838,22 +837,9 @@
     return null;
   }
 
-  // Navigate immediately — dashboard handles auth claim on load
   function go(val) {
     const u = val.trim().toLowerCase();
-
-    // Navigate right away — no waiting on API
-    window.location.href = `/dashboard/${encodeURIComponent(u)}`;
-
-    // Fire-and-forget: try to pre-claim token so dashboard is ready faster
-    fetch('/api/auth', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username: u, action: 'claim' }),
-    })
-    .then(r => r.json())
-    .then(d => { if (d.ok && d.token) { try { localStorage.setItem(`askthat_token_${u}`, d.token); } catch(_){} } })
-    .catch(() => {}); // dashboard will claim silently if this fails
+    location.assign(`/dashboard/${encodeURIComponent(u)}?u=${encodeURIComponent(u)}`);
   }
 
   function showErr(el, msg) { el.textContent = msg; el.classList.add('show'); }

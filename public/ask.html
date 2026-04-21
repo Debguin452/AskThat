@@ -60,7 +60,6 @@
     /* Card */
     .msg-card { width:100%; max-width:480px; background:linear-gradient(160deg,rgba(255,200,130,.08),rgba(111,76,255,.03)); border:1px solid var(--border); border-radius:var(--r); padding:24px; backdrop-filter:blur(20px); animation:up .45s .08s ease both; position:relative; overflow:hidden; }
     .msg-card::before { content:''; position:absolute; inset:0; background:linear-gradient(135deg,rgba(255,107,53,.05),transparent 60%); pointer-events:none; }
-    .m-label { font-size:11px; font-weight:600; letter-spacing:.08em; text-transform:uppercase; color:var(--text3); margin-bottom:12px; display:block; }
     .textarea-wrap { position:relative; margin-bottom:10px; }
     .m-textarea { width:100%; background:rgba(255,255,255,.04); border:1px solid var(--border); border-radius:var(--r-sm); padding:14px 16px; font-size:15px; font-family:'DM Sans',sans-serif; color:var(--text); outline:none; resize:none; min-height:120px; line-height:1.65; transition:border-color .2s,box-shadow .2s; }
     .m-textarea::placeholder { color:var(--text3); }
@@ -72,16 +71,6 @@
     .char-text { display:flex; justify-content:space-between; font-size:11px; color:var(--text3); margin-bottom:14px; }
     .char-text.warn .char-num { color:#fbbf24; }
     .char-text.over .char-num { color:#f472b6; }
-    .msg-hint { font-size:12px; color:var(--text3); background:rgba(255,255,255,.03); border:1px solid var(--border2); border-radius:8px; padding:8px 12px; margin-bottom:14px; line-height:1.55; }
-    .msg-hint strong { color:var(--text2); font-weight:500; }
-    .reveal-row { display:flex; align-items:center; gap:10px; margin-bottom:14px; padding:12px 14px; background:rgba(255,255,255,.03); border:1px solid var(--border2); border-radius:var(--r-sm); cursor:pointer; user-select:none; transition:background .18s; }
-    .reveal-row:hover { background:rgba(255,255,255,.06); }
-    .toggle { width:36px; height:20px; background:rgba(255,255,255,.12); border-radius:100px; position:relative; flex-shrink:0; transition:background .22s; }
-    .toggle::after { content:''; position:absolute; top:3px; left:3px; width:14px; height:14px; border-radius:50%; background:#fff; transition:transform .22s; box-shadow:0 1px 3px rgba(0,0,0,.3); }
-    .reveal-row.active .toggle { background:var(--primary); }
-    .reveal-row.active .toggle::after { transform:translateX(16px); }
-    .reveal-text { font-size:13px; color:var(--text2); flex:1; line-height:1.4; }
-    .reveal-text strong { color:var(--text); font-weight:500; display:block; font-size:13px; margin-bottom:1px; }
     .btn-send { width:100%; padding:16px; background:var(--grad); border:none; border-radius:var(--r-sm); font-family:'DM Sans',sans-serif; font-size:15px; font-weight:500; color:#fff; cursor:pointer; transition:opacity .2s,transform .15s; box-shadow:0 4px 28px rgba(255,107,53,.36); display:flex; align-items:center; justify-content:center; gap:8px; }
     .btn-send:hover { opacity:.88; transform:translateY(-1px); }
     .btn-send:active { transform:scale(.99); }
@@ -203,10 +192,9 @@
   <!-- ASK PANE -->
   <div class="msg-card" id="pane-ask" role="main">
     <div id="form-area">
-      <span class="m-label">Your message</span>
       <div class="textarea-wrap">
         <textarea class="m-textarea" id="msg-input"
-          placeholder="Ask anything. Say what you actually think. They will genuinely never know it was you."
+          placeholder="Write anything — they'll never know it was you."
           maxlength="500" rows="5" aria-label="Your anonymous message" autocomplete="off" spellcheck="true"></textarea>
         <div class="char-ring-wrap" aria-hidden="true">
           <svg class="char-ring" viewBox="0 0 28 28">
@@ -224,7 +212,7 @@
         <span id="btn-txt">Send anonymously</span>
         <div class="spinner" id="btn-spin" aria-hidden="true"></div>
       </button>
-      <p class="send-note">No account needed · Sender identity never revealed</p>
+      <p class="send-note">100% anonymous · no account needed</p>
       <p class="err-msg" id="err-msg" role="alert" aria-live="assertive"></p>
     </div>
     <div class="success-overlay" id="success-area" aria-live="polite">
