@@ -64,7 +64,7 @@
     .btn-sm.pu:hover { background: rgba(124,58,237,.25); }
 
     /* ── Stats Bar ── */
-    .stats-bar { display: grid; grid-template-columns: repeat(4,1fr); gap: 8px; margin-bottom: 16px; }
+    .stats-bar { display: grid; grid-template-columns: repeat(2,1fr); gap: 8px; margin-bottom: 16px; }
     .stat-card { background: var(--card); border: 1px solid var(--border2); border-radius: var(--r-sm); padding: 12px 14px; text-align: center; transition: border-color .2s; }
     .stat-card:hover { border-color: rgba(255,107,53,.25); }
     .stat-val { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 22px; letter-spacing: -1px; background: var(--grad-t); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
@@ -117,8 +117,6 @@
     .msgs-list { display: flex; flex-direction: column; gap: 8px; }
 
     .msg-card { background: var(--card); border: 1px solid var(--border2); border-radius: var(--r); padding: 16px 18px; transition: all .2s; position: relative; overflow: hidden; }
-    .msg-card.pinned-card { border-color: rgba(255,191,105,.3); background: rgba(255,191,105,.06); }
-    .msg-card.pinned-card::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:var(--grad); }
     .msg-card.unread-card { border-color: rgba(255,107,53,.2); }
     .msg-card:hover { border-color: rgba(255,107,53,.25); transform: translateY(-1px); }
     .msg-card.selected-card { border-color: rgba(124,58,237,.4); background: rgba(124,58,237,.07); }
@@ -130,7 +128,6 @@
     .badge { display: inline-flex; align-items: center; gap: 3px; font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 100px; text-transform: uppercase; letter-spacing: .05em; }
     .badge-new  { background: rgba(255,107,53,.15); color: var(--pri-hi); border: 1px solid rgba(255,107,53,.25); }
     .badge-known { background: rgba(74,222,128,.1); color: #4ade80; border: 1px solid rgba(74,222,128,.2); }
-    .badge-pin  { background: rgba(255,191,105,.12); color: var(--gold); border: 1px solid rgba(255,191,105,.25); }
 
     .card-text { font-size: 15px; color: var(--text); line-height: 1.65; flex: 1; min-width: 0; word-break: break-word; }
 
@@ -145,7 +142,6 @@
     .card-actions { display: flex; gap: 5px; margin-left: auto; }
     .icon-btn { width: 32px; height: 32px; border-radius: 8px; border: 1px solid var(--border2); background: rgba(255,255,255,.03); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all .18s; color: var(--text3); }
     .icon-btn:hover { background: rgba(255,255,255,.08); color: var(--text); border-color: rgba(255,255,255,.15); }
-    .icon-btn.pinned { color: var(--gold); border-color: rgba(255,191,105,.35); background: rgba(255,191,105,.08); }
     .icon-btn.del:hover { background: rgba(248,113,113,.12); color: var(--red); border-color: rgba(248,113,113,.3); }
     .icon-btn.story:hover { background: rgba(124,58,237,.12); color: #c4b5fd; border-color: rgba(124,58,237,.3); }
 
@@ -269,7 +265,7 @@
 
     /* ── Responsive ── */
     @media (max-width: 560px) {
-      .stats-bar { grid-template-columns: repeat(2,1fr); }
+      
       .profile-hdr { flex-direction: column; align-items: flex-start; gap: 12px; }
       .tabs { width: 100%; justify-content: space-between; }
       .tab { flex: 1; justify-content: center; padding: 7px 8px; }
@@ -314,14 +310,6 @@
       <div class="stat-val" id="stat-unread">—</div>
       <div class="stat-lbl">Unread</div>
     </div>
-    <div class="stat-card">
-      <div class="stat-val" id="stat-pinned">—</div>
-      <div class="stat-lbl">Pinned</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-val" id="stat-views">—</div>
-      <div class="stat-lbl">Profile views</div>
-    </div>
   </div>
 
   <!-- New message banner -->
@@ -340,12 +328,6 @@
         <span id="link-display">—</span>
       </div>
     </div>
-  </div>
-
-  <!-- First-time hint -->
-  <div class="first-hint" id="first-hint">
-    <h3>🎉 Your link is live!</h3>
-    <p>Share <strong id="hint-link">your link</strong> on Instagram Stories, WhatsApp Status, or anywhere your audience hangs out. Messages start appearing here.</p>
   </div>
 
   <!-- Poll Results -->
@@ -377,7 +359,6 @@
   <div class="tabs" role="tablist" aria-label="Message filter">
     <button class="tab active" data-filter="all" role="tab" aria-selected="true">All <span class="tab-count" id="count-all">0</span></button>
     <button class="tab" data-filter="unread" role="tab" aria-selected="false">Unread <span class="tab-count" id="count-unread">0</span></button>
-    <button class="tab" data-filter="pinned" role="tab" aria-selected="false">Pinned <span class="tab-count" id="count-pinned">0</span></button>
   </div>
 
   <!-- Bulk Bar -->
@@ -517,7 +498,6 @@
   let cursor      = 0;
   let totalServer = 0;
   let unreadCount = 0;
-  let pinnedCount = 0;
   let pollStats   = null;
   let bulkMode    = false;
   let selected    = new Set();
@@ -532,18 +512,13 @@
   const statBar        = document.getElementById('stats-bar');
   const statTotal      = document.getElementById('stat-total');
   const statUnread     = document.getElementById('stat-unread');
-  const statPinned     = document.getElementById('stat-pinned');
-  const statViews      = document.getElementById('stat-views');
   const countAll       = document.getElementById('count-all');
   const countUnread    = document.getElementById('count-unread');
-  const countPinned    = document.getElementById('count-pinned');
   const profileName    = document.getElementById('profile-name');
   const avatarEl       = document.getElementById('avatar-el');
   const linkDisplay    = document.getElementById('link-display');
   const newBanner      = document.getElementById('new-banner');
   const newBannerCount = document.getElementById('new-banner-count');
-  const firstHint      = document.getElementById('first-hint');
-  const hintLink       = document.getElementById('hint-link');
   const searchInput    = document.getElementById('search-input');
   const sortSelect     = document.getElementById('sort-select');
   const bulkBar        = document.getElementById('bulk-bar');
@@ -562,11 +537,9 @@
   avatarEl.textContent    = user.charAt(0).toUpperCase();
   linkDisplay.textContent = `askthat.pages.dev/ask/${user}`;
   document.title          = `${user}'s Inbox — AskThat`;
-  hintLink.textContent    = `askthat.pages.dev/ask/${user}`;
   document.getElementById('caption-url-txt').textContent = BASE_URL;
 
   load(true);
-  loadStats();
   startRefresh();
 
   // ── Data loading ──────────────────────────────────────────────────────────
@@ -588,7 +561,7 @@
       cursor      = isInitial ? (data.nextCursor ?? 0) : (data.nextCursor ?? cursor);
       pollStats   = data.pollStats;
 
-      updateCounts(data.total, data.unreadCount ?? 0, data.pinnedCount ?? 0);
+      updateCounts(data.total, data.unreadCount ?? 0);
       render(isInitial);
       if (pollStats) renderPollResults();
       loadMoreWrap.style.display = data.nextCursor != null ? '' : 'none';
@@ -605,17 +578,6 @@
     }
   }
 
-  async function loadStats() {
-    try {
-      const res  = await fetch(`/api/stats?username=${encodeURIComponent(user)}`);
-      const data = await res.json();
-      if (data.views != null) statViews.textContent = fmtNum(data.views);
-      if (data.total != null) {
-        const isFirst = data.total === 0;
-        firstHint.style.display = isFirst ? 'block' : 'none';
-      }
-    } catch (_) {}
-  }
 
   function startRefresh() {
     clearInterval(refreshTimer);
@@ -649,10 +611,9 @@
 
   function buildCard(m) {
     const isUnread = !m.read;
-    const isPinned = m.pinned;
     const card = document.createElement('div');
     card.dataset.id = m.id;
-    card.className = `msg-card${isPinned ? ' pinned-card' : ''}${isUnread ? ' unread-card' : ''}`;
+    card.className = `msg-card${isUnread ? ' unread-card' : ''}`;
 
     const age  = timeAgo(m.timestamp);
     const exp  = timeAgo(m.expiresAt, true);
@@ -667,15 +628,12 @@
         ${pollHTML}
         <div class="card-meta">
           <span>${age}</span>
-          ${isPinned ? '<span class="badge badge-pin">📌</span>' : ''}
           ${isUnread ? '<span class="badge badge-new">new</span>' : ''}
           <span style="margin-left:auto;font-size:11px;color:var(--text3)">expires ${exp}</span>
         </div>
       </div>
       <div class="card-actions">
-        <button class="icon-btn ${isPinned ? 'pinned' : ''}" data-action="pin" data-id="${m.id}" title="${isPinned ? 'Unpin' : 'Pin'}" aria-label="${isPinned ? 'Unpin' : 'Pin'}">
-          <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M4.5 1.5l7 7-2.5.5-3-3-.5 2.5-2-2 1-2.5-2 1 .5-2.5 3-1z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><path d="M2 11l2-2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
-        </button>
+
         <button class="icon-btn story" data-action="story" data-id="${m.id}" title="Create story" aria-label="Create story">
           <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="5.5" stroke="currentColor" stroke-width="1.3"/><circle cx="6.5" cy="6.5" r="2" stroke="currentColor" stroke-width="1.2"/></svg>
         </button>
@@ -698,7 +656,6 @@
         const id     = e.currentTarget.dataset.id;
         const action = e.currentTarget.dataset.action;
         if (action === 'delete') deleteMsg(id);
-        if (action === 'pin')    togglePin(id);
         if (action === 'story')  openStoryModal();
       });
     });
@@ -716,27 +673,11 @@
       if (!res.ok) { showToast(data.error || 'Failed to delete.', 'red'); if (card) card.style.opacity=''; return; }
       messages = messages.filter(m => m.id !== id);
       if (card) card.remove();
-      updateCounts(totalServer - 1, unreadCount, pinnedCount);
+      updateCounts(totalServer - 1, unreadCount);
       if (!messages.length) render();
     } catch { showToast('Network error.', 'red'); if (card) card.style.opacity = ''; }
   }
 
-  async function togglePin(id) {
-    try {
-      const res  = await fetch('/api/pin', { method:'PATCH', headers:{'Content-Type':'application/json'}, body:JSON.stringify({username:user, id, token: authToken}) });
-      const data = await res.json();
-      if (!res.ok) { showToast('Could not pin.', 'red'); return; }
-      const msg = messages.find(m => m.id === id);
-      if (msg) {
-        msg.pinned = data.pinned;
-        if (data.pinned) pinnedCount++; else pinnedCount = Math.max(0, pinnedCount - 1);
-        updateCounts(totalServer, unreadCount, pinnedCount);
-        const card = document.querySelector(`[data-id="${id}"]`);
-        if (card) { card.replaceWith(buildCard(msg)); }
-      }
-      showToast(data.pinned ? 'Pinned 📌' : 'Unpinned.', 'green');
-    } catch { showToast('Network error.', 'red'); }
-  }
 
   // ── Bulk ─────────────────────────────────────────────────────────────────
   function setBulkMode(on) {
@@ -774,7 +715,7 @@
       if (!res.ok) { showToast(data.error || 'Delete failed.', 'red'); return; }
       messages = messages.filter(m => !ids.includes(m.id));
       ids.forEach(id => document.querySelector(`[data-id="${id}"]`)?.remove());
-      updateCounts(totalServer - ids.length, unreadCount, pinnedCount);
+      updateCounts(totalServer - ids.length, unreadCount);
       setBulkMode(false);
       showToast(`Deleted ${ids.length} message${ids.length > 1 ? 's' : ''}.`, 'green');
     } catch { showToast('Error.', 'red'); }
@@ -828,14 +769,12 @@
   }
 
   // ── Counters ──────────────────────────────────────────────────────────────
-  function updateCounts(total, unread, pinned) {
-    totalServer  = total; unreadCount = unread; pinnedCount = pinned;
+  function updateCounts(total, unread) {
+    totalServer  = total; unreadCount = unread;
     statTotal.textContent   = fmtNum(total);
     statUnread.textContent  = fmtNum(unread);
-    statPinned.textContent  = fmtNum(pinned);
     countAll.textContent    = fmtNum(total);
     countUnread.textContent = fmtNum(unread);
-    countPinned.textContent = fmtNum(pinned);
   }
 
   // ── Poll Management ───────────────────────────────────────────────────────
@@ -857,7 +796,7 @@
       const data = await res.json();
       if (data.enabled) {
         pollEnabled = true;
-        pollEnableTog.setAttribute('aria-checked','true');
+        pollEnableTog.setAttribute('aria-checked');
         (data.questions || []).forEach(q => addQEditor(q));
       } else {
         pollEnabled = false;
