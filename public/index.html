@@ -838,47 +838,44 @@
     return null;
   }
 
-  // ── Create link: claim username then navigate ──────────────────────────
-  async function go(val, btnEl, errEl) {
+  // Check availability first, then navigate
+  async function go(val) {
     const u = val.trim().toLowerCase();
+    const heroBtn = document.getElementById('hero-btn');
+    const ctaBtn  = document.getElementById('cta-btn');
+    const heroErr = document.getElementById('hero-error');
 
-    // Show loading state
-    const origText = btnEl.textContent;
-    btnEl.disabled    = true;
-    btnEl.textContent = 'Checking…';
+    // Disable both buttons while checking
+    [heroBtn, ctaBtn].forEach(b => { if (b) { b.disabled = true; b.dataset.orig = b.textContent; b.textContent = 'Checking…'; } });
 
     try {
-      // Step 1: Claim the username via API BEFORE navigating
       const res  = await fetch('/api/auth', {
         method:  'POST',
         headers: { 'Content-Type': 'application/json' },
-        body:    JSON.stringify({ username: u, action: 'claim' }),
+        body:    JSON.stringify({ username: u, action: 'check' }),
       });
       const data = await res.json();
 
       if (!res.ok || !data.ok) {
-        if (data.taken) {
-          // Username already taken — show inline error
-          if (errEl) { showErr(errEl, `"${u}" is already taken — try a different name.`); }
-          else        { toast(`"${u}" is already taken — try a different name.`); }
-        } else {
-          const msg = data.error || 'Something went wrong. Try again.';
-          if (errEl) showErr(errEl, msg);
-          else       toast(msg);
-        }
-        btnEl.disabled    = false;
-        btnEl.textContent = origText;
+        showErr(heroErr, data.error || 'Something went wrong. Try again.');
+        [heroBtn, ctaBtn].forEach(b => { if (b) { b.disabled = false; b.textContent = b.dataset.orig || b.textContent; } });
         return;
       }
 
-      // Step 2: Save token to localStorage as backup
-      try { localStorage.setItem(`askthat_token_${u}`, data.token); } catch (_) {}
+      if (!data.free) {
+        // Username taken — show inline error immediately, no page reload
+        showErr(heroErr, `“${u}” is already taken — try a different name.`);
+        [heroBtn, ctaBtn].forEach(b => { if (b) { b.disabled = false; b.textContent = b.dataset.orig || b.textContent; } });
+        const heroInput = document.getElementById('hero-input');
+        if (heroInput) heroInput.focus();
+        return;
+      }
 
-      // Step 3: Navigate WITH ?u= param so CF Function knows it's a fresh create
+      // Name is free — navigate; CF Function will do the actual claim + set cookie
       window.location.href = `/dashboard/${encodeURIComponent(u)}?u=${encodeURIComponent(u)}`;
 
-    } catch (err) {
-      // Network error — navigate anyway and let CF Function handle it
+    } catch (_) {
+      // Network error — navigate anyway, CF Function handles edge cases
       window.location.href = `/dashboard/${encodeURIComponent(u)}?u=${encodeURIComponent(u)}`;
     }
   }
@@ -894,7 +891,7 @@
     const e = validate(heroInput.value);
     if (e) { showErr(heroErr, e); return; }
     clearErr(heroErr);
-    go(heroInput.value, heroBtn, heroErr);
+    go(heroInput.value);
   });
   heroInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') heroBtn.click(); });
   heroInput.addEventListener('input', () => clearErr(heroErr));
@@ -905,7 +902,7 @@
   ctaBtn.addEventListener('click', () => {
     const e = validate(ctaInput.value);
     if (e) { toast(e); return; }
-    go(ctaInput.value, ctaBtn, null);
+    go(ctaInput.value);
   });
   ctaInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') ctaBtn.click(); });
 
