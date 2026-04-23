@@ -212,7 +212,6 @@
         <span id="btn-txt">Send anonymously</span>
         <div class="spinner" id="btn-spin" aria-hidden="true"></div>
       </button>
-      <p class="send-note">100% anonymous · no account needed</p>
       <p class="err-msg" id="err-msg" role="alert" aria-live="assertive"></p>
     </div>
     <div class="success-overlay" id="success-area" aria-live="polite">
@@ -518,7 +517,14 @@
   // Load poll in background
   loadPoll().then(data => {
     if (data?.enabled) {
-      document.getElementById('tab-nav').style.display = '';
+      if (data.messagesOnly) {
+        // Poll-only mode: hide the ask pane entirely, show poll pane directly
+        document.getElementById('tab-nav').style.display = 'none';
+        document.getElementById('pane-ask').style.display = 'none';
+        document.getElementById('pane-poll').style.display = '';
+      } else {
+        document.getElementById('tab-nav').style.display = '';
+      }
     }
     renderPoll(data);
   });
