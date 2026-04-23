@@ -125,7 +125,7 @@ export async function onRequestPost({ request, env }) {
   return json({ success: true, id: newMsg.id });
 }
 
-export async function onRequest() {
+export async function onRequestGet() {
   return json({ error: 'Method not allowed.' }, 405);
 }
 

@@ -46,9 +46,10 @@ export async function onRequestGet({ request, env }) {
 
   // Strip sensitive / internal fields, return public view
   return json({
-    enabled:   true,
-    title:     cfg.title   || 'Quick Poll',
-    questions: (cfg.questions || []).map(q => ({
+    enabled:      true,
+    title:        cfg.title   || 'Quick Poll',
+    messagesOnly: Boolean(cfg.messagesOnly),
+    questions:    (cfg.questions || []).map(q => ({
       id:      q.id,
       text:    q.text,
       options: q.options,
@@ -128,9 +129,10 @@ export async function onRequestPut({ request, env }) {
   }
 
   const cfg = {
-    enabled:   Boolean(settings.enabled),
-    title:     String(settings.title || 'Quick Poll').slice(0, 80),
-    questions: [],
+    enabled:      Boolean(settings.enabled),
+    title:        String(settings.title || 'Quick Poll').slice(0, 80),
+    messagesOnly: Boolean(settings.messagesOnly),
+    questions:    [],
   };
 
   for (const q of (settings.questions || []).slice(0, MAX_QUESTIONS)) {
@@ -158,6 +160,6 @@ export async function onRequestPut({ request, env }) {
   return json({ ok: true, cfg });
 }
 
-export async function onRequest() {
+export async function onRequestDelete() {
   return json({ error: 'Method not allowed.' }, 405);
 }
