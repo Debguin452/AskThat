@@ -1,5 +1,4 @@
 // functions/dashboard/[[slug]].js
-// Serves dashboard.html after verifying ownership via cookie (+ optional IP check)
 
 const USERNAME_RE = /^[a-zA-Z0-9_.-]+$/;
 
@@ -19,13 +18,26 @@ function getIP(request) {
   );
 }
 
+function buildCookie(name, token) {
+  return `${name}=${token}; Path=/dashboard; HttpOnly; Secure; SameSite=Strict; Max-Age=7776000`;
+}
+
+// Safely parse the stored auth entry — handles both old plain-string tokens
+// and new JSON { token, ip, createdAt } format
+function parseEntry(raw) {
+  if (!raw) return null;
+  try { return JSON.parse(raw); } catch (_) {
+    // Old format: plain token string
+    return { token: raw, ip: null, createdAt: null };
+  }
+}
+
 export async function onRequestGet({ request, env, params }) {
   const url     = new URL(request.url);
   const rawSlug = (params.slug || []).join('/');
   let username  = decodeURIComponent(rawSlug).split('/')[0].trim().toLowerCase();
   if (username.endsWith('.html')) username = username.slice(0, -5);
 
-  // Validate username shape
   if (!username || username.length < 1 || username.length > 30 || !USERNAME_RE.test(username)) {
     return Response.redirect(new URL('/', url).toString(), 302);
   }
@@ -37,97 +49,78 @@ export async function onRequestGet({ request, env, params }) {
 
   let authToken    = null;
   let setCookieHdr = null;
-  let isOwner      = false;
 
-  // ── Path A: returning user — verify their cookie ──────────────────────
-  if (cookieToken) {
-    try {
-      const raw    = await env.MESSAGES_KV.get(`auth:${username}`);
-      const stored = raw ? JSON.parse(raw) : null;
+  // ── Read what's stored in KV ──────────────────────────────────────────
+  let stored = null;
+  try {
+    const raw = await env.MESSAGES_KV.get(`auth:${username}`);
+    stored = parseEntry(raw);
+  } catch (_) {}
 
-      if (stored && stored.token === cookieToken) {
-        authToken = cookieToken;
-        isOwner   = true;
-
-        // Soft IP check: if IP changed, still allow (mobile users roam)
-        // but log it. For strict mode: uncomment the block below.
-        // if (stored.ip && stored.ip !== 'unknown' && stored.ip !== requestIP) {
-        //   return Response.redirect(new URL('/?blocked=1', url).toString(), 302);
-        // }
-      }
-    } catch (_) {}
+  // ── Path A: returning user with cookie ────────────────────────────────
+  if (cookieToken && stored && stored.token === cookieToken) {
+    authToken = cookieToken;
   }
 
-  // ── Path B: fresh create — ?u=username present ────────────────────────
+  // ── Path B: fresh create (?u= present, no valid cookie yet) ──────────
   if (!authToken && isFreshCreate) {
-    try {
-      const raw    = await env.MESSAGES_KV.get(`auth:${username}`);
-      const stored = raw ? JSON.parse(raw) : null;
-
-      if (!stored) {
-        // Username not yet claimed — claim it now (fallback if auth POST was skipped)
-        const token = crypto.randomUUID().replace(/-/g,'') + crypto.randomUUID().replace(/-/g,'');
-        const entry = { token, ip: requestIP, createdAt: Date.now() };
-        await env.MESSAGES_KV.put(`auth:${username}`, JSON.stringify(entry), {
-          expirationTtl: 60 * 60 * 24 * 90,
-        });
+    if (!stored) {
+      // Username free — claim it now
+      const token = crypto.randomUUID().replace(/-/g,'') + crypto.randomUUID().replace(/-/g,'');
+      const entry = JSON.stringify({ token, ip: requestIP, createdAt: Date.now() });
+      try {
+        await env.MESSAGES_KV.put(`auth:${username}`, entry, { expirationTtl: 60*60*24*90 });
         authToken    = token;
-        isOwner      = true;
         setCookieHdr = buildCookie(cookieName, token);
-      } else if (stored.token) {
-        // Already claimed by someone else → redirect home with taken message
-        return Response.redirect(
-          new URL(`/?taken=${encodeURIComponent(username)}`, url).toString(),
-          302
-        );
+      } catch (_) {
+        return Response.redirect(new URL('/', url).toString(), 302);
       }
-    } catch (_) {
-      return Response.redirect(new URL('/', url).toString(), 302);
+    } else {
+      // Entry exists. Two sub-cases:
+      // B1: The user's own browser just claimed it (e.g. they refreshed).
+      //     Cookie not set yet → the cookie is in Set-Cookie from prior response
+      //     that the browser hasn't sent back. Check IP as weak signal.
+      // B2: Actually taken by someone else.
+      //
+      // Since we cannot distinguish B1/B2 purely server-side without the cookie,
+      // we return the "taken" page and let the user go home to try another name.
+      return Response.redirect(
+        new URL(`/?taken=${encodeURIComponent(username)}`, url).toString(),
+        302
+      );
     }
   }
 
-  // ── If returning user and cookie matched but no Set-Cookie yet ────────
-  if (isOwner && !setCookieHdr && !cookieToken) {
-    // Edge case: they have the token but somehow lost the cookie — re-set it
-    setCookieHdr = buildCookie(cookieName, authToken);
-  }
-
-  // ── No valid auth at all → block ──────────────────────────────────────
+  // ── No valid auth → block ─────────────────────────────────────────────
   if (!authToken) {
-    // If they are visiting someone else's dashboard link → show the ask page
-    const takenRaw = await env.MESSAGES_KV.get(`auth:${username}`).catch(() => null);
-    if (takenRaw) {
-      // Username exists — this visitor doesn't own it → redirect to their ask page
+    if (stored) {
+      // Username exists but visitor doesn't own it → send to ask page
       return Response.redirect(new URL(`/ask/${username}`, url).toString(), 302);
     }
-    // Username doesn't exist at all → send home
+    // Nothing here → home
     return Response.redirect(new URL('/', url).toString(), 302);
   }
 
-  // ── Serve dashboard.html with injected context ─────────────────────────
+  // ── Serve dashboard ───────────────────────────────────────────────────
   const assetUrl = new URL('/dashboard.html', url.origin);
-  const res      = await env.ASSETS.fetch(
-    new Request(assetUrl.toString(), { headers: request.headers })
-  );
-  if (!res.ok) return res;
+  let res;
+  try {
+    res = await env.ASSETS.fetch(new Request(assetUrl.toString(), { headers: request.headers }));
+    if (!res.ok) return res;
+  } catch (_) {
+    return new Response('Dashboard unavailable', { status: 503 });
+  }
 
   let html = await res.text();
   const injection = `<script>
-    window.__ASKTHAT_DASHBOARD_USER__ = ${JSON.stringify(username)};
-    window.__ASKTHAT_TOKEN__          = ${JSON.stringify(authToken)};
-    window.__ASKTHAT_IS_OWNER__       = true;
-  </script>`;
+window.__ASKTHAT_DASHBOARD_USER__ = ${JSON.stringify(username)};
+window.__ASKTHAT_TOKEN__          = ${JSON.stringify(authToken)};
+window.__ASKTHAT_IS_OWNER__       = true;
+</script>`;
   html = html.replace('</head>', injection + '\n</head>');
 
-  const headers = {
-    'Content-Type':  'text/html; charset=utf-8',
-    'Cache-Control': 'no-store, private',
-  };
+  const headers = { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-store, private' };
   if (setCookieHdr) headers['Set-Cookie'] = setCookieHdr;
 
   return new Response(html, { status: 200, headers });
-}
-
-function buildCookie(name, token) {
-  return `${name}=${token}; Path=/dashboard; HttpOnly; Secure; SameSite=Strict; Max-Age=7776000`;
 }
