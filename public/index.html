@@ -838,22 +838,49 @@
     return null;
   }
 
-  // Navigate immediately — dashboard handles auth claim on load
-  function go(val) {
+  // ── Create link: claim username then navigate ──────────────────────────
+  async function go(val, btnEl, errEl) {
     const u = val.trim().toLowerCase();
 
-    // Navigate right away — no waiting on API
-    window.location.href = `/dashboard/${encodeURIComponent(u)}`;
+    // Show loading state
+    const origText = btnEl.textContent;
+    btnEl.disabled    = true;
+    btnEl.textContent = 'Checking…';
 
-    // Fire-and-forget: try to pre-claim token so dashboard is ready faster
-    fetch('/api/auth', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username: u, action: 'claim' }),
-    })
-    .then(r => r.json())
-    .then(d => { if (d.ok && d.token) { try { localStorage.setItem(`askthat_token_${u}`, d.token); } catch(_){} } })
-    .catch(() => {}); // dashboard will claim silently if this fails
+    try {
+      // Step 1: Claim the username via API BEFORE navigating
+      const res  = await fetch('/api/auth', {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body:    JSON.stringify({ username: u, action: 'claim' }),
+      });
+      const data = await res.json();
+
+      if (!res.ok || !data.ok) {
+        if (data.taken) {
+          // Username already taken — show inline error
+          if (errEl) { showErr(errEl, `"${u}" is already taken — try a different name.`); }
+          else        { toast(`"${u}" is already taken — try a different name.`); }
+        } else {
+          const msg = data.error || 'Something went wrong. Try again.';
+          if (errEl) showErr(errEl, msg);
+          else       toast(msg);
+        }
+        btnEl.disabled    = false;
+        btnEl.textContent = origText;
+        return;
+      }
+
+      // Step 2: Save token to localStorage as backup
+      try { localStorage.setItem(`askthat_token_${u}`, data.token); } catch (_) {}
+
+      // Step 3: Navigate WITH ?u= param so CF Function knows it's a fresh create
+      window.location.href = `/dashboard/${encodeURIComponent(u)}?u=${encodeURIComponent(u)}`;
+
+    } catch (err) {
+      // Network error — navigate anyway and let CF Function handle it
+      window.location.href = `/dashboard/${encodeURIComponent(u)}?u=${encodeURIComponent(u)}`;
+    }
   }
 
   function showErr(el, msg) { el.textContent = msg; el.classList.add('show'); }
@@ -867,7 +894,7 @@
     const e = validate(heroInput.value);
     if (e) { showErr(heroErr, e); return; }
     clearErr(heroErr);
-    go(heroInput.value);
+    go(heroInput.value, heroBtn, heroErr);
   });
   heroInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') heroBtn.click(); });
   heroInput.addEventListener('input', () => clearErr(heroErr));
@@ -878,7 +905,7 @@
   ctaBtn.addEventListener('click', () => {
     const e = validate(ctaInput.value);
     if (e) { toast(e); return; }
-    go(ctaInput.value);
+    go(ctaInput.value, ctaBtn, null);
   });
   ctaInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') ctaBtn.click(); });
 
