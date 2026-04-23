@@ -1,7 +1,6 @@
 // functions/api/auth.js
-// POST { username, action:'check' }  → { ok:true, free:bool }      (read-only check)
-// POST { username, action:'claim' }  → { ok:true, token } | { ok:false, taken:true }
-// GET  ?username=x&token=y           → { ok:true, valid:bool }
+// POST /api/auth  { username, action: 'claim' }  → { ok, token }  (first time setup)
+// GET  /api/auth?username=x&token=y              → { ok, valid }
 
 const USERNAME_RE = /^[a-zA-Z0-9_.-]+$/;
 
@@ -11,19 +10,7 @@ function json(data, status = 200) {
   });
 }
 
-function getIP(r) {
-  return r.headers.get('CF-Connecting-IP') ||
-         r.headers.get('X-Forwarded-For')?.split(',')[0].trim() ||
-         'unknown';
-}
-
-function parseEntry(raw) {
-  if (!raw) return null;
-  try { return JSON.parse(raw); }
-  catch (_) { return { token: raw, ip: null, createdAt: null }; } // old plain-string format
-}
-
-// ── GET: verify token ─────────────────────────────────────────────────────
+// ── GET: verify a token ────────────────────────────────────────────────────
 export async function onRequestGet({ request, env }) {
   const url      = new URL(request.url);
   const username = (url.searchParams.get('username') || '').trim().toLowerCase();
@@ -32,56 +19,45 @@ export async function onRequestGet({ request, env }) {
   if (!username || !USERNAME_RE.test(username) || username.length > 30) {
     return json({ ok: false, error: 'Invalid username.' }, 400);
   }
-  if (!token || token.length < 16) return json({ ok: false, valid: false });
+  if (!token || token.length < 16) {
+    return json({ ok: false, valid: false });
+  }
 
   try {
-    const raw    = await env.MESSAGES_KV.get(`auth:${username}`);
-    const stored = parseEntry(raw);
-    return json({ ok: true, valid: !!(stored && stored.token === token) });
+    const stored = await env.MESSAGES_KV.get(`auth:${username}`);
+    return json({ ok: true, valid: stored === token });
   } catch {
     return json({ ok: false, error: 'Storage error.' }, 500);
   }
 }
 
-// ── POST: check or claim ──────────────────────────────────────────────────
+// ── POST: claim a username ─────────────────────────────────────────────────
 export async function onRequestPost({ request, env }) {
   let body;
   try { body = await request.json(); } catch { return json({ error: 'Invalid JSON.' }, 400); }
 
   const username = (body.username || '').trim().toLowerCase();
-  const action   = body.action || 'check';
+  const action   = body.action || 'claim';
 
   if (!username || !USERNAME_RE.test(username) || username.length > 30) {
     return json({ error: 'Invalid username.' }, 400);
   }
 
-  let raw, stored;
-  try {
-    raw    = await env.MESSAGES_KV.get(`auth:${username}`);
-    stored = parseEntry(raw);
-  } catch {
-    return json({ error: 'Storage error. Try again.' }, 500);
-  }
-
-  // ── action: check (read-only — just tells caller if name is free) ─────
-  if (action === 'check') {
-    return json({ ok: true, free: !stored });
-  }
-
-  // ── action: claim ────────────────────────────────────────────────────
   if (action === 'claim') {
-    if (stored) {
-      // Already taken by someone
-      return json({ ok: false, taken: true, error: 'Username already taken.' }, 409);
-    }
-
     try {
-      const token = crypto.randomUUID().replace(/-/g,'') + crypto.randomUUID().replace(/-/g,'');
-      const entry = JSON.stringify({ token, ip: getIP(request), createdAt: Date.now() });
-      await env.MESSAGES_KV.put(`auth:${username}`, entry, { expirationTtl: 60*60*24*90 });
+      // Never overwrite an existing token — prevents username hijacking via direct API calls.
+      // Creation must go through the dashboard CF Function which enforces cookie + KV atomicity.
+      const existing = await env.MESSAGES_KV.get(`auth:${username}`);
+      if (existing) {
+        return json({ ok: false, error: 'Username already claimed.' }, 409);
+      }
+      const token = crypto.randomUUID().replace(/-/g, '') + crypto.randomUUID().replace(/-/g, '');
+      await env.MESSAGES_KV.put(`auth:${username}`, token, {
+        expirationTtl: 60 * 60 * 24 * 90, // 90 days
+      });
       return json({ ok: true, token, username });
     } catch {
-      return json({ error: 'Failed to claim. Try again.' }, 500);
+      return json({ error: 'Failed to claim username.' }, 500);
     }
   }
 
