@@ -1,6 +1,6 @@
 // functions/api/auth.js
-// POST /api/auth  { username, action: 'claim' }  → { ok, token }  (first time setup)
-// GET  /api/auth?username=x&token=y              → { ok, valid }
+// POST /api/auth  { username, action:'claim' }  → { ok, token } | { ok:false, taken:true }
+// GET  /api/auth?username=x&token=y             → { ok, valid }
 
 const USERNAME_RE = /^[a-zA-Z0-9_.-]+$/;
 
@@ -10,7 +10,7 @@ function json(data, status = 200) {
   });
 }
 
-// ── GET: verify a token ────────────────────────────────────────────────────
+// ── GET: verify a token ───────────────────────────────────────────────────
 export async function onRequestGet({ request, env }) {
   const url      = new URL(request.url);
   const username = (url.searchParams.get('username') || '').trim().toLowerCase();
@@ -22,16 +22,16 @@ export async function onRequestGet({ request, env }) {
   if (!token || token.length < 16) {
     return json({ ok: false, valid: false });
   }
-
   try {
-    const stored = await env.MESSAGES_KV.get(`auth:${username}`);
-    return json({ ok: true, valid: stored === token });
+    const raw    = await env.MESSAGES_KV.get(`auth:${username}`);
+    const stored = raw ? JSON.parse(raw) : null;
+    return json({ ok: true, valid: stored && stored.token === token });
   } catch {
     return json({ ok: false, error: 'Storage error.' }, 500);
   }
 }
 
-// ── POST: claim a username (idempotent - returns same token if already claimed) ──
+// ── POST: claim a username ────────────────────────────────────────────────
 export async function onRequestPost({ request, env }) {
   let body;
   try { body = await request.json(); } catch { return json({ error: 'Invalid JSON.' }, 400); }
@@ -45,16 +45,26 @@ export async function onRequestPost({ request, env }) {
 
   if (action === 'claim') {
     try {
-      // If already claimed, return the SAME token (idempotent for same session)
-      // We allow reclaim because there's no password - token is per-device via localStorage
-      // Generate a new secure token
-      const token = crypto.randomUUID().replace(/-/g, '') + crypto.randomUUID().replace(/-/g, '');
-      await env.MESSAGES_KV.put(`auth:${username}`, token, {
+      const raw      = await env.MESSAGES_KV.get(`auth:${username}`);
+      const existing = raw ? JSON.parse(raw) : null;
+
+      if (existing) {
+        // Username already claimed — return taken error
+        return json({ ok: false, taken: true, error: 'Username already taken.' }, 409);
+      }
+
+      // Not taken — create a secure token and store it
+      const token    = crypto.randomUUID().replace(/-/g,'') + crypto.randomUUID().replace(/-/g,'');
+      const ip       = getIP(request);
+      const entry    = { token, ip, createdAt: Date.now() };
+
+      await env.MESSAGES_KV.put(`auth:${username}`, JSON.stringify(entry), {
         expirationTtl: 60 * 60 * 24 * 90, // 90 days
       });
+
       return json({ ok: true, token, username });
     } catch {
-      return json({ error: 'Failed to claim username.' }, 500);
+      return json({ error: 'Failed to claim username. Try again.' }, 500);
     }
   }
 
@@ -63,4 +73,12 @@ export async function onRequestPost({ request, env }) {
 
 export async function onRequest() {
   return json({ error: 'Method not allowed.' }, 405);
+}
+
+function getIP(request) {
+  return (
+    request.headers.get('CF-Connecting-IP') ||
+    request.headers.get('X-Forwarded-For')?.split(',')[0].trim() ||
+    'unknown'
+  );
 }

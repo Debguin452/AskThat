@@ -1,4 +1,5 @@
 // functions/api/delete.js  DELETE /api/delete
+import { verifyToken, json } from './_shared.js';
 
 const USERNAME_RE = /^[a-zA-Z0-9_.-]+$/;
 
@@ -7,11 +8,15 @@ export async function onRequestDelete({ request, env }) {
   try { body = await request.json(); }
   catch { return json({ error: 'Invalid request.' }, 400); }
 
-  const { username, id, bulk } = body ?? {};
+  const { username, id, bulk, token } = body ?? {};
 
   if (!username || typeof username !== 'string' || !USERNAME_RE.test(username) || username.length > 30) {
     return json({ error: 'Invalid username.' }, 400);
   }
+
+  // Verify ownership
+  const auth = await verifyToken(env, username.toLowerCase(), token);
+  if (!auth.ok) return json({ error: auth.error }, auth.status);
 
   const key = `msg:${username.toLowerCase()}`;
   let messages = [];
@@ -25,15 +30,14 @@ export async function onRequestDelete({ request, env }) {
   let   deleted = 0;
 
   if (bulk && Array.isArray(bulk) && bulk.length > 0) {
-    // Bulk delete — max 50 at once
-    const ids   = new Set(bulk.slice(0, 50).map(String));
-    const prev  = active.length;
-    active  = active.filter(m => !ids.has(m.id));
-    deleted = prev - active.length;
+    const ids  = new Set(bulk.slice(0, 50).map(String));
+    const prev = active.length;
+    active     = active.filter(m => !ids.has(m.id));
+    deleted    = prev - active.length;
   } else if (id && typeof id === 'string' && id.length <= 60) {
-    const prev  = active.length;
-    active  = active.filter(m => m.id !== id);
-    deleted = prev - active.length;
+    const prev = active.length;
+    active     = active.filter(m => m.id !== id);
+    deleted    = prev - active.length;
     if (deleted === 0) return json({ error: 'Message not found.' }, 404);
   } else {
     return json({ error: 'Provide id or bulk array.' }, 400);
@@ -50,10 +54,4 @@ export async function onRequestDelete({ request, env }) {
 
 export async function onRequest() {
   return json({ error: 'Method not allowed.' }, 405);
-}
-
-function json(data, status = 200) {
-  return new Response(JSON.stringify(data), {
-    status, headers: { 'Content-Type': 'application/json' },
-  });
 }

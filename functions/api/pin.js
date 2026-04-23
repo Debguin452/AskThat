@@ -1,13 +1,14 @@
-// functions/api/pin.js  POST /api/pin  — toggle pin on a message
+// functions/api/pin.js  PATCH /api/pin
+import { verifyToken, json } from './_shared.js';
 
 const USERNAME_RE = /^[a-zA-Z0-9_.-]+$/;
 
-export async function onRequestPost({ request, env }) {
+export async function onRequestPatch({ request, env }) {
   let body;
   try { body = await request.json(); }
   catch { return json({ error: 'Invalid request.' }, 400); }
 
-  const { username, id } = body ?? {};
+  const { username, id, token } = body ?? {};
 
   if (!username || typeof username !== 'string' || !USERNAME_RE.test(username) || username.length > 30) {
     return json({ error: 'Invalid username.' }, 400);
@@ -15,6 +16,10 @@ export async function onRequestPost({ request, env }) {
   if (!id || typeof id !== 'string' || id.length > 60) {
     return json({ error: 'Invalid message id.' }, 400);
   }
+
+  // Verify ownership
+  const auth = await verifyToken(env, username.toLowerCase(), token);
+  if (!auth.ok) return json({ error: auth.error }, auth.status);
 
   const key = `msg:${username.toLowerCase()}`;
   let messages = [];
@@ -40,12 +45,9 @@ export async function onRequestPost({ request, env }) {
   return json({ success: true, pinned: target.pinned });
 }
 
+// Also handle POST for backwards compat
+export { onRequestPatch as onRequestPost };
+
 export async function onRequest() {
   return json({ error: 'Method not allowed.' }, 405);
-}
-
-function json(data, status = 200) {
-  return new Response(JSON.stringify(data), {
-    status, headers: { 'Content-Type': 'application/json' },
-  });
 }
