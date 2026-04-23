@@ -838,46 +838,18 @@
     return null;
   }
 
-  // Check availability first, then navigate
-  async function go(val) {
+  // Navigate immediately — dashboard handles auth claim on load
+  function go(val) {
     const u = val.trim().toLowerCase();
-    const heroBtn = document.getElementById('hero-btn');
-    const ctaBtn  = document.getElementById('cta-btn');
-    const heroErr = document.getElementById('hero-error');
 
-    // Disable both buttons while checking
-    [heroBtn, ctaBtn].forEach(b => { if (b) { b.disabled = true; b.dataset.orig = b.textContent; b.textContent = 'Checking…'; } });
+    // Show "Creating…" feedback on both buttons before navigation
+    ['hero-btn', 'cta-btn'].forEach(id => {
+      const btn = document.getElementById(id);
+      if (btn) { btn.disabled = true; btn.textContent = 'Creating…'; }
+    });
 
-    try {
-      const res  = await fetch('/api/auth', {
-        method:  'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body:    JSON.stringify({ username: u, action: 'check' }),
-      });
-      const data = await res.json();
-
-      if (!res.ok || !data.ok) {
-        showErr(heroErr, data.error || 'Something went wrong. Try again.');
-        [heroBtn, ctaBtn].forEach(b => { if (b) { b.disabled = false; b.textContent = b.dataset.orig || b.textContent; } });
-        return;
-      }
-
-      if (!data.free) {
-        // Username taken — show inline error immediately, no page reload
-        showErr(heroErr, `“${u}” is already taken — try a different name.`);
-        [heroBtn, ctaBtn].forEach(b => { if (b) { b.disabled = false; b.textContent = b.dataset.orig || b.textContent; } });
-        const heroInput = document.getElementById('hero-input');
-        if (heroInput) heroInput.focus();
-        return;
-      }
-
-      // Name is free — navigate; CF Function will do the actual claim + set cookie
-      window.location.href = `/dashboard/${encodeURIComponent(u)}?u=${encodeURIComponent(u)}`;
-
-    } catch (_) {
-      // Network error — navigate anyway, CF Function handles edge cases
-      window.location.href = `/dashboard/${encodeURIComponent(u)}?u=${encodeURIComponent(u)}`;
-    }
+    // ?u= param tells the CF Function this is a fresh creation
+    window.location.href = `/dashboard/${encodeURIComponent(u)}?u=${encodeURIComponent(u)}`;
   }
 
   function showErr(el, msg) { el.textContent = msg; el.classList.add('show'); }
@@ -933,6 +905,16 @@
     { threshold: 0.1 }
   );
   document.querySelectorAll('.fiu').forEach((el) => obs.observe(el));
+
+  // Re-enable buttons if user navigates back (bfcache restore)
+  window.addEventListener('pageshow', (e) => {
+    if (e.persisted) {
+      ['hero-btn', 'cta-btn'].forEach(id => {
+        const btn = document.getElementById(id);
+        if (btn) { btn.disabled = false; btn.textContent = 'Create'; }
+      });
+    }
+  });
 </script>
 </body>
 </html>

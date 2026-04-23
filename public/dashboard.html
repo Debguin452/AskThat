@@ -334,7 +334,7 @@
   <div class="profile-hdr" id="profile-hdr">
     <div class="avatar" id="avatar-el" aria-hidden="true">?</div>
     <div class="profile-info">
-      <h1 id="profile-name">Loading…</h1>
+      <h1 id="profile-name">Creating your inbox…</h1>
       <div class="link-pill">
         <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M7 1h4v4M5 7L11 1" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><path d="M5 2H2a1 1 0 00-1 1v7a1 1 0 001 1h7a1 1 0 001-1V8" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
         <span id="link-display">—</span>
@@ -505,6 +505,9 @@
     window.location.href = '/'; return;
   }
 
+  // Clean up ?u= from the address bar (only needed for CF Function to create the link)
+  if (location.search) history.replaceState(null, '', location.pathname);
+
   const BASE_URL = `${location.origin}/ask/${user}`;
 
   let messages    = [];
@@ -552,9 +555,7 @@
   // Token injected server-side — only the original device that created this link
   // gets served this page (the CF Function verified the cookie before reaching here)
   authToken = (typeof window.__ASKTHAT_TOKEN__ === 'string') ? window.__ASKTHAT_TOKEN__ : null;
-  if (authToken) document.getElementById('auth-badge').classList.add('show');
 
-  async function initAuth() {}
 
   // ── Init ──────────────────────────────────────────────────────────────────
   profileName.textContent = user;
@@ -567,7 +568,6 @@
   load(true);
   loadStats();
   startRefresh();
-  initAuth();
 
   // ── Data loading ──────────────────────────────────────────────────────────
   async function load(isInitial = false) {
@@ -612,7 +612,7 @@
       if (data.views != null) statViews.textContent = fmtNum(data.views);
       if (data.total != null) {
         const isFirst = data.total === 0;
-        firstHint.style.display = isFirst ? '' : 'none';
+        firstHint.style.display = isFirst ? 'block' : 'none';
       }
     } catch (_) {}
   }
@@ -637,7 +637,7 @@
         pinned: ['📌','Nothing pinned yet','Pin messages to keep them here.'],
       };
       const [ico, t, s] = msgs[filter] || msgs.all;
-      msgsList.innerHTML = `<div class="empty-state"><span style="font-size:36px">${ico}</span><h3>${t}</h3><p>${s}</p></div>`;
+      msgsList.innerHTML = `<div class="empty"><div class="empty-icon">${ico}</div><h3 class="empty-title">${t}</h3><p class="empty-sub">${s}</p></div>`;
       return;
     }
 
