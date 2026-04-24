@@ -197,18 +197,7 @@
 
 
     /* ── Compact message share strip ── */
-    .msg-share-strip { display:flex; gap:6px; margin-top:10px; padding-top:10px; border-top:1px solid var(--border2); }
-    .msg-sh-btn { flex:1; display:flex; align-items:center; justify-content:center; gap:5px; padding:8px 4px; border-radius:9px; border:1px solid var(--border2); background:transparent; font-family:'DM Sans',sans-serif; font-size:11px; font-weight:500; cursor:pointer; transition:all .18s; text-decoration:none; color:var(--text3); }
-    .msg-sh-btn:hover { background:rgba(255,255,255,.06); color:var(--text2); }
-    .msg-sh-btn.wa  { color:#25D366; border-color:rgba(37,211,102,.2); }
-    .msg-sh-btn.wa:hover  { background:rgba(37,211,102,.08); }
-    .msg-sh-btn.tw  { color:#1DA1F2; border-color:rgba(29,161,242,.2); }
-    .msg-sh-btn.tw:hover  { color:#1DA1F2; background:rgba(29,161,242,.08); }
-    .msg-sh-btn.tg  { color:#26A5E4; border-color:rgba(38,165,228,.2); }
-    .msg-sh-btn.tg:hover  { background:rgba(38,165,228,.08); }
-    .msg-sh-btn.cp  { color:var(--text3); }
-    .msg-sh-btn.cp:hover  { color:var(--text); }
-    .msg-sh-btn svg { flex-shrink:0; }
+
     /* ── Refresh indicator ── */
     .refresh-bar { display: flex; align-items: center; justify-content: center; gap: 6px; font-size: 11px; color: var(--text3); margin-top: 18px; }
     .refresh-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); animation: blink 2s ease-in-out infinite; }
@@ -277,6 +266,29 @@
     .sh-btn:hover { background:rgba(255,255,255,.08); color:var(--text); border-color:var(--border); }
     .sh-btn svg { width:20px; height:20px; }
 
+
+    /* ── Poll Section Header ── */
+    .poll-section-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:16px; gap:10px; flex-wrap:wrap; }
+    .btn-poll-share-result { display:flex; align-items:center; gap:6px; padding:7px 13px; background:rgba(255,107,53,.1); border:1px solid rgba(255,107,53,.25); border-radius:100px; font-family:'DM Sans',sans-serif; font-size:12px; font-weight:500; color:var(--primary); cursor:pointer; transition:all .18s; white-space:nowrap; }
+    .btn-poll-share-result:hover { background:rgba(255,107,53,.22); border-color:rgba(255,107,53,.5); }
+
+    /* ── Poll question result card ── */
+    .poll-res-q { margin-bottom:18px; padding:14px 16px; background:rgba(255,255,255,.03); border:1px solid var(--border2); border-radius:14px; }
+    .poll-res-q:last-child { margin-bottom:0; }
+    .poll-res-q-title { font-size:13px; font-weight:600; color:var(--text); margin-bottom:12px; line-height:1.4; }
+    .poll-res-opts { display:flex; flex-direction:column; gap:8px; }
+    .poll-res-row { display:flex; flex-direction:column; gap:4px; }
+    .poll-res-row-top { display:flex; align-items:center; justify-content:space-between; }
+    .poll-res-label { font-size:13px; color:var(--text2); }
+    .poll-res-meta { font-size:12px; color:var(--text3); display:flex; gap:8px; }
+    .poll-res-track { width:100%; height:8px; background:rgba(255,255,255,.07); border-radius:100px; overflow:hidden; }
+    .poll-res-fill { height:100%; background:var(--grad); border-radius:100px; transition:width .7s cubic-bezier(.4,0,.2,1); }
+    .poll-res-fill.leader { background:linear-gradient(90deg,#ff477e,#ff6b35); box-shadow:0 0 8px rgba(255,107,53,.4); }
+
+    /* ── Poll poster modal ── */
+    .poll-poster-modal { position:fixed; inset:0; background:rgba(0,0,0,.8); z-index:8000; display:flex; align-items:center; justify-content:center; padding:20px; opacity:0; pointer-events:none; transition:opacity .2s; }
+    .poll-poster-modal.show { opacity:1; pointer-events:all; }
+    .poll-poster-box { background:#1a1208; border:1px solid rgba(255,200,130,.15); border-radius:20px; padding:20px; max-width:420px; width:100%; position:relative; }
     /* ── Delete account btn ── */
     .btn-del-account { width:32px; height:32px; border-radius:8px; border:1px solid rgba(248,113,113,.25); background:rgba(248,113,113,.06); display:flex; align-items:center; justify-content:center; cursor:pointer; transition:all .18s; color:var(--red,#f87171); flex-shrink:0; }
     .btn-del-account:hover { background:rgba(248,113,113,.18); border-color:rgba(248,113,113,.5); }
@@ -296,15 +308,6 @@
     .confirm-ok:hover { background:rgba(248,113,113,.32); }
     .confirm-ok.loading { opacity:.6; pointer-events:none; }
 
-    /* ── Inline message share panel ── */
-    .msg-share-panel { overflow:hidden; max-height:0; transition:max-height .28s ease, opacity .2s; opacity:0; }
-    .msg-share-panel.open { max-height:120px; opacity:1; }
-    .msg-share-inner { display:grid; grid-template-columns:repeat(5,1fr); gap:6px; padding:10px 0 4px; }
-    .ms-btn { display:flex; flex-direction:column; align-items:center; gap:4px; padding:8px 4px; background:rgba(255,255,255,.04); border:1px solid rgba(255,200,130,.08); border-radius:10px; font-family:'DM Sans',sans-serif; font-size:10px; font-weight:500; color:var(--text3); cursor:pointer; text-decoration:none; transition:all .18s; }
-    .ms-btn:hover { background:rgba(255,255,255,.09); color:var(--text2); border-color:rgba(255,200,130,.18); }
-    .ms-btn svg { width:18px; height:18px; }
-    .icon-btn.share-msg { }
-    .icon-btn.share-msg.active { background:rgba(255,107,53,.12); color:var(--primary); border-color:rgba(255,107,53,.3); }
     @keyframes spin { to{transform:rotate(360deg)} }
 
     /* ── Hint ── */
@@ -397,11 +400,36 @@
 
   <!-- Poll Results -->
   <div class="poll-section" id="poll-section">
-    <div class="poll-section-title">
-      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="1" y="8" width="3" height="6" rx="1" fill="currentColor" opacity=".5"/><rect x="6" y="5" width="3" height="9" rx="1" fill="currentColor" opacity=".7"/><rect x="11" y="2" width="3" height="12" rx="1" fill="currentColor"/></svg>
-      Poll Results
+    <div class="poll-section-header">
+      <div class="poll-section-title">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="1" y="8" width="3" height="6" rx="1" fill="currentColor" opacity=".5"/><rect x="6" y="5" width="3" height="9" rx="1" fill="currentColor" opacity=".7"/><rect x="11" y="2" width="3" height="12" rx="1" fill="currentColor"/></svg>
+        Poll Results
+      </div>
+      <div style="display:flex;gap:8px;align-items:center">
+        <span id="poll-total-votes" style="font-size:12px;color:var(--text3)"></span>
+        <button class="btn-poll-share-result" id="btn-poll-share-result" title="Share poll results as poster">
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="10" cy="2.5" r="1.5" stroke="currentColor" stroke-width="1.3"/><circle cx="10" cy="10.5" r="1.5" stroke="currentColor" stroke-width="1.3"/><circle cx="3" cy="6.5" r="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M4.4 7.3l4.2 2.4M8.6 3.3L4.4 5.7" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+          Share Results
+        </button>
+      </div>
     </div>
     <div id="poll-content"></div>
+    <!-- Poll Results Poster Modal -->
+    <div class="poll-poster-modal" id="poll-poster-modal">
+      <div class="poll-poster-box">
+        <button class="modal-close" id="poll-poster-close" aria-label="Close">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        </button>
+        <canvas id="poll-poster-canvas" width="1080" height="1080" style="width:100%;border-radius:12px;display:block"></canvas>
+        <div style="display:flex;gap:8px;margin-top:12px">
+          <button class="btn-story-dl" id="btn-poll-poster-dl">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1v8M4 6l3 3 3-3M2 11h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Download
+          </button>
+          <button class="btn-story-share" id="btn-poll-poster-share">Share</button>
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- Toolbar -->
@@ -582,6 +610,7 @@
   let selected    = new Set();
   let lastTotal   = -1;
   let posterStyle = 'fire';
+  let activeStoryMsg = null; // message being poster-ised
   let refreshTimer;
   let toastTimer;
   let authToken   = null;
@@ -714,37 +743,14 @@
         </div>
       </div>
       <div class="card-actions">
-        <button class="icon-btn share-msg" data-action="share-msg" data-id="${m.id}" title="Share message" aria-label="Share message">
-          <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="10" cy="2.5" r="1.5" stroke="currentColor" stroke-width="1.3"/><circle cx="10" cy="10.5" r="1.5" stroke="currentColor" stroke-width="1.3"/><circle cx="3" cy="6.5" r="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M4.4 7.3l4.2 2.4M8.6 3.3L4.4 5.7" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
-        </button>
-        <button class="icon-btn story" data-action="story" data-id="${m.id}" title="Create story poster" aria-label="Create story poster">
+<button class="icon-btn story" data-action="story" data-id="${m.id}" title="Create story poster" aria-label="Create story poster">
           <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="5.5" stroke="currentColor" stroke-width="1.3"/><circle cx="6.5" cy="6.5" r="2" stroke="currentColor" stroke-width="1.2"/></svg>
         </button>
         <button class="icon-btn del" data-action="delete" data-id="${m.id}" title="Delete" aria-label="Delete">
           <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 3h9M5 3V2h3v1M5.5 5.5v4M7.5 5.5v4M3.5 3l.5 7.5a1 1 0 001 .9h4a1 1 0 001-.9L11 3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
       </div>
-      <div class="msg-share-panel" id="msp-${m.id}">
-        <div class="msg-share-inner" id="mspi-${m.id}"></div>
-      </div>
-      <div class="msg-share-strip">
-        <a class="msg-sh-btn wa" data-share="wa" data-msg="${esc(m.text)}" href="#" title="Share on WhatsApp">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.125.557 4.118 1.528 5.845L0 24l6.335-1.652A11.954 11.954 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.006-1.371l-.36-.214-3.727.977.994-3.638-.235-.374A9.818 9.818 0 012.182 12C2.182 6.578 6.578 2.182 12 2.182S21.818 6.578 21.818 12 17.422 21.818 12 21.818z"/></svg>
-          WA
-        </a>
-        <a class="msg-sh-btn tw" data-share="tw" data-msg="${esc(m.text)}" href="#" title="Share on Twitter">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="#1DA1F2"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.259 5.63zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-          X
-        </a>
-        <a class="msg-sh-btn tg" data-share="tg" data-msg="${esc(m.text)}" href="#" title="Share on Telegram">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="#26A5E4"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L7.14 13.913l-2.98-.924c-.648-.203-.66-.648.136-.961l11.647-4.49c.537-.194 1.006.131.951.683z"/></svg>
-          TG
-        </a>
-        <button class="msg-sh-btn cp" data-share="cp" data-msg="${esc(m.text)}" title="Copy message">
-          <svg width="12" height="12" viewBox="0 0 13 13" fill="none"><rect x="1" y="4" width="8" height="8" rx="1.5" stroke="currentColor" stroke-width="1.4"/><path d="M4 4V3a1 1 0 011-1h5a1 1 0 011 1v5a1 1 0 01-1 1h-1" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
-          Copy
-        </button>
-      </div>`;
+`;
 
     // Bulk checkbox
     const chk = card.querySelector('.bulk-check');
@@ -760,32 +766,10 @@
         const id     = e.currentTarget.dataset.id;
         const action = e.currentTarget.dataset.action;
         if (action === 'delete') confirmDeleteMsg(id, e.currentTarget.closest('.msg-card'));
-        if (action === 'story')  openStoryModal();
-        if (action === 'share-msg') toggleMsgShare(m, e.currentTarget);
+        if (action === 'story')  openStoryModal(m);
       });
     });
 
-    // Compact share strip
-    card.querySelectorAll('[data-share]').forEach(btn => {
-      btn.addEventListener('click', e => {
-        e.preventDefault();
-        const type = e.currentTarget.dataset.share;
-        const msg  = m.text;
-        const shareText = `"${msg}" — send me one: ${BASE_URL}`;
-        const enc  = encodeURIComponent(shareText);
-        if (type === 'wa') window.open(`https://wa.me/?text=${enc}`, '_blank');
-        if (type === 'tw') window.open(`https://twitter.com/intent/tweet?text=${enc}`, '_blank');
-        if (type === 'tg') window.open(`https://t.me/share/url?url=${encodeURIComponent(BASE_URL)}&text=${encodeURIComponent('"' + msg + '" — send me one!')}`, '_blank');
-        if (type === 'cp') {
-          navigator.clipboard.writeText(shareText).then(() => {
-            const b = e.currentTarget; const orig = b.innerHTML;
-            b.innerHTML = '<svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#4ade80" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Done';
-            b.style.color = '#4ade80';
-            setTimeout(() => { b.innerHTML = orig; b.style.color = ''; }, 2000);
-          });
-        }
-      });
-    });
 
     return card;
   }
@@ -833,50 +817,6 @@
       updateCounts(totalServer - 1, unreadCount);
       if (!messages.length) render();
     } catch { showToast('Network error.', 'red'); if (cardEl) cardEl.style.opacity = ''; }
-  }
-
-  // ── Inline message share panel ───────────────────────────────────────────
-  let _openShareId = null;
-  function toggleMsgShare(m, btn) {
-    const panel = document.getElementById('msp-' + m.id);
-    const inner = document.getElementById('mspi-' + m.id);
-    if (!panel) return;
-    const isOpen = panel.classList.contains('open');
-    // Close any other open panel
-    document.querySelectorAll('.msg-share-panel.open').forEach(p => p.classList.remove('open'));
-    document.querySelectorAll('.icon-btn.share-msg.active').forEach(b => b.classList.remove('active'));
-    if (isOpen) { _openShareId = null; return; }
-    _openShareId = m.id;
-    btn.classList.add('active');
-    if (!inner.dataset.built) {
-      inner.dataset.built = '1';
-      const msgUrl = BASE_URL;
-      const txt = encodeURIComponent('Someone sent me this on AskThat 👀 ' + msgUrl);
-      const msgTxt = encodeURIComponent(m.text.slice(0, 200));
-      [
-        { label:'WhatsApp', href:'https://wa.me/?text=' + encodeURIComponent('💬 ' + m.text.slice(0,200) + '\n\nAsk me too → ' + msgUrl),
-          icon:'<svg viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.125.557 4.118 1.528 5.845L0 24l6.335-1.652A11.954 11.954 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.006-1.371l-.36-.214-3.727.977.994-3.638-.235-.374A9.818 9.818 0 012.182 12C2.182 6.578 6.578 2.182 12 2.182S21.818 6.578 21.818 12 17.422 21.818 12 21.818z"/></svg>' },
-        { label:'Twitter',  href:'https://twitter.com/intent/tweet?text=' + txt,
-          icon:'<svg viewBox="0 0 24 24" fill="#1DA1F2"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.259 5.63zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>' },
-        { label:'Telegram', href:'https://t.me/share/url?url=' + encodeURIComponent(msgUrl) + '&text=' + msgTxt,
-          icon:'<svg viewBox="0 0 24 24" fill="#26A5E4"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L7.14 13.913l-2.98-.924c-.648-.203-.66-.648.136-.961l11.647-4.49c.537-.194 1.006.131.951.683z"/></svg>' },
-        { label:'Discord',  href:'https://discord.com/channels/@me',
-          icon:'<svg viewBox="0 0 24 24" fill="#5865F2"><path d="M20.317 4.37a19.791 19.791 0 00-4.885-1.515.074.074 0 00-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 00-5.487 0 12.64 12.64 0 00-.617-1.25.077.077 0 00-.079-.037A19.736 19.736 0 003.677 4.37a.07.07 0 00-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 00.031.057 19.9 19.9 0 005.993 3.03.078.078 0 00.084-.028 14.09 14.09 0 001.226-1.994.076.076 0 00-.041-.106 13.107 13.107 0 01-1.872-.892.077.077 0 01-.008-.128 10.2 10.2 0 00.372-.292.074.074 0 01.077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 01.078.01c.12.098.246.198.373.292a.077.077 0 01-.006.127 12.299 12.299 0 01-1.873.892.077.077 0 00-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 00.084.028 19.839 19.839 0 006.002-3.03.077.077 0 00.032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 00-.031-.03z"/></svg>' },
-        { label:'Copy',     href:null,
-          icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>' },
-      ].forEach(function(s) {
-        var el = s.href ? document.createElement('a') : document.createElement('button');
-        el.className = 'ms-btn';
-        if (s.href) { el.href = s.href; el.target = '_blank'; el.rel = 'noopener noreferrer'; }
-        else el.addEventListener('click', function() {
-          var shareText = m.text.slice(0,200) + '\n\nAsk me anything → ' + msgUrl;
-          navigator.clipboard.writeText(shareText).then(function() { showToast('✓ Copied!'); });
-        });
-        el.innerHTML = s.icon + '<span>' + s.label + '</span>';
-        inner.appendChild(el);
-      });
-    }
-    panel.classList.add('open');
   }
 
   // ── Delete & Pin ──────────────────────────────────────────────────────────
@@ -1024,18 +964,195 @@
 
   // ── Poll Results ──────────────────────────────────────────────────────────
   function renderPollResults() {
-    if (!pollStats || !Object.keys(pollStats).length) return;
-    pollSection.classList.add('show');
-    const labels = { vibe:'How they describe you', know:'How well they know you' };
-    let html = '';
-    for (const [cat, counts] of Object.entries(pollStats)) {
-      const total  = Object.values(counts).reduce((a,b) => a+b, 0);
-      const sorted = Object.entries(counts).sort((a,b) => b[1]-a[1]);
-      html += `<div class="poll-cat"><div class="poll-cat-label">${labels[cat]||cat}</div><div class="poll-bar-wrap">
-        ${sorted.map(([val,n]) => `<div class="poll-bar-row"><span class="poll-bar-label">${esc(val)}</span><div class="poll-bar-track"><div class="poll-bar-fill" style="width:${Math.round(n/total*100)}%"></div></div><span class="poll-bar-count">${n}</span></div>`).join('')}
-      </div></div>`;
+    if (!pollStats) return;
+
+    // pollStats shape: { questions: [{id,text,options,counts}] } OR legacy {vibe:{},know:{}}
+    // Normalise to array of {text, options:[{label,count}], total}
+    let questions = [];
+    if (pollStats.questions && Array.isArray(pollStats.questions)) {
+      questions = pollStats.questions.map(q => {
+        const total = Object.values(q.counts||{}).reduce((a,b)=>a+b,0);
+        const opts  = (q.options||[]).map(o => ({ label:o, count:(q.counts||{})[o]||0 }));
+        return { text: q.text, opts, total };
+      });
+    } else {
+      // Legacy vibe/know format
+      const labels = { vibe:'How they describe you', know:'How well they know you' };
+      for (const [cat, counts] of Object.entries(pollStats)) {
+        const total = Object.values(counts).reduce((a,b)=>a+b,0);
+        const opts  = Object.entries(counts).sort((a,b)=>b[1]-a[1]).map(([l,c])=>({label:l,count:c}));
+        questions.push({ text: labels[cat]||cat, opts, total });
+      }
     }
+
+    if (!questions.length) return;
+    pollSection.classList.add('show');
+
+    const grandTotal = questions.reduce((a,q)=>a+q.total,0);
+    const totalEl = document.getElementById('poll-total-votes');
+    if (totalEl) totalEl.textContent = grandTotal + ' vote' + (grandTotal!==1?'s':'');
+
+    let html = '';
+    questions.forEach(q => {
+      const maxCount = Math.max(...q.opts.map(o=>o.count), 1);
+      html += `<div class="poll-res-q">
+        <div class="poll-res-q-title">${esc(q.text)}</div>
+        <div class="poll-res-opts">
+          ${q.opts.map(o => {
+            const pct  = q.total ? Math.round(o.count/q.total*100) : 0;
+            const lead = o.count === maxCount && o.count > 0;
+            return `<div class="poll-res-row">
+              <div class="poll-res-row-top">
+                <span class="poll-res-label">${esc(o.label)}</span>
+                <span class="poll-res-meta"><span>${pct}%</span><span>${o.count} vote${o.count!==1?'s':''}</span></span>
+              </div>
+              <div class="poll-res-track"><div class="poll-res-fill${lead?' leader':''}" style="width:${pct}%"></div></div>
+            </div>`;
+          }).join('')}
+        </div>
+      </div>`;
+    });
     pollContent.innerHTML = html;
+
+    // Wire share results button
+    const shareBtn = document.getElementById('btn-poll-share-result');
+    if (shareBtn) {
+      shareBtn.onclick = () => openPollPoster(questions);
+    }
+  }
+
+  // ── Poll Results Poster ───────────────────────────────────────────────────
+  function openPollPoster(questions) {
+    const modal  = document.getElementById('poll-poster-modal');
+    const canvas = document.getElementById('poll-poster-canvas');
+    modal.classList.add('show');
+    drawPollPoster(canvas, questions);
+
+    document.getElementById('poll-poster-close').onclick  = () => modal.classList.remove('show');
+    modal.addEventListener('click', e => { if (e.target===modal) modal.classList.remove('show'); });
+
+    document.getElementById('btn-poll-poster-dl').onclick = () => {
+      const a = document.createElement('a');
+      a.download = `poll-results-${user}.png`;
+      a.href = canvas.toDataURL('image/png');
+      a.click();
+    };
+    document.getElementById('btn-poll-poster-share').onclick = async () => {
+      try {
+        canvas.toBlob(async blob => {
+          const file = new File([blob], 'poll-results.png', { type:'image/png' });
+          if (navigator.canShare?.({files:[file]})) {
+            await navigator.share({ files:[file], title:'Poll Results', text:`See my poll results on AskThat! ${BASE_URL}` });
+          } else {
+            document.getElementById('btn-poll-poster-dl').click();
+          }
+        }, 'image/png');
+      } catch(e) { document.getElementById('btn-poll-poster-dl').click(); }
+    };
+  }
+
+  function drawPollPoster(canvas, questions) {
+    const W = 1080, H = 1080;
+    canvas.width = W; canvas.height = H;
+    const ctx = canvas.getContext('2d');
+
+    // Background gradient
+    const bg = ctx.createLinearGradient(0,0,W,H);
+    bg.addColorStop(0,'#0d0a08'); bg.addColorStop(1,'#1a0f08');
+    ctx.fillStyle = bg; ctx.fillRect(0,0,W,H);
+
+    // Subtle orb
+    const orb = ctx.createRadialGradient(W*.8,H*.15,0,W*.8,H*.15,W*.55);
+    orb.addColorStop(0,'rgba(255,107,53,0.18)'); orb.addColorStop(1,'transparent');
+    ctx.fillStyle = orb; ctx.fillRect(0,0,W,H);
+
+    // Header
+    ctx.fillStyle = '#ff6b35';
+    ctx.font = 'bold 44px sans-serif';
+    ctx.fillText('📊', 72, 100);
+
+    const grad = ctx.createLinearGradient(0,0,W,0);
+    grad.addColorStop(0,'#ff477e'); grad.addColorStop(0.5,'#ff6b35'); grad.addColorStop(1,'#ffbf69');
+    ctx.fillStyle = grad;
+    ctx.font = 'bold 56px sans-serif';
+    ctx.fillText('Poll Results', 140, 106);
+
+    ctx.fillStyle = 'rgba(255,248,240,0.45)';
+    ctx.font = '32px sans-serif';
+    ctx.fillText(`askthat.pages.dev/ask/${user}`, 72, 156);
+
+    // Divider
+    ctx.strokeStyle = 'rgba(255,200,130,0.18)'; ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.moveTo(72,185); ctx.lineTo(W-72,185); ctx.stroke();
+
+    // Questions
+    let y = 230;
+    const barH = 28, barR = 14, padX = 72, barW = W - padX*2;
+
+    questions.forEach(q => {
+      if (y > H - 120) return;
+      // Question text (wrap if needed)
+      ctx.fillStyle = 'rgba(255,248,240,0.9)';
+      ctx.font = 'bold 36px sans-serif';
+      const maxW = W - padX*2;
+      let qText = q.text;
+      if (ctx.measureText(qText).width > maxW) qText = qText.slice(0,45) + '…';
+      ctx.fillText(qText, padX, y); y += 52;
+
+      const maxCount = Math.max(...q.opts.map(o=>o.count), 1);
+      q.opts.forEach(o => {
+        if (y > H - 80) return;
+        const pct  = q.total ? Math.round(o.count/q.total*100) : 0;
+        const lead = o.count === maxCount && o.count > 0;
+        const fillW = Math.max((pct/100)*barW, 4);
+
+        // Track
+        ctx.fillStyle = 'rgba(255,255,255,0.07)';
+        roundRect(ctx, padX, y, barW, barH, barR);
+
+        // Fill
+        if (lead) {
+          const fg = ctx.createLinearGradient(padX,0,padX+fillW,0);
+          fg.addColorStop(0,'#ff477e'); fg.addColorStop(1,'#ff6b35');
+          ctx.fillStyle = fg;
+        } else {
+          ctx.fillStyle = 'rgba(255,107,53,0.35)';
+        }
+        roundRect(ctx, padX, y, fillW, barH, barR);
+
+        // Label
+        ctx.fillStyle = lead ? '#ffffff' : 'rgba(255,248,240,0.75)';
+        ctx.font = lead ? 'bold 22px sans-serif' : '22px sans-serif';
+        ctx.fillText(o.label.slice(0,32), padX+14, y + barH/2 + 8);
+
+        // Pct
+        ctx.fillStyle = lead ? '#ffbf69' : 'rgba(255,248,240,0.5)';
+        ctx.font = 'bold 22px sans-serif';
+        ctx.textAlign = 'right';
+        ctx.fillText(pct + '%  ' + o.count + 'v', padX + barW - 10, y + barH/2 + 8);
+        ctx.textAlign = 'left';
+
+        y += barH + 12;
+      });
+      y += 28;
+    });
+
+    // Footer
+    ctx.fillStyle = 'rgba(255,248,240,0.3)';
+    ctx.font = '28px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('Vote at askthat.pages.dev/ask/' + user, W/2, H - 50);
+    ctx.textAlign = 'left';
+  }
+
+  function roundRect(ctx, x, y, w, h, r) {
+    ctx.beginPath();
+    ctx.moveTo(x+r,y); ctx.lineTo(x+w-r,y);
+    ctx.quadraticCurveTo(x+w,y,x+w,y+r);
+    ctx.lineTo(x+w,y+h-r); ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);
+    ctx.lineTo(x+r,y+h); ctx.quadraticCurveTo(x,y+h,x,y+h-r);
+    ctx.lineTo(x,y+r); ctx.quadraticCurveTo(x,y,x+r,y);
+    ctx.closePath(); ctx.fill();
   }
 
   // ── Counters ──────────────────────────────────────────────────────────────
@@ -1146,7 +1263,13 @@
   // ── Story / Poster Modal ──────────────────────────────────────────────────
   const storyModal = document.getElementById('story-modal');
 
-  function openStoryModal() {
+  function openStoryModal(msg) {
+    activeStoryMsg = msg || null;
+    // Update modal title based on mode
+    const titleEl = storyModal.querySelector('.modal-title');
+    const subEl   = storyModal.querySelector('.modal-sub');
+    if (titleEl) titleEl.textContent = msg ? '✉ Message Poster' : '🔗 Share Your Link';
+    if (subEl)   subEl.textContent   = msg ? 'Pick a style and share this message as a story card.' : 'Pick a poster style → download → post to Stories or Status.';
     storyModal.classList.add('show');
     renderPoster(posterStyle);
   }
@@ -1263,65 +1386,122 @@
     const ctx    = canvas.getContext('2d');
     const W=1080, H=1920;
     const T = POSTER_THEMES[styleName] || POSTER_THEMES.fire;
-
     ctx.clearRect(0,0,W,H);
-
-    // Background + orbs
     T.bg(ctx, W, H);
     T.orbs(ctx, W, H);
-
     ctx.textAlign = 'center';
 
-    // ── Brand ─────────────────────────────────────────────────────────────
-    ctx.font = '700 44px sans-serif';
-    ctx.fillStyle = T.sub;
-    ctx.globalAlpha = 0.7;
-    ctx.fillText('@ AskThat', W/2, 200);
-    ctx.globalAlpha = 1;
+    if (activeStoryMsg) {
+      // ── MESSAGE POSTER (NGL style) ───────────────────────────────────────
+      const msg = activeStoryMsg;
 
-    // ── Avatar circle ─────────────────────────────────────────────────────
-    const avatarY = 420, avatarR = 120;
-    ctx.fillStyle = 'rgba(255,255,255,0.15)';
-    ctx.beginPath(); ctx.arc(W/2, avatarY, avatarR, 0, Math.PI*2); ctx.fill();
-    ctx.strokeStyle = 'rgba(255,255,255,0.35)'; ctx.lineWidth = 4;
-    ctx.beginPath(); ctx.arc(W/2, avatarY, avatarR, 0, Math.PI*2); ctx.stroke();
-    ctx.font = '700 100px sans-serif'; ctx.fillStyle = T.headline;
-    ctx.fillText(user.charAt(0).toUpperCase(), W/2, avatarY + 36);
+      // Brand badge top
+      ctx.globalAlpha = 0.55;
+      ctx.font = '600 38px sans-serif';
+      ctx.fillStyle = T.sub;
+      ctx.fillText('AskThat · anonymous message', W/2, 160);
+      ctx.globalAlpha = 1;
 
-    // ── Username ──────────────────────────────────────────────────────────
-    ctx.font = '800 78px sans-serif'; ctx.fillStyle = T.headline;
-    ctx.fillText(user, W/2, 630);
+      // Big quote marks
+      ctx.globalAlpha = 0.12;
+      ctx.font = '900 360px Georgia, serif';
+      ctx.fillStyle = T.headline;
+      ctx.fillText('\u201C', W/2 - 350, 540);
+      ctx.globalAlpha = 1;
 
-    // ── Headline ──────────────────────────────────────────────────────────
-    ctx.font = '800 108px sans-serif'; ctx.fillStyle = T.headline;
-    wrapText(ctx, 'Ask me anything!', W/2, 850, 860, 120);
+      // Message card background
+      const cardPad = 80, cardX = cardPad, cardW = W - cardPad*2;
+      const cardY = 340, cardH = 860;
+      ctx.fillStyle = 'rgba(255,255,255,0.08)';
+      ctx.strokeStyle = 'rgba(255,255,255,0.14)'; ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.roundRect(cardX, cardY, cardW, cardH, 48); ctx.fill(); ctx.stroke();
 
-    // ── Subtitle ──────────────────────────────────────────────────────────
-    ctx.font = '400 54px sans-serif'; ctx.fillStyle = T.sub;
-    ctx.globalAlpha = 0.8;
-    wrapText(ctx, 'Send an anonymous message — I\'ll never know it was you', W/2, 1080, 820, 68);
-    ctx.globalAlpha = 1;
+      // Message text — large, bold, centered
+      const txt = msg.text || '';
+      const fontSize = txt.length < 60 ? 88 : txt.length < 120 ? 68 : txt.length < 200 ? 54 : 44;
+      ctx.font = `700 ${fontSize}px Georgia, 'Times New Roman', serif`;
+      ctx.fillStyle = T.headline;
+      const lineH = fontSize * 1.4;
+      const maxTxtW = cardW - 120;
+      const lines = wrapTextLines(ctx, txt, maxTxtW);
+      const totalTxtH = lines.length * lineH;
+      const txtStartY = cardY + (cardH - totalTxtH) / 2 + fontSize * 0.8;
+      lines.forEach((line, i) => {
+        ctx.fillText(line, W/2, txtStartY + i * lineH);
+      });
 
-    // ── Link box ──────────────────────────────────────────────────────────
-    const linkBoxW = 820, linkBoxH = 120, linkBoxX = (W-linkBoxW)/2, linkBoxY = 1280;
-    ctx.fillStyle = 'rgba(255,255,255,0.12)';
-    ctx.strokeStyle = 'rgba(255,255,255,0.3)'; ctx.lineWidth = 3;
-    ctx.beginPath(); ctx.roundRect(linkBoxX, linkBoxY, linkBoxW, linkBoxH, 60); ctx.fill(); ctx.stroke();
-    ctx.font = 'bold 40px sans-serif'; ctx.fillStyle = T.link;
-    ctx.fillText(`askthat.pages.dev/ask/${user}`, W/2, linkBoxY + 78);
+      // "someone asked" label
+      ctx.font = '500 36px DM Sans, sans-serif';
+      ctx.fillStyle = T.sub; ctx.globalAlpha = 0.65;
+      ctx.fillText('someone asked → ' + user, W/2, cardY + cardH + 64);
+      ctx.globalAlpha = 1;
 
-    // ── CTA button ────────────────────────────────────────────────────────
-    const ctaBtnW = 500, ctaBtnH = 120, ctaBtnX = (W-ctaBtnW)/2, ctaBtnY = 1460;
-    const ctaFill = T.ctaFill(ctx, W);
-    if (ctaFill) ctx.fillStyle = ctaFill;
-    ctx.beginPath(); ctx.roundRect(ctaBtnX, ctaBtnY, ctaBtnW, ctaBtnH, 60); ctx.fill();
-    ctx.font = '700 48px sans-serif'; ctx.fillStyle = T.ctaText;
-    ctx.fillText('Tap to send ✉', W/2, ctaBtnY + 78);
+      // Avatar + username row
+      const avY = 1360, avR = 64;
+      ctx.fillStyle = 'rgba(255,255,255,0.13)';
+      ctx.beginPath(); ctx.arc(W/2 - 80, avY, avR, 0, Math.PI*2); ctx.fill();
+      ctx.font = '700 54px sans-serif'; ctx.fillStyle = T.headline;
+      ctx.textAlign = 'center';
+      ctx.fillText(user.charAt(0).toUpperCase(), W/2 - 80, avY + 19);
+      ctx.font = '700 52px sans-serif'; ctx.fillStyle = T.headline;
+      ctx.textAlign = 'left';
+      ctx.fillText(user, W/2 - 80 + avR + 20, avY + 18);
+      ctx.textAlign = 'center';
 
-    // ── Footer ────────────────────────────────────────────────────────────
-    ctx.font = '400 34px sans-serif'; ctx.fillStyle = T.sub; ctx.globalAlpha = 0.4;
-    ctx.fillText('100% anonymous · askthat.pages.dev', W/2, H - 90);
-    ctx.globalAlpha = 1;
+      // CTA pill
+      const ctaW = 740, ctaH = 110, ctaX = (W-ctaW)/2, ctaY = 1490;
+      const ctaFill = T.ctaFill(ctx, W);
+      if (ctaFill) ctx.fillStyle = ctaFill;
+      ctx.beginPath(); ctx.roundRect(ctaX, ctaY, ctaW, ctaH, 55); ctx.fill();
+      ctx.font = '700 42px sans-serif'; ctx.fillStyle = T.ctaText;
+      ctx.fillText('Ask me anonymously →', W/2, ctaY + 73);
+
+      // Footer link
+      ctx.font = '400 32px sans-serif'; ctx.fillStyle = T.link; ctx.globalAlpha = 0.7;
+      ctx.fillText('askthat.pages.dev/ask/' + user, W/2, 1668);
+      ctx.globalAlpha = 0.35; ctx.fillStyle = T.sub; ctx.font = '400 28px sans-serif';
+      ctx.fillText('100% anonymous · no account needed', W/2, H - 80);
+      ctx.globalAlpha = 1;
+
+    } else {
+      // ── LINK POSTER (original style) ────────────────────────────────────
+      ctx.font = '700 44px sans-serif'; ctx.fillStyle = T.sub; ctx.globalAlpha = 0.7;
+      ctx.fillText('@ AskThat', W/2, 200); ctx.globalAlpha = 1;
+
+      const avatarY = 420, avatarR = 120;
+      ctx.fillStyle = 'rgba(255,255,255,0.15)';
+      ctx.beginPath(); ctx.arc(W/2, avatarY, avatarR, 0, Math.PI*2); ctx.fill();
+      ctx.strokeStyle = 'rgba(255,255,255,0.35)'; ctx.lineWidth = 4;
+      ctx.beginPath(); ctx.arc(W/2, avatarY, avatarR, 0, Math.PI*2); ctx.stroke();
+      ctx.font = '700 100px sans-serif'; ctx.fillStyle = T.headline;
+      ctx.fillText(user.charAt(0).toUpperCase(), W/2, avatarY + 36);
+
+      ctx.font = '800 78px sans-serif'; ctx.fillStyle = T.headline;
+      ctx.fillText(user, W/2, 630);
+
+      ctx.font = '800 108px sans-serif'; ctx.fillStyle = T.headline;
+      wrapText(ctx, 'Ask me anything!', W/2, 850, 860, 120);
+
+      ctx.font = '400 54px sans-serif'; ctx.fillStyle = T.sub; ctx.globalAlpha = 0.8;
+      wrapText(ctx, "Send an anonymous message — I'll never know it was you", W/2, 1080, 820, 68);
+      ctx.globalAlpha = 1;
+
+      const linkBoxW=820, linkBoxH=120, linkBoxX=(W-linkBoxW)/2, linkBoxY=1280;
+      ctx.fillStyle='rgba(255,255,255,0.12)'; ctx.strokeStyle='rgba(255,255,255,0.3)'; ctx.lineWidth=3;
+      ctx.beginPath(); ctx.roundRect(linkBoxX,linkBoxY,linkBoxW,linkBoxH,60); ctx.fill(); ctx.stroke();
+      ctx.font='bold 40px sans-serif'; ctx.fillStyle=T.link;
+      ctx.fillText('askthat.pages.dev/ask/'+user, W/2, linkBoxY+78);
+
+      const ctaBtnW=500, ctaBtnH=120, ctaBtnX=(W-ctaBtnW)/2, ctaBtnY=1460;
+      const ctaFill=T.ctaFill(ctx,W); if(ctaFill) ctx.fillStyle=ctaFill;
+      ctx.beginPath(); ctx.roundRect(ctaBtnX,ctaBtnY,ctaBtnW,ctaBtnH,60); ctx.fill();
+      ctx.font='700 48px sans-serif'; ctx.fillStyle=T.ctaText;
+      ctx.fillText('Tap to send ✉', W/2, ctaBtnY+78);
+
+      ctx.font='400 34px sans-serif'; ctx.fillStyle=T.sub; ctx.globalAlpha=0.4;
+      ctx.fillText('100% anonymous · askthat.pages.dev', W/2, H-90);
+      ctx.globalAlpha=1;
+    }
   }
 
   function roundRectFill(ctx, x, y, w, h, r) {
@@ -1331,6 +1511,16 @@
     const words=text.split(' '); let line='', cy=y;
     for(const w of words){const t=line?line+' '+w:w;if(ctx.measureText(t).width>maxW&&line){ctx.fillText(line,x,cy);line=w;cy+=lh;}else line=t;}
     if(line)ctx.fillText(line,x,cy);
+  }
+  function wrapTextLines(ctx, text, maxW) {
+    const words = text.split(' '); const lines = []; let line = '';
+    for (const w of words) {
+      const t = line ? line+' '+w : w;
+      if (ctx.measureText(t).width > maxW && line) { lines.push(line); line = w; }
+      else line = t;
+    }
+    if (line) lines.push(line);
+    return lines;
   }
 
   // Style picker
@@ -1343,7 +1533,7 @@
   });
 
   // Story modal events
-  document.getElementById('btn-story').addEventListener('click', openStoryModal);
+  document.getElementById('btn-story').addEventListener('click', () => openStoryModal(null));
   document.getElementById('story-modal-close').addEventListener('click', () => storyModal.classList.remove('show'));
   storyModal.addEventListener('click', e => { if(e.target===e.currentTarget) storyModal.classList.remove('show'); });
 
