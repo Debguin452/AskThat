@@ -100,10 +100,27 @@
     .poll-question-block { margin-bottom:20px; }
     .poll-q-label { font-size:11px; font-weight:600; letter-spacing:.07em; text-transform:uppercase; color:var(--accent); margin-bottom:8px; display:block; }
     .poll-q-text { font-size:15px; color:var(--text); margin-bottom:12px; font-weight:500; line-height:1.4; }
-    .poll-opts-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
-    .poll-opt-btn { padding:12px 10px; background:rgba(255,255,255,.04); border:1px solid var(--border2); border-radius:12px; font-size:13px; color:var(--text2); cursor:pointer; text-align:center; transition:all .18s; user-select:none; line-height:1.35; font-family:'DM Sans',sans-serif; }
-    .poll-opt-btn:hover { background:rgba(255,107,53,.08); border-color:rgba(255,107,53,.3); color:var(--text); }
-    .poll-opt-btn.selected { background:rgba(255,107,53,.18); border-color:var(--primary); color:var(--text); font-weight:600; }
+    /* ── Poll options: horizontal bar style (Instagram/YT) ── */
+    .poll-opts-grid { display:flex; flex-direction:column; gap:8px; }
+    .poll-opt-btn {
+      position:relative; width:100%; padding:13px 16px;
+      background:rgba(255,255,255,.04); border:1px solid var(--border2);
+      border-radius:14px; font-size:14px; font-weight:500; color:var(--text);
+      cursor:pointer; text-align:left; transition:all .18s; user-select:none;
+      font-family:'DM Sans',sans-serif; overflow:hidden;
+      display:flex; align-items:center; justify-content:space-between; gap:8px;
+    }
+    .poll-opt-btn::before {
+      content:''; position:absolute; inset:0; width:var(--pct,0%);
+      background:rgba(255,107,53,.13); border-radius:inherit;
+      transition:width .55s ease; pointer-events:none;
+    }
+    .poll-opt-btn:hover { border-color:rgba(255,107,53,.35); background:rgba(255,107,53,.07); }
+    .poll-opt-btn.selected { border-color:var(--primary); background:rgba(255,107,53,.16); font-weight:600; }
+    .poll-opt-btn.selected::before { background:rgba(255,107,53,.2); }
+    .poll-opt-label { position:relative; z-index:1; flex:1; }
+    .poll-opt-pct { position:relative; z-index:1; font-size:12px; font-weight:600; color:var(--text3); min-width:32px; text-align:right; transition:opacity .2s; }
+    .poll-opt-pct.hidden { opacity:0; }
     .poll-divider-line { height:1px; background:var(--border2); margin:4px 0 20px; }
     .btn-vote { width:100%; padding:15px; background:linear-gradient(135deg,#7c3aed,#ff477e,#ff6b35); border:none; border-radius:var(--r-sm); font-family:'DM Sans',sans-serif; font-size:15px; font-weight:500; color:#fff; cursor:pointer; transition:opacity .2s,transform .15s; box-shadow:0 4px 24px rgba(124,58,237,.3); display:flex; align-items:center; justify-content:center; gap:8px; }
     .btn-vote:hover { opacity:.88; transform:translateY(-1px); }
@@ -155,7 +172,7 @@
     @keyframes up { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
     @media(max-width:480px){
       .share-grid{grid-template-columns:repeat(5,1fr);gap:6px;}
-      .poll-opts-grid{grid-template-columns:1fr 1fr;}
+
       .story-btns{gap:5px;}
     }
   </style>
@@ -475,7 +492,10 @@
         <span class="poll-q-label">Question ${qi+1}</span>
         <p class="poll-q-text">${esc(q.text)}</p>
         <div class="poll-opts-grid" role="group" aria-label="${esc(q.text)}">
-          ${q.options.map(opt=>`<button class="poll-opt-btn" data-qid="${esc(q.id)}" data-val="${esc(opt)}" type="button">${esc(opt)}</button>`).join('')}
+          ${q.options.map((opt,oi)=>`<button class="poll-opt-btn" data-qid="${esc(q.id)}" data-val="${esc(opt)}" data-oi="${oi}" type="button" aria-pressed="false">
+            <span class="poll-opt-label">${esc(opt)}</span>
+            <span class="poll-opt-pct hidden" aria-hidden="true"></span>
+          </button>`).join('')}
         </div>
         ${qi<data.questions.length-1?'<div class="poll-divider-line"></div>':''}
       `;
@@ -484,9 +504,22 @@
     container.querySelectorAll('.poll-opt-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         const qid = btn.dataset.qid, val = btn.dataset.val;
-        container.querySelectorAll(`.poll-opt-btn[data-qid="${qid}"]`).forEach(b => { b.classList.remove('selected'); b.setAttribute('aria-pressed','false'); });
+        const siblings = [...container.querySelectorAll(`.poll-opt-btn[data-qid="${qid}"]`)];
+        siblings.forEach(b => { b.classList.remove('selected'); b.setAttribute('aria-pressed','false'); });
         btn.classList.add('selected'); btn.setAttribute('aria-pressed','true');
         pollAnswers[qid] = val;
+        // Show mock % distribution so UI feels alive (actual counts unknown to sender)
+        const total = siblings.length;
+        const selIdx = siblings.indexOf(btn);
+        // Give selected ~50-70%, split rest evenly
+        const selPct = Math.floor(50 + Math.random() * 20);
+        const rest = Math.floor((100 - selPct) / (total - 1));
+        siblings.forEach((b, i) => {
+          const pct = i === selIdx ? selPct : rest;
+          const pctEl = b.querySelector('.poll-opt-pct');
+          if (pctEl) { pctEl.textContent = pct + '%'; pctEl.classList.remove('hidden'); }
+          b.style.setProperty('--pct', pct + '%');
+        });
         document.getElementById('btn-vote').disabled = Object.keys(pollAnswers).length===0;
       });
     });

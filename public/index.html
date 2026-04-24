@@ -590,6 +590,17 @@
     ]
   }
   </script>
+
+<script>
+  (function() {
+    try {
+      var saved = localStorage.getItem('askthat_username');
+      if (saved) {
+        window.location.replace('/dashboard/' + encodeURIComponent(saved));
+      }
+    } catch(e) {}
+  })();
+</script>
 </head>
 <body>
 

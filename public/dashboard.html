@@ -195,6 +195,20 @@
     .btn-story-share { padding: 13px 16px; background: var(--card); border: 1px solid var(--border2); border-radius: var(--r-sm); font-family:'DM Sans',sans-serif; font-size: 14px; font-weight: 500; color: var(--text2); cursor: pointer; transition: background .2s; }
     .btn-story-share:hover { background: rgba(255,255,255,.08); }
 
+
+    /* ── Compact message share strip ── */
+    .msg-share-strip { display:flex; gap:6px; margin-top:10px; padding-top:10px; border-top:1px solid var(--border2); }
+    .msg-sh-btn { flex:1; display:flex; align-items:center; justify-content:center; gap:5px; padding:8px 4px; border-radius:9px; border:1px solid var(--border2); background:transparent; font-family:'DM Sans',sans-serif; font-size:11px; font-weight:500; cursor:pointer; transition:all .18s; text-decoration:none; color:var(--text3); }
+    .msg-sh-btn:hover { background:rgba(255,255,255,.06); color:var(--text2); }
+    .msg-sh-btn.wa  { color:#25D366; border-color:rgba(37,211,102,.2); }
+    .msg-sh-btn.wa:hover  { background:rgba(37,211,102,.08); }
+    .msg-sh-btn.tw  { color:#1DA1F2; border-color:rgba(29,161,242,.2); }
+    .msg-sh-btn.tw:hover  { color:#1DA1F2; background:rgba(29,161,242,.08); }
+    .msg-sh-btn.tg  { color:#26A5E4; border-color:rgba(38,165,228,.2); }
+    .msg-sh-btn.tg:hover  { background:rgba(38,165,228,.08); }
+    .msg-sh-btn.cp  { color:var(--text3); }
+    .msg-sh-btn.cp:hover  { color:var(--text); }
+    .msg-sh-btn svg { flex-shrink:0; }
     /* ── Refresh indicator ── */
     .refresh-bar { display: flex; align-items: center; justify-content: center; gap: 6px; font-size: 11px; color: var(--text3); margin-top: 18px; }
     .refresh-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); animation: blink 2s ease-in-out infinite; }
@@ -262,6 +276,35 @@
     .sh-btn { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:5px; padding:10px 6px; background:var(--card); border:1px solid var(--border2); border-radius:12px; font-family:'DM Sans',sans-serif; font-size:11px; font-weight:500; color:var(--text2); cursor:pointer; text-decoration:none; transition:all .18s; }
     .sh-btn:hover { background:rgba(255,255,255,.08); color:var(--text); border-color:var(--border); }
     .sh-btn svg { width:20px; height:20px; }
+
+    /* ── Delete account btn ── */
+    .btn-del-account { width:32px; height:32px; border-radius:8px; border:1px solid rgba(248,113,113,.25); background:rgba(248,113,113,.06); display:flex; align-items:center; justify-content:center; cursor:pointer; transition:all .18s; color:var(--red,#f87171); flex-shrink:0; }
+    .btn-del-account:hover { background:rgba(248,113,113,.18); border-color:rgba(248,113,113,.5); }
+
+    /* ── Confirmation modal ── */
+    .confirm-overlay { position:fixed; inset:0; background:rgba(0,0,0,.72); z-index:9000; display:flex; align-items:center; justify-content:center; padding:20px; opacity:0; pointer-events:none; transition:opacity .2s; }
+    .confirm-overlay.show { opacity:1; pointer-events:all; }
+    .confirm-box { background:#1a1208; border:1px solid rgba(255,200,130,.15); border-radius:20px; padding:28px 24px; max-width:340px; width:100%; text-align:center; transform:scale(.94); transition:transform .2s; }
+    .confirm-overlay.show .confirm-box { transform:scale(1); }
+    .confirm-icon { font-size:36px; margin-bottom:10px; }
+    .confirm-title { font-family:'Syne',sans-serif; font-size:18px; font-weight:700; margin-bottom:8px; }
+    .confirm-desc { font-size:13px; color:var(--text2); line-height:1.55; margin-bottom:22px; }
+    .confirm-btns { display:flex; gap:10px; }
+    .confirm-cancel { flex:1; padding:12px; background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.1); border-radius:12px; font-family:'DM Sans',sans-serif; font-size:14px; font-weight:500; color:var(--text2); cursor:pointer; transition:background .18s; }
+    .confirm-cancel:hover { background:rgba(255,255,255,.11); }
+    .confirm-ok { flex:1; padding:12px; background:rgba(248,113,113,.18); border:1px solid rgba(248,113,113,.4); border-radius:12px; font-family:'DM Sans',sans-serif; font-size:14px; font-weight:600; color:#f87171; cursor:pointer; transition:all .18s; }
+    .confirm-ok:hover { background:rgba(248,113,113,.32); }
+    .confirm-ok.loading { opacity:.6; pointer-events:none; }
+
+    /* ── Inline message share panel ── */
+    .msg-share-panel { overflow:hidden; max-height:0; transition:max-height .28s ease, opacity .2s; opacity:0; }
+    .msg-share-panel.open { max-height:120px; opacity:1; }
+    .msg-share-inner { display:grid; grid-template-columns:repeat(5,1fr); gap:6px; padding:10px 0 4px; }
+    .ms-btn { display:flex; flex-direction:column; align-items:center; gap:4px; padding:8px 4px; background:rgba(255,255,255,.04); border:1px solid rgba(255,200,130,.08); border-radius:10px; font-family:'DM Sans',sans-serif; font-size:10px; font-weight:500; color:var(--text3); cursor:pointer; text-decoration:none; transition:all .18s; }
+    .ms-btn:hover { background:rgba(255,255,255,.09); color:var(--text2); border-color:rgba(255,200,130,.18); }
+    .ms-btn svg { width:18px; height:18px; }
+    .icon-btn.share-msg { }
+    .icon-btn.share-msg.active { background:rgba(255,107,53,.12); color:var(--primary); border-color:rgba(255,107,53,.3); }
     @keyframes spin { to{transform:rotate(360deg)} }
 
     /* ── Hint ── */
@@ -302,6 +345,9 @@
       </button>
       <button class="btn-sm ol" id="btn-poll" title="Manage Poll" style="border-color:rgba(255,191,105,.3);color:var(--gold)">
         📊 Poll
+      </button>
+      <button class="btn-del-account" id="btn-del-account" title="Delete account" aria-label="Delete account">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 3.5h10M5.5 3.5V2.5a.5.5 0 01.5-.5h2a.5.5 0 01.5.5v1M6 6v4.5M8 6v4.5M3 3.5l.667 7.5A1 1 0 004.664 12h4.672a1 1 0 00.997-.918L11 3.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </button>
       <button class="btn-sm pu" id="btn-story" title="Create Story Poster">
         <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="5.5" stroke="currentColor" stroke-width="1.4"/><circle cx="6.5" cy="6.5" r="2" stroke="currentColor" stroke-width="1.3"/></svg>
@@ -479,6 +525,20 @@
   </div>
 </div>
 
+
+  <!-- Confirmation Modal -->
+  <div class="confirm-overlay" id="confirm-overlay" role="dialog" aria-modal="true">
+    <div class="confirm-box">
+      <div class="confirm-icon" id="confirm-icon">🗑️</div>
+      <div class="confirm-title" id="confirm-title">Delete message?</div>
+      <div class="confirm-desc" id="confirm-desc">This action cannot be undone.</div>
+      <div class="confirm-btns">
+        <button class="confirm-cancel" id="confirm-cancel">Cancel</button>
+        <button class="confirm-ok" id="confirm-ok">Delete</button>
+      </div>
+    </div>
+  </div>
+
 <div class="toast" id="toast" role="alert" aria-live="assertive"></div>
 
 <script>
@@ -554,6 +614,8 @@
   // ── Init ──────────────────────────────────────────────────────────────────
   profileName.textContent = user;
   avatarEl.textContent    = user.charAt(0).toUpperCase();
+  // Remember this username so index.html can redirect back
+  try { localStorage.setItem('askthat_username', user); } catch(_) {}
   linkDisplay.textContent = `askthat.pages.dev/ask/${user}`;
   document.title          = `${user}'s Inbox — AskThat`;
   document.getElementById('caption-url-txt').textContent = BASE_URL;
@@ -652,12 +714,35 @@
         </div>
       </div>
       <div class="card-actions">
-
-        <button class="icon-btn story" data-action="story" data-id="${m.id}" title="Create story" aria-label="Create story">
+        <button class="icon-btn share-msg" data-action="share-msg" data-id="${m.id}" title="Share message" aria-label="Share message">
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="10" cy="2.5" r="1.5" stroke="currentColor" stroke-width="1.3"/><circle cx="10" cy="10.5" r="1.5" stroke="currentColor" stroke-width="1.3"/><circle cx="3" cy="6.5" r="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M4.4 7.3l4.2 2.4M8.6 3.3L4.4 5.7" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+        </button>
+        <button class="icon-btn story" data-action="story" data-id="${m.id}" title="Create story poster" aria-label="Create story poster">
           <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="5.5" stroke="currentColor" stroke-width="1.3"/><circle cx="6.5" cy="6.5" r="2" stroke="currentColor" stroke-width="1.2"/></svg>
         </button>
         <button class="icon-btn del" data-action="delete" data-id="${m.id}" title="Delete" aria-label="Delete">
           <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 3h9M5 3V2h3v1M5.5 5.5v4M7.5 5.5v4M3.5 3l.5 7.5a1 1 0 001 .9h4a1 1 0 001-.9L11 3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+      <div class="msg-share-panel" id="msp-${m.id}">
+        <div class="msg-share-inner" id="mspi-${m.id}"></div>
+      </div>
+      <div class="msg-share-strip">
+        <a class="msg-sh-btn wa" data-share="wa" data-msg="${esc(m.text)}" href="#" title="Share on WhatsApp">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.125.557 4.118 1.528 5.845L0 24l6.335-1.652A11.954 11.954 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.006-1.371l-.36-.214-3.727.977.994-3.638-.235-.374A9.818 9.818 0 012.182 12C2.182 6.578 6.578 2.182 12 2.182S21.818 6.578 21.818 12 17.422 21.818 12 21.818z"/></svg>
+          WA
+        </a>
+        <a class="msg-sh-btn tw" data-share="tw" data-msg="${esc(m.text)}" href="#" title="Share on Twitter">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="#1DA1F2"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.259 5.63zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          X
+        </a>
+        <a class="msg-sh-btn tg" data-share="tg" data-msg="${esc(m.text)}" href="#" title="Share on Telegram">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="#26A5E4"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L7.14 13.913l-2.98-.924c-.648-.203-.66-.648.136-.961l11.647-4.49c.537-.194 1.006.131.951.683z"/></svg>
+          TG
+        </a>
+        <button class="msg-sh-btn cp" data-share="cp" data-msg="${esc(m.text)}" title="Copy message">
+          <svg width="12" height="12" viewBox="0 0 13 13" fill="none"><rect x="1" y="4" width="8" height="8" rx="1.5" stroke="currentColor" stroke-width="1.4"/><path d="M4 4V3a1 1 0 011-1h5a1 1 0 011 1v5a1 1 0 01-1 1h-1" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+          Copy
         </button>
       </div>`;
 
@@ -674,12 +759,124 @@
       btn.addEventListener('click', e => {
         const id     = e.currentTarget.dataset.id;
         const action = e.currentTarget.dataset.action;
-        if (action === 'delete') deleteMsg(id);
+        if (action === 'delete') confirmDeleteMsg(id, e.currentTarget.closest('.msg-card'));
         if (action === 'story')  openStoryModal();
+        if (action === 'share-msg') toggleMsgShare(m, e.currentTarget);
+      });
+    });
+
+    // Compact share strip
+    card.querySelectorAll('[data-share]').forEach(btn => {
+      btn.addEventListener('click', e => {
+        e.preventDefault();
+        const type = e.currentTarget.dataset.share;
+        const msg  = m.text;
+        const shareText = `"${msg}" — send me one: ${BASE_URL}`;
+        const enc  = encodeURIComponent(shareText);
+        if (type === 'wa') window.open(`https://wa.me/?text=${enc}`, '_blank');
+        if (type === 'tw') window.open(`https://twitter.com/intent/tweet?text=${enc}`, '_blank');
+        if (type === 'tg') window.open(`https://t.me/share/url?url=${encodeURIComponent(BASE_URL)}&text=${encodeURIComponent('"' + msg + '" — send me one!')}`, '_blank');
+        if (type === 'cp') {
+          navigator.clipboard.writeText(shareText).then(() => {
+            const b = e.currentTarget; const orig = b.innerHTML;
+            b.innerHTML = '<svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#4ade80" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Done';
+            b.style.color = '#4ade80';
+            setTimeout(() => { b.innerHTML = orig; b.style.color = ''; }, 2000);
+          });
+        }
       });
     });
 
     return card;
+  }
+
+  // ── Confirmation modal ──────────────────────────────────────────────────────
+  let _confirmResolve = null;
+  const confirmOverlay = document.getElementById('confirm-overlay');
+  const confirmOk      = document.getElementById('confirm-ok');
+  const confirmCancel  = document.getElementById('confirm-cancel');
+
+  function showConfirm({ icon='🗑️', title='Are you sure?', desc='This cannot be undone.', okLabel='Delete', okDanger=true }) {
+    document.getElementById('confirm-icon').textContent  = icon;
+    document.getElementById('confirm-title').textContent = title;
+    document.getElementById('confirm-desc').textContent  = desc;
+    confirmOk.textContent = okLabel;
+    confirmOk.style.color = okDanger ? '#f87171' : 'var(--primary)';
+    confirmOk.style.borderColor = okDanger ? 'rgba(248,113,113,.4)' : 'rgba(255,107,53,.4)';
+    confirmOk.style.background  = okDanger ? 'rgba(248,113,113,.18)' : 'rgba(255,107,53,.12)';
+    confirmOverlay.classList.add('show');
+    return new Promise(res => { _confirmResolve = res; });
+  }
+
+  confirmOk.addEventListener('click', () => {
+    confirmOverlay.classList.remove('show');
+    if (_confirmResolve) { _confirmResolve(true); _confirmResolve = null; }
+  });
+  confirmCancel.addEventListener('click', () => {
+    confirmOverlay.classList.remove('show');
+    if (_confirmResolve) { _confirmResolve(false); _confirmResolve = null; }
+  });
+  confirmOverlay.addEventListener('click', e => {
+    if (e.target === confirmOverlay) confirmCancel.click();
+  });
+
+  async function confirmDeleteMsg(id, cardEl) {
+    const confirmed = await showConfirm({ icon:'🗑️', title:'Delete message?', desc:'This message will be permanently deleted. It cannot be recovered.', okLabel:'Yes, delete' });
+    if (!confirmed) return;
+    if (cardEl) cardEl.style.opacity = '.4';
+    try {
+      const res  = await fetch('/api/delete', { method:'DELETE', headers:{'Content-Type':'application/json'}, body:JSON.stringify({username:user, id, token: authToken}) });
+      const data = await res.json();
+      if (!res.ok) { showToast(data.error || 'Failed to delete.', 'red'); if (cardEl) cardEl.style.opacity=''; return; }
+      messages = messages.filter(m => m.id !== id);
+      if (cardEl) cardEl.remove();
+      updateCounts(totalServer - 1, unreadCount);
+      if (!messages.length) render();
+    } catch { showToast('Network error.', 'red'); if (cardEl) cardEl.style.opacity = ''; }
+  }
+
+  // ── Inline message share panel ───────────────────────────────────────────
+  let _openShareId = null;
+  function toggleMsgShare(m, btn) {
+    const panel = document.getElementById('msp-' + m.id);
+    const inner = document.getElementById('mspi-' + m.id);
+    if (!panel) return;
+    const isOpen = panel.classList.contains('open');
+    // Close any other open panel
+    document.querySelectorAll('.msg-share-panel.open').forEach(p => p.classList.remove('open'));
+    document.querySelectorAll('.icon-btn.share-msg.active').forEach(b => b.classList.remove('active'));
+    if (isOpen) { _openShareId = null; return; }
+    _openShareId = m.id;
+    btn.classList.add('active');
+    if (!inner.dataset.built) {
+      inner.dataset.built = '1';
+      const msgUrl = BASE_URL;
+      const txt = encodeURIComponent('Someone sent me this on AskThat 👀 ' + msgUrl);
+      const msgTxt = encodeURIComponent(m.text.slice(0, 200));
+      [
+        { label:'WhatsApp', href:'https://wa.me/?text=' + encodeURIComponent('💬 ' + m.text.slice(0,200) + '\n\nAsk me too → ' + msgUrl),
+          icon:'<svg viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.125.557 4.118 1.528 5.845L0 24l6.335-1.652A11.954 11.954 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.006-1.371l-.36-.214-3.727.977.994-3.638-.235-.374A9.818 9.818 0 012.182 12C2.182 6.578 6.578 2.182 12 2.182S21.818 6.578 21.818 12 17.422 21.818 12 21.818z"/></svg>' },
+        { label:'Twitter',  href:'https://twitter.com/intent/tweet?text=' + txt,
+          icon:'<svg viewBox="0 0 24 24" fill="#1DA1F2"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.259 5.63zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>' },
+        { label:'Telegram', href:'https://t.me/share/url?url=' + encodeURIComponent(msgUrl) + '&text=' + msgTxt,
+          icon:'<svg viewBox="0 0 24 24" fill="#26A5E4"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L7.14 13.913l-2.98-.924c-.648-.203-.66-.648.136-.961l11.647-4.49c.537-.194 1.006.131.951.683z"/></svg>' },
+        { label:'Discord',  href:'https://discord.com/channels/@me',
+          icon:'<svg viewBox="0 0 24 24" fill="#5865F2"><path d="M20.317 4.37a19.791 19.791 0 00-4.885-1.515.074.074 0 00-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 00-5.487 0 12.64 12.64 0 00-.617-1.25.077.077 0 00-.079-.037A19.736 19.736 0 003.677 4.37a.07.07 0 00-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 00.031.057 19.9 19.9 0 005.993 3.03.078.078 0 00.084-.028 14.09 14.09 0 001.226-1.994.076.076 0 00-.041-.106 13.107 13.107 0 01-1.872-.892.077.077 0 01-.008-.128 10.2 10.2 0 00.372-.292.074.074 0 01.077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 01.078.01c.12.098.246.198.373.292a.077.077 0 01-.006.127 12.299 12.299 0 01-1.873.892.077.077 0 00-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 00.084.028 19.839 19.839 0 006.002-3.03.077.077 0 00.032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 00-.031-.03z"/></svg>' },
+        { label:'Copy',     href:null,
+          icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>' },
+      ].forEach(function(s) {
+        var el = s.href ? document.createElement('a') : document.createElement('button');
+        el.className = 'ms-btn';
+        if (s.href) { el.href = s.href; el.target = '_blank'; el.rel = 'noopener noreferrer'; }
+        else el.addEventListener('click', function() {
+          var shareText = m.text.slice(0,200) + '\n\nAsk me anything → ' + msgUrl;
+          navigator.clipboard.writeText(shareText).then(function() { showToast('✓ Copied!'); });
+        });
+        el.innerHTML = s.icon + '<span>' + s.label + '</span>';
+        inner.appendChild(el);
+      });
+    }
+    panel.classList.add('open');
   }
 
   // ── Delete & Pin ──────────────────────────────────────────────────────────
@@ -729,7 +926,9 @@
     if (!selected.size) return;
     const ids = [...selected];
     try {
-      const res  = await fetch('/api/delete', { method:'DELETE', headers:{'Content-Type':'application/json'}, body:JSON.stringify({username:user, bulk:ids, token: authToken}) });
+      const confirmed = await showConfirm({ icon:'🗑️', title:`Delete ${ids.length} message${ids.length>1?'s':''}?`, desc:'All selected messages will be permanently removed. This cannot be undone.', okLabel:'Yes, delete all' });
+    if (!confirmed) return;
+    const res  = await fetch('/api/delete', { method:'DELETE', headers:{'Content-Type':'application/json'}, body:JSON.stringify({username:user, bulk:ids, token: authToken}) });
       const data = await res.json();
       if (!res.ok) { showToast(data.error || 'Delete failed.', 'red'); return; }
       messages = messages.filter(m => !ids.includes(m.id));
@@ -770,6 +969,31 @@
     });
   }
   document.getElementById('btn-copy-link').addEventListener('click', copyLink);
+
+  // ── Delete account ────────────────────────────────────────────────────────
+  document.getElementById('btn-del-account').addEventListener('click', async function() {
+    const confirmed = await showConfirm({
+      icon: '⚠️',
+      title: 'Delete account?',
+      desc: 'Your username, all messages and poll data will be permanently erased. You will be taken back to the home page.',
+      okLabel: 'Delete account',
+      okDanger: true
+    });
+    if (!confirmed) return;
+    const btn = document.getElementById('btn-del-account');
+    btn.style.opacity = '.5'; btn.style.pointerEvents = 'none';
+    try {
+      const res  = await fetch('/api/delete-account', {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username: user, token: authToken })
+      });
+      const data = await res.json();
+      if (!res.ok) { showToast(data.error || 'Could not delete account.', 'red'); btn.style.opacity=''; btn.style.pointerEvents=''; return; }
+      try { localStorage.removeItem('askthat_username'); } catch(_) {}
+      window.location.replace('/');
+    } catch { showToast('Network error.', 'red'); btn.style.opacity=''; btn.style.pointerEvents=''; }
+  });
 
   // ── Share grid ────────────────────────────────────────────────────────────
   (function buildShareGrid() {
