@@ -1,113 +1,100 @@
-AskThat Non-Commercial License
-Version 1.0, April 2025
+PolyForm Noncommercial License 1.0.0
 
 Copyright (c) 2025 AskThat (https://askthat.pages.dev)
-All rights reserved.
 
-──────────────────────────────────────────────────────────────────────────────
+<https://polyformproject.org/licenses/noncommercial/1.0.0>
 
-TERMS AND CONDITIONS
+## Acceptance
 
-1. DEFINITIONS
+In order to get any license under these terms, you must agree
+to them as both strict obligations and conditions to all
+your licenses.
 
-   "Software" means the source code, compiled output, documentation, configuration
-   files, and any other files contained in this repository, including but not limited
-   to the AskThat web application and its Cloudflare Pages Functions backend.
+## Copyright License
 
-   "Licensor" means the copyright holder(s) of the Software.
+The licensor grants you a copyright license for the software
+to do everything you might do with the software that would
+otherwise infringe the licensor's copyright in it for any
+permitted purpose, other than distributing the software or
+making changes or new works based on the software.
 
-   "You" (or "Your") means the individual or legal entity exercising rights under
-   this License.
+## Noncommercial Purposes
 
-   "Commercial Use" means any use of the Software, in whole or in part, that is
-   primarily intended for or directed toward commercial advantage or monetary
-   compensation. This includes, without limitation:
-     (a) operating a publicly accessible service that competes with or replicates
-         the functionality of AskThat (askthat.pages.dev);
-     (b) incorporating the Software into a product or service sold or licensed
-         to third parties;
-     (c) using the Software to generate advertising revenue, subscription fees,
-         or any other form of direct or indirect income;
-     (d) offering the Software as a hosted service (SaaS) to third parties.
+Any noncommercial purpose is a permitted purpose.
 
-   "Non-Commercial Use" means personal, educational, research, or hobbyist use
-   where no monetary compensation or commercial benefit is received or expected.
+## Personal Uses
 
-──────────────────────────────────────────────────────────────────────────────
+Personal use for research, experiment, and testing for
+the benefit of public knowledge, personal study, private
+entertainment, hobby projects, amateur pursuits, or religious
+observance, without any anticipated commercial application,
+counts as use for a noncommercial purpose.
 
-2. GRANT OF LICENSE
+## Noncommercial Organizations
 
-   Subject to the terms and conditions of this License, the Licensor hereby grants
-   You a worldwide, royalty-free, non-exclusive, non-transferable license to:
+Use by any charitable organization, educational institution,
+public research organization, public safety or health
+organization, environmental protection organization,
+or government institution counts as use for a
+noncommercial purpose regardless of the source of
+funding or obligations resulting from the funding.
 
-     (a) View and study the Software for personal, educational, or research purposes;
-     (b) Fork, copy, and modify the Software solely for Non-Commercial Use;
-     (c) Run a private, non-public instance of the Software for personal use.
+## Fair Use
 
-──────────────────────────────────────────────────────────────────────────────
+You may have "fair use" rights for the software under the
+law. These terms do not limit them.
 
-3. RESTRICTIONS
+## No Other Rights
 
-   You may NOT, without the prior written permission of the Licensor:
+These terms do not allow you to sublicense or transfer any of
+your licenses to anyone else, or prevent the licensor from
+granting licenses to anyone else. These terms do not imply
+any other licenses.
 
-     (a) Use the Software for any Commercial Use as defined above;
-     (b) Distribute, publish, or sublicense the Software or any derivative works
-         to third parties;
-     (c) Deploy a publicly accessible instance of the Software that serves users
-         other than yourself;
-     (d) Remove or alter any copyright notices, license headers, or attributions
-         contained in the Software;
-     (e) Use the name "AskThat", the project's branding, logo, or domain name in
-         any derivative work without explicit written permission from the Licensor;
-     (f) Sell, rent, lease, or otherwise transfer rights to the Software.
+## Patent Defense
 
-──────────────────────────────────────────────────────────────────────────────
+If you make any written claim that the software infringes or
+contributes to infringement of any patent, your patent
+license for the software granted under these terms ends
+immediately. If your employer makes such a claim, your patent
+license ends immediately for work on behalf of your employer.
 
-4. CONTRIBUTIONS
+## Violations
 
-   Any contributions You submit to this project (e.g., via pull requests, issues,
-   or other means) are provided to the Licensor under the terms of this License.
-   By submitting a contribution, You represent that You have the right to grant the
-   Licensor a perpetual, worldwide, royalty-free license to use, modify, and
-   distribute Your contribution as part of this Software.
+The first time you are notified in writing that you have
+violated any of these terms, or done anything with the
+software not covered by your licenses, you have 30 days to
+come into compliance. If you do not, your licenses end
+immediately.
 
-──────────────────────────────────────────────────────────────────────────────
+## No Liability
 
-5. NO WARRANTY
+***As far as the law allows, the software comes as is,
+without any warranty or condition, and the licensor will not
+be liable to you for any damages arising out of these terms
+or the use or nature of the software, under any kind of
+legal claim.***
 
-   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
-   FOR A PARTICULAR PURPOSE, AND NONINFRINGEMENT. IN NO EVENT SHALL THE LICENSOR BE
-   LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY, WHETHER IN AN ACTION OF
-   CONTRACT, TORT, OR OTHERWISE, ARISING FROM, OUT OF, OR IN CONNECTION WITH THE
-   SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+## Definitions
 
-──────────────────────────────────────────────────────────────────────────────
+The **licensor** is the individual or entity offering these
+terms, and the **software** is the software the licensor makes
+available under these terms.
 
-6. TERMINATION
+**You** refers to the individual or entity agreeing to these
+terms.
 
-   This License is effective until terminated. Your rights under this License will
-   terminate automatically and without notice from the Licensor if You fail to comply
-   with any of its terms. Upon termination, You must cease all use of the Software
-   and destroy all copies in Your possession or control.
+**Your company** is any legal entity, sole proprietorship,
+or other kind of organization that you work for, plus all
+the organizations that have control over, are under the
+control of, or are under common control with that
+organization. **Control** means ownership of substantially
+all the assets of an entity, or the power to direct its
+management and policies by vote, contract, or otherwise.
+Control can be direct or indirect.
 
-──────────────────────────────────────────────────────────────────────────────
+**Your licenses** are all the licenses granted to you for the
+software under these terms.
 
-7. GOVERNING LAW
-
-   This License shall be governed by and construed in accordance with applicable
-   law, without regard to conflict of law principles.
-
-──────────────────────────────────────────────────────────────────────────────
-
-8. COMMERCIAL LICENSING
-
-   If You wish to use the Software for Commercial Use, or to deploy a public
-   instance for third-party users, please contact the Licensor to obtain a
-   separate commercial license.
-
-   Contact: https://askthat.pages.dev
-
-──────────────────────────────────────────────────────────────────────────────
-
-END OF LICENSE
+**Use** means anything you do with the software requiring one
+of your licenses.

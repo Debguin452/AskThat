@@ -156,7 +156,7 @@ out/
 
 ## ⚖️ License
 
-This project is licensed under the **AskThat Non-Commercial License**. You may view, study, and fork this code for **personal or educational purposes only**. Commercial use, redistribution as a competing service, and sublicensing are strictly prohibited. See [LICENSE](./LICENSE) for full terms.
+This project is licensed under the **[PolyForm Noncommercial License 1.0.0](https://polyformproject.org/licenses/noncommercial/1.0.0)**. You may view, study, and use this code for personal, educational, or research purposes only. Commercial use, redistribution as a competing service, and sublicensing are strictly prohibited. See [LICENSE](./LICENSE) for full terms.
 
 ---
 
