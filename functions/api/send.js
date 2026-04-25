@@ -2,7 +2,7 @@
 
 const MAX_MSG_LEN      = 500;
 const MAX_MSGS_PER_USER= 100;
-const MSG_TTL_HOURS    = 48;
+const MSG_TTL_HOURS    = 168; // 7 days
 const MAX_USERNAME_LEN = 30;
 const USERNAME_RE      = /^[a-zA-Z0-9_.-]+$/;
 
