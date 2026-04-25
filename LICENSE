@@ -1,0 +1,113 @@
+AskThat Non-Commercial License
+Version 1.0, April 2025
+
+Copyright (c) 2025 AskThat (https://askthat.pages.dev)
+All rights reserved.
+
+──────────────────────────────────────────────────────────────────────────────
+
+TERMS AND CONDITIONS
+
+1. DEFINITIONS
+
+   "Software" means the source code, compiled output, documentation, configuration
+   files, and any other files contained in this repository, including but not limited
+   to the AskThat web application and its Cloudflare Pages Functions backend.
+
+   "Licensor" means the copyright holder(s) of the Software.
+
+   "You" (or "Your") means the individual or legal entity exercising rights under
+   this License.
+
+   "Commercial Use" means any use of the Software, in whole or in part, that is
+   primarily intended for or directed toward commercial advantage or monetary
+   compensation. This includes, without limitation:
+     (a) operating a publicly accessible service that competes with or replicates
+         the functionality of AskThat (askthat.pages.dev);
+     (b) incorporating the Software into a product or service sold or licensed
+         to third parties;
+     (c) using the Software to generate advertising revenue, subscription fees,
+         or any other form of direct or indirect income;
+     (d) offering the Software as a hosted service (SaaS) to third parties.
+
+   "Non-Commercial Use" means personal, educational, research, or hobbyist use
+   where no monetary compensation or commercial benefit is received or expected.
+
+──────────────────────────────────────────────────────────────────────────────
+
+2. GRANT OF LICENSE
+
+   Subject to the terms and conditions of this License, the Licensor hereby grants
+   You a worldwide, royalty-free, non-exclusive, non-transferable license to:
+
+     (a) View and study the Software for personal, educational, or research purposes;
+     (b) Fork, copy, and modify the Software solely for Non-Commercial Use;
+     (c) Run a private, non-public instance of the Software for personal use.
+
+──────────────────────────────────────────────────────────────────────────────
+
+3. RESTRICTIONS
+
+   You may NOT, without the prior written permission of the Licensor:
+
+     (a) Use the Software for any Commercial Use as defined above;
+     (b) Distribute, publish, or sublicense the Software or any derivative works
+         to third parties;
+     (c) Deploy a publicly accessible instance of the Software that serves users
+         other than yourself;
+     (d) Remove or alter any copyright notices, license headers, or attributions
+         contained in the Software;
+     (e) Use the name "AskThat", the project's branding, logo, or domain name in
+         any derivative work without explicit written permission from the Licensor;
+     (f) Sell, rent, lease, or otherwise transfer rights to the Software.
+
+──────────────────────────────────────────────────────────────────────────────
+
+4. CONTRIBUTIONS
+
+   Any contributions You submit to this project (e.g., via pull requests, issues,
+   or other means) are provided to the Licensor under the terms of this License.
+   By submitting a contribution, You represent that You have the right to grant the
+   Licensor a perpetual, worldwide, royalty-free license to use, modify, and
+   distribute Your contribution as part of this Software.
+
+──────────────────────────────────────────────────────────────────────────────
+
+5. NO WARRANTY
+
+   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+   FOR A PARTICULAR PURPOSE, AND NONINFRINGEMENT. IN NO EVENT SHALL THE LICENSOR BE
+   LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+   CONTRACT, TORT, OR OTHERWISE, ARISING FROM, OUT OF, OR IN CONNECTION WITH THE
+   SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+──────────────────────────────────────────────────────────────────────────────
+
+6. TERMINATION
+
+   This License is effective until terminated. Your rights under this License will
+   terminate automatically and without notice from the Licensor if You fail to comply
+   with any of its terms. Upon termination, You must cease all use of the Software
+   and destroy all copies in Your possession or control.
+
+──────────────────────────────────────────────────────────────────────────────
+
+7. GOVERNING LAW
+
+   This License shall be governed by and construed in accordance with applicable
+   law, without regard to conflict of law principles.
+
+──────────────────────────────────────────────────────────────────────────────
+
+8. COMMERCIAL LICENSING
+
+   If You wish to use the Software for Commercial Use, or to deploy a public
+   instance for third-party users, please contact the Licensor to obtain a
+   separate commercial license.
+
+   Contact: https://askthat.pages.dev
+
+──────────────────────────────────────────────────────────────────────────────
+
+END OF LICENSE
