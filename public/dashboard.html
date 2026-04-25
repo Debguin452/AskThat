@@ -136,7 +136,6 @@
 
     .card-footer { display: flex; align-items: center; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
     .card-time { font-size: 11px; color: var(--text3); display: flex; align-items: center; gap: 4px; }
-    .expiry-warn { color: #fbbf24; }
     .dot-sep { color: var(--text3); font-size: 9px; }
     .read-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--primary); flex-shrink: 0; }
     .card-actions { display: flex; gap: 5px; margin-left: auto; }
@@ -726,7 +725,6 @@
     card.className = `msg-card${isUnread ? ' unread-card' : ''}`;
 
     const age  = timeAgo(m.timestamp);
-    const exp  = timeAgo(m.expiresAt, true);
     const pollHTML = m.poll
       ? `<div class="card-poll">${m.poll.vibe ? `<span class="poll-chip">😄 ${esc(m.poll.vibe)}</span>` : ''}${m.poll.know ? `<span class="poll-chip">🤝 ${esc(m.poll.know)}</span>` : ''}</div>`
       : '';
@@ -739,7 +737,6 @@
         <div class="card-meta">
           <span>${age}</span>
           ${isUnread ? '<span class="badge badge-new">new</span>' : ''}
-          <span style="margin-left:auto;font-size:11px;color:var(--text3)">expires ${exp}</span>
         </div>
       </div>
       <div class="card-actions">
@@ -1183,7 +1180,7 @@
       const data = await res.json();
       if (data.enabled) {
         pollEnabled = true;
-        pollEnableTog.setAttribute('aria-checked');
+        pollEnableTog.setAttribute('aria-checked', 'true');
         (data.questions || []).forEach(q => addQEditor(q));
       } else {
         pollEnabled = false;
@@ -1247,7 +1244,7 @@
       const res  = await fetch('/api/poll', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username: user, settings: { enabled: pollEnabled, title: 'Quick Poll', questions } }),
+        body: JSON.stringify({ username: user, token: authToken, settings: { enabled: pollEnabled, title: 'Quick Poll', questions } }),
       });
       const data = await res.json();
       if (!res.ok) { saveNote.textContent = data.error || 'Save failed.'; saveNote.className = 'poll-save-note err'; }
@@ -1256,7 +1253,16 @@
     finally { saveBtn.disabled = false; saveBtn.textContent = 'Save Poll Settings'; }
   });
 
+  async function loadPollConfig() {
+    try {
+      const res  = await fetch(`/api/poll?username=${encodeURIComponent(user)}`);
+      const data = await res.json();
+      pollEnabled = Boolean(data.enabled);
+    } catch (_) {}
+  }
+
   document.getElementById('btn-poll').addEventListener('click', openPollModal);
+  loadPollConfig();
   pollModalClose.addEventListener('click', () => pollModal.classList.remove('show'));
   pollModal.addEventListener('click', e => { if (e.target === e.currentTarget) pollModal.classList.remove('show'); });
 
