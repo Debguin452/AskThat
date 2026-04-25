@@ -1,7 +1,8 @@
-// functions/_middleware.js
+const ALLOWED_ORIGIN = 'https://askthat.pages.dev';
 
 const ROUTE_LIMITS = {
   '/api/send':   { max: 8,  windowSecs: 60 },
+  '/api/poll':   { max: 20, windowSecs: 60 },
   '/api/delete': { max: 30, windowSecs: 60 },
   '/api/pin':    { max: 40, windowSecs: 60 },
   '/api/stats':  { max: 60, windowSecs: 60 },
@@ -10,58 +11,62 @@ const ROUTE_LIMITS = {
 };
 
 const MAX_BODY_BYTES = 8192;
-const BOT_UA_DENY = [/python-requests/i, /go-http-client/i, /scrapy/i, /httpclient/i, /libwww-perl/i, /wget\//i];
+const BOT_UA_DENY   = [/python-requests/i, /go-http-client/i, /scrapy/i, /httpclient/i, /libwww-perl/i, /wget\//i];
 
 export async function onRequest(context) {
   const { request, env, next } = context;
-  const url   = new URL(request.url);
-  const isApi = url.pathname.startsWith('/api/');
+  const url    = new URL(request.url);
+  const isApi  = url.pathname.startsWith('/api/');
+  const origin = request.headers.get('Origin') || '';
 
   if (request.method === 'OPTIONS') {
-    return new Response(null, { status: 204, headers: corsHeaders() });
+    if (!isAllowedOrigin(origin)) return new Response(null, { status: 403 });
+    return new Response(null, { status: 204, headers: corsHeaders(origin) });
   }
 
-  if (!isApi) {
-    return withSecurityHeaders(await next());
+  if (!isApi) return withSecurityHeaders(await next());
+
+  // Block cross-origin API calls from unknown origins
+  if (origin && !isAllowedOrigin(origin)) {
+    return apiError('Forbidden.', 403);
   }
 
-  // Bot UA guard on mutating requests
-  if (['POST', 'DELETE', 'PATCH'].includes(request.method)) {
+  if (['POST', 'DELETE', 'PATCH', 'PUT'].includes(request.method)) {
     const ua = request.headers.get('User-Agent') || '';
-    if (!ua || BOT_UA_DENY.some(r => r.test(ua))) {
-      return apiError('Request blocked.', 403);
-    }
+    if (!ua || BOT_UA_DENY.some(r => r.test(ua))) return apiError('Request blocked.', 403);
   }
 
-  // Body size guard
-  if (request.method === 'POST') {
+  if (request.method === 'POST' || request.method === 'PUT') {
     const cl = parseInt(request.headers.get('Content-Length') || '0', 10);
     if (cl > MAX_BODY_BYTES) return apiError('Request body too large.', 413);
   }
 
-  // Per-route IP rate limiting
-  const ip   = getIP(request);
-  const key  = Object.keys(ROUTE_LIMITS).find(k => url.pathname.startsWith(k)) || 'default';
+  const ip    = getIP(request);
+  const key   = Object.keys(ROUTE_LIMITS).find(k => url.pathname.startsWith(k)) || 'default';
   const limit = ROUTE_LIMITS[key];
-  const rl   = await checkRateLimit(env, ip, url.pathname, limit);
+  const rl    = await checkRateLimit(env, ip, url.pathname, limit);
 
   if (!rl.allowed) {
     return apiError('Too many requests — slow down.', 429, {
-      'Retry-After':          String(limit.windowSecs),
-      'X-RateLimit-Limit':    String(limit.max),
-      'X-RateLimit-Remaining':'0',
-      'X-RateLimit-Reset':    String(rl.resetAt),
+      'Retry-After':           String(limit.windowSecs),
+      'X-RateLimit-Limit':     String(limit.max),
+      'X-RateLimit-Remaining': '0',
+      'X-RateLimit-Reset':     String(rl.resetAt),
     });
   }
 
   const resp = await next();
   const out  = new Headers(resp.headers);
-  Object.entries(corsHeaders()).forEach(([k, v]) => out.set(k, v));
+  Object.entries(corsHeaders(origin)).forEach(([k, v]) => out.set(k, v));
   Object.entries(securityHeaders()).forEach(([k, v]) => out.set(k, v));
-  out.set('X-RateLimit-Limit', String(limit.max));
+  out.set('X-RateLimit-Limit',     String(limit.max));
   out.set('X-RateLimit-Remaining', String(rl.remaining));
-
   return new Response(resp.body, { status: resp.status, headers: out });
+}
+
+function isAllowedOrigin(origin) {
+  if (!origin) return true;
+  return origin === ALLOWED_ORIGIN || origin === 'http://localhost:8787' || origin === 'http://localhost:3000';
 }
 
 async function checkRateLimit(env, ip, pathname, { max, windowSecs }) {
@@ -69,7 +74,6 @@ async function checkRateLimit(env, ip, pathname, { max, windowSecs }) {
   const bucket = Math.floor(now / windowSecs);
   const key    = `rl2:${ip}:${pathname}:${bucket}`;
   let count    = 0;
-
   try { const v = await env.MESSAGES_KV.get(key); count = v ? parseInt(v, 10) : 0; } catch (_) {}
   if (count >= max) return { allowed: false, remaining: 0, resetAt: (bucket + 1) * windowSecs };
   try { await env.MESSAGES_KV.put(key, String(count + 1), { expirationTtl: windowSecs * 2 }); } catch (_) {}
@@ -96,18 +100,20 @@ function securityHeaders() {
   };
 }
 
-function corsHeaders() {
+function corsHeaders(origin = '') {
+  const allow = (origin && isAllowedOrigin(origin)) ? origin : ALLOWED_ORIGIN;
   return {
-    'Access-Control-Allow-Origin':  '*',
-    'Access-Control-Allow-Methods': 'GET, POST, DELETE, PATCH, OPTIONS',
+    'Access-Control-Allow-Origin':  allow,
+    'Access-Control-Allow-Methods': 'GET, POST, DELETE, PATCH, PUT, OPTIONS',
     'Access-Control-Allow-Headers': 'Content-Type, X-Requested-With',
     'Access-Control-Max-Age':       '86400',
+    'Vary':                         'Origin',
   };
 }
 
 function apiError(message, status, extra = {}) {
   return new Response(JSON.stringify({ error: message, status }), {
     status,
-    headers: { 'Content-Type': 'application/json', ...corsHeaders(), ...extra },
+    headers: { 'Content-Type': 'application/json', ...extra },
   });
 }
