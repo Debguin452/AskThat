@@ -1451,7 +1451,7 @@
   const PROMPT_TYPES = {
     ask:     { label:'Ask Me Anything', sub:'Send an anonymous message', icon:'💬', urlParam:'ask',     emoji:'💬' },
     '3words':{ label:'Describe Me in 3 Words', sub:'Exactly 3 words only', icon:'✏️', urlParam:'3words',  emoji:'✏️' },
-    trust:   { label:'What's Your Trust Level?', sub:'How well do you really know me?', icon:'🔒', urlParam:'trust', emoji:'🔒' },
+    trust:   { label:'What\'s Your Trust Level?', sub:'How well do you really know me?', icon:'🔒', urlParam:'trust', emoji:'🔒' },
     rate:    { label:'Rate My Vibe 1–10', sub:'Be honest, no judgment', icon:'⭐', urlParam:'rate',    emoji:'⭐' },
     hottake: { label:'Hot Take About Me', sub:'Say what you actually think', icon:'🌶️', urlParam:'hottake',emoji:'🌶️' },
     advice:  { label:'Give Me Advice', sub:'One thing I should hear', icon:'💡', urlParam:'advice',  emoji:'💡' },
@@ -1471,7 +1471,7 @@
         aiPromptText = d.prompt;
         PROMPT_TYPES.ai.label = d.prompt;
       }
-    } catch(_) { aiPromptText = 'What's one thing you'd never say to my face?'; PROMPT_TYPES.ai.label = aiPromptText; }
+    } catch(_) { aiPromptText = 'What\'s one thing you\'d never say to my face?'; PROMPT_TYPES.ai.label = aiPromptText; }
     if (pill) { pill.querySelector('.prompt-pill-label').textContent = 'AI Pick'; }
     if (currentPromptType === 'ai') renderPoster(posterStyle);
   }
@@ -1609,7 +1609,7 @@
 
   function _drawAskPrompt(ctx,T,W,H,link,linkShort) {
     _drawPromptCard(ctx,T,W,'Ask me anything',
-      'Send something honest — I'll never know it was you',680,600);
+      'Send something honest — I\'ll never know it was you',680,600);
     _drawCTA(ctx,T,W,'Send anonymously →',1380,link,linkShort);
   }
 
@@ -1693,7 +1693,7 @@
   }
 
   function _drawAIPrompt(ctx,T,W,H,link,linkShort) {
-    const promptText = aiPromptText || 'What's one thing you'd never say to my face?';
+    const promptText = aiPromptText || 'What\'s one thing you\'d never say to my face?';
     ctx.font='120px sans-serif'; ctx.fillText('✨',W/2,820);
     ctx.font='800 76px sans-serif'; ctx.fillStyle=T.headline;
     wrapText(ctx,promptText,W/2,940,860,96);
