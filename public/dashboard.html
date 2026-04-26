@@ -1480,7 +1480,7 @@
   function promptLink(type) {
     const base = `${location.origin}/ask/${user}`;
     if (type === 'ask') return base;
-    return `${base}?prompt=${type}`;
+    return `${base}?type=${type}`;
   }
 
   function drawPoster(styleName) {
