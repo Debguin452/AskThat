@@ -690,6 +690,22 @@
 
   load(true);
   startRefresh();
+  // Load streak once on init (fire and forget)
+  (async () => {
+    try {
+      const res = await fetch(`/api/stats?username=${encodeURIComponent(user)}`);
+      const d   = await res.json();
+      if (d.streak > 1) {
+        const nameEl = document.getElementById('profile-name');
+        if (nameEl && !nameEl.querySelector('.streak-pill')) {
+          const pill = document.createElement('span');
+          pill.className = 'streak-pill';
+          pill.textContent = `🔥 ${d.streak}-day streak`;
+          nameEl.appendChild(pill);
+        }
+      }
+    } catch(_) {}
+  })();
 
   // ── Data loading ──────────────────────────────────────────────────────────
   async function load(isInitial = false) {
@@ -722,16 +738,6 @@
       }
       lastTotal = data.total;
       statBar.style.opacity = '1';
-    // Show streak if > 1 day
-    if (d.streak > 1) {
-      const nameEl = document.getElementById('profile-name');
-      if (nameEl && !nameEl.querySelector('.streak-pill')) {
-        const pill = document.createElement('span');
-        pill.className = 'streak-pill';
-        pill.textContent = `🔥 ${d.streak}-day streak`;
-        nameEl.appendChild(pill);
-      }
-    }
     } catch (_) {
       if (isInitial) msgsList.innerHTML = '<div style="text-align:center;padding:24px;color:var(--text3)">Network error.</div>';
     }
