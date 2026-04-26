@@ -9,7 +9,7 @@
 
 ## What is AskThat?
 
-AskThat is a privacy-first, anonymous messaging platform. You claim a username, share your personal link anywhere — WhatsApp Status, Instagram Stories, Snapchat, TikTok bio, X — and anyone who visits it can send you a completely anonymous message. No accounts required for senders. No tracking. No breadcrumbs.
+AskThat is a privacy-first, **anonymous messaging platform**. You claim a username, share your personal link anywhere — WhatsApp Status, Instagram Stories, Snapchat, TikTok bio, X — and anyone who visits it can send you a completely anonymous message. No accounts required for senders. No tracking. No breadcrumbs.
 
 ---
 
