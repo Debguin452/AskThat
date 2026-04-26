@@ -229,6 +229,16 @@
 
     /* ── Poster styles ── */
     .story-modal-wide { max-width:440px; }
+    .prompt-type-row { display:flex; gap:6px; overflow-x:auto; padding-bottom:4px; margin-bottom:14px; scrollbar-width:none; }
+    .prompt-type-row::-webkit-scrollbar { display:none; }
+    .prompt-pill { flex-shrink:0; display:flex; flex-direction:column; align-items:center; gap:3px; padding:10px 13px; background:var(--card); border:1px solid var(--border2); border-radius:14px; cursor:pointer; transition:all .18s; min-width:72px; font-family:'DM Sans',sans-serif; }
+    .prompt-pill:hover { background:rgba(255,255,255,.08); border-color:rgba(255,107,53,.3); }
+    .prompt-pill.active { background:rgba(255,107,53,.12); border-color:var(--primary); }
+    .prompt-pill-icon { font-size:20px; line-height:1; }
+    .prompt-pill-label { font-size:10px; font-weight:600; color:var(--text3); white-space:nowrap; }
+    .prompt-pill.active .prompt-pill-label { color:var(--primary); }
+    .prompt-section { margin-bottom:14px; }
+    .prompt-section-label { font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:.07em; color:var(--text3); margin-bottom:8px; display:flex; align-items:center; gap:6px; }
     .poster-styles-row { display:flex; gap:7px; overflow-x:auto; padding-bottom:4px; margin-bottom:16px; scrollbar-width:none; }
     .poster-styles-row::-webkit-scrollbar { display:none; }
     .poster-style-pill { flex-shrink:0; padding:8px 14px; background:var(--card); border:1px solid var(--border2); border-radius:100px; font-family:'DM Sans',sans-serif; font-size:12px; font-weight:500; color:var(--text2); cursor:pointer; transition:all .18s; white-space:nowrap; }
@@ -326,6 +336,7 @@
       .tab { flex: 1; justify-content: center; padding: 7px 8px; }
     }
   </style>
+  <script>if('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js');</script>
 </head>
 <body>
 <div class="orbs" aria-hidden="true"><div class="orb orb-1"></div><div class="orb orb-2"></div></div>
@@ -506,10 +517,39 @@
     <button class="modal-close" id="story-modal-close" aria-label="Close">
       <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 2l10 10M12 2L2 12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
     </button>
-    <h2 class="modal-title">Share Your Link</h2>
-    <p class="modal-sub">Pick a poster style → download → post to Stories or Status.</p>
+    <h2 class="modal-title" id="story-modal-title">Share Your Link</h2>
+    <p class="modal-sub" id="story-modal-sub">Pick a prompt type and style → download → share to Stories.</p>
 
-    <!-- Poster style picker (NGL-style scrollable row) -->
+    <!-- Prompt type picker -->
+    <div class="prompt-section" id="prompt-type-section">
+      <div class="prompt-section-label">Prompt type</div>
+      <div class="prompt-type-row" role="group" aria-label="Prompt type">
+        <button class="prompt-pill active" data-prompt="ask" title="Generic ask me anything">
+          <span class="prompt-pill-icon">💬</span><span class="prompt-pill-label">Ask Me</span>
+        </button>
+        <button class="prompt-pill" data-prompt="3words" title="Describe me in 3 words">
+          <span class="prompt-pill-icon">✏️</span><span class="prompt-pill-label">3 Words</span>
+        </button>
+        <button class="prompt-pill" data-prompt="trust" title="What's your trust level with me?">
+          <span class="prompt-pill-icon">🔒</span><span class="prompt-pill-label">Trust</span>
+        </button>
+        <button class="prompt-pill" data-prompt="rate" title="Rate my vibe 1-10">
+          <span class="prompt-pill-icon">⭐</span><span class="prompt-pill-label">Rate Me</span>
+        </button>
+        <button class="prompt-pill" data-prompt="hottake" title="Hot take about me">
+          <span class="prompt-pill-icon">🌶️</span><span class="prompt-pill-label">Hot Take</span>
+        </button>
+        <button class="prompt-pill" data-prompt="advice" title="Give me advice">
+          <span class="prompt-pill-icon">💡</span><span class="prompt-pill-label">Advice</span>
+        </button>
+        <button class="prompt-pill" data-prompt="ai" title="AI-generated unique question" id="ai-prompt-pill">
+          <span class="prompt-pill-icon">✨</span><span class="prompt-pill-label">AI Pick</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Poster style picker -->
+    <div class="prompt-section-label">Style</div>
     <div class="poster-styles-row" role="group" aria-label="Poster style">
       <button class="poster-style-pill active" data-style="fire">🔥 Fire</button>
       <button class="poster-style-pill" data-style="dark">🌑 Dark</button>
@@ -682,6 +722,16 @@
       }
       lastTotal = data.total;
       statBar.style.opacity = '1';
+    // Show streak if > 1 day
+    if (d.streak > 1) {
+      const nameEl = document.getElementById('profile-name');
+      if (nameEl && !nameEl.querySelector('.streak-pill')) {
+        const pill = document.createElement('span');
+        pill.className = 'streak-pill';
+        pill.textContent = `🔥 ${d.streak}-day streak`;
+        nameEl.appendChild(pill);
+      }
+    }
     } catch (_) {
       if (isInitial) msgsList.innerHTML = '<div style="text-align:center;padding:24px;color:var(--text3)">Network error.</div>';
     }
@@ -736,7 +786,9 @@
         ${pollHTML}
         <div class="card-meta">
           <span>${age}</span>
+          ${m.country ? `<span class="geo-flag">${countryFlag(m.country)}</span>` : ''}
           ${isUnread ? '<span class="badge badge-new">new</span>' : ''}
+          ${getMoodChip(m.text)}
         </div>
       </div>
       <div class="card-actions">
@@ -1255,12 +1307,11 @@
 
   async function loadPollConfig() {
     try {
-      const res  = await fetch(`/api/poll?username=${encodeURIComponent(user)}`);
-      const data = await res.json();
-      pollEnabled = Boolean(data.enabled);
-    } catch (_) {}
+      const res = await fetch(`/api/poll?username=${encodeURIComponent(user)}`);
+      const d   = await res.json();
+      pollEnabled = Boolean(d.enabled);
+    } catch(_) {}
   }
-
   document.getElementById('btn-poll').addEventListener('click', openPollModal);
   loadPollConfig();
   pollModalClose.addEventListener('click', () => pollModal.classList.remove('show'));
@@ -1271,6 +1322,9 @@
 
   function openStoryModal(msg) {
     activeStoryMsg = msg || null;
+    // Show/hide prompt type picker
+    const promptSection = document.getElementById('prompt-type-section');
+    if (promptSection) promptSection.style.display = msg ? 'none' : '';
     // Update modal title based on mode
     const titleEl = storyModal.querySelector('.modal-title');
     const subEl   = storyModal.querySelector('.modal-sub');
@@ -1387,6 +1441,42 @@
     ctx.fillStyle=g; ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2); ctx.fill();
   }
 
+  // ── Prompt configuration ──────────────────────────────────────────────────
+  const PROMPT_TYPES = {
+    ask:     { label:'Ask Me Anything', sub:'Send an anonymous message', icon:'💬', urlParam:'ask',     emoji:'💬' },
+    '3words':{ label:'Describe Me in 3 Words', sub:'Exactly 3 words only', icon:'✏️', urlParam:'3words',  emoji:'✏️' },
+    trust:   { label:'What's Your Trust Level?', sub:'How well do you really know me?', icon:'🔒', urlParam:'trust', emoji:'🔒' },
+    rate:    { label:'Rate My Vibe 1–10', sub:'Be honest, no judgment', icon:'⭐', urlParam:'rate',    emoji:'⭐' },
+    hottake: { label:'Hot Take About Me', sub:'Say what you actually think', icon:'🌶️', urlParam:'hottake',emoji:'🌶️' },
+    advice:  { label:'Give Me Advice', sub:'One thing I should hear', icon:'💡', urlParam:'advice',  emoji:'💡' },
+    ai:      { label:'loading…', sub:'AI-generated question just for you', icon:'✨', urlParam:'ai',      emoji:'✨' },
+  };
+
+  let currentPromptType = 'ask';
+  let aiPromptText = '';
+
+  async function loadAIPrompt() {
+    const pill = document.getElementById('ai-prompt-pill');
+    if (pill) { pill.querySelector('.prompt-pill-label').textContent = '…'; }
+    try {
+      const res = await fetch(`/api/groq?type=prompt&username=${encodeURIComponent(user)}`);
+      const d   = await res.json();
+      if (d.prompt) {
+        aiPromptText = d.prompt;
+        PROMPT_TYPES.ai.label = d.prompt;
+      }
+    } catch(_) { aiPromptText = 'What's one thing you'd never say to my face?'; PROMPT_TYPES.ai.label = aiPromptText; }
+    if (pill) { pill.querySelector('.prompt-pill-label').textContent = 'AI Pick'; }
+    if (currentPromptType === 'ai') renderPoster(posterStyle);
+  }
+
+  // ── Caption / link builder per prompt ────────────────────────────────────
+  function promptLink(type) {
+    const base = `${location.origin}/ask/${user}`;
+    if (type === 'ask') return base;
+    return `${base}?prompt=${type}`;
+  }
+
   function drawPoster(styleName) {
     const canvas = document.getElementById('story-canvas');
     const ctx    = canvas.getContext('2d');
@@ -1398,116 +1488,212 @@
     ctx.textAlign = 'center';
 
     if (activeStoryMsg) {
-      // ── MESSAGE POSTER (NGL style) ───────────────────────────────────────
-      const msg = activeStoryMsg;
-
-      // Brand badge top
-      ctx.globalAlpha = 0.55;
-      ctx.font = '600 38px sans-serif';
-      ctx.fillStyle = T.sub;
-      ctx.fillText('AskThat · anonymous message', W/2, 160);
-      ctx.globalAlpha = 1;
-
-      // Big quote marks
-      ctx.globalAlpha = 0.12;
-      ctx.font = '900 360px Georgia, serif';
-      ctx.fillStyle = T.headline;
-      ctx.fillText('\u201C', W/2 - 350, 540);
-      ctx.globalAlpha = 1;
-
-      // Message card background
-      const cardPad = 80, cardX = cardPad, cardW = W - cardPad*2;
-      const cardY = 340, cardH = 860;
-      ctx.fillStyle = 'rgba(255,255,255,0.08)';
-      ctx.strokeStyle = 'rgba(255,255,255,0.14)'; ctx.lineWidth = 2;
-      ctx.beginPath(); ctx.roundRect(cardX, cardY, cardW, cardH, 48); ctx.fill(); ctx.stroke();
-
-      // Message text — large, bold, centered
-      const txt = msg.text || '';
-      const fontSize = txt.length < 60 ? 88 : txt.length < 120 ? 68 : txt.length < 200 ? 54 : 44;
-      ctx.font = `700 ${fontSize}px Georgia, 'Times New Roman', serif`;
-      ctx.fillStyle = T.headline;
-      const lineH = fontSize * 1.4;
-      const maxTxtW = cardW - 120;
-      const lines = wrapTextLines(ctx, txt, maxTxtW);
-      const totalTxtH = lines.length * lineH;
-      const txtStartY = cardY + (cardH - totalTxtH) / 2 + fontSize * 0.8;
-      lines.forEach((line, i) => {
-        ctx.fillText(line, W/2, txtStartY + i * lineH);
-      });
-
-      // "someone asked" label
-      ctx.font = '500 36px DM Sans, sans-serif';
-      ctx.fillStyle = T.sub; ctx.globalAlpha = 0.65;
-      ctx.fillText('someone asked → ' + user, W/2, cardY + cardH + 64);
-      ctx.globalAlpha = 1;
-
-      // Avatar + username row
-      const avY = 1360, avR = 64;
-      ctx.fillStyle = 'rgba(255,255,255,0.13)';
-      ctx.beginPath(); ctx.arc(W/2 - 80, avY, avR, 0, Math.PI*2); ctx.fill();
-      ctx.font = '700 54px sans-serif'; ctx.fillStyle = T.headline;
-      ctx.textAlign = 'center';
-      ctx.fillText(user.charAt(0).toUpperCase(), W/2 - 80, avY + 19);
-      ctx.font = '700 52px sans-serif'; ctx.fillStyle = T.headline;
-      ctx.textAlign = 'left';
-      ctx.fillText(user, W/2 - 80 + avR + 20, avY + 18);
-      ctx.textAlign = 'center';
-
-      // CTA pill
-      const ctaW = 740, ctaH = 110, ctaX = (W-ctaW)/2, ctaY = 1490;
-      const ctaFill = T.ctaFill(ctx, W);
-      if (ctaFill) ctx.fillStyle = ctaFill;
-      ctx.beginPath(); ctx.roundRect(ctaX, ctaY, ctaW, ctaH, 55); ctx.fill();
-      ctx.font = '700 42px sans-serif'; ctx.fillStyle = T.ctaText;
-      ctx.fillText('Ask me anonymously →', W/2, ctaY + 73);
-
-      // Footer link
-      ctx.font = '400 32px sans-serif'; ctx.fillStyle = T.link; ctx.globalAlpha = 0.7;
-      ctx.fillText('askthat.pages.dev/ask/' + user, W/2, 1668);
-      ctx.globalAlpha = 0.35; ctx.fillStyle = T.sub; ctx.font = '400 28px sans-serif';
-      ctx.fillText('100% anonymous · no account needed', W/2, H - 80);
-      ctx.globalAlpha = 1;
-
+      drawMessagePoster(ctx, T, W, H);
     } else {
-      // ── LINK POSTER (original style) ────────────────────────────────────
-      ctx.font = '700 44px sans-serif'; ctx.fillStyle = T.sub; ctx.globalAlpha = 0.7;
-      ctx.fillText('@ AskThat', W/2, 200); ctx.globalAlpha = 1;
-
-      const avatarY = 420, avatarR = 120;
-      ctx.fillStyle = 'rgba(255,255,255,0.15)';
-      ctx.beginPath(); ctx.arc(W/2, avatarY, avatarR, 0, Math.PI*2); ctx.fill();
-      ctx.strokeStyle = 'rgba(255,255,255,0.35)'; ctx.lineWidth = 4;
-      ctx.beginPath(); ctx.arc(W/2, avatarY, avatarR, 0, Math.PI*2); ctx.stroke();
-      ctx.font = '700 100px sans-serif'; ctx.fillStyle = T.headline;
-      ctx.fillText(user.charAt(0).toUpperCase(), W/2, avatarY + 36);
-
-      ctx.font = '800 78px sans-serif'; ctx.fillStyle = T.headline;
-      ctx.fillText(user, W/2, 630);
-
-      ctx.font = '800 108px sans-serif'; ctx.fillStyle = T.headline;
-      wrapText(ctx, 'Ask me anything!', W/2, 850, 860, 120);
-
-      ctx.font = '400 54px sans-serif'; ctx.fillStyle = T.sub; ctx.globalAlpha = 0.8;
-      wrapText(ctx, "Send an anonymous message — I'll never know it was you", W/2, 1080, 820, 68);
-      ctx.globalAlpha = 1;
-
-      const linkBoxW=820, linkBoxH=120, linkBoxX=(W-linkBoxW)/2, linkBoxY=1280;
-      ctx.fillStyle='rgba(255,255,255,0.12)'; ctx.strokeStyle='rgba(255,255,255,0.3)'; ctx.lineWidth=3;
-      ctx.beginPath(); ctx.roundRect(linkBoxX,linkBoxY,linkBoxW,linkBoxH,60); ctx.fill(); ctx.stroke();
-      ctx.font='bold 40px sans-serif'; ctx.fillStyle=T.link;
-      ctx.fillText('askthat.pages.dev/ask/'+user, W/2, linkBoxY+78);
-
-      const ctaBtnW=500, ctaBtnH=120, ctaBtnX=(W-ctaBtnW)/2, ctaBtnY=1460;
-      const ctaFill=T.ctaFill(ctx,W); if(ctaFill) ctx.fillStyle=ctaFill;
-      ctx.beginPath(); ctx.roundRect(ctaBtnX,ctaBtnY,ctaBtnW,ctaBtnH,60); ctx.fill();
-      ctx.font='700 48px sans-serif'; ctx.fillStyle=T.ctaText;
-      ctx.fillText('Tap to send ✉', W/2, ctaBtnY+78);
-
-      ctx.font='400 34px sans-serif'; ctx.fillStyle=T.sub; ctx.globalAlpha=0.4;
-      ctx.fillText('100% anonymous · askthat.pages.dev', W/2, H-90);
-      ctx.globalAlpha=1;
+      drawPromptPoster(ctx, T, W, H, currentPromptType);
     }
+  }
+
+  // ── Message received poster ────────────────────────────────────────────
+  function drawMessagePoster(ctx, T, W, H) {
+    const msg = activeStoryMsg;
+    ctx.globalAlpha=0.5; ctx.font='600 36px sans-serif'; ctx.fillStyle=T.sub;
+    ctx.fillText('AskThat · anonymous message', W/2, 150); ctx.globalAlpha=1;
+
+    ctx.globalAlpha=0.09; ctx.font='900 340px Georgia,serif'; ctx.fillStyle=T.headline;
+    ctx.fillText('"', W/2-300, 520); ctx.globalAlpha=1;
+
+    const cardPad=80, cardX=cardPad, cardW=W-cardPad*2, cardY=340, cardH=860;
+    ctx.fillStyle='rgba(255,255,255,0.08)'; ctx.strokeStyle='rgba(255,255,255,0.14)'; ctx.lineWidth=2;
+    ctx.beginPath(); ctx.roundRect(cardX,cardY,cardW,cardH,48); ctx.fill(); ctx.stroke();
+
+    const txt = msg.text||'';
+    const fontSize = txt.length<60?88:txt.length<120?68:txt.length<200?54:44;
+    ctx.font=`700 ${fontSize}px Georgia,serif`; ctx.fillStyle=T.headline;
+    const lines = wrapTextLines(ctx, txt, cardW-120), lineH=fontSize*1.4;
+    const txtStartY = cardY+(cardH-lines.length*lineH)/2+fontSize*.8;
+    lines.forEach((l,i)=>ctx.fillText(l,W/2,txtStartY+i*lineH));
+
+    ctx.font='500 34px sans-serif'; ctx.fillStyle=T.sub; ctx.globalAlpha=0.6;
+    ctx.fillText('someone asked → '+user, W/2, cardY+cardH+64); ctx.globalAlpha=1;
+
+    // Avatar + CTA
+    ctx.fillStyle='rgba(255,255,255,0.12)';
+    ctx.beginPath(); ctx.arc(W/2-90,1380,56,0,Math.PI*2); ctx.fill();
+    ctx.font='700 48px sans-serif'; ctx.fillStyle=T.headline;
+    ctx.fillText(user.charAt(0).toUpperCase(),W/2-90,1398);
+    ctx.font='700 48px sans-serif'; ctx.textAlign='left';
+    ctx.fillText(user,W/2-90+70,1398); ctx.textAlign='center';
+
+    const ctaW=740,ctaH=110,ctaX=(W-ctaW)/2,ctaY=1490;
+    const cf=T.ctaFill(ctx,W); if(cf)ctx.fillStyle=cf;
+    ctx.beginPath(); ctx.roundRect(ctaX,ctaY,ctaW,ctaH,55); ctx.fill();
+    ctx.font='700 42px sans-serif'; ctx.fillStyle=T.ctaText;
+    ctx.fillText('Send me one too →', W/2, ctaY+73);
+
+    ctx.font='400 32px sans-serif'; ctx.fillStyle=T.link; ctx.globalAlpha=0.75;
+    ctx.fillText('askthat.pages.dev/ask/'+user, W/2, 1668);
+    ctx.globalAlpha=0.32; ctx.fillStyle=T.sub; ctx.font='400 28px sans-serif';
+    ctx.fillText('100% anonymous · no account needed', W/2, H-80);
+    ctx.globalAlpha=1;
+  }
+
+  // ── Prompt poster drawing ──────────────────────────────────────────────
+  function drawPromptPoster(ctx, T, W, H, type) {
+    const P = PROMPT_TYPES[type] || PROMPT_TYPES.ask;
+    const link = promptLink(type);
+    const linkShort = link.replace('https://','');
+
+    // Brand
+    ctx.globalAlpha=0.55; ctx.font='600 38px sans-serif'; ctx.fillStyle=T.sub;
+    ctx.fillText('@ AskThat', W/2, 160); ctx.globalAlpha=1;
+
+    // Avatar
+    ctx.fillStyle='rgba(255,255,255,0.13)';
+    ctx.beginPath(); ctx.arc(W/2,380,100,0,Math.PI*2); ctx.fill();
+    ctx.strokeStyle='rgba(255,255,255,0.28)'; ctx.lineWidth=4;
+    ctx.beginPath(); ctx.arc(W/2,380,100,0,Math.PI*2); ctx.stroke();
+    ctx.font='700 86px sans-serif'; ctx.fillStyle=T.headline;
+    ctx.fillText(user.charAt(0).toUpperCase(),W/2,414);
+    ctx.font='700 58px sans-serif'; ctx.fillStyle=T.headline;
+    ctx.fillText(user,W/2,534);
+
+    if (type === 'ask') {
+      _drawAskPrompt(ctx,T,W,H,link,linkShort);
+    } else if (type === '3words') {
+      _draw3WordsPrompt(ctx,T,W,H,link,linkShort);
+    } else if (type === 'trust') {
+      _drawTrustPrompt(ctx,T,W,H,link,linkShort);
+    } else if (type === 'rate') {
+      _drawRatePrompt(ctx,T,W,H,link,linkShort);
+    } else if (type === 'hottake') {
+      _drawHotTakePrompt(ctx,T,W,H,link,linkShort);
+    } else if (type === 'advice') {
+      _drawAdvicePrompt(ctx,T,W,H,link,linkShort);
+    } else if (type === 'ai') {
+      _drawAIPrompt(ctx,T,W,H,link,linkShort);
+    }
+
+    // Footer
+    ctx.font='400 30px sans-serif'; ctx.fillStyle=T.sub; ctx.globalAlpha=0.35;
+    ctx.fillText('100% anonymous · askthat.pages.dev', W/2, H-80);
+    ctx.globalAlpha=1;
+  }
+
+  function _drawPromptCard(ctx,T,W,promptText,subText,y,cardH) {
+    const px=80, pw=W-160;
+    ctx.fillStyle='rgba(255,255,255,0.10)'; ctx.strokeStyle='rgba(255,255,255,0.20)'; ctx.lineWidth=2;
+    ctx.beginPath(); ctx.roundRect(px,y,pw,cardH,40); ctx.fill(); ctx.stroke();
+    ctx.font='800 76px sans-serif'; ctx.fillStyle=T.headline;
+    wrapText(ctx,promptText,W/2,y+100,pw-80,90);
+    if(subText){
+      ctx.font='400 44px sans-serif'; ctx.fillStyle=T.sub; ctx.globalAlpha=0.7;
+      ctx.fillText(subText,W/2,y+cardH-70); ctx.globalAlpha=1;
+    }
+  }
+
+  function _drawCTA(ctx,T,W,label,ctaY,link,linkShort) {
+    const cf=T.ctaFill(ctx,W); if(cf) ctx.fillStyle=cf;
+    ctx.beginPath(); ctx.roundRect((W-700)/2,ctaY,700,110,55); ctx.fill();
+    ctx.font='700 44px sans-serif'; ctx.fillStyle=T.ctaText;
+    ctx.fillText(label, W/2, ctaY+73);
+    ctx.font='bold 36px sans-serif'; ctx.fillStyle=T.link; ctx.globalAlpha=0.85;
+    ctx.fillText(linkShort, W/2, ctaY+160); ctx.globalAlpha=1;
+  }
+
+  function _drawAskPrompt(ctx,T,W,H,link,linkShort) {
+    _drawPromptCard(ctx,T,W,'Ask me anything',
+      'Send something honest — I'll never know it was you',680,600);
+    _drawCTA(ctx,T,W,'Send anonymously →',1380,link,linkShort);
+  }
+
+  function _draw3WordsPrompt(ctx,T,W,H,link,linkShort) {
+    // Big decorative word slots
+    const slotY=680, slotW=280, slotH=110, gap=22, totalW=slotW*3+gap*2;
+    const startX=(W-totalW)/2;
+    ['_ _ _','_ _ _','_ _ _'].forEach((_,i)=>{
+      ctx.fillStyle='rgba(255,255,255,0.10)'; ctx.strokeStyle='rgba(255,255,255,0.25)'; ctx.lineWidth=2;
+      ctx.beginPath(); ctx.roundRect(startX+i*(slotW+gap),slotY,slotW,slotH,20); ctx.fill(); ctx.stroke();
+    });
+    const nums=['1st','2nd','3rd'];
+    ctx.font='500 32px sans-serif'; ctx.fillStyle=T.sub; ctx.globalAlpha=0.5;
+    nums.forEach((n,i)=>ctx.fillText(n,startX+i*(slotW+gap)+slotW/2,slotY+slotH+42)); ctx.globalAlpha=1;
+
+    ctx.font='800 80px sans-serif'; ctx.fillStyle=T.headline;
+    wrapText(ctx,'Describe me in exactly 3 words.',W/2,860,860,96);
+    ctx.font='400 46px sans-serif'; ctx.fillStyle=T.sub; ctx.globalAlpha=0.65;
+    ctx.fillText('no more, no less.',W/2,1000); ctx.globalAlpha=1;
+
+    _drawCTA(ctx,T,W,'Type your 3 words →',1120,link,linkShort);
+  }
+
+  function _drawTrustPrompt(ctx,T,W,H,link,linkShort) {
+    const levels=[['👻','Stranger'],['🙃','Acquaintance'],['🤝','Friend'],['🔥','Bestie']];
+    const btnW=440, btnH=100, startY=680, gap=24;
+    levels.forEach(([emoji,label],i)=>{
+      const alpha = 0.06 + i*0.05;
+      ctx.fillStyle=`rgba(255,255,255,${alpha})`; ctx.strokeStyle=`rgba(255,255,255,${0.10+i*0.06})`; ctx.lineWidth=2;
+      ctx.beginPath(); ctx.roundRect((W-btnW)/2,startY+i*(btnH+gap),btnW,btnH,24); ctx.fill(); ctx.stroke();
+      ctx.font='52px sans-serif'; ctx.fillStyle=T.headline;
+      ctx.fillText(emoji,(W-btnW)/2+70,startY+i*(btnH+gap)+66);
+      ctx.font='600 44px sans-serif'; ctx.textAlign='left';
+      ctx.fillText(label,(W-btnW)/2+140,startY+i*(btnH+gap)+66); ctx.textAlign='center';
+    });
+    ctx.font='800 72px sans-serif'; ctx.fillStyle=T.headline;
+    ctx.fillText('How well do you know me?',W/2,1162);
+    _drawCTA(ctx,T,W,'Pick your trust level →',1240,link,linkShort);
+  }
+
+  function _drawRatePrompt(ctx,T,W,H,link,linkShort) {
+    // Big number display
+    ctx.font='900 320px sans-serif'; ctx.fillStyle=T.headline; ctx.globalAlpha=0.12;
+    ctx.fillText('?',W/2,1050); ctx.globalAlpha=1;
+
+    const nums=Array.from({length:10},(_,i)=>i+1);
+    const btnW=162, btnH=162, cols=5, gap=18;
+    const gridW=cols*btnW+(cols-1)*gap;
+    const startX=(W-gridW)/2;
+    nums.forEach((n,i)=>{
+      const col=i%cols, row=Math.floor(i/cols);
+      const x=startX+col*(btnW+gap), y=680+row*(btnH+gap);
+      const pct=(n-1)/9;
+      ctx.fillStyle=`rgba(255,107,53,${0.08+pct*0.22})`; ctx.strokeStyle=`rgba(255,107,53,${0.20+pct*0.40})`; ctx.lineWidth=2;
+      ctx.beginPath(); ctx.roundRect(x,y,btnW,btnH,24); ctx.fill(); ctx.stroke();
+      ctx.font=`700 ${n===10?54:62}px sans-serif`; ctx.fillStyle=T.headline;
+      ctx.fillText(String(n),x+btnW/2,y+btnH/2+22);
+    });
+    ctx.font='800 76px sans-serif'; ctx.fillStyle=T.headline;
+    wrapText(ctx,'Rate my vibe 1 to 10.',W/2,1124,860,92);
+    _drawCTA(ctx,T,W,'Tap to rate →',1260,link,linkShort);
+  }
+
+  function _drawHotTakePrompt(ctx,T,W,H,link,linkShort) {
+    // Flame visual
+    ctx.font='200px sans-serif'; ctx.fillText('🌶️',W/2,860);
+    ctx.font='800 86px sans-serif'; ctx.fillStyle=T.headline;
+    wrapText(ctx,'Hot take about me. Go.',W/2,950,860,100);
+    ctx.font='400 50px sans-serif'; ctx.fillStyle=T.sub; ctx.globalAlpha=0.65;
+    wrapText(ctx,'Say what you actually think. I can handle it.',W/2,1090,820,64); ctx.globalAlpha=1;
+    _drawCTA(ctx,T,W,'Send your hot take →',1200,link,linkShort);
+  }
+
+  function _drawAdvicePrompt(ctx,T,W,H,link,linkShort) {
+    ctx.font='200px sans-serif'; ctx.fillText('💡',W/2,860);
+    ctx.font='800 78px sans-serif'; ctx.fillStyle=T.headline;
+    wrapText(ctx,'Give me one piece of advice.',W/2,960,860,96);
+    ctx.font='400 48px sans-serif'; ctx.fillStyle=T.sub; ctx.globalAlpha=0.65;
+    wrapText(ctx,'Something you think I actually need to hear.',W/2,1100,820,62); ctx.globalAlpha=1;
+    _drawCTA(ctx,T,W,'Give me advice →',1210,link,linkShort);
+  }
+
+  function _drawAIPrompt(ctx,T,W,H,link,linkShort) {
+    const promptText = aiPromptText || 'What's one thing you'd never say to my face?';
+    ctx.font='120px sans-serif'; ctx.fillText('✨',W/2,820);
+    ctx.font='800 76px sans-serif'; ctx.fillStyle=T.headline;
+    wrapText(ctx,promptText,W/2,940,860,96);
+    ctx.font='500 40px sans-serif'; ctx.fillStyle=T.sub; ctx.globalAlpha=0.55;
+    ctx.fillText('AI-generated · 100% anonymous',W/2,1110); ctx.globalAlpha=1;
+    _drawCTA(ctx,T,W,'Answer anonymously →',1200,link,linkShort);
   }
 
   function roundRectFill(ctx, x, y, w, h, r) {
@@ -1540,6 +1726,30 @@
 
   // Story modal events
   document.getElementById('btn-story').addEventListener('click', () => openStoryModal(null));
+
+  // Prompt pill click handlers
+  document.querySelectorAll('.prompt-pill').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.prompt-pill').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentPromptType = btn.dataset.prompt;
+      // Hide prompt picker when showing a message poster
+      const sub = document.getElementById('story-modal-sub');
+      if (sub) sub.textContent = currentPromptType === 'ask'
+        ? 'Pick a style → download → share to Stories.'
+        : 'Share this prompt — people tap your link and respond anonymously.';
+      renderPoster(posterStyle);
+    });
+  });
+
+  // Load AI prompt when modal opens
+  function openStoryModalWithAI(msg) {
+    openStoryModal(msg);
+    if (!aiPromptText) loadAIPrompt();
+  }
+  // Replace btn-story listener
+  document.getElementById('btn-story').removeEventListener('click', null);
+  document.getElementById('btn-story').addEventListener('click', () => openStoryModalWithAI(null));
   document.getElementById('story-modal-close').addEventListener('click', () => storyModal.classList.remove('show'));
   storyModal.addEventListener('click', e => { if(e.target===e.currentTarget) storyModal.classList.remove('show'); });
 
@@ -1592,6 +1802,27 @@
 
   // ── Helpers ────────────────────────────────────────────────────────────────
   function fmtNum(n){ return n>=1000 ? (n/1000).toFixed(1)+'k' : String(n); }
+
+  const COUNTRY_FLAGS = {'IN':'🇮🇳','US':'🇺🇸','GB':'🇬🇧','CA':'🇨🇦','AU':'🇦🇺','DE':'🇩🇪','FR':'🇫🇷','JP':'🇯🇵','BR':'🇧🇷','KR':'🇰🇷','SG':'🇸🇬','PK':'🇵🇰','BD':'🇧🇩','NG':'🇳🇬','PH':'🇵🇭','ID':'🇮🇩','MX':'🇲🇽','AE':'🇦🇪','SA':'🇸🇦','TR':'🇹🇷'};
+  function countryFlag(code) { return COUNTRY_FLAGS[code] || '🌍'; }
+
+  const MOOD_EMOJI = { wholesome:'🤍',funny:'😂',spicy:'🌶️',deep:'🤔',flirty:'💕',sad:'🥺',supportive:'💪',weird:'👀' };
+  function detectMood(text) {
+    const t = (text||'').toLowerCase();
+    if(/love|appreciate|amazing|best|kind|sweet|heart|grateful/.test(t)) return 'wholesome';
+    if(/lol|haha|funny|hilarious|joke|lmao|bruh/.test(t)) return 'funny';
+    if(/hot|crush|like you|pretty|attractive|date/.test(t)) return 'flirty';
+    if(/why|think|wonder|feel|believe|mind|actually|real talk/.test(t)) return 'deep';
+    if(/miss|sad|alone|wish|hurt|sorry|cry/.test(t)) return 'sad';
+    if(/you got|keep going|proud|believe in|support/.test(t)) return 'supportive';
+    if(/what the|random|weird|unexpected/.test(t)) return 'weird';
+    return null;
+  }
+  function getMoodChip(text) {
+    const mood = detectMood(text);
+    if (!mood) return '';
+    return `<span class="mood-chip mood-${mood}">${MOOD_EMOJI[mood]} ${mood}</span>`;
+  }
 
   function timeAgo(ts, future=false){
     const diff=Math.round((future?ts-Date.now():Date.now()-ts)/1000);

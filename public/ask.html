@@ -133,6 +133,79 @@
     .sh-line { flex:1; height:1px; background:var(--border2); }
     .sh-label { font-size:11px; font-weight:600; letter-spacing:.07em; text-transform:uppercase; color:var(--text3); white-space:nowrap; }
     /* CTA button */
+    /* Teaser */
+    .teaser-wrap { margin-bottom:16px; text-align:center; }
+    .teaser-counter { font-size:12px; color:var(--text3); margin-bottom:10px; font-weight:500; }
+    .teaser-count { font-weight:700; color:var(--primary); font-size:14px; }
+    .teaser-msgs { display:flex; flex-direction:column; gap:6px; }
+    .teaser-msg { background:rgba(255,255,255,.04); border:1px solid var(--border2); border-radius:10px; padding:9px 14px; font-size:13px; color:var(--text2); text-align:left; }
+    .teaser-msg.blurred { filter:blur(4px); user-select:none; }
+    /* Success extras */
+    .success-overlay { position:relative; overflow:hidden; }
+    .btn-get-own-success { display:inline-flex; align-items:center; gap:7px; margin-top:12px; padding:11px 22px; background:var(--grad); border-radius:100px; font-size:13px; font-weight:600; color:#fff; text-decoration:none; box-shadow:0 4px 18px rgba(255,107,53,.3); transition:opacity .2s; }
+    .btn-get-own-success:hover { opacity:.88; }
+    /* Floating pill */
+    .floating-cta { position:fixed; bottom:20px; left:50%; transform:translateX(-50%) translateY(80px); background:var(--grad); color:#fff; border:none; border-radius:100px; padding:13px 24px; font-family:'DM Sans',sans-serif; font-size:14px; font-weight:600; cursor:pointer; box-shadow:0 6px 28px rgba(255,107,53,.45); display:flex; align-items:center; gap:8px; white-space:nowrap; z-index:100; transition:transform .35s cubic-bezier(.34,1.56,.64,1),opacity .3s; opacity:0; text-decoration:none; }
+    .floating-cta.visible { transform:translateX(-50%) translateY(0); opacity:1; }
+    /* Mood badge on send note area */
+    .mood-badge { display:inline-flex; align-items:center; gap:5px; font-size:11px; font-weight:600; padding:3px 10px; border-radius:100px; margin-left:6px; }
+    .mood-wholesome { background:rgba(74,222,128,.12); color:#4ade80; }
+    .mood-funny { background:rgba(250,204,21,.12); color:#facc15; }
+    .mood-spicy { background:rgba(255,71,126,.12); color:#ff477e; }
+    .mood-deep { background:rgba(139,92,246,.12); color:#a78bfa; }
+    .mood-flirty { background:rgba(244,114,182,.12); color:#f472b6; }
+    .mood-sad { background:rgba(96,165,250,.12); color:#60a5fa; }
+    .mood-supportive { background:rgba(52,211,153,.12); color:#34d399; }
+    .mood-weird { background:rgba(251,146,60,.12); color:#fb923c; }
+
+    /* Prompt-specific UI */
+    .prompt-banner { background:rgba(255,255,255,.05); border:1px solid var(--border2); border-radius:var(--r-sm); padding:14px 16px; margin-bottom:14px; display:flex; align-items:flex-start; gap:10px; }
+    .prompt-banner-icon { font-size:24px; flex-shrink:0; }
+    .prompt-banner-text { flex:1; }
+    .prompt-banner-title { font-size:14px; font-weight:700; color:var(--text); margin-bottom:3px; }
+    .prompt-banner-sub { font-size:12px; color:var(--text3); }
+    /* 3-word input */
+    .words-row { display:flex; gap:8px; margin-bottom:12px; }
+    .word-input { flex:1; background:rgba(255,255,255,.04); border:1px solid var(--border2); border-radius:var(--r-sm); padding:14px 12px; font-size:16px; font-family:'DM Sans',sans-serif; color:var(--text); text-align:center; font-weight:600; outline:none; transition:border-color .2s,box-shadow .2s; }
+    .word-input::placeholder { font-weight:400; color:var(--text3); font-size:13px; }
+    .word-input:focus { border-color:var(--primary); box-shadow:0 0 0 3px rgba(255,107,53,.1); }
+    /* Trust level buttons */
+    .trust-grid { display:flex; flex-direction:column; gap:8px; margin-bottom:12px; }
+    .trust-btn { display:flex; align-items:center; gap:12px; padding:14px 16px; background:rgba(255,255,255,.04); border:1px solid var(--border2); border-radius:var(--r-sm); font-family:'DM Sans',sans-serif; font-size:14px; font-weight:500; color:var(--text2); cursor:pointer; transition:all .18s; text-align:left; width:100%; }
+    .trust-btn:hover { background:rgba(255,255,255,.08); }
+    .trust-btn.selected { background:rgba(255,107,53,.1); border-color:var(--primary); color:var(--text); }
+    .trust-btn-emoji { font-size:20px; }
+    .trust-btn-label { flex:1; font-weight:600; }
+    .trust-btn-sub { font-size:11px; color:var(--text3); }
+    /* Rate 1-10 */
+    .rate-grid { display:grid; grid-template-columns:repeat(5,1fr); gap:6px; margin-bottom:12px; }
+    .rate-btn { padding:16px 4px; background:rgba(255,255,255,.04); border:1px solid var(--border2); border-radius:12px; font-family:'DM Sans',sans-serif; font-size:18px; font-weight:700; color:var(--text2); cursor:pointer; transition:all .18s; }
+    .rate-btn:hover { background:rgba(255,107,53,.1); border-color:rgba(255,107,53,.4); color:var(--text); }
+    .rate-btn.selected { background:var(--grad); border-color:var(--primary); color:#fff; transform:scale(1.06); }
+    /* Rate label */
+    .rate-label { text-align:center; font-size:13px; color:var(--text3); margin-bottom:14px; min-height:20px; transition:color .2s; }
+
+    .prompt-banner { background:rgba(255,255,255,.05); border:1px solid var(--border2); border-radius:var(--r-sm); padding:14px 16px; margin-bottom:14px; display:flex; align-items:flex-start; gap:10px; }
+    .prompt-banner-icon { font-size:24px; flex-shrink:0; line-height:1.4; }
+    .prompt-banner-title { font-size:14px; font-weight:700; color:var(--text); margin-bottom:3px; }
+    .prompt-banner-sub { font-size:12px; color:var(--text3); }
+    .words-row { display:flex; gap:8px; margin-bottom:12px; }
+    .word-input { flex:1; background:rgba(255,255,255,.04); border:1px solid var(--border2); border-radius:var(--r-sm); padding:14px 8px; font-size:15px; font-family:'DM Sans',sans-serif; color:var(--text); text-align:center; font-weight:600; outline:none; transition:border-color .2s,box-shadow .2s; min-width:0; }
+    .word-input::placeholder { font-weight:400; color:var(--text3); font-size:12px; }
+    .word-input:focus { border-color:var(--primary); box-shadow:0 0 0 3px rgba(255,107,53,.1); }
+    .trust-grid { display:flex; flex-direction:column; gap:8px; margin-bottom:12px; }
+    .trust-btn { display:flex; align-items:center; gap:12px; padding:14px 16px; background:rgba(255,255,255,.04); border:1px solid var(--border2); border-radius:var(--r-sm); font-family:'DM Sans',sans-serif; font-size:14px; color:var(--text2); cursor:pointer; transition:all .18s; text-align:left; width:100%; }
+    .trust-btn:hover { background:rgba(255,255,255,.08); }
+    .trust-btn.selected { background:rgba(255,107,53,.1); border-color:var(--primary); color:var(--text); }
+    .trust-btn-emoji { font-size:20px; flex-shrink:0; }
+    .trust-btn-label { font-weight:600; flex:1; }
+    .trust-btn-sub { font-size:11px; color:var(--text3); }
+    .trust-btn.selected .trust-btn-sub { color:rgba(255,107,53,.7); }
+    .rate-label { text-align:center; font-size:13px; color:var(--text3); margin-bottom:10px; min-height:18px; }
+    .rate-grid { display:grid; grid-template-columns:repeat(5,1fr); gap:6px; margin-bottom:12px; }
+    .rate-btn { padding:16px 4px; background:rgba(255,255,255,.04); border:1px solid var(--border2); border-radius:12px; font-family:'DM Sans',sans-serif; font-size:18px; font-weight:700; color:var(--text2); cursor:pointer; transition:all .18s; }
+    .rate-btn:hover { background:rgba(255,107,53,.1); border-color:rgba(255,107,53,.4); color:var(--text); }
+    .rate-btn.selected { background:var(--grad); border-color:var(--primary); color:#fff; transform:scale(1.06); }
     .btn-create-own { display:flex; align-items:center; justify-content:center; gap:9px; width:100%; padding:17px; background:var(--grad); border:none; border-radius:var(--r-sm); font-family:'DM Sans',sans-serif; font-size:15px; font-weight:600; color:#fff; cursor:pointer; text-decoration:none; transition:opacity .2s,transform .15s; box-shadow:0 4px 28px rgba(255,107,53,.38); }
     .btn-create-own:hover { opacity:.88; transform:translateY(-1px); }
 
@@ -175,6 +248,7 @@
       .story-btns{gap:5px;}
     }
   </style>
+  <script>if('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js');</script>
 </head>
 <body>
 <div class="orbs" aria-hidden="true"><div class="orb orb-1"></div><div class="orb orb-2"></div></div>
@@ -207,22 +281,86 @@
 
   <!-- ASK PANE -->
   <div class="msg-card" id="pane-ask" role="main">
+    <!-- Teaser — social proof + blurred previews -->
+    <div class="teaser-wrap" id="teaser-wrap">
+      <div class="teaser-counter"><span class="teaser-count" id="teaser-count">–</span> people have already sent</div>
+      <div class="teaser-msgs" id="teaser-msgs" aria-hidden="true">
+        <div class="teaser-msg blurred">Something I've always wanted to say...</div>
+        <div class="teaser-msg blurred">You should know this about yourself</div>
+      </div>
+    </div>
+
     <div id="form-area">
-      <div class="textarea-wrap">
-        <textarea class="m-textarea" id="msg-input"
-          placeholder="Write anything — they'll never know it was you."
-          maxlength="500" rows="5" aria-label="Your anonymous message" autocomplete="off" spellcheck="true"></textarea>
-        <div class="char-ring-wrap" aria-hidden="true">
-          <svg class="char-ring" viewBox="0 0 28 28">
-            <circle class="char-ring-bg" cx="14" cy="14" r="11"/>
-            <circle class="char-ring-fill" id="char-ring-fill" cx="14" cy="14" r="11"/>
-          </svg>
+      <!-- Prompt banner — shown for non-default prompts -->
+      <div class="prompt-banner" id="prompt-banner" style="display:none">
+        <span class="prompt-banner-icon" id="prompt-banner-icon">💬</span>
+        <div class="prompt-banner-text">
+          <div class="prompt-banner-title" id="prompt-banner-title">Ask Me Anything</div>
+          <div class="prompt-banner-sub" id="prompt-banner-sub">Anonymous · they'll never know it was you</div>
         </div>
       </div>
-      <div class="char-text" id="char-text">
-        <span class="char-num" id="char-num">0 / 500</span>
-        <span>100% anonymous</span>
+
+      <!-- Default textarea (ask / hottake / advice) -->
+      <div id="textarea-area">
+        <div class="textarea-wrap">
+          <textarea class="m-textarea" id="msg-input"
+            placeholder="Write anything — they'll never know it was you."
+            maxlength="500" rows="5" aria-label="Your anonymous message" autocomplete="off" spellcheck="true"></textarea>
+          <div class="char-ring-wrap" aria-hidden="true">
+            <svg class="char-ring" viewBox="0 0 28 28">
+              <circle class="char-ring-bg" cx="14" cy="14" r="11"/>
+              <circle class="char-ring-fill" id="char-ring-fill" cx="14" cy="14" r="11"/>
+            </svg>
+          </div>
+        </div>
+        <div class="char-text" id="char-text">
+          <span class="char-num" id="char-num">0 / 500</span>
+          <span>100% anonymous</span>
+        </div>
       </div>
+
+      <!-- 3-words input -->
+      <div id="words-area" style="display:none">
+        <div class="words-row">
+          <input class="word-input" id="word1" placeholder="First" maxlength="20" autocomplete="off" spellcheck="false">
+          <input class="word-input" id="word2" placeholder="Second" maxlength="20" autocomplete="off" spellcheck="false">
+          <input class="word-input" id="word3" placeholder="Third" maxlength="20" autocomplete="off" spellcheck="false">
+        </div>
+        <p class="send-note" style="margin-bottom:12px">Exactly 3 words — no more, no less</p>
+      </div>
+
+      <!-- Trust level buttons -->
+      <div id="trust-area" style="display:none">
+        <div class="trust-grid">
+          <button class="trust-btn" data-trust="Stranger">
+            <span class="trust-btn-emoji">👻</span>
+            <span class="trust-btn-label">Stranger</span>
+            <span class="trust-btn-sub">We've never really talked</span>
+          </button>
+          <button class="trust-btn" data-trust="Acquaintance">
+            <span class="trust-btn-emoji">🙃</span>
+            <span class="trust-btn-label">Acquaintance</span>
+            <span class="trust-btn-sub">I know who you are, that's about it</span>
+          </button>
+          <button class="trust-btn" data-trust="Friend">
+            <span class="trust-btn-emoji">🤝</span>
+            <span class="trust-btn-label">Friend</span>
+            <span class="trust-btn-sub">We actually talk and hang out</span>
+          </button>
+          <button class="trust-btn" data-trust="Bestie">
+            <span class="trust-btn-emoji">🔥</span>
+            <span class="trust-btn-label">Bestie</span>
+            <span class="trust-btn-sub">I know too much about you</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Rate 1-10 -->
+      <div id="rate-area" style="display:none">
+        <p class="rate-label" id="rate-label">Pick a number</p>
+        <div class="rate-grid" id="rate-grid"></div>
+      </div>
+
       <button class="btn-send" id="send-btn" aria-label="Send anonymous message">
         <svg width="15" height="15" viewBox="0 0 15 15" fill="none" aria-hidden="true"><path d="M2 7.5L13 2.5l-5 11-1.5-4.5L2 7.5z" stroke="white" stroke-width="1.5" stroke-linejoin="round"/></svg>
         <span id="btn-txt">Send anonymously</span>
@@ -234,9 +372,14 @@
       <div class="success-check" aria-hidden="true">
         <svg width="26" height="26" viewBox="0 0 26 26" fill="none"><path d="M5 13l5 5 11-11" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </div>
-      <h2 class="s-title">Sent. 🎉</h2>
-      <p class="s-sub">Anonymous, as promised. They will never know it was you.</p>
+      <h2 class="s-title" id="s-title-el">Sent 🚀</h2>
+      <p class="s-sub" id="s-sub-el">Anonymous, as promised. They'll never know it was you.</p>
+      <canvas id="confetti-canvas" aria-hidden="true" style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none"></canvas>
       <button class="btn-again" id="send-again-btn">Send another</button>
+      <a href="/" class="btn-get-own" id="btn-get-own-success">
+        <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M1 6.5L12 1.5l-4.5 10-1.3-4L1 6.5z" stroke="white" stroke-width="1.5" stroke-linejoin="round"/></svg>
+        Get your own link
+      </a>
     </div>
   </div>
 
@@ -595,6 +738,125 @@
   document.getElementById('tab-ask-btn').addEventListener('click', ()=>switchTab('ask'));
   document.getElementById('tab-poll-btn').addEventListener('click', ()=>switchTab('poll'));
 
+  // ── Groq-powered dynamic placeholders ─────────────────────────────────
+  const textarea2 = document.getElementById('msg-input');
+  const defaultPH = "Write anything — they'll never know it was you.";
+  let phIndex = 0, placeholders = [defaultPH];
+  async function loadPlaceholders() {
+    try {
+      const res = await fetch(`/api/groq?type=placeholders&username=${encodeURIComponent(user)}`);
+      const d   = await res.json();
+      if (d.placeholders?.length) {
+        placeholders = d.placeholders;
+        rotatePlaceholder();
+      }
+    } catch(_) {}
+  }
+  function rotatePlaceholder() {
+    if (!textarea2 || textarea2.value) return;
+    textarea2.placeholder = placeholders[phIndex % placeholders.length];
+    phIndex++;
+  }
+  loadPlaceholders();
+  setInterval(rotatePlaceholder, 5000);
+
+  // ── Send counter (social proof) ────────────────────────────────────────
+  async function loadSentCount() {
+    try {
+      const res = await fetch(`/api/stats?username=${encodeURIComponent(user)}`);
+      const d   = await res.json();
+      const el  = document.getElementById('teaser-count');
+      if (el && d.received > 0) {
+        el.textContent = d.received > 99 ? '99+' : String(d.received);
+        // Reveal real blurred msgs partially
+        const tmsgs = document.querySelectorAll('.teaser-msg');
+        if (d.received >= 3 && tmsgs[0]) tmsgs[0].style.filter = 'blur(3px)';
+      } else {
+        const tw = document.getElementById('teaser-wrap');
+        if (tw && d.received === 0) tw.style.display = 'none';
+      }
+    } catch(_) {}
+  }
+  loadSentCount();
+
+  // ── Mood detection while typing ────────────────────────────────────────
+  let moodTimeout;
+  const charTextEl = document.getElementById('char-text');
+  function clearMoodBadge() { document.querySelector('.mood-badge')?.remove(); }
+  textarea2?.addEventListener('input', () => {
+    clearTimeout(moodTimeout);
+    clearMoodBadge();
+    const val = textarea2.value.trim();
+    if (val.length < 20) return;
+    moodTimeout = setTimeout(async () => {
+      try {
+        const res = await fetch('/api/groq', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ type:'mood', text:val }) });
+        const d   = await res.json();
+        if (!d.mood || d.mood === 'neutral') return;
+        clearMoodBadge();
+        const MOOD_EMOJI = { wholesome:'🤍', funny:'😂', spicy:'🌶️', deep:'🤔', flirty:'💕', sad:'🥺', supportive:'💪', weird:'👀' };
+        const badge = document.createElement('span');
+        badge.className = `mood-badge mood-${d.mood}`;
+        badge.textContent = `${MOOD_EMOJI[d.mood]||''} ${d.mood}`;
+        charTextEl?.appendChild(badge);
+      } catch(_) {}
+    }, 1200);
+  });
+
+  // ── Confetti burst on send ─────────────────────────────────────────────
+  function launchConfetti() {
+    const canvas = document.getElementById('confetti-canvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    const W = canvas.offsetWidth, H = canvas.offsetHeight;
+    canvas.width = W; canvas.height = H;
+    const COLORS = ['#ff477e','#ff6b35','#ffbf69','#4ade80','#60a5fa','#a78bfa'];
+    const pieces = Array.from({length:60}, () => ({
+      x: Math.random()*W, y: Math.random()*H*0.4 - H*0.1,
+      vx: (Math.random()-0.5)*4, vy: Math.random()*3+2,
+      r: Math.random()*6+3, color: COLORS[Math.floor(Math.random()*COLORS.length)],
+      rot: Math.random()*360, rSpeed: (Math.random()-0.5)*8, life:1,
+    }));
+    let frame;
+    function draw() {
+      ctx.clearRect(0,0,W,H);
+      let alive = false;
+      pieces.forEach(p => {
+        p.x+=p.vx; p.y+=p.vy; p.rot+=p.rSpeed; p.life-=0.012;
+        if(p.life<=0) return; alive=true;
+        ctx.save(); ctx.translate(p.x,p.y); ctx.rotate(p.rot*Math.PI/180);
+        ctx.globalAlpha=p.life; ctx.fillStyle=p.color;
+        ctx.fillRect(-p.r,-p.r/2,p.r*2,p.r);
+        ctx.restore();
+      });
+      if(alive) frame=requestAnimationFrame(draw); else ctx.clearRect(0,0,W,H);
+    }
+    draw();
+    return () => cancelAnimationFrame(frame);
+  }
+
+  // Patch sendMessage to launch confetti
+  const origSend = sendMessage;
+  // Override the success display
+  const successArea = document.getElementById('success-area');
+  const observer = new MutationObserver(muts => {
+    muts.forEach(m => {
+      if(m.target.classList.contains('show')) launchConfetti();
+    });
+  });
+  if(successArea) observer.observe(successArea, { attributes:true, attributeFilter:['class'] });
+
+  // ── Floating CTA — appears after scrolling past send button ───────────
+  const floatingCta = document.getElementById('floating-cta');
+  const sendBtnEl   = document.getElementById('send-btn');
+  if (floatingCta && sendBtnEl) {
+    const ctaObs = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting) floatingCta.classList.add('visible');
+      else floatingCta.classList.remove('visible');
+    }, { threshold: 0 });
+    ctaObs.observe(sendBtnEl);
+  }
+
   // Load poll in background
   loadPoll().then(data => {
     if (data?.enabled) {
@@ -609,6 +871,156 @@
     }
     renderPoll(data);
   });
+
+  // ── Prompt type detection from URL ────────────────────────────────────
+  const PROMPT_CONFIG = {
+    '3words': { icon:'✏️', title:'Describe me in exactly 3 words', sub:'No more, no less — be creative', btnTxt:'Send 3 words', placeholder:null, maxWords:3 },
+    trust:    { icon:'🔒', title:'What's your trust level with me?', sub:'Tap to pick — completely anonymous', btnTxt:'Send trust level', placeholder:null },
+    rate:     { icon:'⭐', title:'Rate my vibe 1 to 10', sub:'Tap a number — no explanation needed', btnTxt:'Send rating', placeholder:null },
+    hottake:  { icon:'🌶️', title:'Hot take about me. Go.', sub:'Say what you actually think — I can handle it', btnTxt:'Send hot take', placeholder:'Type your honest hot take...' },
+    advice:   { icon:'💡', title:'Give me one piece of advice', sub:'Something you think I actually need to hear', btnTxt:'Send advice', placeholder:'What's your advice?' },
+    ai:       { icon:'✨', title:'loading...', sub:'AI-generated · 100% anonymous', btnTxt:'Send anonymously', placeholder:'Your answer...' },
+  };
+
+  const urlPromptType = new URLSearchParams(location.search).get('prompt') || 'ask';
+
+  function setupPromptUI() {
+    const cfg = PROMPT_CONFIG[urlPromptType];
+    if (!cfg) return; // default ask mode
+
+    // Show prompt banner
+    const banner = document.getElementById('prompt-banner');
+    const bannerIcon = document.getElementById('prompt-banner-icon');
+    const bannerTitle = document.getElementById('prompt-banner-title');
+    const bannerSub = document.getElementById('prompt-banner-sub');
+    if (banner) { banner.style.display=''; bannerIcon.textContent=cfg.icon; bannerTitle.textContent=cfg.title; bannerSub.textContent=cfg.sub; }
+
+    // Show/hide input areas
+    const textareaArea = document.getElementById('textarea-area');
+    const wordsArea    = document.getElementById('words-area');
+    const trustArea    = document.getElementById('trust-area');
+    const rateArea     = document.getElementById('rate-area');
+
+    if (urlPromptType === '3words') {
+      if (textareaArea) textareaArea.style.display='none';
+      if (wordsArea) wordsArea.style.display='';
+      setupWordsInput();
+    } else if (urlPromptType === 'trust') {
+      if (textareaArea) textareaArea.style.display='none';
+      if (trustArea) trustArea.style.display='';
+      setupTrustButtons();
+    } else if (urlPromptType === 'rate') {
+      if (textareaArea) textareaArea.style.display='none';
+      if (rateArea) rateArea.style.display='';
+      setupRateGrid();
+    } else if (urlPromptType === 'ai') {
+      // Fetch AI prompt text and update banner
+      fetch(`/api/groq?type=prompt&username=${encodeURIComponent(user)}`)
+        .then(r=>r.json()).then(d=>{ if(d.prompt && bannerTitle) bannerTitle.textContent=d.prompt; }).catch(()=>{});
+    }
+
+    // Update button text
+    const btnTxt = document.getElementById('btn-txt');
+    if (btnTxt && cfg.btnTxt) btnTxt.textContent = cfg.btnTxt;
+
+    // Update textarea placeholder if applicable
+    const ta = document.getElementById('msg-input');
+    if (ta && cfg.placeholder) ta.placeholder = cfg.placeholder;
+
+    // Disable send button by default for selection-based prompts
+    const sendBtn = document.getElementById('send-btn');
+    if (sendBtn && (urlPromptType === 'trust' || urlPromptType === 'rate')) {
+      sendBtn.disabled = true;
+    }
+  }
+
+  // ── 3-words enforcer ──────────────────────────────────────────────────
+  let wordsValue = '';
+  function setupWordsInput() {
+    const inputs = [document.getElementById('word1'), document.getElementById('word2'), document.getElementById('word3')];
+    inputs.forEach((inp, i) => {
+      if (!inp) return;
+      inp.addEventListener('input', () => {
+        // Allow only single words (no spaces)
+        inp.value = inp.value.replace(/\s+/g, '');
+        // Auto-advance to next input
+        if (inp.value.length >= 3 && i < 2 && inputs[i+1]) inputs[i+1].focus();
+        wordsValue = inputs.map(el => el?.value.trim()).filter(Boolean).join(' ');
+        document.getElementById('send-btn').disabled = inputs.some(el => !el?.value.trim());
+      });
+      inp.addEventListener('keydown', e => {
+        if (e.key === 'Enter' && i < 2 && inputs[i+1]) { e.preventDefault(); inputs[i+1].focus(); }
+        if (e.key === 'Enter' && i === 2) document.getElementById('send-btn').click();
+      });
+    });
+  }
+
+  // ── Trust level selection ─────────────────────────────────────────────
+  let trustValue = '';
+  function setupTrustButtons() {
+    document.querySelectorAll('.trust-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.trust-btn').forEach(b=>b.classList.remove('selected'));
+        btn.classList.add('selected');
+        const emoji = btn.querySelector('.trust-btn-emoji')?.textContent || '';
+        trustValue = `${emoji} ${btn.dataset.trust}`;
+        document.getElementById('send-btn').disabled = false;
+      });
+    });
+  }
+
+  // ── Rate 1–10 grid ────────────────────────────────────────────────────
+  let rateValue = 0;
+  const RATE_LABELS = ['','Total vibe kill 💀','Pretty rough tbh','Getting there 😬','Meh, could be worse','Not bad actually','Solid vibes ✨','Pretty good ngl','Really good energy 🔥','Almost perfect ⭐','Absolute vibe 🚀'];
+  function setupRateGrid() {
+    const grid = document.getElementById('rate-grid');
+    if (!grid) return;
+    grid.innerHTML = '';
+    for (let i=1; i<=10; i++) {
+      const btn = document.createElement('button');
+      btn.className='rate-btn'; btn.dataset.rate=String(i); btn.textContent=String(i);
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.rate-btn').forEach(b=>b.classList.remove('selected'));
+        btn.classList.add('selected');
+        rateValue = i;
+        const lbl = document.getElementById('rate-label');
+        if (lbl) lbl.textContent = RATE_LABELS[i] || '';
+        document.getElementById('send-btn').disabled = false;
+      });
+      grid.appendChild(btn);
+    }
+  }
+
+  // ── Build message text for each prompt type ───────────────────────────
+  function buildPromptMessage() {
+    const ta = document.getElementById('msg-input');
+    if (urlPromptType === '3words') return wordsValue || null;
+    if (urlPromptType === 'trust')  return trustValue ? `Trust level: ${trustValue}` : null;
+    if (urlPromptType === 'rate')   return rateValue ? `Vibe rating: ${rateValue}/10 ${RATE_LABELS[rateValue]}` : null;
+    return ta?.value.trim() || null;
+  }
+
+  // Override sendMessage to use prompt-aware message building
+  const origSendMessage = sendMessage;
+  window.sendMessage = async function() {
+    if (document.getElementById('_hp').value) return;
+    const text = buildPromptMessage();
+    if (!text) {
+      const err = document.getElementById('err-msg');
+      if (err) { err.textContent='Fill in your response first.'; err.classList.add('show'); }
+      return;
+    }
+    const ta = document.getElementById('msg-input');
+    const origVal = ta?.value;
+    if (ta && urlPromptType !== 'ask' && !['hottake','advice','ai'].includes(urlPromptType)) {
+      ta.value = text; // Temporarily set for sendMessage to pick up
+    }
+    await origSendMessage();
+    if (ta && origVal !== undefined) ta.value = origVal;
+  };
+
+  // Init prompt UI
+  setupPromptUI();
 
   // ── Story ───────────────────────────────────────────────────────────────
   function openStoryModal() {
