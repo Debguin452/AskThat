@@ -39,8 +39,29 @@ export async function onRequestGet({ request, env }) {
     } catch { return json({ placeholders: defaultPlaceholders() }); }
   }
 
-  // ── AI prompt card — unique fun question for the owner ─────────────────
-  if (type === 'prompt') {
+  // ── AI game — relatable, trend-aware challenge ─────────────────────────
+  if (type === 'game') {
+    const loc = (url.searchParams.get('loc') || '').slice(0, 80);
+    const cacheKey = `groq_game:${username}`;
+    try { const c = await env.MESSAGES_KV.get(cacheKey); if (c) return json({ game: c }); } catch(_) {}
+    if (!env.GROQ_API_KEY) return json({ game: randomFallbackGame() });
+    try {
+      const locHint = loc ? `The user's timezone/location context: ${loc}.` : '';
+      const raw = await groq(env, [{
+        role:'system',
+        content:`You write a single short, punchy, relatable anonymous game or challenge for a social app — something people share on Instagram/WhatsApp Stories. 
+It should feel current, viral, and fun — like a NPC test, a "would you rather", a vibe check, or a hot take game. 
+Reference current trends, Gen Z slang, or relatable situations if relevant.
+Max 12 words. No quotes. Just the game/challenge text as a question or prompt.
+${locHint}`
+      },{ role:'user', content:`Game for "${username}". Make it specific, fresh, shareable.` }], 50);
+      const game = raw.replace(/^"|"$/g,'').replace(/\n/g,' ').trim().slice(0,90) || randomFallbackGame();
+      try { await env.MESSAGES_KV.put(cacheKey, game, { expirationTtl: 14400 }); } catch(_) {}
+      return json({ game });
+    } catch { return json({ game: randomFallbackGame() }); }
+  }
+
+
     const cacheKey = `groq_prompt:${username}`;
     try { const c = await env.MESSAGES_KV.get(cacheKey); if (c) return json({ prompt: c }); } catch(_) {}
     if (!env.GROQ_API_KEY) return json({ prompt: randomFallbackPrompt() });
@@ -100,6 +121,19 @@ function defaultPlaceholders() {
     "One word I'd use to describe you is...",
   ];
 }
+function randomFallbackGame() {
+  const games = [
+    'NPC test: what would you say to snap me out of it?',
+    'Would you rather I ghost or overshare — be honest',
+    'Rate my main character energy 1–10',
+    'Finish this: the most unhinged thing about me is…',
+    'Real talk — am I the villain or the victim?',
+    'Vibe check: what era am I in right now?',
+    'One word that would break my villain arc',
+  ];
+  return games[Math.floor(Math.random()*games.length)];
+}
+
 function randomFallbackPrompt() {
   const p = [
     "What's one thing you'd never say to my face?",
