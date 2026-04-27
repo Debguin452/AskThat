@@ -386,61 +386,50 @@
 
     /* ── Bottom nav ── */
     .bottom-nav { position:fixed; bottom:0; left:0; right:0; z-index:100; background:rgba(13,10,8,.94); border-top:1px solid var(--border2); backdrop-filter:blur(24px); display:flex; justify-content:center; }
-    .bnav-tab { flex:1; max-width:120px; display:flex; flex-direction:column; align-items:center; gap:4px; padding:10px 8px 16px; cursor:pointer; border:none; background:transparent; color:var(--text3); font-family:'DM Sans',sans-serif; font-size:11px; font-weight:500; transition:color .18s; }
+    .bnav-tab { position:relative; flex:1; max-width:120px; display:flex; flex-direction:column; align-items:center; gap:4px; padding:10px 8px 16px; cursor:pointer; border:none; background:transparent; color:var(--text3); font-family:'DM Sans',sans-serif; font-size:11px; font-weight:500; transition:color .2s; }
+    .bnav-tab svg { opacity:.4; transition:opacity .2s; }
     .bnav-tab.active { color:var(--primary); }
-
-    /* ── Section panel animations ── */
-    .section-panel { display:none; animation:panelIn .28s cubic-bezier(.4,0,.2,1) both; }
-    .section-panel.active { display:block; }
-    @keyframes panelIn { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
-
-    /* ── Bottom nav active indicator ── */
-    .bnav-tab { position:relative; }
-    .bnav-tab::after { content:''; position:absolute; top:0; left:50%; transform:translateX(-50%); width:28px; height:2px; border-radius:0 0 3px 3px; background:var(--primary); opacity:0; transition:opacity .2s; }
-    .bnav-tab.active::after { opacity:1; }
-    .bnav-tab svg { opacity:.45; }
     .bnav-tab.active svg { opacity:1; }
+    .bnav-tab::after { content:''; position:absolute; top:0; left:50%; transform:translateX(-50%); width:28px; height:2.5px; border-radius:0 0 4px 4px; background:var(--primary); opacity:0; transition:opacity .2s; }
+    .bnav-tab.active::after { opacity:1; }
+
+    /* ── Section panels ── */
+    .section-panel { display:none; }
+    .section-panel.active { display:block; animation:panelIn .3s cubic-bezier(.4,0,.2,1) both; }
+    @keyframes panelIn { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
 
     /* ── Mode card animations ── */
-    .mode-card { transition:all .22s cubic-bezier(.4,0,.2,1); transform:scale(1); }
+    .mode-card { transition:border-color .2s,background .2s,transform .15s; }
     .mode-card:active { transform:scale(.96); }
-    .mode-card.active { animation:modeSelect .35s cubic-bezier(.34,1.56,.64,1) both; }
-    @keyframes modeSelect { 0%{transform:scale(.96)} 60%{transform:scale(1.04)} 100%{transform:scale(1)} }
-    .mode-card.active .mode-card-icon { animation:iconBounce .4s cubic-bezier(.34,1.56,.64,1); }
-    @keyframes iconBounce { 0%{transform:scale(1)} 50%{transform:scale(1.35)} 100%{transform:scale(1)} }
+    @keyframes modeSelect { 0%{transform:scale(.96)} 55%{transform:scale(1.05)} 100%{transform:scale(1)} }
+    @keyframes iconBounce { 0%{transform:scale(1)} 50%{transform:scale(1.4)} 100%{transform:scale(1)} }
+    .mode-card.just-selected { animation:modeSelect .35s cubic-bezier(.34,1.56,.64,1) both; }
+    .mode-card.just-selected .mode-card-icon { animation:iconBounce .4s cubic-bezier(.34,1.56,.64,1); }
 
-    /* ── Link hero glow on copy ── */
+    /* ── Link hero pulse on copy ── */
+    @keyframes heroPulse { 0%,100%{box-shadow:none} 50%{box-shadow:0 0 0 4px rgba(255,107,53,.28)} }
     .link-hero.copied { animation:heroPulse .5s ease; }
-    @keyframes heroPulse { 0%,100%{box-shadow:none} 50%{box-shadow:0 0 0 4px rgba(255,107,53,.25)} }
 
-    /* ── Poster thumb appear ── */
-    .poster-thumb { animation:thumbIn .3s ease both; }
-    .poster-thumb:nth-child(1) { animation-delay:.04s; }
-    .poster-thumb:nth-child(2) { animation-delay:.12s; }
-    .poster-thumb:nth-child(3) { animation-delay:.20s; }
-    @keyframes thumbIn { from{opacity:0;transform:scale(.92) translateY(8px)} to{opacity:1;transform:scale(1) translateY(0)} }
+    /* ── Poster thumb stagger appear ── */
+    @keyframes thumbIn { from{opacity:0;transform:scale(.9) translateY(10px)} to{opacity:1;transform:none} }
+    .poster-thumb:nth-child(1) { animation:thumbIn .3s .04s ease both; }
+    .poster-thumb:nth-child(2) { animation:thumbIn .3s .12s ease both; }
+    .poster-thumb:nth-child(3) { animation:thumbIn .3s .20s ease both; }
 
     /* ── Message card stagger ── */
     .msg-card:nth-child(1)  { animation-delay:.02s; }
     .msg-card:nth-child(2)  { animation-delay:.06s; }
     .msg-card:nth-child(3)  { animation-delay:.10s; }
     .msg-card:nth-child(4)  { animation-delay:.14s; }
-    .msg-card:nth-child(5)  { animation-delay:.18s; }
-    .msg-card:nth-child(n+6){ animation-delay:.22s; }
+    .msg-card:nth-child(n+5){ animation-delay:.18s; }
 
-    /* ── Poll toggle animate ── */
-    .tog-wrap { transition:background .25s cubic-bezier(.4,0,.2,1); }
+    /* ── Toggle animation ── */
+    .tog-wrap { transition:background .25s; }
     .tog-inner { transition:transform .25s cubic-bezier(.34,1.4,.64,1); }
     .tog-wrap[aria-checked="true"] .tog-inner { transform:translateX(22px); }
 
-    /* ── Save indicator on mode ── */
-    .mode-saved-badge { position:fixed; bottom:80px; left:50%; transform:translateX(-50%) translateY(0); background:rgba(52,211,153,.15); border:1px solid rgba(52,211,153,.4); color:#34d399; font-size:12px; font-weight:600; padding:7px 18px; border-radius:100px; pointer-events:none; opacity:0; transition:opacity .2s,transform .2s; z-index:200; }
-    .mode-saved-badge.show { opacity:1; transform:translateX(-50%) translateY(-4px); }
-
     /* ── Responsive ── */
-    @media (max-width: 560px) {
-      .profile-hdr { flex-direction: column; align-items: flex-start; gap: 12px; }
-    }
+    @media (max-width: 560px) { .profile-hdr { flex-direction:column; align-items:flex-start; gap:12px; } }
 
 
     /* ── Link section ── */
@@ -788,13 +777,17 @@
   document.querySelectorAll('.mode-card').forEach(card => {
     card.addEventListener('click', () => {
       if (card.dataset.type === currentMode) return;
-      document.querySelectorAll('.mode-card').forEach(c => c.classList.remove('active'));
+      document.querySelectorAll('.mode-card').forEach(c => {
+        c.classList.remove('active');
+        c.classList.remove('just-selected');
+      });
       card.classList.add('active');
+      // Trigger spring animation
+      requestAnimationFrame(() => card.classList.add('just-selected'));
       currentMode = card.dataset.type;
       updateLinkDisplay();
       postersGenerated = false;
       buildPosterStrip();
-      // Save to server — debounced
       clearTimeout(modeSaveTimer);
       modeSaveTimer = setTimeout(() => {
         saveMode(currentMode).then(() => showToast('Mode saved ✓'));
