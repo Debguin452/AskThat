@@ -15,7 +15,7 @@
   <link rel="manifest" href="/manifest.json">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Space+Grotesk:wght@600;700&family=Righteous&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
@@ -113,36 +113,92 @@
     .btn-bulk-del:hover { background: rgba(248,113,113,.25); }
     .btn-bulk-cancel { background: rgba(255,255,255,.06); border: 1px solid var(--border2); color: var(--text2); border-radius: 8px; padding: 6px 14px; font-size: 13px; font-weight: 500; cursor: pointer; }
 
-    /* ── Message Cards ── */
-    .msgs-list { display: flex; flex-direction: column; gap: 8px; }
+    /* ── Message Cards — redesigned ── */
+    .msgs-list { display: flex; flex-direction: column; gap: 10px; }
 
-    .msg-card { background: var(--card); border: 1px solid var(--border2); border-radius: var(--r); padding: 16px 18px; transition: all .2s; position: relative; overflow: hidden; }
-    .msg-card.unread-card { border-color: rgba(255,107,53,.2); }
-    .msg-card:hover { border-color: rgba(255,107,53,.25); transform: translateY(-1px); }
-    .msg-card.selected-card { border-color: rgba(124,58,237,.4); background: rgba(124,58,237,.07); }
+    .msg-card {
+      background: linear-gradient(160deg, rgba(255,200,130,0.07) 0%, rgba(255,107,53,0.03) 100%);
+      border: 1px solid var(--border2);
+      border-radius: 20px;
+      padding: 0;
+      transition: all .22s cubic-bezier(.4,0,.2,1);
+      position: relative; overflow: hidden;
+      animation: cardIn .35s ease both;
+    }
+    @keyframes cardIn { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
+    .msg-card.unread-card { border-color: rgba(255,107,53,.28); background: linear-gradient(160deg,rgba(255,107,53,.09),rgba(255,71,126,.04)); }
+    .msg-card:hover { border-color: rgba(255,107,53,.35); transform: translateY(-2px); box-shadow: 0 8px 32px rgba(255,107,53,.12); }
+    .msg-card.selected-card { border-color: rgba(124,58,237,.45); background: rgba(124,58,237,.08); }
 
-    .card-top { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 10px; }
-    .card-checkbox { width: 18px; height: 18px; accent-color: var(--primary); cursor: pointer; flex-shrink: 0; margin-top: 2px; opacity: 0; transition: opacity .18s; }
-    .bulk-mode .card-checkbox { opacity: 1; }
-    .card-badges { display: flex; gap: 5px; flex-wrap: wrap; flex-shrink: 0; }
+    /* Left accent bar — varies per mood */
+    .msg-card::before { content:''; position:absolute; left:0; top:0; bottom:0; width:3px; border-radius:20px 0 0 20px; background:var(--grad); opacity:0.7; }
+    .msg-card.mood-wholesome::before { background:linear-gradient(180deg,#4ade80,#22d3ee); }
+    .msg-card.mood-funny::before     { background:linear-gradient(180deg,#facc15,#fb923c); }
+    .msg-card.mood-flirty::before    { background:linear-gradient(180deg,#f472b6,#ff477e); }
+    .msg-card.mood-deep::before      { background:linear-gradient(180deg,#a78bfa,#7c3aed); }
+    .msg-card.mood-sad::before       { background:linear-gradient(180deg,#60a5fa,#818cf8); }
+    .msg-card.mood-supportive::before{ background:linear-gradient(180deg,#34d399,#10b981); }
+    .msg-card.mood-weird::before     { background:linear-gradient(180deg,#fb923c,#f43f5e); }
+    .msg-card.mood-spicy::before     { background:linear-gradient(180deg,#ff477e,#ff6b35); }
+
+    .card-inner { padding: 16px 18px 14px 22px; }
+
+    /* Big decorative quote mark */
+    .card-quote-mark {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 72px; line-height: 1; font-weight: 900;
+      color: var(--primary); opacity: 0.13;
+      position: absolute; top: 4px; left: 14px;
+      pointer-events: none; user-select: none;
+    }
+    .msg-card.mood-wholesome .card-quote-mark { color: #4ade80; }
+    .msg-card.mood-funny .card-quote-mark     { color: #facc15; }
+    .msg-card.mood-flirty .card-quote-mark    { color: #f472b6; }
+    .msg-card.mood-deep .card-quote-mark      { color: #a78bfa; }
+    .msg-card.mood-sad .card-quote-mark       { color: #60a5fa; }
+
+    .card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; margin-bottom: 8px; }
+    .card-badges { display: flex; gap: 5px; flex-wrap: wrap; flex-shrink: 0; align-items: center; }
     .badge { display: inline-flex; align-items: center; gap: 3px; font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 100px; text-transform: uppercase; letter-spacing: .05em; }
     .badge-new  { background: rgba(255,107,53,.15); color: var(--pri-hi); border: 1px solid rgba(255,107,53,.25); }
     .badge-known { background: rgba(74,222,128,.1); color: #4ade80; border: 1px solid rgba(74,222,128,.2); }
 
-    .card-text { font-size: 15px; color: var(--text); line-height: 1.65; flex: 1; min-width: 0; word-break: break-word; }
+    /* Message text — the star of the show */
+    .card-text {
+      font-family: 'Instrument Serif', Georgia, serif;
+      font-size: 17px; color: var(--text); line-height: 1.7;
+      word-break: break-word; padding-left: 4px;
+      margin-bottom: 10px;
+    }
+    .msg-card.msg-short .card-text  { font-size: 20px; font-weight: 400; }
+    .msg-card.msg-medium .card-text { font-size: 17px; }
+    .msg-card.msg-long .card-text   { font-size: 15px; line-height: 1.65; font-family: 'DM Sans', sans-serif; }
 
-    .card-poll { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 10px; padding: 8px 10px; background: rgba(255,255,255,.03); border: 1px solid var(--border2); border-radius: 8px; }
+    .card-poll { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 10px; padding: 8px 10px; background: rgba(255,255,255,.03); border: 1px solid var(--border2); border-radius: 8px; }
     .poll-chip { font-size: 11px; color: var(--text2); background: rgba(255,255,255,.06); border-radius: 100px; padding: 3px 10px; }
 
-    .card-footer { display: flex; align-items: center; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
-    .card-time { font-size: 11px; color: var(--text3); display: flex; align-items: center; gap: 4px; }
+    .card-footer { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .card-time { font-size: 11px; color: var(--text3); display: flex; align-items: center; gap: 4px; font-family: 'DM Sans', sans-serif; }
+    .geo-flag  { font-size: 14px; line-height: 1; }
     .dot-sep { color: var(--text3); font-size: 9px; }
-    .read-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--primary); flex-shrink: 0; }
+    .read-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--primary); flex-shrink: 0; animation: pulse2 2s ease-in-out infinite; }
+    @keyframes pulse2 { 0%,100%{opacity:1} 50%{opacity:.4} }
     .card-actions { display: flex; gap: 5px; margin-left: auto; }
-    .icon-btn { width: 32px; height: 32px; border-radius: 8px; border: 1px solid var(--border2); background: rgba(255,255,255,.03); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all .18s; color: var(--text3); }
+    .icon-btn { width: 32px; height: 32px; border-radius: 9px; border: 1px solid var(--border2); background: rgba(255,255,255,.03); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all .18s; color: var(--text3); }
     .icon-btn:hover { background: rgba(255,255,255,.08); color: var(--text); border-color: rgba(255,255,255,.15); }
     .icon-btn.del:hover { background: rgba(248,113,113,.12); color: var(--red); border-color: rgba(248,113,113,.3); }
     .icon-btn.story:hover { background: rgba(124,58,237,.12); color: #c4b5fd; border-color: rgba(124,58,237,.3); }
+
+    /* mood chip on card */
+    .mood-chip { display:inline-flex; align-items:center; gap:3px; font-size:10px; font-weight:600; padding:2px 8px; border-radius:100px; border:1px solid; }
+    .mood-chip.mood-wholesome { background:rgba(74,222,128,.1);  color:#4ade80;  border-color:rgba(74,222,128,.2); }
+    .mood-chip.mood-funny     { background:rgba(250,204,21,.1);  color:#facc15;  border-color:rgba(250,204,21,.2); }
+    .mood-chip.mood-flirty    { background:rgba(244,114,182,.1); color:#f472b6;  border-color:rgba(244,114,182,.2); }
+    .mood-chip.mood-deep      { background:rgba(167,139,250,.1); color:#a78bfa;  border-color:rgba(167,139,250,.2); }
+    .mood-chip.mood-sad       { background:rgba(96,165,250,.1);  color:#60a5fa;  border-color:rgba(96,165,250,.2); }
+    .mood-chip.mood-supportive{ background:rgba(52,211,153,.1);  color:#34d399;  border-color:rgba(52,211,153,.2); }
+    .mood-chip.mood-weird     { background:rgba(251,146,60,.1);  color:#fb923c;  border-color:rgba(251,146,60,.2); }
+    .mood-chip.mood-spicy     { background:rgba(255,71,126,.1);  color:#ff477e;  border-color:rgba(255,71,126,.2); }
 
     /* ── Poll Results ── */
     .poll-section { background: var(--card); border: 1px solid var(--border2); border-radius: var(--r); padding: 20px; margin-bottom: 14px; display: none; }
@@ -328,229 +384,250 @@
 
     @keyframes up { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
 
+    /* ── Bottom nav ── */
+    .bottom-nav { position:fixed; bottom:0; left:0; right:0; z-index:100; background:rgba(13,10,8,.94); border-top:1px solid var(--border2); backdrop-filter:blur(24px); display:flex; justify-content:center; }
+    .bnav-tab { flex:1; max-width:120px; display:flex; flex-direction:column; align-items:center; gap:4px; padding:10px 8px 16px; cursor:pointer; border:none; background:transparent; color:var(--text3); font-family:'DM Sans',sans-serif; font-size:11px; font-weight:500; transition:color .18s; }
+    .bnav-tab.active { color:var(--primary); }
+
+    /* ── Section panel animations ── */
+    .section-panel { display:none; animation:panelIn .28s cubic-bezier(.4,0,.2,1) both; }
+    .section-panel.active { display:block; }
+    @keyframes panelIn { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
+
+    /* ── Bottom nav active indicator ── */
+    .bnav-tab { position:relative; }
+    .bnav-tab::after { content:''; position:absolute; top:0; left:50%; transform:translateX(-50%); width:28px; height:2px; border-radius:0 0 3px 3px; background:var(--primary); opacity:0; transition:opacity .2s; }
+    .bnav-tab.active::after { opacity:1; }
+    .bnav-tab svg { opacity:.45; }
+    .bnav-tab.active svg { opacity:1; }
+
+    /* ── Mode card animations ── */
+    .mode-card { transition:all .22s cubic-bezier(.4,0,.2,1); transform:scale(1); }
+    .mode-card:active { transform:scale(.96); }
+    .mode-card.active { animation:modeSelect .35s cubic-bezier(.34,1.56,.64,1) both; }
+    @keyframes modeSelect { 0%{transform:scale(.96)} 60%{transform:scale(1.04)} 100%{transform:scale(1)} }
+    .mode-card.active .mode-card-icon { animation:iconBounce .4s cubic-bezier(.34,1.56,.64,1); }
+    @keyframes iconBounce { 0%{transform:scale(1)} 50%{transform:scale(1.35)} 100%{transform:scale(1)} }
+
+    /* ── Link hero glow on copy ── */
+    .link-hero.copied { animation:heroPulse .5s ease; }
+    @keyframes heroPulse { 0%,100%{box-shadow:none} 50%{box-shadow:0 0 0 4px rgba(255,107,53,.25)} }
+
+    /* ── Poster thumb appear ── */
+    .poster-thumb { animation:thumbIn .3s ease both; }
+    .poster-thumb:nth-child(1) { animation-delay:.04s; }
+    .poster-thumb:nth-child(2) { animation-delay:.12s; }
+    .poster-thumb:nth-child(3) { animation-delay:.20s; }
+    @keyframes thumbIn { from{opacity:0;transform:scale(.92) translateY(8px)} to{opacity:1;transform:scale(1) translateY(0)} }
+
+    /* ── Message card stagger ── */
+    .msg-card:nth-child(1)  { animation-delay:.02s; }
+    .msg-card:nth-child(2)  { animation-delay:.06s; }
+    .msg-card:nth-child(3)  { animation-delay:.10s; }
+    .msg-card:nth-child(4)  { animation-delay:.14s; }
+    .msg-card:nth-child(5)  { animation-delay:.18s; }
+    .msg-card:nth-child(n+6){ animation-delay:.22s; }
+
+    /* ── Poll toggle animate ── */
+    .tog-wrap { transition:background .25s cubic-bezier(.4,0,.2,1); }
+    .tog-inner { transition:transform .25s cubic-bezier(.34,1.4,.64,1); }
+    .tog-wrap[aria-checked="true"] .tog-inner { transform:translateX(22px); }
+
+    /* ── Save indicator on mode ── */
+    .mode-saved-badge { position:fixed; bottom:80px; left:50%; transform:translateX(-50%) translateY(0); background:rgba(52,211,153,.15); border:1px solid rgba(52,211,153,.4); color:#34d399; font-size:12px; font-weight:600; padding:7px 18px; border-radius:100px; pointer-events:none; opacity:0; transition:opacity .2s,transform .2s; z-index:200; }
+    .mode-saved-badge.show { opacity:1; transform:translateX(-50%) translateY(-4px); }
+
     /* ── Responsive ── */
     @media (max-width: 560px) {
-      
       .profile-hdr { flex-direction: column; align-items: flex-start; gap: 12px; }
-      .tabs { width: 100%; justify-content: space-between; }
-      .tab { flex: 1; justify-content: center; padding: 7px 8px; }
     }
-  </style>
+
+
+    /* ── Link section ── */
+    .link-section { padding-bottom:20px; }
+    .link-hero { background:linear-gradient(135deg,rgba(255,71,126,.1),rgba(255,107,53,.06)); border:1px solid var(--border); border-radius:20px; padding:20px; margin-bottom:16px; }
+    .link-hero-label { font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:.08em; color:var(--text3); margin-bottom:6px; }
+    .link-hero-url { font-family:'Syne',sans-serif; font-weight:700; font-size:16px; color:var(--text); word-break:break-all; margin-bottom:14px; background:var(--grad-t); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+    .link-copy-row { display:flex; gap:8px; }
+    .btn-link-copy { flex:1; padding:11px; background:var(--grad); border:none; border-radius:12px; color:#fff; font-family:'DM Sans',sans-serif; font-size:13px; font-weight:600; cursor:pointer; transition:opacity .18s; }
+    .btn-link-copy:hover { opacity:.88; }
+    .btn-link-share { padding:11px 16px; background:rgba(255,255,255,.05); border:1px solid var(--border2); border-radius:12px; color:var(--text2); font-family:'DM Sans',sans-serif; font-size:13px; cursor:pointer; transition:all .18s; }
+    .btn-link-share:hover { background:rgba(255,255,255,.1); }
+
+    .mode-section-label { font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:.08em; color:var(--text3); margin-bottom:10px; display:flex; align-items:center; justify-content:space-between; }
+    .mode-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:18px; }
+    .mode-card { padding:14px; background:var(--card); border:1px solid var(--border2); border-radius:16px; cursor:pointer; transition:all .2s; text-align:left; }
+    .mode-card:hover { border-color:rgba(255,107,53,.3); background:rgba(255,107,53,.06); }
+    .mode-card.active { border-color:var(--primary); background:rgba(255,107,53,.1); }
+    .mode-card-icon { font-size:22px; margin-bottom:6px; }
+    .mode-card-title { font-size:13px; font-weight:700; color:var(--text); margin-bottom:2px; }
+    .mode-card-sub { font-size:11px; color:var(--text3); line-height:1.4; }
+    .mode-card.active .mode-card-title { color:var(--primary); }
+
+    /* ── Poster strip ── */
+    .poster-section-label { font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:.08em; color:var(--text3); margin-bottom:10px; display:flex; align-items:center; gap:6px; }
+    .poster-spin { width:10px; height:10px; border:1.5px solid rgba(255,255,255,.2); border-top-color:var(--primary); border-radius:50%; animation:spin .7s linear infinite; display:none; }
+    .poster-strip { display:flex; gap:10px; overflow-x:auto; padding-bottom:8px; scrollbar-width:none; }
+    .poster-strip::-webkit-scrollbar { display:none; }
+    .poster-thumb { flex-shrink:0; width:120px; cursor:pointer; border-radius:14px; overflow:hidden; border:2px solid transparent; transition:all .2s; position:relative; }
+    .poster-thumb:hover { border-color:rgba(255,107,53,.4); transform:scale(1.02); }
+    .poster-thumb canvas { width:100%; display:block; border-radius:12px; }
+    .poster-thumb-label { font-size:10px; font-weight:600; color:var(--text3); text-align:center; margin-top:5px; }
+    .poster-dl-row { display:flex; gap:7px; margin-top:12px; }
+    .btn-poster-dl { flex:1; padding:11px; background:var(--grad); border:none; border-radius:12px; color:#fff; font-family:'DM Sans',sans-serif; font-size:13px; font-weight:600; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px; }
+    .btn-poster-wa { padding:11px 16px; background:rgba(37,211,102,.1); border:1px solid rgba(37,211,102,.28); border-radius:12px; color:#25D366; font-family:'DM Sans',sans-serif; font-size:13px; cursor:pointer; }
+
+    /* ── Poll section full ── */
+    .poll-full-section { padding-bottom:20px; }
+    .poll-toggle-row { display:flex; align-items:center; justify-content:space-between; background:var(--card); border:1px solid var(--border2); border-radius:16px; padding:16px 18px; margin-bottom:14px; }
+    .poll-toggle-info strong { font-size:14px; font-weight:600; display:block; margin-bottom:3px; }
+    .poll-toggle-info span { font-size:12px; color:var(--text3); }
+
+    .poll-results-wrap { margin-bottom:18px; }
+    .poll-results-title { font-size:12px; font-weight:600; text-transform:uppercase; letter-spacing:.07em; color:var(--text3); margin-bottom:10px; }
+
+    .poll-editor-wrap { }
+    .poll-editor-title { font-size:12px; font-weight:600; text-transform:uppercase; letter-spacing:.07em; color:var(--text3); margin-bottom:10px; }
+
+    /* Reuse existing poll-q-editor styles */
+
+    /* ── Responsive padding for bottom nav ── */
+    .page { padding-bottom:90px; }
+
+  
   <script>if('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js');</script>
 </head>
 <body>
 <div class="orbs" aria-hidden="true"><div class="orb orb-1"></div><div class="orb orb-2"></div></div>
-
 <div class="page">
-
-  <!-- Nav -->
   <nav class="top-nav">
     <a href="/" class="logo" aria-label="AskThat">
-      <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 28 28" aria-hidden="true">
-        <defs><linearGradient id="lg-at" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#ff477e"/><stop offset="48%" stop-color="#ff6b35"/><stop offset="100%" stop-color="#ffbf69"/></linearGradient></defs>
-        <text x="14" y="22" font-size="26" font-family="Georgia,serif" font-weight="bold" text-anchor="middle" fill="url(#lg-at)">@</text>
-      </svg>AskThat
+      <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 28 28" aria-hidden="true"><defs><linearGradient id="lg-at" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#ff477e"/><stop offset="48%" stop-color="#ff6b35"/><stop offset="100%" stop-color="#ffbf69"/></linearGradient></defs><text x="14" y="22" font-size="26" font-family="Georgia,serif" font-weight="bold" text-anchor="middle" fill="url(#lg-at)">@</text></svg>AskThat
     </a>
     <div class="nav-r">
-      <button class="btn-sm ol" id="btn-copy-link" title="Copy your ask link">
-        <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><rect x="1" y="4" width="8" height="8" rx="1.5" stroke="currentColor" stroke-width="1.4"/><path d="M4 4V3a1 1 0 011-1h5a1 1 0 011 1v5a1 1 0 01-1 1h-1" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
-        Copy Link
-      </button>
-      <button class="btn-sm ol" id="btn-poll" title="Manage Poll" style="border-color:rgba(255,191,105,.3);color:var(--gold)">
-        📊 Poll
-      </button>
       <button class="btn-del-account" id="btn-del-account" title="Delete account" aria-label="Delete account">
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 3.5h10M5.5 3.5V2.5a.5.5 0 01.5-.5h2a.5.5 0 01.5.5v1M6 6v4.5M8 6v4.5M3 3.5l.667 7.5A1 1 0 004.664 12h4.672a1 1 0 00.997-.918L11 3.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </button>
-      <button class="btn-sm pu" id="btn-story" title="Create Story Poster">
-        <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="5.5" stroke="currentColor" stroke-width="1.4"/><circle cx="6.5" cy="6.5" r="2" stroke="currentColor" stroke-width="1.3"/></svg>
-        Poster
-      </button>
     </div>
   </nav>
-
-  <!-- Stats Bar -->
-  <div class="stats-bar" id="stats-bar" style="opacity:0;transition:opacity .4s">
-    <div class="stat-card">
-      <div class="stat-val" id="stat-total">—</div>
-      <div class="stat-lbl">Active msgs</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-val" id="stat-unread">—</div>
-      <div class="stat-lbl">Unread</div>
-    </div>
-  </div>
-
-  <!-- New message banner -->
-  <div class="new-banner" id="new-banner">
-    <span class="new-banner-txt">✨ <strong id="new-banner-count">New messages</strong> arrived!</span>
-    <button class="btn-banner" id="btn-load-new">Load them →</button>
-  </div>
-
-  <!-- Profile Header -->
   <div class="profile-hdr" id="profile-hdr">
     <div class="avatar" id="avatar-el" aria-hidden="true">?</div>
     <div class="profile-info">
-      <h1 id="profile-name">Creating your inbox…</h1>
-      <div class="link-pill">
-        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M7 1h4v4M5 7L11 1" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><path d="M5 2H2a1 1 0 00-1 1v7a1 1 0 001 1h7a1 1 0 001-1V8" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
-        <span id="link-display">—</span>
-      </div>
+      <h1 id="profile-name">Loading…</h1>
+      <div class="link-pill"><span id="link-display">—</span></div>
     </div>
   </div>
-
-
-  <!-- Share Grid -->
-  <div class="share-grid-sec" id="share-grid-sec">
-    <div class="share-divider">
-      <div class="sh-line"></div><span class="sh-label">Share your link</span><div class="sh-line"></div>
-    </div>
-    <div class="share-grid" id="share-btns-dashboard"></div>
+  <div class="stats-bar" id="stats-bar" style="opacity:0;transition:opacity .4s">
+    <div class="stat-card"><div class="stat-val" id="stat-total">—</div><div class="stat-lbl">Messages</div></div>
+    <div class="stat-card"><div class="stat-val" id="stat-unread">—</div><div class="stat-lbl">Unread</div></div>
+  </div>
+  <div class="new-banner" id="new-banner">
+    <span class="new-banner-txt">✨ <strong id="new-banner-count">New messages</strong> arrived!</span>
+    <button class="btn-banner" id="btn-load-new">Load →</button>
   </div>
 
-  <!-- Poll Results -->
-  <div class="poll-section" id="poll-section">
-    <div class="poll-section-header">
-      <div class="poll-section-title">
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="1" y="8" width="3" height="6" rx="1" fill="currentColor" opacity=".5"/><rect x="6" y="5" width="3" height="9" rx="1" fill="currentColor" opacity=".7"/><rect x="11" y="2" width="3" height="12" rx="1" fill="currentColor"/></svg>
-        Poll Results
+  <!-- INBOX -->
+  <div class="section-panel active" id="panel-inbox">
+    <div class="toolbar">
+      <div class="search-wrap">
+        <svg class="search-ico" width="15" height="15" viewBox="0 0 15 15" fill="none"><circle cx="6.5" cy="6.5" r="4.5" stroke="currentColor" stroke-width="1.4"/><path d="M10 10l3 3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+        <input class="search-input" id="search-input" type="search" placeholder="Search…" autocomplete="off">
       </div>
-      <div style="display:flex;gap:8px;align-items:center">
-        <span id="poll-total-votes" style="font-size:12px;color:var(--text3)"></span>
-        <button class="btn-poll-share-result" id="btn-poll-share-result" title="Share poll results as poster">
-          <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="10" cy="2.5" r="1.5" stroke="currentColor" stroke-width="1.3"/><circle cx="10" cy="10.5" r="1.5" stroke="currentColor" stroke-width="1.3"/><circle cx="3" cy="6.5" r="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M4.4 7.3l4.2 2.4M8.6 3.3L4.4 5.7" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
-          Share Results
-        </button>
-      </div>
+      <select class="sort-select" id="sort-select"><option value="newest">Newest</option><option value="oldest">Oldest</option></select>
+      <button class="btn-sm ol" id="btn-bulk-toggle" style="white-space:nowrap">Select</button>
     </div>
-    <div id="poll-content"></div>
-    <!-- Poll Results Poster Modal -->
-    <div class="poll-poster-modal" id="poll-poster-modal">
-      <div class="poll-poster-box">
-        <button class="modal-close" id="poll-poster-close" aria-label="Close">
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-        </button>
-        <canvas id="poll-poster-canvas" width="1080" height="1080" style="width:100%;border-radius:12px;display:block"></canvas>
-        <div style="display:flex;gap:8px;margin-top:12px">
-          <button class="btn-story-dl" id="btn-poll-poster-dl">
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1v8M4 6l3 3 3-3M2 11h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            Download
-          </button>
-          <button class="btn-story-share" id="btn-poll-poster-share">Share</button>
+    <div class="tabs" role="tablist">
+      <button class="tab active" data-filter="all" role="tab">All <span class="tab-count" id="count-all">0</span></button>
+      <button class="tab" data-filter="unread" role="tab">Unread <span class="tab-count" id="count-unread">0</span></button>
+    </div>
+    <div class="bulk-bar" id="bulk-bar">
+      <span class="bulk-count" id="bulk-count-txt">0 selected</span>
+      <button class="btn-sm ol" id="btn-select-all">All</button>
+      <button class="btn-bulk-del" id="btn-bulk-del">Delete</button>
+      <button class="btn-bulk-cancel" id="btn-bulk-cancel">Cancel</button>
+    </div>
+    <div class="msgs-list" id="msgs-list" aria-live="polite"></div>
+    <div class="load-more-wrap" id="load-more-wrap" style="display:none"><button class="btn-load-more" id="btn-load-more">Load more</button></div>
+    <div class="refresh-bar"><div class="refresh-dot"></div><span>Live · 30s refresh</span></div>
+  </div>
+
+  <!-- LINK -->
+  <div class="section-panel" id="panel-link">
+    <div class="link-section">
+      <div class="link-hero">
+        <div class="link-hero-label">Your link</div>
+        <div class="link-hero-url" id="link-hero-url">askthat.pages.dev/ask/…</div>
+        <div class="link-copy-row">
+          <button class="btn-link-copy" id="btn-link-copy">Copy link</button>
+          <button class="btn-link-share" id="btn-link-share-native">Share</button>
         </div>
       </div>
-    </div>
-  </div>
-
-  <!-- Toolbar -->
-  <div class="toolbar">
-    <div class="search-wrap">
-      <svg class="search-ico" width="15" height="15" viewBox="0 0 15 15" fill="none" aria-hidden="true"><circle cx="6.5" cy="6.5" r="4.5" stroke="currentColor" stroke-width="1.4"/><path d="M10 10l3 3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
-      <input class="search-input" id="search-input" type="search" placeholder="Search messages…" autocomplete="off" aria-label="Search messages">
-    </div>
-    <select class="sort-select" id="sort-select" aria-label="Sort messages">
-      <option value="newest">Newest first</option>
-      <option value="oldest">Oldest first</option>
-    </select>
-    <button class="btn-sm ol" id="btn-bulk-toggle" style="white-space:nowrap">
-      <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><rect x="1" y="1" width="4" height="4" rx="1" stroke="currentColor" stroke-width="1.3"/><rect x="8" y="1" width="4" height="4" rx="1" stroke="currentColor" stroke-width="1.3"/><rect x="1" y="8" width="4" height="4" rx="1" stroke="currentColor" stroke-width="1.3"/><rect x="8" y="8" width="4" height="4" rx="1" stroke="currentColor" stroke-width="1.3"/></svg>
-      Select
-    </button>
-  </div>
-
-  <!-- Tabs -->
-  <div class="tabs" role="tablist" aria-label="Message filter">
-    <button class="tab active" data-filter="all" role="tab" aria-selected="true">All <span class="tab-count" id="count-all">0</span></button>
-    <button class="tab" data-filter="unread" role="tab" aria-selected="false">Unread <span class="tab-count" id="count-unread">0</span></button>
-  </div>
-
-  <!-- Bulk Bar -->
-  <div class="bulk-bar" id="bulk-bar">
-    <span class="bulk-count" id="bulk-count-txt">0 selected</span>
-    <button class="btn-sm ol" id="btn-select-all">Select all</button>
-    <button class="btn-bulk-del" id="btn-bulk-del">Delete selected</button>
-    <button class="btn-bulk-cancel" id="btn-bulk-cancel">Cancel</button>
-  </div>
-
-  <!-- Messages list -->
-  <div class="msgs-list" id="msgs-list" aria-live="polite" aria-label="Messages"></div>
-
-  <!-- Load more -->
-  <div class="load-more-wrap" id="load-more-wrap" style="display:none">
-    <button class="btn-load-more" id="btn-load-more">Load more messages</button>
-  </div>
-
-  <!-- Refresh indicator -->
-  <div class="refresh-bar">
-    <div class="refresh-dot"></div>
-    <span>Live — refreshes every 30s</span>
-  </div>
-
-</div>
-
-<!-- Poll Management Modal -->
-<div class="modal-overlay" id="poll-modal" role="dialog" aria-modal="true" aria-label="Manage Poll">
-  <div class="modal" style="max-width:480px">
-    <button class="modal-close" id="poll-modal-close" aria-label="Close">
-      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 2l10 10M12 2L2 12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
-    </button>
-    <h2 class="modal-title">📊 Manage Poll</h2>
-    <p class="modal-sub">Create custom questions — visitors vote anonymously on your link page.</p>
-    <div id="poll-mgmt-content">
-      <div class="poll-enable-row">
-        <span class="poll-enable-lbl"><strong>Enable poll</strong><br><small>Show poll tab to visitors</small></span>
-        <div class="tog-wrap" id="poll-enable-tog" role="switch" aria-checked="false" tabindex="0">
-          <div class="tog-inner"></div>
-        </div>
+      <div class="mode-section-label">
+        <span>Prompt mode</span>
+        <span style="font-size:10px;color:var(--text3);font-weight:400;text-transform:none;letter-spacing:0">Changes what your link asks</span>
       </div>
-      <div id="poll-questions-editor" style="margin-top:18px"></div>
-      <button class="btn-add-q" id="btn-add-question">+ Add Question</button>
-      <button class="btn-save-poll" id="btn-save-poll">Save Poll Settings</button>
-      <p class="poll-save-note" id="poll-save-note"></p>
+      <div class="mode-grid" id="mode-grid">
+        <button class="mode-card active" data-type="ask"><div class="mode-card-icon">💬</div><div class="mode-card-title">Ask Me</div><div class="mode-card-sub">Open message</div></button>
+        <button class="mode-card" data-type="hottake"><div class="mode-card-icon">🌶️</div><div class="mode-card-title">Hot Take</div><div class="mode-card-sub">Spicy opinions</div></button>
+        <button class="mode-card" data-type="rate"><div class="mode-card-icon">⭐</div><div class="mode-card-title">Rate Me</div><div class="mode-card-sub">Vibe score 1–10</div></button>
+        <button class="mode-card" data-type="trust"><div class="mode-card-icon">🔒</div><div class="mode-card-title">Trust Level</div><div class="mode-card-sub">How well do they know you</div></button>
+        <button class="mode-card" data-type="3words"><div class="mode-card-icon">✏️</div><div class="mode-card-title">3 Words</div><div class="mode-card-sub">Describe me exactly</div></button>
+        <button class="mode-card" data-type="advice"><div class="mode-card-icon">💡</div><div class="mode-card-title">Advice</div><div class="mode-card-sub">One thing to hear</div></button>
+        <button class="mode-card" data-type="ai" id="mode-ai-card"><div class="mode-card-icon">✨</div><div class="mode-card-title">AI Game</div><div class="mode-card-sub" id="mode-ai-sub">Generating…</div></button>
+      </div>
+      <div class="poster-section-label">Posters <div class="poster-spin" id="poster-spin"></div></div>
+      <div class="poster-strip" id="poster-strip"></div>
+      <div class="poster-dl-row" id="poster-dl-row" style="display:none">
+        <button class="btn-poster-dl" id="btn-poster-dl"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1v8M4 6l3 3 3-3M2 11h10" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Download</button>
+        <button class="btn-poster-wa" id="btn-poster-wa">WhatsApp</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- POLL -->
+  <div class="section-panel" id="panel-poll">
+    <div class="poll-full-section">
+      <div class="poll-toggle-row">
+        <div class="poll-toggle-info"><strong>Poll enabled</strong><span>Visitors see a poll tab on your link</span></div>
+        <div class="tog-wrap" id="poll-enable-tog" role="switch" aria-checked="false" tabindex="0"><div class="tog-inner"></div></div>
+      </div>
+      <div class="poll-results-wrap" id="poll-results-wrap" style="display:none">
+        <div class="poll-results-title">Live results</div>
+        <div id="poll-content"></div>
+      </div>
+      <div class="poll-editor-wrap">
+        <div class="poll-editor-title">Questions</div>
+        <div id="poll-questions-editor"></div>
+        <button class="btn-add-q" id="btn-add-question">+ Add question</button>
+        <button class="btn-save-poll" id="btn-save-poll">Save</button>
+        <p class="poll-save-note" id="poll-save-note"></p>
+      </div>
     </div>
   </div>
 </div>
 
-<!-- Story / Poster Modal -->
-<div class="modal-overlay" id="story-modal" role="dialog" aria-modal="true" aria-label="Create Story Poster">
+<nav class="bottom-nav" role="navigation">
+  <button class="bnav-tab active" data-panel="inbox" id="bnav-inbox">
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M2 7l8 5 8-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><rect x="2" y="4" width="16" height="13" rx="2.5" stroke="currentColor" stroke-width="1.5"/></svg>
+    Inbox
+  </button>
+  <button class="bnav-tab" data-panel="link" id="bnav-link">
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M8 12.5l4-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M6 10.5a3.5 3.5 0 01-5-5l2-2a3.5 3.5 0 015 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 9.5a3.5 3.5 0 005 5l-2 2a3.5 3.5 0 01-5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    Link
+  </button>
+  <button class="bnav-tab" data-panel="poll" id="bnav-poll">
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="2" y="11" width="4" height="7" rx="1" stroke="currentColor" stroke-width="1.5"/><rect x="8" y="7" width="4" height="11" rx="1" stroke="currentColor" stroke-width="1.5"/><rect x="14" y="3" width="4" height="15" rx="1" stroke="currentColor" stroke-width="1.5"/></svg>
+    Poll
+  </button>
+</nav>
+
+<!-- Message poster modal -->
+<div class="modal-overlay" id="story-modal" role="dialog" aria-modal="true">
   <div class="modal story-modal-wide">
-    <button class="modal-close" id="story-modal-close" aria-label="Close">
-      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 2l10 10M12 2L2 12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
-    </button>
-    <h2 class="modal-title" id="story-modal-title">Share Your Link</h2>
-    <p class="modal-sub" id="story-modal-sub">Pick a prompt type and style → download → share to Stories.</p>
-
-    <!-- Prompt type picker -->
-    <div class="prompt-section" id="prompt-type-section">
-      <div class="prompt-section-label">Prompt type</div>
-      <div class="prompt-type-row" role="group" aria-label="Prompt type">
-        <button class="prompt-pill active" data-prompt="ask" title="Generic ask me anything">
-          <span class="prompt-pill-icon">💬</span><span class="prompt-pill-label">Ask Me</span>
-        </button>
-        <button class="prompt-pill" data-prompt="3words" title="Describe me in 3 words">
-          <span class="prompt-pill-icon">✏️</span><span class="prompt-pill-label">3 Words</span>
-        </button>
-        <button class="prompt-pill" data-prompt="trust" title="What's your trust level with me?">
-          <span class="prompt-pill-icon">🔒</span><span class="prompt-pill-label">Trust</span>
-        </button>
-        <button class="prompt-pill" data-prompt="rate" title="Rate my vibe 1-10">
-          <span class="prompt-pill-icon">⭐</span><span class="prompt-pill-label">Rate Me</span>
-        </button>
-        <button class="prompt-pill" data-prompt="hottake" title="Hot take about me">
-          <span class="prompt-pill-icon">🌶️</span><span class="prompt-pill-label">Hot Take</span>
-        </button>
-        <button class="prompt-pill" data-prompt="advice" title="Give me advice">
-          <span class="prompt-pill-icon">💡</span><span class="prompt-pill-label">Advice</span>
-        </button>
-        <button class="prompt-pill" data-prompt="ai" title="AI-generated unique question" id="ai-prompt-pill">
-          <span class="prompt-pill-icon">✨</span><span class="prompt-pill-label">AI Pick</span>
-        </button>
-      </div>
-    </div>
-
-    <!-- Poster style picker -->
-    <div class="prompt-section-label">Style</div>
-    <div class="poster-styles-row" role="group" aria-label="Poster style">
+    <button class="modal-close" id="story-modal-close"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 2l10 10M12 2L2 12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></button>
+    <h2 class="modal-title">Message Poster</h2>
+    <p class="modal-sub">Share this as a story card.</p>
+    <div class="poster-styles-row" role="group">
       <button class="poster-style-pill active" data-style="fire">🔥 Fire</button>
       <button class="poster-style-pill" data-style="dark">🌑 Dark</button>
       <button class="poster-style-pill" data-style="neon">⚡ Neon</button>
@@ -558,54 +635,31 @@
       <button class="poster-style-pill" data-style="midnight">🌙 Midnight</button>
       <button class="poster-style-pill" data-style="holo">✨ Holo</button>
     </div>
-
-    <!-- Story loading indicator -->
-    <div class="story-gen-loading" id="story-gen-loading">
-      <div class="spin-ring"></div>
-      <span>Generating poster…</span>
-    </div>
-
-    <div class="story-preview-wrap" id="story-preview-wrap" style="display:none">
-      <canvas id="story-canvas" width="1080" height="1920" aria-label="Story preview"></canvas>
-    </div>
-
+    <div class="story-gen-loading" id="story-gen-loading"><div class="spin-ring"></div><span>Generating…</span></div>
+    <div id="story-preview-wrap" style="display:none"><canvas id="story-canvas" width="1080" height="1920" style="width:100%;border-radius:16px;display:block"></canvas></div>
     <div class="story-actions" id="story-actions-bar" style="display:none">
-      <button class="btn-story-dl" id="btn-story-download">
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1v10M3 8l4 4 4-4" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M1 13h12" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg>
-        Download
-      </button>
-      <button class="btn-story-wa" id="btn-story-wa">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a9.626 9.626 0 00-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.125.557 4.118 1.528 5.845L0 24l6.335-1.652A11.954 11.954 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.006-1.371l-.36-.214-3.727.977.994-3.638-.235-.374A9.818 9.818 0 012.182 12C2.182 6.578 6.578 2.182 12 2.182S21.818 6.578 21.818 12 17.422 21.818 12 21.818z"/></svg>
-        WhatsApp
-      </button>
-      <button class="btn-story-share" id="btn-story-share-native">
-        <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="10.5" cy="2.5" r="1.5" stroke="currentColor" stroke-width="1.3"/><circle cx="10.5" cy="10.5" r="1.5" stroke="currentColor" stroke-width="1.3"/><circle cx="2.5" cy="6.5" r="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M4 5.5l5-2.5M4 7.5l5 2.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
-        Share
-      </button>
+      <button class="btn-story-dl" id="btn-story-download"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1v10M3 8l4 4 4-4" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M1 13h12" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg>Download</button>
+      <button class="btn-story-wa" id="btn-story-wa"><svg width="15" height="15" viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a9.626 9.626 0 00-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.125.557 4.118 1.528 5.845L0 24l6.335-1.652A11.954 11.954 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.006-1.371l-.36-.214-3.727.977.994-3.638-.235-.374A9.818 9.818 0 012.182 12C2.182 6.578 6.578 2.182 12 2.182S21.818 6.578 21.818 12 17.422 21.818 12 21.818z"/></svg>WhatsApp</button>
+      <button class="btn-story-share" id="btn-story-share-native">Share</button>
     </div>
-
-    <!-- Link / caption copy row -->
     <div class="caption-row" id="caption-row" style="display:none">
       <span class="caption-url" id="caption-url-txt"></span>
-      <button class="btn-copy-caption" id="btn-copy-caption">Copy link</button>
+      <button class="btn-copy-caption" id="btn-copy-caption">Copy</button>
     </div>
   </div>
 </div>
 
-
-  <!-- Confirmation Modal -->
-  <div class="confirm-overlay" id="confirm-overlay" role="dialog" aria-modal="true">
-    <div class="confirm-box">
-      <div class="confirm-icon" id="confirm-icon">🗑️</div>
-      <div class="confirm-title" id="confirm-title">Delete message?</div>
-      <div class="confirm-desc" id="confirm-desc">This action cannot be undone.</div>
-      <div class="confirm-btns">
-        <button class="confirm-cancel" id="confirm-cancel">Cancel</button>
-        <button class="confirm-ok" id="confirm-ok">Delete</button>
-      </div>
+<div class="confirm-overlay" id="confirm-overlay" role="dialog" aria-modal="true">
+  <div class="confirm-box">
+    <div class="confirm-icon" id="confirm-icon">🗑️</div>
+    <div class="confirm-title" id="confirm-title">Delete message?</div>
+    <div class="confirm-desc" id="confirm-desc">This cannot be undone.</div>
+    <div class="confirm-btns">
+      <button class="confirm-cancel" id="confirm-cancel">Cancel</button>
+      <button class="confirm-ok" id="confirm-ok">Delete</button>
     </div>
   </div>
-
+</div>
 <div class="toast" id="toast" role="alert" aria-live="assertive"></div>
 
 <script>
@@ -671,26 +725,204 @@
   const bulkBar        = document.getElementById('bulk-bar');
   const bulkCountTxt   = document.getElementById('bulk-count-txt');
   const loadMoreWrap   = document.getElementById('load-more-wrap');
-  const pollSection    = document.getElementById('poll-section');
   const pollContent    = document.getElementById('poll-content');
 
-  // Token injected server-side — only the original device that created this link
-  // gets served this page (the CF Function verified the cookie before reaching here)
   authToken = (typeof window.__ASKTHAT_TOKEN__ === 'string') ? window.__ASKTHAT_TOKEN__ : null;
 
+  // ── Current link mode — stored server-side, URL always stays clean ────────
+  let currentMode = 'ask';
+  let aiGameText  = '';
+  let modeSaveTimer = null;
+
+  function currentLink() {
+    return BASE_URL; // Always clean — mode is server-side
+  }
+
+  function updateLinkDisplay() {
+    const heroEl = document.getElementById('link-hero-url');
+    if (heroEl) heroEl.textContent = BASE_URL.replace('https://','');
+    const captionEl = document.getElementById('caption-url-txt');
+    if (captionEl) captionEl.textContent = BASE_URL;
+  }
+
+  async function saveMode(mode) {
+    try {
+      await fetch('/api/get', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username: user, token: authToken, field: 'mode', value: mode }),
+      });
+    } catch(_) {}
+  }
+
+  // ── Bottom nav tabs ───────────────────────────────────────────────────────
+  let currentPanel = 'inbox';
+  function switchPanel(panel) {
+    currentPanel = panel;
+    document.querySelectorAll('.section-panel').forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('.bnav-tab').forEach(el => el.classList.remove('active'));
+    const panelEl = document.getElementById(`panel-${panel}`);
+    const tabEl   = document.getElementById(`bnav-${panel}`);
+    if (panelEl) panelEl.classList.add('active');
+    if (tabEl)   tabEl.classList.add('active');
+    if (panel === 'link' && !postersGenerated) buildPosterStrip();
+    if (panel === 'poll') initPollSection();
+  }
+  document.querySelectorAll('.bnav-tab').forEach(btn => {
+    btn.addEventListener('click', () => switchPanel(btn.dataset.panel));
+  });
+
+  // ── Mode grid ─────────────────────────────────────────────────────────────
+  // Load saved mode on init
+  fetch(`/api/get?username=${encodeURIComponent(user)}&field=mode`)
+    .then(r => r.json())
+    .then(d => {
+      if (d.mode && d.mode !== 'ask') {
+        currentMode = d.mode;
+        document.querySelectorAll('.mode-card').forEach(c => {
+          c.classList.toggle('active', c.dataset.type === currentMode);
+        });
+      }
+    }).catch(()=>{});
+
+  document.querySelectorAll('.mode-card').forEach(card => {
+    card.addEventListener('click', () => {
+      if (card.dataset.type === currentMode) return;
+      document.querySelectorAll('.mode-card').forEach(c => c.classList.remove('active'));
+      card.classList.add('active');
+      currentMode = card.dataset.type;
+      updateLinkDisplay();
+      postersGenerated = false;
+      buildPosterStrip();
+      // Save to server — debounced
+      clearTimeout(modeSaveTimer);
+      modeSaveTimer = setTimeout(() => {
+        saveMode(currentMode).then(() => showToast('Mode saved ✓'));
+      }, 400);
+    });
+  });
+
+  // Link copy/share buttons in Link panel
+  document.getElementById('btn-link-copy')?.addEventListener('click', () => {
+    navigator.clipboard.writeText(currentLink()).then(() => showToast('Link copied!')).catch(()=>{});
+  });
+  document.getElementById('btn-link-share-native')?.addEventListener('click', async () => {
+    if (navigator.share) {
+      try { await navigator.share({ url: currentLink(), title: `Ask ${user} anonymously` }); return; } catch(_){}
+    }
+    navigator.clipboard.writeText(currentLink()).then(()=>showToast('Link copied!')).catch(()=>{});
+  });
+
+  // ── 3-poster strip ────────────────────────────────────────────────────────
+  const POSTER_STYLES_ORDER = ['fire','dark','neon'];
+  let postersGenerated = false;
+  let selectedPosterStyle = 'fire';
+
+  function buildPosterStrip() {
+    const strip = document.getElementById('poster-strip');
+    const spin  = document.getElementById('poster-spin');
+    const dlRow = document.getElementById('poster-dl-row');
+    if (!strip) return;
+    postersGenerated = true;
+    strip.innerHTML = '';
+    dlRow.style.display = 'none';
+    spin.style.display  = 'block';
+
+    POSTER_STYLES_ORDER.forEach((style, idx) => {
+      const wrap   = document.createElement('div');
+      wrap.className = 'poster-thumb';
+      if (style === selectedPosterStyle) wrap.style.borderColor = 'var(--primary)';
+      const canvas = document.createElement('canvas');
+      canvas.width  = 1080; canvas.height = 1920;
+      canvas.style.width = '100%'; canvas.style.borderRadius = '12px'; canvas.style.display = 'block';
+      const label  = document.createElement('div');
+      label.className = 'poster-thumb-label';
+      label.textContent = ['🔥 Fire','🌑 Dark','⚡ Neon'][idx];
+      wrap.appendChild(canvas);
+      wrap.appendChild(label);
+      strip.appendChild(wrap);
+      wrap.addEventListener('click', () => {
+        selectedPosterStyle = style;
+        strip.querySelectorAll('.poster-thumb').forEach(t => t.style.borderColor = 'transparent');
+        wrap.style.borderColor = 'var(--primary)';
+      });
+
+      // Draw asynchronously staggered
+      setTimeout(() => {
+        const T = POSTER_THEMES[style] || POSTER_THEMES.fire;
+        const ctx = canvas.getContext('2d');
+        ctx.clearRect(0,0,1080,1920);
+        T.bg(ctx,1080,1920); T.orbs(ctx,1080,1920);
+        ctx.textAlign='center';
+        drawPromptPoster(ctx, T, 1080, 1920, currentMode);
+        if (idx === POSTER_STYLES_ORDER.length - 1) {
+          spin.style.display = 'none';
+          dlRow.style.display = '';
+        }
+      }, idx * 80);
+    });
+  }
+
+  document.getElementById('btn-poster-dl')?.addEventListener('click', () => {
+    const canvases = document.querySelectorAll('.poster-thumb canvas');
+    const idx = POSTER_STYLES_ORDER.indexOf(selectedPosterStyle);
+    const canvas = canvases[idx >= 0 ? idx : 0];
+    if (!canvas) return;
+    const a = document.createElement('a');
+    a.download = `askthat-${user}-${selectedPosterStyle}.png`;
+    a.href = canvas.toDataURL('image/png');
+    a.click();
+  });
+
+  document.getElementById('btn-poster-wa')?.addEventListener('click', () => {
+    const canvases = document.querySelectorAll('.poster-thumb canvas');
+    const idx = POSTER_STYLES_ORDER.indexOf(selectedPosterStyle);
+    const canvas = canvases[idx >= 0 ? idx : 0];
+    if (!canvas) return;
+    canvas.toBlob(async blob => {
+      const file = new File([blob],'askthat-story.png',{type:'image/png'});
+      const txt  = `Ask me anonymously! ${currentLink()}`;
+      if (navigator.canShare?.({files:[file]})) {
+        try { await navigator.share({files:[file],text:txt}); return; } catch(_){}
+      }
+      window.open(`https://wa.me/?text=${encodeURIComponent(txt)}`, '_blank');
+    }, 'image/png');
+  });
+
+  // ── AI game text for mode card ─────────────────────────────────────────────
+  async function loadAIGameText() {
+    try {
+      // Try to get location for context
+      let locContext = '';
+      try {
+        const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+        locContext = tz ? `timezone: ${tz}` : '';
+      } catch(_){}
+      const res = await fetch(`/api/groq?type=game&username=${encodeURIComponent(user)}&loc=${encodeURIComponent(locContext)}`);
+      const d   = await res.json();
+      aiGameText = d.game || d.prompt || '';
+      const subEl = document.getElementById('mode-ai-sub');
+      if (subEl && aiGameText) subEl.textContent = aiGameText.slice(0,42) + (aiGameText.length>42?'…':'');
+      // Also update PROMPT_TYPES for poster usage
+      if (aiGameText) PROMPT_TYPES.ai.label = aiGameText;
+    } catch(_) {
+      aiGameText = 'What\'s one thing you\'d never say to my face?';
+      const subEl = document.getElementById('mode-ai-sub');
+      if (subEl) subEl.textContent = 'AI-generated game';
+    }
+  }
+  loadAIGameText();
 
   // ── Init ──────────────────────────────────────────────────────────────────
   profileName.textContent = user;
   avatarEl.textContent    = user.charAt(0).toUpperCase();
-  // Remember this username so index.html can redirect back
   try { localStorage.setItem('askthat_username', user); } catch(_) {}
   linkDisplay.textContent = `askthat.pages.dev/ask/${user}`;
   document.title          = `${user}'s Inbox — AskThat`;
-  document.getElementById('caption-url-txt').textContent = BASE_URL;
+  updateLinkDisplay();
 
   load(true);
   startRefresh();
-  // Load streak once on init (fire and forget)
   (async () => {
     try {
       const res = await fetch(`/api/stats?username=${encodeURIComponent(user)}`);
@@ -778,34 +1010,47 @@
     const isUnread = !m.read;
     const card = document.createElement('div');
     card.dataset.id = m.id;
-    card.className = `msg-card${isUnread ? ' unread-card' : ''}`;
+
+    const mood = detectMood(m.text);
+    const len  = (m.text||'').length;
+    const sizeClass = len < 80 ? 'msg-short' : len < 220 ? 'msg-medium' : 'msg-long';
+
+    card.className = [
+      'msg-card',
+      isUnread ? 'unread-card' : '',
+      mood ? `mood-${mood}` : '',
+      sizeClass,
+    ].filter(Boolean).join(' ');
 
     const age  = timeAgo(m.timestamp);
     const pollHTML = m.poll
       ? `<div class="card-poll">${m.poll.vibe ? `<span class="poll-chip">😄 ${esc(m.poll.vibe)}</span>` : ''}${m.poll.know ? `<span class="poll-chip">🤝 ${esc(m.poll.know)}</span>` : ''}</div>`
       : '';
+    const moodChip = getMoodChip(m.text);
 
     card.innerHTML = `
-      ${bulkMode ? `<input type="checkbox" class="bulk-check" data-id="${m.id}" aria-label="Select message">` : ''}
-      <div class="card-body">
+      <div class="card-quote-mark">"</div>
+      <div class="card-inner">
+        ${bulkMode ? `<input type="checkbox" class="bulk-check" data-id="${m.id}" aria-label="Select message" style="width:18px;height:18px;accent-color:var(--primary);cursor:pointer;margin-bottom:8px">` : ''}
         <p class="card-text">${esc(m.text)}</p>
         ${pollHTML}
-        <div class="card-meta">
-          <span>${age}</span>
+        <div class="card-footer">
+          <span class="card-time">
+            ${isUnread ? '<span class="read-dot"></span>' : ''}
+            ${age}
+          </span>
           ${m.country ? `<span class="geo-flag">${countryFlag(m.country)}</span>` : ''}
-          ${isUnread ? '<span class="badge badge-new">new</span>' : ''}
-          ${getMoodChip(m.text)}
+          ${moodChip}
+          <div class="card-actions">
+            <button class="icon-btn story" data-action="story" data-id="${m.id}" title="Create story poster" aria-label="Create story poster">
+              <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="5.5" stroke="currentColor" stroke-width="1.3"/><circle cx="6.5" cy="6.5" r="2" stroke="currentColor" stroke-width="1.2"/></svg>
+            </button>
+            <button class="icon-btn del" data-action="delete" data-id="${m.id}" title="Delete" aria-label="Delete">
+              <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 3h9M5 3V2h3v1M5.5 5.5v4M7.5 5.5v4M3.5 3l.5 7.5a1 1 0 001 .9h4a1 1 0 001-.9L11 3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+          </div>
         </div>
-      </div>
-      <div class="card-actions">
-<button class="icon-btn story" data-action="story" data-id="${m.id}" title="Create story poster" aria-label="Create story poster">
-          <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="5.5" stroke="currentColor" stroke-width="1.3"/><circle cx="6.5" cy="6.5" r="2" stroke="currentColor" stroke-width="1.2"/></svg>
-        </button>
-        <button class="icon-btn del" data-action="delete" data-id="${m.id}" title="Delete" aria-label="Delete">
-          <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 3h9M5 3V2h3v1M5.5 5.5v4M7.5 5.5v4M3.5 3l.5 7.5a1 1 0 001 .9h4a1 1 0 001-.9L11 3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </button>
-      </div>
-`;
+      </div>`;
 
     // Bulk checkbox
     const chk = card.querySelector('.bulk-check');
@@ -824,7 +1069,6 @@
         if (action === 'story')  openStoryModal(m);
       });
     });
-
 
     return card;
   }
@@ -1219,36 +1463,61 @@
     countUnread.textContent = fmtNum(unread);
   }
 
-  // ── Poll Management ───────────────────────────────────────────────────────
-  let pollEnabled  = false;
+  // ── Poll section (inline, not modal) ─────────────────────────────────────
+  let pollSectionInited = false;
+  let pollEnabled = false;
   let pollQEditors = [];
 
-  const pollModal      = document.getElementById('poll-modal');
-  const pollModalClose = document.getElementById('poll-modal-close');
-  const pollEnableTog  = document.getElementById('poll-enable-tog');
-  const pollQsEditor   = document.getElementById('poll-questions-editor');
-
-  async function openPollModal() {
-    pollModal.classList.add('show');
+  async function initPollSection() {
+    if (pollSectionInited) return;
+    pollSectionInited = true;
     pollQEditors = [];
-    pollQsEditor.innerHTML = '';
-    // Load current config
+    const editor = document.getElementById('poll-questions-editor');
+    if (editor) editor.innerHTML = '';
     try {
       const res  = await fetch(`/api/poll?username=${encodeURIComponent(user)}`);
       const data = await res.json();
-      if (data.enabled) {
-        pollEnabled = true;
-        pollEnableTog.setAttribute('aria-checked', 'true');
-        (data.questions || []).forEach(q => addQEditor(q));
-      } else {
-        pollEnabled = false;
-        pollEnableTog.setAttribute('aria-checked','false');
-        // Add a default question
-        addQEditor({ text: '', options: ['', '', '', ''] });
+      pollEnabled = Boolean(data.enabled);
+      const tog = document.getElementById('poll-enable-tog');
+      if (tog) tog.setAttribute('aria-checked', pollEnabled ? 'true' : 'false');
+      if (data.enabled && pollStats) {
+        const wrap = document.getElementById('poll-results-wrap');
+        if (wrap) { wrap.style.display = ''; renderPollResults(); }
       }
-    } catch {
-      addQEditor({ text: '', options: ['', '', '', ''] });
-    }
+      (data.questions || []).forEach(q => addQEditor(q));
+      if (!data.questions?.length) addQEditor({ text:'', options:['','','',''] });
+    } catch { addQEditor({ text:'', options:['','','',''] }); }
+  }
+
+  document.getElementById('btn-add-question')?.addEventListener('click', () => addQEditor({ text:'', options:['','','',''] }));
+
+  document.getElementById('btn-save-poll')?.addEventListener('click', async () => {
+    const saveBtn  = document.getElementById('btn-save-poll');
+    const saveNote = document.getElementById('poll-save-note');
+    saveBtn.disabled = true; saveBtn.textContent = 'Saving…';
+    const questions = pollQEditors.map(block => ({
+      text:    (block.querySelector('.pq-text')?.value || '').trim(),
+      options: [...block.querySelectorAll('.pq-opt')].map(i=>i.value.trim()).filter(Boolean),
+    })).filter(q=>q.text && q.options.length >= 2);
+    try {
+      const res = await fetch('/api/poll', {
+        method:'POST', headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({ username:user, token:authToken, enabled:pollEnabled, questions }),
+      });
+      const data = await res.json();
+      if (!res.ok) { saveNote.textContent = data.error || 'Save failed.'; saveNote.className='poll-save-note err'; }
+      else { saveNote.textContent = '✓ Saved!'; saveNote.className='poll-save-note ok'; }
+    } catch { saveNote.textContent = 'Network error.'; saveNote.className='poll-save-note err'; }
+    finally { saveBtn.disabled = false; saveBtn.textContent = 'Save'; }
+  });
+
+  const pollTogEl = document.getElementById('poll-enable-tog');
+  if (pollTogEl) {
+    pollTogEl.addEventListener('click', () => {
+      pollEnabled = !pollEnabled;
+      pollTogEl.setAttribute('aria-checked', pollEnabled ? 'true' : 'false');
+    });
+    pollTogEl.addEventListener('keydown', e => { if(e.key==='Enter'||e.key===' ') { e.preventDefault(); pollTogEl.click(); } });
   }
 
   function addQEditor(q = { text: '', options: ['', '', '', ''] }) {
@@ -1304,11 +1573,11 @@
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username: user, token: authToken, settings: { enabled: pollEnabled, title: 'Quick Poll', questions } }),
       });
-      const data = await res.json();
-      if (!res.ok) { saveNote.textContent = data.error || 'Save failed.'; saveNote.className = 'poll-save-note err'; }
-      else { saveNote.textContent = '✓ Saved! Visitors will see the poll on your link.'; saveNote.className = 'poll-save-note ok'; }
-    } catch { saveNote.textContent = 'Network error.'; saveNote.className = 'poll-save-note err'; }
-    finally { saveBtn.disabled = false; saveBtn.textContent = 'Save Poll Settings'; }
+      const d = await res.json();
+      if (!res.ok) { saveNote.textContent = d.error || 'Save failed.'; saveNote.className='poll-save-note err'; }
+      else { saveNote.textContent = '✓ Saved!'; saveNote.className='poll-save-note ok'; }
+    } catch { saveNote.textContent = 'Network error.'; saveNote.className='poll-save-note err'; }
+    finally { saveBtn.disabled=false; saveBtn.textContent='Save'; }
   });
 
   async function loadPollConfig() {
@@ -1318,24 +1587,13 @@
       pollEnabled = Boolean(d.enabled);
     } catch(_) {}
   }
-  document.getElementById('btn-poll').addEventListener('click', openPollModal);
   loadPollConfig();
-  pollModalClose.addEventListener('click', () => pollModal.classList.remove('show'));
-  pollModal.addEventListener('click', e => { if (e.target === e.currentTarget) pollModal.classList.remove('show'); });
 
-  // ── Story / Poster Modal ──────────────────────────────────────────────────
+  // ── Story / Poster Modal (for message posters from inbox) ─────────────────
   const storyModal = document.getElementById('story-modal');
 
   function openStoryModal(msg) {
     activeStoryMsg = msg || null;
-    // Show/hide prompt type picker
-    const promptSection = document.getElementById('prompt-type-section');
-    if (promptSection) promptSection.style.display = msg ? 'none' : '';
-    // Update modal title based on mode
-    const titleEl = storyModal.querySelector('.modal-title');
-    const subEl   = storyModal.querySelector('.modal-sub');
-    if (titleEl) titleEl.textContent = msg ? '✉ Message Poster' : '🔗 Share Your Link';
-    if (subEl)   subEl.textContent   = msg ? 'Pick a style and share this message as a story card.' : 'Pick a poster style → download → post to Stories or Status.';
     storyModal.classList.add('show');
     renderPoster(posterStyle);
   }
@@ -1346,7 +1604,6 @@
     document.getElementById('story-preview-wrap').style.display = 'none';
     document.getElementById('story-actions-bar').style.display  = 'none';
     document.getElementById('caption-row').style.display        = 'none';
-
     requestAnimationFrame(() => {
       setTimeout(() => {
         drawPoster(style);
@@ -1357,6 +1614,17 @@
       }, 60);
     });
   }
+
+  // ── Prompt type config ────────────────────────────────────────────────────
+  const PROMPT_TYPES = {
+    ask:     { label:'Ask Me Anything',      sub:'Send an anonymous message',    icon:'💬' },
+    '3words':{ label:'Describe Me in 3 Words', sub:'Exactly 3 words only',       icon:'✏️' },
+    trust:   { label:'What\'s Your Trust Level?', sub:'How well do you know me?',icon:'🔒' },
+    rate:    { label:'Rate My Vibe 1–10',    sub:'Be honest, no judgment',       icon:'⭐' },
+    hottake: { label:'Hot Take About Me',    sub:'Say what you actually think',  icon:'🌶️' },
+    advice:  { label:'Give Me Advice',       sub:'One thing I should hear',      icon:'💡' },
+    ai:      { label:'Play this game',       sub:'AI-generated · anonymous',     icon:'✨' },
+  };
 
   // ── 6 Poster Styles ───────────────────────────────────────────────────────
   const POSTER_THEMES = {
@@ -1447,40 +1715,56 @@
     ctx.fillStyle=g; ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2); ctx.fill();
   }
 
-  // ── Prompt configuration ──────────────────────────────────────────────────
-  const PROMPT_TYPES = {
-    ask:     { label:'Ask Me Anything', sub:'Send an anonymous message', icon:'💬', urlParam:'ask',     emoji:'💬' },
-    '3words':{ label:'Describe Me in 3 Words', sub:'Exactly 3 words only', icon:'✏️', urlParam:'3words',  emoji:'✏️' },
-    trust:   { label:'What\'s Your Trust Level?', sub:'How well do you really know me?', icon:'🔒', urlParam:'trust', emoji:'🔒' },
-    rate:    { label:'Rate My Vibe 1–10', sub:'Be honest, no judgment', icon:'⭐', urlParam:'rate',    emoji:'⭐' },
-    hottake: { label:'Hot Take About Me', sub:'Say what you actually think', icon:'🌶️', urlParam:'hottake',emoji:'🌶️' },
-    advice:  { label:'Give Me Advice', sub:'One thing I should hear', icon:'💡', urlParam:'advice',  emoji:'💡' },
-    ai:      { label:'loading…', sub:'AI-generated question just for you', icon:'✨', urlParam:'ai',      emoji:'✨' },
-  };
+  // Style picker (message poster modal)
+  document.querySelectorAll('.poster-style-pill').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.poster-style-pill').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderPoster(btn.dataset.style);
+    });
+  });
 
-  let currentPromptType = 'ask';
-  let aiPromptText = '';
+  document.getElementById('story-modal-close').addEventListener('click', () => storyModal.classList.remove('show'));
+  storyModal.addEventListener('click', e => { if(e.target===e.currentTarget) storyModal.classList.remove('show'); });
 
-  async function loadAIPrompt() {
-    const pill = document.getElementById('ai-prompt-pill');
-    if (pill) { pill.querySelector('.prompt-pill-label').textContent = '…'; }
-    try {
-      const res = await fetch(`/api/groq?type=prompt&username=${encodeURIComponent(user)}`);
-      const d   = await res.json();
-      if (d.prompt) {
-        aiPromptText = d.prompt;
-        PROMPT_TYPES.ai.label = d.prompt;
-      }
-    } catch(_) { aiPromptText = 'What\'s one thing you\'d never say to my face?'; PROMPT_TYPES.ai.label = aiPromptText; }
-    if (pill) { pill.querySelector('.prompt-pill-label').textContent = 'AI Pick'; }
-    if (currentPromptType === 'ai') renderPoster(posterStyle);
+  // ── Caption / link builder ────────────────────────────────────────────────
+  function promptLink(type) {
+    if (!type || type === 'ask') return BASE_URL;
+    return `${BASE_URL}?type=${type}`;
   }
 
-  // ── Caption / link builder per prompt ────────────────────────────────────
-  function promptLink(type) {
-    const base = `${location.origin}/ask/${user}`;
-    if (type === 'ask') return base;
-    return `${base}?type=${type}`;
+  // ── Load poster fonts via FontFace API ────────────────────────────────────
+  const POSTER_FONTS = {};
+  async function loadPosterFonts() {
+    const toLoad = [
+      { name:'Playfair', url:'https://fonts.gstatic.com/s/playfairdisplay/v37/nuFiD-vYSZviVYUb_rj3ij__anPXDTzYh7c.woff2', weight:'700' },
+      { name:'Righteous', url:'https://fonts.gstatic.com/s/righteous/v17/1cXxaUPXBpj2rGoU7C9mj3uEicG01A.woff2', weight:'400' },
+      { name:'SpaceGrotesk', url:'https://fonts.gstatic.com/s/spacegrotesk/v16/V8mQoQDjQSkFtoMM3T6r8E7mF71Q-gozuE73E.woff2', weight:'700' },
+    ];
+    await Promise.allSettled(toLoad.map(async f => {
+      try {
+        const ff = new FontFace(f.name, `url(${f.url})`, { weight: f.weight });
+        await ff.load();
+        document.fonts.add(ff);
+        POSTER_FONTS[f.name] = true;
+      } catch(_) {}
+    }));
+  }
+  loadPosterFonts();
+
+  // Per-prompt font picker
+  function posterFont(type, size, weight='700') {
+    const fonts = {
+      ask:      POSTER_FONTS['Playfair']     ? `${weight} ${size}px 'Playfair', Georgia, serif` : `${weight} ${size}px Georgia,serif`,
+      hottake:  POSTER_FONTS['Righteous']    ? `400 ${size}px 'Righteous', sans-serif`          : `800 ${size}px sans-serif`,
+      advice:   POSTER_FONTS['Playfair']     ? `${weight} ${size}px 'Playfair', Georgia, serif` : `${weight} ${size}px Georgia,serif`,
+      trust:    POSTER_FONTS['SpaceGrotesk'] ? `${weight} ${size}px 'SpaceGrotesk', sans-serif` : `${weight} ${size}px sans-serif`,
+      rate:     POSTER_FONTS['Righteous']    ? `400 ${size}px 'Righteous', sans-serif`          : `800 ${size}px sans-serif`,
+      '3words': POSTER_FONTS['SpaceGrotesk'] ? `${weight} ${size}px 'SpaceGrotesk', sans-serif` : `${weight} ${size}px sans-serif`,
+      ai:       POSTER_FONTS['Playfair']     ? `italic ${weight} ${size}px 'Playfair', Georgia, serif` : `italic ${weight} ${size}px Georgia,serif`,
+      message:  POSTER_FONTS['Playfair']     ? `italic 700 ${size}px 'Playfair', Georgia, serif` : `italic 700 ${size}px Georgia,serif`,
+    };
+    return fonts[type] || `${weight} ${size}px sans-serif`;
   }
 
   function drawPoster(styleName) {
@@ -1496,51 +1780,74 @@
     if (activeStoryMsg) {
       drawMessagePoster(ctx, T, W, H);
     } else {
-      drawPromptPoster(ctx, T, W, H, currentPromptType);
+      drawPromptPoster(ctx, T, W, H, currentMode);
     }
   }
 
   // ── Message received poster ────────────────────────────────────────────
   function drawMessagePoster(ctx, T, W, H) {
     const msg = activeStoryMsg;
-    ctx.globalAlpha=0.5; ctx.font='600 36px sans-serif'; ctx.fillStyle=T.sub;
-    ctx.fillText('AskThat · anonymous message', W/2, 150); ctx.globalAlpha=1;
 
-    ctx.globalAlpha=0.09; ctx.font='900 340px Georgia,serif'; ctx.fillStyle=T.headline;
-    ctx.fillText('"', W/2-300, 520); ctx.globalAlpha=1;
+    // Top brand
+    ctx.globalAlpha=0.45; ctx.font='500 34px sans-serif'; ctx.fillStyle=T.sub;
+    ctx.fillText('AskThat · anonymous message', W/2, 140); ctx.globalAlpha=1;
 
-    const cardPad=80, cardX=cardPad, cardW=W-cardPad*2, cardY=340, cardH=860;
-    ctx.fillStyle='rgba(255,255,255,0.08)'; ctx.strokeStyle='rgba(255,255,255,0.14)'; ctx.lineWidth=2;
-    ctx.beginPath(); ctx.roundRect(cardX,cardY,cardW,cardH,48); ctx.fill(); ctx.stroke();
+    // Big decorative quote mark
+    ctx.font = posterFont('message', 320);
+    ctx.fillStyle=T.headline; ctx.globalAlpha=0.07;
+    ctx.fillText('"', W/2-320, 540); ctx.globalAlpha=1;
 
-    const txt = msg.text||'';
-    const fontSize = txt.length<60?88:txt.length<120?68:txt.length<200?54:44;
-    ctx.font=`700 ${fontSize}px Georgia,serif`; ctx.fillStyle=T.headline;
-    const lines = wrapTextLines(ctx, txt, cardW-120), lineH=fontSize*1.4;
-    const txtStartY = cardY+(cardH-lines.length*lineH)/2+fontSize*.8;
-    lines.forEach((l,i)=>ctx.fillText(l,W/2,txtStartY+i*lineH));
+    // Card
+    const cardPad=70, cardX=cardPad, cardW=W-cardPad*2, cardY=300, cardH=900;
+    // Card background with subtle gradient
+    const cardGrad = ctx.createLinearGradient(cardX, cardY, cardX+cardW, cardY+cardH);
+    cardGrad.addColorStop(0,'rgba(255,255,255,0.10)');
+    cardGrad.addColorStop(1,'rgba(255,255,255,0.05)');
+    ctx.fillStyle=cardGrad; ctx.strokeStyle='rgba(255,255,255,0.18)'; ctx.lineWidth=2;
+    ctx.beginPath(); ctx.roundRect(cardX,cardY,cardW,cardH,52); ctx.fill(); ctx.stroke();
 
-    ctx.font='500 34px sans-serif'; ctx.fillStyle=T.sub; ctx.globalAlpha=0.6;
-    ctx.fillText('someone asked → '+user, W/2, cardY+cardH+64); ctx.globalAlpha=1;
+    // Message text — Playfair italic, size based on length
+    const txt = msg.text || '';
+    const fs = txt.length<55 ? 96 : txt.length<110 ? 76 : txt.length<190 ? 58 : 46;
+    ctx.font = posterFont('message', fs);
+    ctx.fillStyle=T.headline; ctx.globalAlpha=0.95;
+    const lines = wrapTextLines(ctx, txt, cardW-130);
+    const lineH = fs * 1.45;
+    const txtY  = cardY + (cardH - lines.length*lineH)/2 + fs*.85;
+    lines.forEach((l,i) => ctx.fillText(l, W/2, txtY + i*lineH));
+    ctx.globalAlpha=1;
 
-    // Avatar + CTA
-    ctx.fillStyle='rgba(255,255,255,0.12)';
-    ctx.beginPath(); ctx.arc(W/2-90,1380,56,0,Math.PI*2); ctx.fill();
-    ctx.font='700 48px sans-serif'; ctx.fillStyle=T.headline;
-    ctx.fillText(user.charAt(0).toUpperCase(),W/2-90,1398);
-    ctx.font='700 48px sans-serif'; ctx.textAlign='left';
-    ctx.fillText(user,W/2-90+70,1398); ctx.textAlign='center';
+    // Closing quote
+    ctx.font = posterFont('message', 80);
+    ctx.fillStyle=T.headline; ctx.globalAlpha=0.07;
+    ctx.fillText('"', W/2+320, cardY+cardH-40); ctx.globalAlpha=1;
 
-    const ctaW=740,ctaH=110,ctaX=(W-ctaW)/2,ctaY=1490;
-    const cf=T.ctaFill(ctx,W); if(cf)ctx.fillStyle=cf;
-    ctx.beginPath(); ctx.roundRect(ctaX,ctaY,ctaW,ctaH,55); ctx.fill();
-    ctx.font='700 42px sans-serif'; ctx.fillStyle=T.ctaText;
-    ctx.fillText('Send me one too →', W/2, ctaY+73);
+    // "someone asked → username" tag
+    ctx.font=`500 32px sans-serif`; ctx.fillStyle=T.sub; ctx.globalAlpha=0.55;
+    ctx.fillText('anonymous → ' + user, W/2, cardY+cardH+56); ctx.globalAlpha=1;
 
-    ctx.font='400 32px sans-serif'; ctx.fillStyle=T.link; ctx.globalAlpha=0.75;
-    ctx.fillText('askthat.pages.dev/ask/'+user, W/2, 1668);
-    ctx.globalAlpha=0.32; ctx.fillStyle=T.sub; ctx.font='400 28px sans-serif';
-    ctx.fillText('100% anonymous · no account needed', W/2, H-80);
+    // Avatar + username row
+    const avY = 1380;
+    ctx.fillStyle='rgba(255,255,255,0.13)';
+    ctx.beginPath(); ctx.arc(W/2-80, avY, 50, 0, Math.PI*2); ctx.fill();
+    ctx.font=`700 42px sans-serif`; ctx.fillStyle=T.headline;
+    ctx.fillText(user.charAt(0).toUpperCase(), W/2-80, avY+15);
+    ctx.font=`700 46px sans-serif`; ctx.textAlign='left';
+    ctx.fillText(user, W/2-80+64, avY+15); ctx.textAlign='center';
+
+    // CTA button
+    const ctaW=740, ctaH=108, ctaX=(W-ctaW)/2, ctaY=1476;
+    const cf=T.ctaFill(ctx,W); if(cf) ctx.fillStyle=cf;
+    ctx.beginPath(); ctx.roundRect(ctaX,ctaY,ctaW,ctaH,54); ctx.fill();
+    ctx.font=`700 40px sans-serif`; ctx.fillStyle=T.ctaText;
+    ctx.fillText('Send me one too →', W/2, ctaY+70);
+
+    // Link
+    ctx.font=`400 30px sans-serif`; ctx.fillStyle=T.link; ctx.globalAlpha=0.75;
+    ctx.fillText('askthat.pages.dev/ask/'+user, W/2, ctaY+160);
+    // Footer
+    ctx.globalAlpha=0.28; ctx.fillStyle=T.sub; ctx.font=`400 26px sans-serif`;
+    ctx.fillText('100% anonymous · no account needed', W/2, H-72);
     ctx.globalAlpha=1;
   }
 
@@ -1551,18 +1858,20 @@
     const linkShort = link.replace('https://','');
 
     // Brand
-    ctx.globalAlpha=0.55; ctx.font='600 38px sans-serif'; ctx.fillStyle=T.sub;
-    ctx.fillText('@ AskThat', W/2, 160); ctx.globalAlpha=1;
+    ctx.globalAlpha=0.5; ctx.font='500 36px sans-serif'; ctx.fillStyle=T.sub;
+    ctx.fillText('@ AskThat', W/2, 155); ctx.globalAlpha=1;
 
     // Avatar
     ctx.fillStyle='rgba(255,255,255,0.13)';
-    ctx.beginPath(); ctx.arc(W/2,380,100,0,Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.arc(W/2,370,100,0,Math.PI*2); ctx.fill();
     ctx.strokeStyle='rgba(255,255,255,0.28)'; ctx.lineWidth=4;
-    ctx.beginPath(); ctx.arc(W/2,380,100,0,Math.PI*2); ctx.stroke();
-    ctx.font='700 86px sans-serif'; ctx.fillStyle=T.headline;
-    ctx.fillText(user.charAt(0).toUpperCase(),W/2,414);
-    ctx.font='700 58px sans-serif'; ctx.fillStyle=T.headline;
-    ctx.fillText(user,W/2,534);
+    ctx.beginPath(); ctx.arc(W/2,370,100,0,Math.PI*2); ctx.stroke();
+    ctx.font = posterFont(type, 82);
+    ctx.fillStyle=T.headline;
+    ctx.fillText(user.charAt(0).toUpperCase(),W/2,404);
+    ctx.font = posterFont(type, 56);
+    ctx.fillStyle=T.headline;
+    ctx.fillText(user,W/2,520);
 
     if (type === 'ask') {
       _drawAskPrompt(ctx,T,W,H,link,linkShort);
@@ -1586,14 +1895,14 @@
     ctx.globalAlpha=1;
   }
 
-  function _drawPromptCard(ctx,T,W,promptText,subText,y,cardH) {
+  function _drawPromptCard(ctx,T,W,promptText,subText,y,cardH,type='ask') {
     const px=80, pw=W-160;
     ctx.fillStyle='rgba(255,255,255,0.10)'; ctx.strokeStyle='rgba(255,255,255,0.20)'; ctx.lineWidth=2;
     ctx.beginPath(); ctx.roundRect(px,y,pw,cardH,40); ctx.fill(); ctx.stroke();
-    ctx.font='800 76px sans-serif'; ctx.fillStyle=T.headline;
+    ctx.font = posterFont(type, 76); ctx.fillStyle=T.headline;
     wrapText(ctx,promptText,W/2,y+100,pw-80,90);
     if(subText){
-      ctx.font='400 44px sans-serif'; ctx.fillStyle=T.sub; ctx.globalAlpha=0.7;
+      ctx.font=`400 42px sans-serif`; ctx.fillStyle=T.sub; ctx.globalAlpha=0.7;
       ctx.fillText(subText,W/2,y+cardH-70); ctx.globalAlpha=1;
     }
   }
@@ -1609,12 +1918,11 @@
 
   function _drawAskPrompt(ctx,T,W,H,link,linkShort) {
     _drawPromptCard(ctx,T,W,'Ask me anything',
-      'Send something honest — I\'ll never know it was you',680,600);
+      'Send something honest — I\'ll never know it was you',680,600,'ask');
     _drawCTA(ctx,T,W,'Send anonymously →',1380,link,linkShort);
   }
 
   function _draw3WordsPrompt(ctx,T,W,H,link,linkShort) {
-    // Big decorative word slots
     const slotY=680, slotW=280, slotH=110, gap=22, totalW=slotW*3+gap*2;
     const startX=(W-totalW)/2;
     ['_ _ _','_ _ _','_ _ _'].forEach((_,i)=>{
@@ -1625,11 +1933,10 @@
     ctx.font='500 32px sans-serif'; ctx.fillStyle=T.sub; ctx.globalAlpha=0.5;
     nums.forEach((n,i)=>ctx.fillText(n,startX+i*(slotW+gap)+slotW/2,slotY+slotH+42)); ctx.globalAlpha=1;
 
-    ctx.font='800 80px sans-serif'; ctx.fillStyle=T.headline;
+    ctx.font = posterFont('3words', 78); ctx.fillStyle=T.headline;
     wrapText(ctx,'Describe me in exactly 3 words.',W/2,860,860,96);
     ctx.font='400 46px sans-serif'; ctx.fillStyle=T.sub; ctx.globalAlpha=0.65;
     ctx.fillText('no more, no less.',W/2,1000); ctx.globalAlpha=1;
-
     _drawCTA(ctx,T,W,'Type your 3 words →',1120,link,linkShort);
   }
 
@@ -1642,17 +1949,16 @@
       ctx.beginPath(); ctx.roundRect((W-btnW)/2,startY+i*(btnH+gap),btnW,btnH,24); ctx.fill(); ctx.stroke();
       ctx.font='52px sans-serif'; ctx.fillStyle=T.headline;
       ctx.fillText(emoji,(W-btnW)/2+70,startY+i*(btnH+gap)+66);
-      ctx.font='600 44px sans-serif'; ctx.textAlign='left';
+      ctx.font = posterFont('trust', 42); ctx.textAlign='left';
       ctx.fillText(label,(W-btnW)/2+140,startY+i*(btnH+gap)+66); ctx.textAlign='center';
     });
-    ctx.font='800 72px sans-serif'; ctx.fillStyle=T.headline;
+    ctx.font = posterFont('trust', 70); ctx.fillStyle=T.headline;
     ctx.fillText('How well do you know me?',W/2,1162);
     _drawCTA(ctx,T,W,'Pick your trust level →',1240,link,linkShort);
   }
 
   function _drawRatePrompt(ctx,T,W,H,link,linkShort) {
-    // Big number display
-    ctx.font='900 320px sans-serif'; ctx.fillStyle=T.headline; ctx.globalAlpha=0.12;
+    ctx.font = posterFont('rate', 300); ctx.fillStyle=T.headline; ctx.globalAlpha=0.10;
     ctx.fillText('?',W/2,1050); ctx.globalAlpha=1;
 
     const nums=Array.from({length:10},(_,i)=>i+1);
@@ -1665,18 +1971,17 @@
       const pct=(n-1)/9;
       ctx.fillStyle=`rgba(255,107,53,${0.08+pct*0.22})`; ctx.strokeStyle=`rgba(255,107,53,${0.20+pct*0.40})`; ctx.lineWidth=2;
       ctx.beginPath(); ctx.roundRect(x,y,btnW,btnH,24); ctx.fill(); ctx.stroke();
-      ctx.font=`700 ${n===10?54:62}px sans-serif`; ctx.fillStyle=T.headline;
+      ctx.font = posterFont('rate', n===10?52:60); ctx.fillStyle=T.headline;
       ctx.fillText(String(n),x+btnW/2,y+btnH/2+22);
     });
-    ctx.font='800 76px sans-serif'; ctx.fillStyle=T.headline;
+    ctx.font = posterFont('rate', 74); ctx.fillStyle=T.headline;
     wrapText(ctx,'Rate my vibe 1 to 10.',W/2,1124,860,92);
     _drawCTA(ctx,T,W,'Tap to rate →',1260,link,linkShort);
   }
 
   function _drawHotTakePrompt(ctx,T,W,H,link,linkShort) {
-    // Flame visual
     ctx.font='200px sans-serif'; ctx.fillText('🌶️',W/2,860);
-    ctx.font='800 86px sans-serif'; ctx.fillStyle=T.headline;
+    ctx.font = posterFont('hottake', 84); ctx.fillStyle=T.headline;
     wrapText(ctx,'Hot take about me. Go.',W/2,950,860,100);
     ctx.font='400 50px sans-serif'; ctx.fillStyle=T.sub; ctx.globalAlpha=0.65;
     wrapText(ctx,'Say what you actually think. I can handle it.',W/2,1090,820,64); ctx.globalAlpha=1;
@@ -1685,7 +1990,7 @@
 
   function _drawAdvicePrompt(ctx,T,W,H,link,linkShort) {
     ctx.font='200px sans-serif'; ctx.fillText('💡',W/2,860);
-    ctx.font='800 78px sans-serif'; ctx.fillStyle=T.headline;
+    ctx.font = posterFont('advice', 76); ctx.fillStyle=T.headline;
     wrapText(ctx,'Give me one piece of advice.',W/2,960,860,96);
     ctx.font='400 48px sans-serif'; ctx.fillStyle=T.sub; ctx.globalAlpha=0.65;
     wrapText(ctx,'Something you think I actually need to hear.',W/2,1100,820,62); ctx.globalAlpha=1;
@@ -1693,9 +1998,9 @@
   }
 
   function _drawAIPrompt(ctx,T,W,H,link,linkShort) {
-    const promptText = aiPromptText || 'What\'s one thing you\'d never say to my face?';
+    const promptText = aiGameText || 'What\'s one thing you\'d never say to my face?';
     ctx.font='120px sans-serif'; ctx.fillText('✨',W/2,820);
-    ctx.font='800 76px sans-serif'; ctx.fillStyle=T.headline;
+    ctx.font = posterFont('ai', 74); ctx.fillStyle=T.headline;
     wrapText(ctx,promptText,W/2,940,860,96);
     ctx.font='500 40px sans-serif'; ctx.fillStyle=T.sub; ctx.globalAlpha=0.55;
     ctx.fillText('AI-generated · 100% anonymous',W/2,1110); ctx.globalAlpha=1;
@@ -1721,48 +2026,10 @@
     return lines;
   }
 
-  // Style picker
-  document.querySelectorAll('.poster-style-pill').forEach(btn => {
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('.poster-style-pill').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      renderPoster(btn.dataset.style);
-    });
-  });
-
-  // Story modal events
-  document.getElementById('btn-story').addEventListener('click', () => openStoryModal(null));
-
-  // Prompt pill click handlers
-  document.querySelectorAll('.prompt-pill').forEach(btn => {
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('.prompt-pill').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      currentPromptType = btn.dataset.prompt;
-      // Hide prompt picker when showing a message poster
-      const sub = document.getElementById('story-modal-sub');
-      if (sub) sub.textContent = currentPromptType === 'ask'
-        ? 'Pick a style → download → share to Stories.'
-        : 'Share this prompt — people tap your link and respond anonymously.';
-      renderPoster(posterStyle);
-    });
-  });
-
-  // Load AI prompt when modal opens
-  function openStoryModalWithAI(msg) {
-    openStoryModal(msg);
-    if (!aiPromptText) loadAIPrompt();
-  }
-  // Replace btn-story listener
-  document.getElementById('btn-story').removeEventListener('click', null);
-  document.getElementById('btn-story').addEventListener('click', () => openStoryModalWithAI(null));
-  document.getElementById('story-modal-close').addEventListener('click', () => storyModal.classList.remove('show'));
-  storyModal.addEventListener('click', e => { if(e.target===e.currentTarget) storyModal.classList.remove('show'); });
-
-  // Download
+  // Download (message poster modal)
   document.getElementById('btn-story-download').addEventListener('click', () => {
     const a=document.createElement('a');
-    a.download=`askthat-${user}-${posterStyle}.png`;
+    a.download=`askthat-${user}-msg.png`;
     a.href=document.getElementById('story-canvas').toDataURL('image/png');
     a.click();
   });
@@ -1847,10 +2114,9 @@
     toastTimer=setTimeout(()=>el.className='toast',3400);
   }
 
-  document.addEventListener('keydown',e=>{
-    if(e.key==='Escape'){
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') {
       storyModal.classList.remove('show');
-      pollModal.classList.remove('show');
     }
   });
 
