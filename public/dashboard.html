@@ -29,18 +29,14 @@
       --r: 18px; --r-sm: 12px;
     }
     html { scroll-behavior: smooth; }
-    body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 15px; line-height: 1.6; min-height: 100vh; overflow-x: hidden;
-      -webkit-backface-visibility: hidden;
-      backface-visibility: hidden;
-      -webkit-transform: translate3d(0,0,0);
-      transform: translate3d(0,0,0); }
+    body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 15px; line-height: 1.6; min-height: 100vh; overflow-x: hidden; }
     .orbs { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
     .orb  { position: absolute; border-radius: 50%; filter: blur(68px); will-change: transform; transform: translateZ(0); }
     .orb-1 { width: 540px; height: 540px; background: #ff6b35; opacity: 0.09; top: -20%; right: -10%; animation: d1 24s ease-in-out infinite alternate; }
     .orb-2 { width: 400px; height: 400px; background: #ff477e; opacity: 0.07; bottom: 8%; left: -10%; animation: d2 30s ease-in-out infinite alternate; }
     @keyframes d1 { to { transform: translate(-20px,28px); } }
     @keyframes d2 { to { transform: translate(18px,-22px); } }
-    body::before { content:''; position: absolute; inset:0; z-index:1; pointer-events:none; background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E"); background-size:256px; opacity:0.45; }
+    body::before { content:''; position: fixed; inset:0; z-index:1; pointer-events:none; background-image: radial-gradient(ellipse at 1px 1px, rgba(255,248,240,0.04) 1px, transparent 0); background-size: 3px 3px; opacity:0.5; }
 
     /* ── Layout ── */
     .page { max-width: 720px; margin: 0 auto; padding: 20px 16px 80px; position: relative; z-index: 2; }
