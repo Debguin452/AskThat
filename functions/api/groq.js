@@ -74,7 +74,7 @@ ${locHint}`
       try { await env.MESSAGES_KV.put(cacheKey, prompt, { expirationTtl:7200 }); } catch(_) {}
       return json({ prompt });
     } catch { return json({ prompt: randomFallbackPrompt() }); }
-  }
+  
 
   return json({ error: 'Unknown type.' }, 400);
 }
