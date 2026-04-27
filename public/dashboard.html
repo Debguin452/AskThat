@@ -76,7 +76,7 @@
     .btn-banner:hover { opacity: .85; }
 
     /* ── Profile Header ── */
-    .profile-hdr { background: linear-gradient(160deg,rgba(111,76,255,.09),rgba(111,76,255,.02)); border: 1px solid var(--border); border-radius: 20px; padding: 20px 22px; display: flex; align-items: center; gap: 16px; margin-bottom: 14px; backdrop-filter: blur(16px); position: relative; overflow: hidden; }
+    .profile-hdr { background: linear-gradient(160deg,rgba(111,76,255,.09),rgba(111,76,255,.02)); border: 1px solid var(--border); border-radius: 20px; padding: 20px 22px; display: flex; align-items: center; gap: 16px; margin-bottom: 14px; position: relative; overflow: hidden; }
     .profile-hdr::before { content:''; position:absolute; inset:0; background:linear-gradient(120deg,rgba(255,107,53,.06),transparent 55%); pointer-events:none; }
     .avatar { width: 54px; height: 54px; border-radius: 50%; background: var(--grad); display: flex; align-items: center; justify-content: center; font-family:'Syne',sans-serif; font-weight: 800; font-size: 22px; color: #fff; flex-shrink: 0; box-shadow: 0 0 0 3px rgba(255,107,53,.22); }
     .profile-info { flex: 1; min-width: 0; }
@@ -381,7 +381,7 @@
     @keyframes up { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
 
     /* ── Bottom nav ── */
-    .bottom-nav { position:fixed; bottom:0; left:0; right:0; z-index:100; background:rgba(13,10,8,.94); border-top:1px solid var(--border2); backdrop-filter:blur(24px); display:flex; justify-content:center; }
+    .bottom-nav { position:fixed; bottom:0; left:0; right:0; z-index:100; background:#0d0a08; border-top:1px solid var(--border2); display:flex; justify-content:center; }
     .bnav-tab { position:relative; flex:1; max-width:120px; display:flex; flex-direction:column; align-items:center; gap:4px; padding:10px 8px 16px; cursor:pointer; border:none; background:transparent; color:var(--text3); font-family:'DM Sans',sans-serif; font-size:11px; font-weight:500; transition:color .2s; }
     .bnav-tab svg { opacity:.4; transition:opacity .2s; }
     .bnav-tab.active { color:var(--primary); }
