@@ -1,5 +1,12 @@
 const ALLOWED_ORIGIN = 'https://askthat.pages.dev';
 
+function isAllowedOrigin(o) {
+  return !o ||
+    o === ALLOWED_ORIGIN ||
+    o.endsWith('.askthat.pages.dev') ||
+    o.startsWith('http://localhost');
+}
+
 const ROUTE_LIMITS = {
   '/api/send':   { max: 8,  windowSecs: 60 },
   '/api/poll':   { max: 20, windowSecs: 60 },
@@ -60,9 +67,7 @@ export async function onRequest(context) {
   return new Response(resp.body, { status: resp.status, headers: out });
 }
 
-function isAllowedOrigin(o) {
-  return !o || o === ALLOWED_ORIGIN || o.startsWith('http://localhost');
-}
+
 
 async function checkRateLimit(env, ip, path, { max, windowSecs }) {
   const now = Math.floor(Date.now()/1000), bucket = Math.floor(now/windowSecs);
