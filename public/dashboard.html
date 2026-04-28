@@ -513,7 +513,7 @@
   </div>
 
   <!-- INBOX -->
-  <div class="section-panel" id="panel-inbox">
+  <div class="section-panel active" id="panel-inbox">
     <div class="toolbar">
       <div class="search-wrap">
         <svg class="search-ico" width="15" height="15" viewBox="0 0 15 15" fill="none"><circle cx="6.5" cy="6.5" r="4.5" stroke="currentColor" stroke-width="1.4"/><path d="M10 10l3 3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
@@ -538,7 +538,7 @@
   </div>
 
   <!-- LINK -->
-  <div class="section-panel active" id="panel-link">
+  <div class="section-panel" id="panel-link">
     <div class="link-section">
       <div class="link-hero">
         <div class="link-hero-label">Your link</div>
@@ -549,8 +549,8 @@
         </div>
       </div>
       <div class="mode-section-label">
-        <span>Prompt mode</span>
-        <span style="font-size:10px;color:var(--text3);font-weight:400;text-transform:none;letter-spacing:0">Changes what your link asks</span>
+        <span>Link mode</span>
+        <span style="font-size:10px;color:var(--text3);font-weight:400;text-transform:none;letter-spacing:0">What visitors see when they open your link</span>
       </div>
       <div class="mode-grid" id="mode-grid">
         <button class="mode-card active" data-type="ask"><div class="mode-card-icon">💬</div><div class="mode-card-title">Ask Me</div><div class="mode-card-sub">Open message</div></button>
@@ -584,10 +584,6 @@
         <div class="poll-toggle-info"><strong>Poll enabled</strong><span>Visitors see a poll tab on your link</span></div>
         <div class="tog-wrap" id="poll-enable-tog" role="switch" aria-checked="false" tabindex="0"><div class="tog-inner"></div></div>
       </div>
-      <div class="poll-results-wrap" id="poll-results-wrap" style="display:none">
-        <div class="poll-results-title">Live results</div>
-        <div id="poll-content"></div>
-      </div>
       <div class="poll-editor-wrap">
         <div class="poll-editor-title">Questions</div>
         <div id="poll-questions-editor"></div>
@@ -600,12 +596,12 @@
 </div>
 
 <nav class="bottom-nav" role="navigation">
-  <button class="bnav-tab" data-panel="inbox" id="bnav-inbox">
+  <button class="bnav-tab active" data-panel="inbox" id="bnav-inbox">
     <div class="bnav-badge" id="badge-inbox"></div>
     <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M2 7l8 5 8-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><rect x="2" y="4" width="16" height="13" rx="2.5" stroke="currentColor" stroke-width="1.5"/></svg>
     Inbox
   </button>
-  <button class="bnav-tab active" data-panel="link" id="bnav-link">
+  <button class="bnav-tab" data-panel="link" id="bnav-link">
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
     Link
   </button>
@@ -683,6 +679,12 @@
     window.location.href = '/'; return;
   }
 
+  // ── Set name INSTANTLY before any async code can fail ────────────────────
+  document.getElementById('profile-name').textContent = user;
+  document.getElementById('avatar-el').textContent = user.charAt(0).toUpperCase();
+  document.title = `${user}'s Inbox — AskThat`;
+  document.getElementById('link-display').textContent = `askthat.pages.dev/ask/${user}`;
+
   // Set name INSTANTLY before anything else can crash
   document.getElementById('profile-name').textContent = user;
   document.getElementById('avatar-el').textContent = user.charAt(0).toUpperCase();
@@ -727,7 +729,7 @@
   const bulkBar        = document.getElementById('bulk-bar');
   const bulkCountTxt   = document.getElementById('bulk-count-txt');
   const loadMoreWrap   = document.getElementById('load-more-wrap');
-  const pollContent    = document.getElementById('poll-content');
+  const pollContent    = document.getElementById('poll-content') || document.createElement('div');
   const pollEnableTog  = document.getElementById('poll-enable-tog');
   const pollQsEditor   = document.getElementById('poll-questions-editor');
 
@@ -760,7 +762,7 @@
   }
 
   // ── Bottom nav tabs ───────────────────────────────────────────────────────
-  let currentPanel = 'link';
+  let currentPanel = 'inbox';
   function switchPanel(panel) {
     currentPanel = panel;
     document.querySelectorAll('.section-panel').forEach(el => el.classList.remove('active'));
@@ -941,7 +943,6 @@
 
   load(true);
   startRefresh();
-  buildPosterStrip(); // link is default panel
   (async () => {
     try {
       const res = await fetch(`/api/stats?username=${encodeURIComponent(user)}`);
@@ -1304,7 +1305,9 @@
     }
 
     if (!questions.length) return;
-    pollSection.classList.add('show');
+    // Show results in inbox panel only (not poll panel)
+    const pollResultsInbox = document.getElementById('poll-content');
+    if (pollResultsInbox) pollResultsInbox.closest('.poll-section')?.classList.add('show');
 
     const grandTotal = questions.reduce((a,q)=>a+q.total,0);
     const totalEl = document.getElementById('poll-total-votes');
@@ -1509,7 +1512,9 @@
     } catch { addQEditor({ text:'', options:['','','',''] }); }
   }
 
-  // Poll toggle and save are wired below after addQEditor is defined  function addQEditor(q = { text: '', options: ['', '', '', ''] }) {
+  // Poll toggle and save are wired below after addQEditor is defined
+
+  function addQEditor(q = { text: '', options: ['', '', '', ''] }) {
     const idx   = pollQEditors.length;
     const block = document.createElement('div');
     block.className = 'poll-q-editor-block';
