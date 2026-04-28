@@ -388,6 +388,8 @@
     .bnav-tab.active svg { opacity:1; }
     .bnav-tab::after { content:''; position:absolute; top:0; left:50%; transform:translateX(-50%); width:28px; height:2.5px; border-radius:0 0 4px 4px; background:var(--primary); opacity:0; transition:opacity .2s; }
     .bnav-tab.active::after { opacity:1; }
+    .bnav-badge { position:absolute; top:6px; right:calc(50% - 16px); width:8px; height:8px; background:#ff3b30; border-radius:50%; border:2px solid var(--bg); opacity:0; transition:opacity .2s; pointer-events:none; }
+    .bnav-tab.has-badge .bnav-badge { opacity:1; }
 
     /* ── Section panels ── */
     .section-panel { display:none; }
@@ -511,7 +513,7 @@
   </div>
 
   <!-- INBOX -->
-  <div class="section-panel active" id="panel-inbox">
+  <div class="section-panel" id="panel-inbox">
     <div class="toolbar">
       <div class="search-wrap">
         <svg class="search-ico" width="15" height="15" viewBox="0 0 15 15" fill="none"><circle cx="6.5" cy="6.5" r="4.5" stroke="currentColor" stroke-width="1.4"/><path d="M10 10l3 3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
@@ -536,7 +538,7 @@
   </div>
 
   <!-- LINK -->
-  <div class="section-panel" id="panel-link">
+  <div class="section-panel active" id="panel-link">
     <div class="link-section">
       <div class="link-hero">
         <div class="link-hero-label">Your link</div>
@@ -598,15 +600,17 @@
 </div>
 
 <nav class="bottom-nav" role="navigation">
-  <button class="bnav-tab active" data-panel="inbox" id="bnav-inbox">
+  <button class="bnav-tab" data-panel="inbox" id="bnav-inbox">
+    <div class="bnav-badge" id="badge-inbox"></div>
     <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M2 7l8 5 8-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><rect x="2" y="4" width="16" height="13" rx="2.5" stroke="currentColor" stroke-width="1.5"/></svg>
     Inbox
   </button>
-  <button class="bnav-tab" data-panel="link" id="bnav-link">
+  <button class="bnav-tab active" data-panel="link" id="bnav-link">
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
     Link
   </button>
   <button class="bnav-tab" data-panel="poll" id="bnav-poll">
+    <div class="bnav-badge" id="badge-poll"></div>
     <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="2" y="11" width="4" height="7" rx="1" stroke="currentColor" stroke-width="1.5"/><rect x="8" y="7" width="4" height="11" rx="1" stroke="currentColor" stroke-width="1.5"/><rect x="14" y="3" width="4" height="15" rx="1" stroke="currentColor" stroke-width="1.5"/></svg>
     Poll
   </button>
@@ -678,6 +682,11 @@
   if (!user || user.length < 1 || user.length > 30 || !USERNAME_RE.test(user)) {
     window.location.href = '/'; return;
   }
+
+  // Set name INSTANTLY before anything else can crash
+  document.getElementById('profile-name').textContent = user;
+  document.getElementById('avatar-el').textContent = user.charAt(0).toUpperCase();
+  document.title = `${user}'s Dashboard — AskThat`;
 
   // Clean up ?u= from the address bar (only needed for CF Function to create the link)
   if (location.search) history.replaceState(null, '', location.pathname);
@@ -751,7 +760,7 @@
   }
 
   // ── Bottom nav tabs ───────────────────────────────────────────────────────
-  let currentPanel = 'inbox';
+  let currentPanel = 'link';
   function switchPanel(panel) {
     currentPanel = panel;
     document.querySelectorAll('.section-panel').forEach(el => el.classList.remove('active'));
@@ -760,6 +769,15 @@
     const tabEl   = document.getElementById(`bnav-${panel}`);
     if (panelEl) panelEl.classList.add('active');
     if (tabEl)   tabEl.classList.add('active');
+    // Clear badge when panel opened
+    if (panel === 'inbox') {
+      document.getElementById('bnav-inbox').classList.remove('has-badge');
+      try { localStorage.setItem(`askthat_last_read_${user}`, Date.now()); } catch(_) {}
+    }
+    if (panel === 'poll') {
+      document.getElementById('bnav-poll').classList.remove('has-badge');
+      try { localStorage.setItem(`askthat_poll_seen_${user}`, currentPollTotalVotes); } catch(_) {}
+    }
     if (panel === 'link' && !postersGenerated) buildPosterStrip();
     if (panel === 'poll') initPollSection();
   }
@@ -923,6 +941,7 @@
 
   load(true);
   startRefresh();
+  buildPosterStrip(); // link is default panel
   (async () => {
     try {
       const res = await fetch(`/api/stats?username=${encodeURIComponent(user)}`);
@@ -967,6 +986,10 @@
         const diff = data.total - lastTotal;
         newBannerCount.textContent = `${diff} new message${diff > 1 ? 's' : ''}`;
         newBanner.classList.add('show');
+        // Show red dot on inbox tab if user is not on inbox
+        if (currentPanel !== 'inbox') {
+          document.getElementById('bnav-inbox').classList.add('has-badge');
+        }
       }
       lastTotal = data.total;
       statBar.style.opacity = '1';
@@ -1201,13 +1224,9 @@
   // ── Copy link ─────────────────────────────────────────────────────────────
   function copyLink() {
     navigator.clipboard.writeText(BASE_URL).then(() => {
-      const btn = document.getElementById('btn-copy-link');
-      btn.textContent = '✓ Copied';
-      setTimeout(() => { btn.innerHTML = '<svg width="13" height="13" viewBox="0 0 13 13" fill="none"><rect x="1" y="4" width="8" height="8" rx="1.5" stroke="currentColor" stroke-width="1.4"/><path d="M4 4V3a1 1 0 011-1h5a1 1 0 011 1v5a1 1 0 01-1 1h-1" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg> Copy Link'; }, 2000);
       showToast('Link copied!', 'green');
     });
   }
-  document.getElementById('btn-copy-link').addEventListener('click', copyLink);
 
   // ── Delete account ────────────────────────────────────────────────────────
   document.getElementById('btn-del-account').addEventListener('click', async function() {
@@ -1467,6 +1486,7 @@
   let pollSectionInited = false;
   let pollEnabled = false;
   let pollQEditors = [];
+  let currentPollTotalVotes = 0;
 
   async function initPollSection() {
     if (pollSectionInited) return;
@@ -1554,6 +1574,20 @@
       const res = await fetch(`/api/poll?username=${encodeURIComponent(user)}`);
       const d   = await res.json();
       pollEnabled = Boolean(d.enabled);
+      if (d.enabled && d.questions) {
+        // Count total votes across all questions
+        let totalVotes = 0;
+        for (const q of d.questions) {
+          for (const count of Object.values(q.counts || {})) totalVotes += count;
+        }
+        currentPollTotalVotes = totalVotes;
+        // Show red dot if votes increased since last time poll tab was opened
+        let lastSeen = 0;
+        try { lastSeen = parseInt(localStorage.getItem(`askthat_poll_seen_${user}`) || '0'); } catch(_) {}
+        if (totalVotes > lastSeen && currentPanel !== 'poll') {
+          document.getElementById('bnav-poll').classList.add('has-badge');
+        }
+      }
     } catch(_) {}
   }
   loadPollConfig();
