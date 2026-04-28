@@ -565,6 +565,13 @@
         <button class="btn-poster-dl" id="btn-poster-dl"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1v8M4 6l3 3 3-3M2 11h10" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Download</button>
         <button class="btn-poster-wa" id="btn-poster-wa">WhatsApp</button>
       </div>
+      <div class="share-grid-sec">
+        <div class="share-divider">
+          <span style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;white-space:nowrap">Share your link</span>
+          <div style="flex:1;height:1px;background:var(--border2)"></div>
+        </div>
+        <div class="share-grid" id="share-btns-dashboard"></div>
+      </div>
     </div>
   </div>
 
@@ -596,7 +603,7 @@
     Inbox
   </button>
   <button class="bnav-tab" data-panel="link" id="bnav-link">
-    <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M8 12.5l4-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M6 10.5a3.5 3.5 0 01-5-5l2-2a3.5 3.5 0 015 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 9.5a3.5 3.5 0 005 5l-2 2a3.5 3.5 0 01-5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
     Link
   </button>
   <button class="bnav-tab" data-panel="poll" id="bnav-poll">
@@ -647,6 +654,8 @@
 <div class="toast" id="toast" role="alert" aria-live="assertive"></div>
 
 <script>
+// roundRect polyfill for Android Chrome < 99
+(function(){if(!CanvasRenderingContext2D.prototype.roundRect){CanvasRenderingContext2D.prototype.roundRect=function(x,y,w,h,r){r=Math.min(r,w/2,h/2);this.moveTo(x+r,y);this.lineTo(x+w-r,y);this.quadraticCurveTo(x+w,y,x+w,y+r);this.lineTo(x+w,y+h-r);this.quadraticCurveTo(x+w,y+h,x+w-r,y+h);this.lineTo(x+r,y+h);this.quadraticCurveTo(x,y+h,x,y+h-r);this.lineTo(x,y+r);this.quadraticCurveTo(x,y,x+r,y);this.closePath();return this;};}})();
 (function() {
   'use strict';
 
@@ -710,6 +719,8 @@
   const bulkCountTxt   = document.getElementById('bulk-count-txt');
   const loadMoreWrap   = document.getElementById('load-more-wrap');
   const pollContent    = document.getElementById('poll-content');
+  const pollEnableTog  = document.getElementById('poll-enable-tog');
+  const pollQsEditor   = document.getElementById('poll-questions-editor');
 
   authToken = (typeof window.__ASKTHAT_TOKEN__ === 'string') ? window.__ASKTHAT_TOKEN__ : null;
 
@@ -806,12 +817,13 @@
   let postersGenerated = false;
   let selectedPosterStyle = 'fire';
 
-  function buildPosterStrip() {
+  async function buildPosterStrip() {
     const strip = document.getElementById('poster-strip');
     const spin  = document.getElementById('poster-spin');
     const dlRow = document.getElementById('poster-dl-row');
     if (!strip) return;
     postersGenerated = true;
+    await loadPosterFonts();
     strip.innerHTML = '';
     dlRow.style.display = 'none';
     spin.style.display  = 'block';
@@ -1477,38 +1489,7 @@
     } catch { addQEditor({ text:'', options:['','','',''] }); }
   }
 
-  document.getElementById('btn-add-question')?.addEventListener('click', () => addQEditor({ text:'', options:['','','',''] }));
-
-  document.getElementById('btn-save-poll')?.addEventListener('click', async () => {
-    const saveBtn  = document.getElementById('btn-save-poll');
-    const saveNote = document.getElementById('poll-save-note');
-    saveBtn.disabled = true; saveBtn.textContent = 'Saving…';
-    const questions = pollQEditors.map(block => ({
-      text:    (block.querySelector('.pq-text')?.value || '').trim(),
-      options: [...block.querySelectorAll('.pq-opt')].map(i=>i.value.trim()).filter(Boolean),
-    })).filter(q=>q.text && q.options.length >= 2);
-    try {
-      const res = await fetch('/api/poll', {
-        method:'POST', headers:{'Content-Type':'application/json'},
-        body: JSON.stringify({ username:user, token:authToken, enabled:pollEnabled, questions }),
-      });
-      const data = await res.json();
-      if (!res.ok) { saveNote.textContent = data.error || 'Save failed.'; saveNote.className='poll-save-note err'; }
-      else { saveNote.textContent = '✓ Saved!'; saveNote.className='poll-save-note ok'; }
-    } catch { saveNote.textContent = 'Network error.'; saveNote.className='poll-save-note err'; }
-    finally { saveBtn.disabled = false; saveBtn.textContent = 'Save'; }
-  });
-
-  const pollTogEl = document.getElementById('poll-enable-tog');
-  if (pollTogEl) {
-    pollTogEl.addEventListener('click', () => {
-      pollEnabled = !pollEnabled;
-      pollTogEl.setAttribute('aria-checked', pollEnabled ? 'true' : 'false');
-    });
-    pollTogEl.addEventListener('keydown', e => { if(e.key==='Enter'||e.key===' ') { e.preventDefault(); pollTogEl.click(); } });
-  }
-
-  function addQEditor(q = { text: '', options: ['', '', '', ''] }) {
+  // Poll toggle and save are wired below after addQEditor is defined  function addQEditor(q = { text: '', options: ['', '', '', ''] }) {
     const idx   = pollQEditors.length;
     const block = document.createElement('div');
     block.className = 'poll-q-editor-block';
