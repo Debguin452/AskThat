@@ -39,88 +39,65 @@ export async function onRequestGet({ request, env }) {
     } catch { return json({ placeholders: defaultPlaceholders() }); }
   }
 
-  // ── AI game — relatable, trend-aware challenge ─────────────────────────
+  // ── AI game ──────────────────────────────────────────────────────────────
   if (type === 'game') {
-    const loc = (url.searchParams.get('loc') || '').slice(0, 80);
     const cacheKey = `groq_game:${username}`;
     try { const c = await env.MESSAGES_KV.get(cacheKey); if (c) return json({ game: c }); } catch(_) {}
     if (!env.GROQ_API_KEY) return json({ game: randomFallbackGame() });
     try {
-      const locHint = loc ? `The user's timezone/location context: ${loc}.` : '';
-      const raw = await groq(env, [{
-        role:'system',
-        content:`You write a single short, punchy, relatable anonymous game or challenge for a social app — something people share on Instagram/WhatsApp Stories. 
-It should feel current, viral, and fun — like a NPC test, a "would you rather", a vibe check, or a hot take game. 
-Reference current trends, Gen Z slang, or relatable situations if relevant.
-Max 12 words. No quotes. Just the game/challenge text as a question or prompt.
-${locHint}`
-      },{ role:'user', content:`Game for "${username}". Make it specific, fresh, shareable.` }], 50);
+      const raw = await groq(env, [{ role:'system', content:'Write a single short viral anonymous game/challenge for a social app. Max 12 words. No quotes.' },{ role:'user', content:`Game for "${username}".` }], 50);
       const game = raw.replace(/^"|"$/g,'').replace(/\n/g,' ').trim().slice(0,90) || randomFallbackGame();
-      try { await env.MESSAGES_KV.put(cacheKey, game, { expirationTtl: 14400 }); } catch(_) {}
+      try { await env.MESSAGES_KV.put(cacheKey, game, { expirationTtl:14400 }); } catch(_) {}
       return json({ game });
     } catch { return json({ game: randomFallbackGame() }); }
   }
 
+  // ── Name dare ─────────────────────────────────────────────────────────────
+  if (type === 'dare') {
+    const cacheKey = `groq_dare:${username}`;
+    try { const c = await env.MESSAGES_KV.get(cacheKey); if (c) return json({ dare: c }); } catch(_) {}
+    if (!env.GROQ_API_KEY) return json({ dare: randomFallbackDare(username) });
+    try {
+      const raw = await groq(env, [{
+        role:'system',
+        content:`Write a single spicy/controversial question that visitors answer ABOUT a person — their friends will love answering it anonymously. Be specific to their name. Max 12 words. No quotes in output.`
+      },{ role:'user', content:`Name dare for "${username}".` }], 50);
+      const dare = raw.replace(/^"|"$/g,'').replace(/\n/g,' ').trim().slice(0,100) || randomFallbackDare(username);
+      try { await env.MESSAGES_KV.put(cacheKey, dare, { expirationTtl:21600 }); } catch(_) {}
+      return json({ dare });
+    } catch { return json({ dare: randomFallbackDare(username) }); }
+  }
 
+  // ── AI prompt ─────────────────────────────────────────────────────────────
+  if (type === 'prompt') {
     const cacheKey = `groq_prompt:${username}`;
     try { const c = await env.MESSAGES_KV.get(cacheKey); if (c) return json({ prompt: c }); } catch(_) {}
     if (!env.GROQ_API_KEY) return json({ prompt: randomFallbackPrompt() });
     try {
-      const raw = await groq(env, [{
-        role:'system',
-        content:'You write a single fun, interactive, anonymous question that someone poses to their followers. Short (max 10 words). Punchy. Original. No emojis. No quotes. Just the question text.'
-      },{ role:'user', content:`Question for someone named "${username}" — make it specific to their name if possible, casual, fun.` }], 40);
+      const raw = await groq(env, [{ role:'system', content:'Write a single fun anonymous question for followers. Max 10 words. No quotes.' },{ role:'user', content:`Question for "${username}".` }], 40);
       const prompt = raw.replace(/^"|"$/g,'').replace(/\n/g,' ').trim().slice(0,80) || randomFallbackPrompt();
       try { await env.MESSAGES_KV.put(cacheKey, prompt, { expirationTtl:7200 }); } catch(_) {}
       return json({ prompt });
     } catch { return json({ prompt: randomFallbackPrompt() }); }
-  
+  }
 
   return json({ error: 'Unknown type.' }, 400);
 }
 
-export async function onRequestPost({ request, env }) {
-  let body;
-  try { body = await request.json(); } catch { return json({ error:'Invalid JSON.'}, 400); }
-
-  // ── Mood detection ─────────────────────────────────────────────────────
-  if (body.type === 'mood') {
-    const text = (body.text||'').trim().slice(0,500);
-    if (!text) return json({ mood:'neutral' });
-    if (!env.GROQ_API_KEY) return json({ mood: clientMood(text) });
-    try {
-      const raw = await groq(env,[{
-        role:'system', content:'Classify the emotional tone. Reply with ONE word only from: wholesome, funny, spicy, deep, sad, supportive, flirty, weird'
-      },{ role:'user', content:text }], 5);
-      const VALID = ['wholesome','funny','spicy','deep','sad','supportive','flirty','weird'];
-      return json({ mood: VALID.includes(raw.toLowerCase()) ? raw.toLowerCase() : clientMood(text) });
-    } catch { return json({ mood: clientMood(text) }); }
-  }
-
-  return json({ error:'Unknown type.'}, 400);
-}
-
-function clientMood(t) {
-  t = t.toLowerCase();
-  if (/love|appreciate|amazing|best|kind|sweet|heart|grateful/.test(t)) return 'wholesome';
-  if (/lol|haha|funny|hilarious|joke|lmao|bruh|😂|💀/.test(t))         return 'funny';
-  if (/hot|crush|like you|pretty|attractive|date/.test(t))              return 'flirty';
-  if (/why|think|wonder|feel|believe|mind|actually|real talk/.test(t))  return 'deep';
-  if (/miss|sad|alone|wish|hurt|sorry|cry/.test(t))                    return 'sad';
-  if (/you got|keep going|proud|believe in|support/.test(t))           return 'supportive';
-  if (/what the|random|weird|unexpected/.test(t))                      return 'weird';
-  return 'spicy';
-}
-
-function defaultPlaceholders() {
-  return [
-    "Something I've always wanted to tell you...",
-    "Honestly? You should know this about yourself.",
-    "The thing I notice most about you is...",
-    "This is something I'd never say to your face.",
-    "One word I'd use to describe you is...",
+function randomFallbackDare(username) {
+  const n = username || 'them';
+  const dares = [
+    `What's ${n}'s biggest red flag honestly?`,
+    `Would you date ${n} if they asked you?`,
+    `Rate ${n}'s personality out of 10`,
+    `What does ${n} actually need to hear?`,
+    `What's one thing ${n} would never admit?`,
+    `Is ${n} the villain or the main character?`,
+    `What's ${n}'s most unhinged quality?`,
   ];
+  return dares[Math.floor(Math.random()*dares.length)];
 }
+
 function randomFallbackGame() {
   const games = [
     'NPC test: what would you say to snap me out of it?',
