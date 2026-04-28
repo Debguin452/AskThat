@@ -1067,6 +1067,12 @@
   // Init prompt UI
   setupPromptUI();
 
+  // ── Fade in the form now that everything is ready ──────────────────────
+  requestAnimationFrame(() => {
+    const fa = document.getElementById('form-area');
+    if (fa) fa.style.opacity = '1';
+  });
+
   // ── Story ───────────────────────────────────────────────────────────────
   function openStoryModal() {
     document.getElementById('story-modal').classList.add('show');
