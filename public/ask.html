@@ -585,7 +585,7 @@
     charText.className = len > MAX ? 'char-text over' : len/MAX > .8 ? 'char-text warn' : 'char-text';
   });
 
-  // ── Send message ────────────────────────────────────────────────────────
+  // ── Send message (prompt-aware) ─────────────────────────────────────────
   const sendBtn = document.getElementById('send-btn');
   const btnTxt  = document.getElementById('btn-txt');
   const btnSpin = document.getElementById('btn-spin');
@@ -593,9 +593,16 @@
 
   async function sendMessage() {
     if (document.getElementById('_hp').value) return;
-    const text = textarea.value.trim();
-    if (!text) { errMsg.textContent='Write something first.'; errMsg.classList.add('show'); return; }
+
+    // Build message from whichever input type is active
+    const text = buildPromptMessage();
+    if (!text) {
+      const labels = { rate:'Tap a number first.', trust:'Pick your level first.', '3words':'Fill in all 3 words.' };
+      errMsg.textContent = labels[urlPromptType] || 'Write something first.';
+      errMsg.classList.add('show'); return;
+    }
     if (text.length > 500) { errMsg.textContent='Message too long.'; errMsg.classList.add('show'); return; }
+
     sendBtn.disabled=true; btnTxt.textContent='Sending…'; btnSpin.classList.add('show'); errMsg.classList.remove('show');
     try {
       const res  = await fetch('/api/send', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({username:user, text}) });
@@ -603,11 +610,12 @@
       if (!res.ok) { errMsg.textContent=data.error||'Failed. Try again.'; errMsg.classList.add('show'); return; }
       document.getElementById('form-area').style.display='none';
       document.getElementById('success-area').classList.add('show');
+      confetti();
     } catch { errMsg.textContent='Network error.'; errMsg.classList.add('show'); }
     finally { sendBtn.disabled=false; btnTxt.textContent='Send anonymously'; btnSpin.classList.remove('show'); }
   }
   sendBtn.addEventListener('click', sendMessage);
-  textarea.addEventListener('keydown', e => { if(e.key==='Enter'&&(e.metaKey||e.ctrlKey)) sendMessage(); });
+  document.getElementById('msg-input')?.addEventListener('keydown', e => { if(e.key==='Enter'&&(e.metaKey||e.ctrlKey)) sendMessage(); });
   document.getElementById('send-again-btn').addEventListener('click', () => {
     textarea.value=''; charNum.textContent='0 / 500';
     ringFill.style.strokeDashoffset=String(CIRC); charText.className='char-text';
@@ -890,7 +898,7 @@
     rate:     { icon:'⭐', title:'Rate my vibe 1 to 10', sub:'Tap a number — no explanation needed', btnTxt:'Send rating', placeholder:null },
     hottake:  { icon:'🌶️', title:'Hot take about me. Go.', sub:'Say what you actually think — I can handle it', btnTxt:'Send hot take', placeholder:'Type your honest hot take...' },
     advice:   { icon:'💡', title:'Give me one piece of advice', sub:'Something you think I actually need to hear', btnTxt:'Send advice', placeholder:'What\'s your advice?' },
-    ai:       { icon:'✨', title:'Loading challenge…', sub:'AI-generated game · 100% anonymous', btnTxt:'Send my answer', placeholder:'Your answer...' },
+    ai:       { icon:'🎯', title:'Loading dare…', sub:'Answer honestly — completely anonymous', btnTxt:'Send my answer', placeholder:'Your honest answer...' },
   };
 
   // Still support ?type= as a manual override (for sharing specific types), but default is server mode
@@ -959,9 +967,14 @@
       if (rateArea) rateArea.style.display='';
       setupRateGrid();
     } else if (urlPromptType === 'ai') {
-      // Fetch AI game/challenge and update banner
-      fetch(`/api/groq?type=game&username=${encodeURIComponent(user)}`)
-        .then(r=>r.json()).then(d=>{ if((d.prompt||d.game) && bannerTitle) { bannerTitle.textContent = d.prompt || d.game; bannerSub.textContent = 'AI-generated challenge · 100% anonymous'; } }).catch(()=>{});
+      fetch(`/api/groq?type=dare&username=${encodeURIComponent(user)}`)
+        .then(r=>r.json()).then(d=>{
+          const dare = d.dare || d.game || d.prompt || '';
+          if (dare && bannerTitle) {
+            bannerTitle.textContent = dare;
+            if (bannerSub) bannerSub.textContent = 'Name dare · answer honestly · 100% anonymous';
+          }
+        }).catch(()=>{});
     }
 
     // Update button text
@@ -1047,25 +1060,6 @@
     return ta?.value.trim() || null;
   }
 
-  // Override sendMessage to use prompt-aware message building
-  const origSendMessage = sendMessage;
-  window.sendMessage = async function() {
-    if (document.getElementById('_hp').value) return;
-    const text = buildPromptMessage();
-    if (!text) {
-      const err = document.getElementById('err-msg');
-      if (err) { err.textContent='Fill in your response first.'; err.classList.add('show'); }
-      return;
-    }
-    const ta = document.getElementById('msg-input');
-    const origVal = ta?.value;
-    if (ta && urlPromptType !== 'ask' && !['hottake','advice','ai'].includes(urlPromptType)) {
-      ta.value = text; // Temporarily set for sendMessage to pick up
-    }
-    await origSendMessage();
-    if (ta && origVal !== undefined) ta.value = origVal;
-  };
-
   // Init prompt UI
   setupPromptUI();
 
@@ -1089,91 +1083,157 @@
   function drawStory() {
     const canvas = document.getElementById('ask-canvas');
     const ctx    = canvas.getContext('2d');
-    const W=1080, H=1920;
+    const W=1080, H=1920, PAD=80;
 
-    // ── Per-prompt poster configs ──────────────────────────────────────
     const POSTER = {
-      ask:     { grad:['#ff477e','#ff6b35','#ffbf69'], orbs:['#ff6b35','#ff477e'], headline:'Ask me anything', sub:'Send something honest — I\'ll never know it was you', btn:'Send anonymously →', param:'' },
-      hottake: { grad:['#c026d3','#ff477e','#ff6b35'], orbs:['#c026d3','#ff477e'], headline:'Hot take about me. Go.', sub:'Say what you actually think. I can handle it.', btn:'Send your hot take →', param:'?type=hottake' },
-      advice:  { grad:['#ff6b35','#ffbf69','#fde68a'], orbs:['#ffbf69','#ff6b35'], headline:'Give me one piece of advice', sub:'Something you think I actually need to hear.', btn:'Give me advice →', param:'?type=advice' },
-      trust:   { grad:['#34d399','#059669','#10b981'], orbs:['#34d399','#059669'], headline:'How well do you know me?', sub:'Pick your trust level — completely anonymous.', btn:'Pick your level →', param:'?type=trust' },
-      rate:    { grad:['#fbbf24','#f59e0b','#ff6b35'], orbs:['#fbbf24','#f59e0b'], headline:'Rate my vibe 1 to 10', sub:'Tap a number — no explanation needed.', btn:'Rate my vibe →', param:'?type=rate' },
-      '3words':{ grad:['#60a5fa','#6366f1','#a78bfa'], orbs:['#60a5fa','#6366f1'], headline:'Describe me in 3 words', sub:'No more, no less — be creative.', btn:'Send 3 words →', param:'?type=3words' },
-      ai:      { grad:['#a78bfa','#7c3aed','#ff477e'], orbs:['#a78bfa','#7c3aed'], headline: document.getElementById('prompt-banner-title')?.textContent || 'Play this game 🎮', sub:'AI-generated challenge · 100% anonymous', btn:'Answer the challenge →', param:'?type=ai' },
+      ask:     { grad:['#ff477e','#ff6b35','#ffbf69'], headline:'Ask me anything', sub:'Send something honest — I\'ll never know it was you', btn:'Send anonymously →' },
+      hottake: { grad:['#c026d3','#ff477e','#ff6b35'], headline:'Hot take about me. Go.', sub:'Say what you actually think. I can handle it.', btn:'Send your hot take →' },
+      advice:  { grad:['#ff6b35','#ffbf69','#fde68a'], headline:'Give me one piece of advice', sub:'Something you think I actually need to hear.', btn:'Give me advice →' },
+      trust:   { grad:['#34d399','#059669','#10b981'], headline:'How well do you know me?', sub:'Pick your trust level — completely anonymous.', btn:'Pick your level →' },
+      rate:    { grad:['#fbbf24','#f59e0b','#ff6b35'], headline:'Rate my vibe 1 to 10', sub:'Tap a number — no explanation needed.', btn:'Rate my vibe →' },
+      '3words':{ grad:['#60a5fa','#6366f1','#a78bfa'], headline:'Describe me in 3 words', sub:'No more, no less — be creative.', btn:'Send 3 words →' },
+      ai:      { grad:['#a78bfa','#7c3aed','#ff477e'], headline: document.getElementById('prompt-banner-title')?.textContent || 'Name dare 🎯', sub:'Answer honestly — 100% anonymous', btn:'Answer the dare →' },
     };
     const pt = POSTER[urlPromptType] || POSTER.ask;
-    const link = `${location.origin}/ask/${user}${pt.param}`;
 
-    // Background gradient
-    const bg = ctx.createLinearGradient(0,0,W,H);
-    bg.addColorStop(0,'#0d0a08'); bg.addColorStop(1,'#120d0a');
-    ctx.fillStyle=bg; ctx.fillRect(0,0,W,H);
-
-    // Orbs
-    const orb=(x,y,r,c,a)=>{
-      const g=ctx.createRadialGradient(x,y,0,x,y,r);
+    // ── Helpers ───────────────────────────────────────────────────────────────
+    function mkGrad(stops) {
+      const g = ctx.createLinearGradient(0,0,W,H);
+      stops.forEach(([pos,col]) => g.addColorStop(pos,col));
+      return g;
+    }
+    function orb(x,y,r,c,a) {
+      const g = ctx.createRadialGradient(x,y,0,x,y,r);
       g.addColorStop(0,c+Math.round(a*255).toString(16).padStart(2,'0'));
       g.addColorStop(1,c+'00');
       ctx.fillStyle=g; ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2); ctx.fill();
-    };
-    orb(160,340,520,pt.orbs[0],0.42); orb(920,1580,440,pt.orbs[1],0.32);
+    }
+    // Returns array of lines that fit within maxW
+    function breakLines(text, font, maxW) {
+      ctx.font = font;
+      const words = text.split(' '); const lines = []; let line = '';
+      for (const w of words) {
+        const test = line ? line+' '+w : w;
+        if (ctx.measureText(test).width > maxW && line) { lines.push(line); line = w; }
+        else line = test;
+      }
+      if (line) lines.push(line);
+      return lines;
+    }
+    function drawLines(lines, font, color, startY, lineH) {
+      ctx.font = font; ctx.fillStyle = color;
+      lines.forEach((l,i) => ctx.fillText(l, W/2, startY + i*lineH));
+      return startY + lines.length * lineH;
+    }
+
+    // ── Background ────────────────────────────────────────────────────────────
+    const bg = ctx.createLinearGradient(0,0,W,H);
+    bg.addColorStop(0,'#0d0a08'); bg.addColorStop(1,'#1a100a');
+    ctx.fillStyle=bg; ctx.fillRect(0,0,W,H);
+    orb(160,360,560,pt.grad[0],0.38); orb(920,1560,460,pt.grad[2]||pt.grad[1],0.28);
 
     ctx.textAlign='center';
 
-    // Brand
-    ctx.font='700 44px sans-serif'; ctx.fillStyle='rgba(255,248,240,0.5)';
-    ctx.fillText('@ AskThat',W/2,180);
+    // ── Brand ─────────────────────────────────────────────────────────────────
+    ctx.font='600 40px sans-serif'; ctx.fillStyle='rgba(255,248,240,0.4)';
+    ctx.fillText('@ AskThat', W/2, 150);
 
-    // Avatar circle
+    // ── Avatar ────────────────────────────────────────────────────────────────
+    const AV_Y=340, AV_R=100;
     ctx.fillStyle='rgba(255,255,255,0.1)';
-    ctx.beginPath(); ctx.arc(W/2,400,110,0,Math.PI*2); ctx.fill();
-    // Avatar ring gradient
-    const ringGrad = ctx.createLinearGradient(W/2-110,400-110,W/2+110,400+110);
-    ringGrad.addColorStop(0, pt.grad[0]); ringGrad.addColorStop(1, pt.grad[2]);
-    ctx.strokeStyle=ringGrad; ctx.lineWidth=5;
-    ctx.beginPath(); ctx.arc(W/2,400,110,0,Math.PI*2); ctx.stroke();
-    ctx.font='700 90px sans-serif'; ctx.fillStyle='#fff8f0';
-    ctx.fillText(user.charAt(0).toUpperCase(),W/2,436);
+    ctx.beginPath(); ctx.arc(W/2,AV_Y,AV_R,0,Math.PI*2); ctx.fill();
+    const ringG = ctx.createLinearGradient(W/2-AV_R,AV_Y-AV_R,W/2+AV_R,AV_Y+AV_R);
+    ringG.addColorStop(0,pt.grad[0]); ringG.addColorStop(1,pt.grad[pt.grad.length-1]);
+    ctx.strokeStyle=ringG; ctx.lineWidth=5;
+    ctx.beginPath(); ctx.arc(W/2,AV_Y,AV_R,0,Math.PI*2); ctx.stroke();
+    ctx.font='700 84px sans-serif'; ctx.fillStyle='#fff8f0';
+    ctx.fillText(user.charAt(0).toUpperCase(), W/2, AV_Y+30);
 
-    // Username
-    ctx.font='800 70px sans-serif'; ctx.fillStyle='#fff8f0';
-    ctx.fillText(user,W/2,590);
+    // ── Username ──────────────────────────────────────────────────────────────
+    ctx.font='800 62px sans-serif'; ctx.fillStyle='#fff8f0';
+    ctx.fillText(user.length > 14 ? user.slice(0,14)+'…' : user, W/2, AV_Y+AV_R+90);
 
-    // Decorative line
-    const lineGrad = ctx.createLinearGradient(W/2-300,0,W/2+300,0);
-    lineGrad.addColorStop(0,'transparent'); lineGrad.addColorStop(0.5,pt.grad[1]+'aa'); lineGrad.addColorStop(1,'transparent');
-    ctx.strokeStyle=lineGrad; ctx.lineWidth=2;
-    ctx.beginPath(); ctx.moveTo(W/2-300,640); ctx.lineTo(W/2+300,640); ctx.stroke();
+    // ── Divider ───────────────────────────────────────────────────────────────
+    const DIV_Y = AV_Y+AV_R+130;
+    const divG = ctx.createLinearGradient(PAD,0,W-PAD,0);
+    divG.addColorStop(0,'transparent'); divG.addColorStop(0.5,pt.grad[1]+'88'); divG.addColorStop(1,'transparent');
+    ctx.strokeStyle=divG; ctx.lineWidth=1.5;
+    ctx.beginPath(); ctx.moveTo(PAD,DIV_Y); ctx.lineTo(W-PAD,DIV_Y); ctx.stroke();
 
-    // Headline
-    ctx.font='800 102px sans-serif'; ctx.fillStyle='#fff8f0';
-    wrapText(ctx, pt.headline, W/2, 820, 880, 118);
+    // ── Headline (auto-size to fit in box) ────────────────────────────────────
+    const MAX_TXT_W = W - PAD*2 - 40;
+    let hFont, hLines, hSize=100;
+    do {
+      hSize -= 6;
+      hFont = `800 ${hSize}px sans-serif`;
+      hLines = breakLines(pt.headline, hFont, MAX_TXT_W);
+    } while (hLines.length > 3 && hSize > 52);
+    const H_LINE_H = Math.round(hSize * 1.25);
+    const H_BLOCK  = hLines.length * H_LINE_H;
 
+    // ── Sub text ──────────────────────────────────────────────────────────────
+    let sFont, sLines, sSize=46;
+    do {
+      sSize -= 4;
+      sFont = `400 ${sSize}px sans-serif`;
+      sLines = breakLines(pt.sub, sFont, MAX_TXT_W - 40);
+    } while (sLines.length > 3 && sSize > 28);
+    const S_LINE_H = Math.round(sSize * 1.3);
+    const S_BLOCK  = sLines.length * S_LINE_H;
+
+    // ── Card ──────────────────────────────────────────────────────────────────
+    const CARD_PAD = 70;
+    const CARD_INNER_H = 60 + H_BLOCK + 32 + S_BLOCK + 50;
+    const CARD_H = Math.max(CARD_INNER_H, 480);
+    const CARD_Y = DIV_Y + 40;
+    const CARD_X = PAD;
+    const CARD_W = W - PAD*2;
+
+    const cardG = ctx.createLinearGradient(CARD_X,CARD_Y,CARD_X+CARD_W,CARD_Y+CARD_H);
+    cardG.addColorStop(0,'rgba(255,255,255,0.09)'); cardG.addColorStop(1,'rgba(255,255,255,0.04)');
+    ctx.fillStyle=cardG; ctx.strokeStyle='rgba(255,255,255,0.15)'; ctx.lineWidth=1.5;
+    ctx.beginPath(); ctx.roundRect(CARD_X,CARD_Y,CARD_W,CARD_H,44); ctx.fill(); ctx.stroke();
+
+    // Headline inside card
+    let cy = CARD_Y + CARD_PAD;
+    ctx.fillStyle='#fff8f0';
+    hLines.forEach(l => { ctx.font=hFont; ctx.fillText(l, W/2, cy); cy += H_LINE_H; });
+    cy += 28;
     // Subtitle
-    ctx.font='400 50px sans-serif'; ctx.fillStyle='rgba(255,248,240,0.60)';
-    wrapText(ctx, pt.sub, W/2, 1080, 820, 64);
+    ctx.fillStyle='rgba(255,248,240,0.58)';
+    sLines.forEach(l => { ctx.font=sFont; ctx.fillText(l, W/2, cy); cy += S_LINE_H; });
 
-    // CTA button
-    const btnGrad = ctx.createLinearGradient(W/2-280,0,W/2+280,0);
-    btnGrad.addColorStop(0, pt.grad[0]);
-    btnGrad.addColorStop(0.5, pt.grad[1]);
-    btnGrad.addColorStop(1, pt.grad[2]);
-    ctx.fillStyle = btnGrad;
-    ctx.beginPath(); ctx.roundRect(W/2-280,1250,560,120,60); ctx.fill();
-    ctx.font='700 46px sans-serif'; ctx.fillStyle='#fff';
-    ctx.fillText(pt.btn, W/2, 1327);
+    // ── CTA button ────────────────────────────────────────────────────────────
+    const BTN_Y = CARD_Y + CARD_H + 60;
+    const BTN_W = Math.min(700, W - PAD*2);
+    const BTN_H = 112;
+    const BTN_X = (W-BTN_W)/2;
+    const btnG = ctx.createLinearGradient(BTN_X,0,BTN_X+BTN_W,0);
+    btnG.addColorStop(0,pt.grad[0]); btnG.addColorStop(0.5,pt.grad[1]); btnG.addColorStop(1,pt.grad[pt.grad.length-1]);
+    ctx.fillStyle=btnG;
+    ctx.beginPath(); ctx.roundRect(BTN_X,BTN_Y,BTN_W,BTN_H,56); ctx.fill();
+    // Button label — auto-fit
+    let bSize=44;
+    while (ctx.measureText(pt.btn).width > BTN_W-60 && bSize > 28) { bSize -= 2; ctx.font=`700 ${bSize}px sans-serif`; }
+    ctx.font=`700 ${bSize}px sans-serif`; ctx.fillStyle='#fff';
+    ctx.fillText(pt.btn, W/2, BTN_Y+BTN_H/2+bSize*0.35);
 
-    // Link box
-    ctx.fillStyle='rgba(255,255,255,0.08)'; ctx.strokeStyle='rgba(255,255,255,0.2)'; ctx.lineWidth=2;
-    ctx.beginPath(); ctx.roundRect(W/2-380,1430,760,110,55); ctx.fill(); ctx.stroke();
-    ctx.font='bold 36px sans-serif'; ctx.fillStyle=pt.grad[0];
-    ctx.fillText(link.replace('https://',''), W/2, 1500);
+    // ── Link pill ─────────────────────────────────────────────────────────────
+    const LINK_Y = BTN_Y + BTN_H + 48;
+    const linkText = `askthat.pages.dev/ask/${user}`;
+    ctx.font='500 32px sans-serif';
+    const linkW = Math.min(ctx.measureText(linkText).width+80, W-PAD*2);
+    ctx.fillStyle='rgba(255,255,255,0.07)'; ctx.strokeStyle='rgba(255,255,255,0.18)'; ctx.lineWidth=1.5;
+    ctx.beginPath(); ctx.roundRect((W-linkW)/2,LINK_Y,linkW,88,44); ctx.fill(); ctx.stroke();
+    ctx.fillStyle=pt.grad[0]; ctx.font='600 32px sans-serif';
+    ctx.fillText(linkText, W/2, LINK_Y+54);
 
-    // Footer
-    ctx.font='400 32px sans-serif'; ctx.fillStyle='rgba(255,248,240,0.25)';
-    ctx.fillText('100% anonymous · askthat.pages.dev', W/2, 1840);
+    // ── Footer ────────────────────────────────────────────────────────────────
+    ctx.font='400 28px sans-serif'; ctx.fillStyle='rgba(255,248,240,0.22)';
+    ctx.fillText('100% anonymous · askthat.pages.dev', W/2, H-60);
   }
 
+    // ── Per-prompt poster configs ──────────────────────────────────────
   function wrapText(ctx,text,x,y,maxW,lh){
     const words=text.split(' '); let line='',cy=y;
     for(const w of words){
