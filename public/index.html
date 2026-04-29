@@ -5,18 +5,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=0.9, viewport-fit=cover">
   <link rel="canonical" href="https://askthat.pages.dev">
   <meta name="google-site-verification" content="1cIP8Y5Xf6O5GOeWqWvDquYAe8mI1JjlfXgCe4M9B-E" />
-  <title>AskThat — Anonymous Q&A</title>
+  <title>@AskThat — Anonymous Q&A</title>
   <meta name="description" content="Create your anonymous Q&A link. Find out what people really think about you. No accounts. No excuses.">
-  <meta property="og:title" content="AskThat — Anonymous Q&A">
+  <meta property="og:title" content="@AskThat — Anonymous Q&A">
+  <meta property="og:site_name" content="@AskThat">
   <meta property="og:description" content="Find out what people really think. Create your link, share it, receive honest anonymous messages.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://askthat.pages.dev">
   <meta property="og:image" content="https://askthat.pages.dev/og.png">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="AskThat — Anonymous Q&A">
+  <meta name="twitter:title" content="@AskThat — Anonymous Q&A">
   <meta name="twitter:description" content="Find out what people really think. Anonymous. Honest. Free.">
   <meta name="theme-color" content="#0d0a08">
+  <meta name="robots" content="index, follow, max-image-preview:large">
   <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="192x192" href="/icon-192x192.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/icon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/icon-16x16.png">
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
@@ -553,44 +556,72 @@
       .trust { gap: 20px; }
     }
   </style>
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "WebSite",
-        "@id": "https://askthat.pages.dev/#website",
-        "name": "AskThat",
-        "url": "https://askthat.pages.dev",
-        "description": "Create your anonymous Q&A link. Find out what people really think about you. No accounts. No excuses.",
-        "potentialAction": {
-          "@type": "SearchAction",
-          "target": "https://askthat.pages.dev/ask/{search_term_string}",
-          "query-input": "required name=search_term_string"
-        }
-      },
-      {
-        "@type": "WebApplication",
-        "@id": "https://askthat.pages.dev/#app",
-        "name": "AskThat — Anonymous Q&A",
-        "url": "https://askthat.pages.dev",
-        "applicationCategory": "SocialNetworkingApplication",
-        "operatingSystem": "Any",
-        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
-        "description": "Create your anonymous Q&A link. Share it anywhere. Receive honest anonymous messages.",
-        "featureList": "Anonymous messaging, Self-destructing messages, Story card sharing, No sign-up required"
-      },
-      {
-        "@type": "Organization",
-        "@id": "https://askthat.pages.dev/#org",
-        "name": "AskThat",
-        "url": "https://askthat.pages.dev",
-        "logo": "https://askthat.pages.dev/og.png"
-      }
-    ]
-  }
-  </script>
+  
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
 
+    {
+      "@type": "Organization",
+      "@id": "https://askthat.pages.dev/#org",
+      "name": "AskThat",
+      "alternateName": "@AskThat",
+      "url": "https://askthat.pages.dev",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://askthat.pages.dev/icon-512x512.png"
+      },
+      "sameAs": [
+        "https://x.com/Ask__that"
+      ]
+    },
+
+    {
+      "@type": "WebSite",
+      "@id": "https://askthat.pages.dev/#website",
+      "url": "https://askthat.pages.dev",
+      "name": "AskThat",
+      "alternateName": "@AskThat",
+      "description": "Create your anonymous Q&A link. Find out what people really think about you. No accounts. No excuses.",
+      "publisher": {
+        "@id": "https://askthat.pages.dev/#org"
+      },
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://askthat.pages.dev/?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    },
+
+    {
+      "@type": "WebApplication",
+      "@id": "https://askthat.pages.dev/#app",
+      "name": "AskThat — Anonymous Q&A",
+      "alternateName": "@AskThat",
+      "url": "https://askthat.pages.dev",
+      "applicationCategory": "SocialNetworkingApplication",
+      "operatingSystem": "Any",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "publisher": {
+        "@id": "https://askthat.pages.dev/#org"
+      },
+      "featureList": [
+        "Anonymous messaging",
+        "Self-destructing messages",
+        "Story card sharing",
+        "No sign-up required"
+      ],
+      "description": "Create your anonymous Q&A link. Share it anywhere. Receive honest anonymous messages."
+    }
+
+  ]
+}
+</script>
 <script>
   (function() {
     try {
