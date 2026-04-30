@@ -39,7 +39,7 @@
     body::before { content:''; position: fixed; inset:0; z-index:1; pointer-events:none; background-image: radial-gradient(ellipse at 1px 1px, rgba(255,248,240,0.04) 1px, transparent 0); background-size: 3px 3px; opacity:0.5; }
 
     /* ── Layout ── */
-    .page { max-width: 720px; margin: 0 auto; padding: 20px 16px 80px; position: relative; z-index: 2; }
+    .page { max-width: 720px; margin: 0 auto; padding: 24px 16px 100px; position: relative; z-index: 2; }
 
     /* ── Nav ── */
     .top-nav { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; gap: 10px; flex-wrap: wrap; }
@@ -60,11 +60,11 @@
     .btn-sm.pu:hover { background: rgba(124,58,237,.25); }
 
     /* ── Stats Bar ── */
-    .stats-bar { display: grid; grid-template-columns: repeat(2,1fr); gap: 8px; margin-bottom: 16px; }
-    .stat-card { background: var(--card); border: 1px solid var(--border2); border-radius: var(--r-sm); padding: 12px 14px; text-align: center; transition: border-color .2s; }
+    .stats-bar { display: grid; grid-template-columns: repeat(2,1fr); gap: 10px; margin-bottom: 20px; }
+    .stat-card { background: var(--card); border: 1px solid var(--border2); border-radius: var(--r-sm); padding: 18px 14px; text-align: center; transition: border-color .2s; }
     .stat-card:hover { border-color: rgba(255,107,53,.25); }
-    .stat-val { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 22px; letter-spacing: -1px; background: var(--grad-t); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-    .stat-lbl { font-size: 11px; color: var(--text3); margin-top: 1px; text-transform: uppercase; letter-spacing: .05em; }
+    .stat-val { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 28px; letter-spacing: -1px; background: var(--grad-t); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .stat-lbl { font-size: 11px; color: var(--text3); margin-top: 4px; text-transform: uppercase; letter-spacing: .06em; font-weight: 500; }
 
     /* ── New message banner ── */
     .new-banner { background: linear-gradient(135deg,rgba(232,68,138,.12),rgba(255,107,53,.12)); border: 1px solid rgba(255,107,53,.26); border-radius: 14px; padding: 12px 18px; display: none; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 14px; flex-wrap: wrap; animation: slideDown .35s ease both; }
@@ -76,7 +76,7 @@
     .btn-banner:hover { opacity: .85; }
 
     /* ── Profile Header ── */
-    .profile-hdr { background: linear-gradient(160deg,rgba(111,76,255,.09),rgba(111,76,255,.02)); border: 1px solid var(--border); border-radius: 20px; padding: 20px 22px; display: flex; align-items: center; gap: 16px; margin-bottom: 14px; position: relative; overflow: hidden; }
+    .profile-hdr { background: linear-gradient(160deg,rgba(111,76,255,.09),rgba(111,76,255,.02)); border: 1px solid var(--border); border-radius: 20px; padding: 22px 24px; display: flex; align-items: center; gap: 18px; margin-bottom: 20px; position: relative; overflow: hidden; }
     .profile-hdr::before { content:''; position:absolute; inset:0; background:linear-gradient(120deg,rgba(255,107,53,.06),transparent 55%); pointer-events:none; }
     .avatar { width: 54px; height: 54px; border-radius: 50%; background: var(--grad); display: flex; align-items: center; justify-content: center; font-family:'Syne',sans-serif; font-weight: 800; font-size: 22px; color: #fff; flex-shrink: 0; box-shadow: 0 0 0 3px rgba(255,107,53,.22); }
     .profile-info { flex: 1; min-width: 0; }
@@ -85,7 +85,7 @@
     .link-pill span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
     /* ── Toolbar ── */
-    .toolbar { display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap; align-items: center; }
+    .toolbar { display: flex; gap: 10px; margin-bottom: 14px; flex-wrap: wrap; align-items: center; }
     .search-wrap { flex: 1; min-width: 180px; position: relative; }
     .search-ico { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--text3); pointer-events: none; }
     .search-input { width: 100%; background: rgba(255,255,255,.04); border: 1px solid var(--border2); border-radius: 100px; padding: 9px 14px 9px 36px; font-size: 14px; font-family:'DM Sans',sans-serif; color: var(--text); outline: none; transition: border-color .2s, box-shadow .2s; }
@@ -95,7 +95,7 @@
     .sort-select:focus { border-color: var(--primary); }
 
     /* ── Tabs ── */
-    .tabs { display: flex; gap: 4px; margin-bottom: 14px; background: rgba(255,255,255,.03); border: 1px solid var(--border2); border-radius: 100px; padding: 4px; width: fit-content; }
+    .tabs { display: flex; gap: 4px; margin-bottom: 16px; background: rgba(255,255,255,.03); border: 1px solid var(--border2); border-radius: 100px; padding: 5px; width: fit-content; }
     .tab { padding: 7px 16px; border-radius: 100px; font-size: 13px; font-weight: 500; cursor: pointer; transition: all .18s; border: none; background: transparent; color: var(--text3); display: flex; align-items: center; gap: 6px; white-space: nowrap; }
     .tab .tab-count { background: rgba(255,255,255,.08); border-radius: 100px; padding: 1px 7px; font-size: 11px; font-weight: 600; }
     .tab.active { background: var(--grad); color: #fff; box-shadow: 0 2px 12px rgba(255,107,53,.28); }
@@ -110,7 +110,7 @@
     .btn-bulk-cancel { background: rgba(255,255,255,.06); border: 1px solid var(--border2); color: var(--text2); border-radius: 8px; padding: 6px 14px; font-size: 13px; font-weight: 500; cursor: pointer; }
 
     /* ── Message Cards — redesigned ── */
-    .msgs-list { display: flex; flex-direction: column; gap: 10px; }
+    .msgs-list { display: flex; flex-direction: column; gap: 12px; }
 
     .msg-card {
       background: linear-gradient(160deg, rgba(255,200,130,0.07) 0%, rgba(255,107,53,0.03) 100%);
@@ -137,7 +137,7 @@
     .msg-card.mood-weird::before     { background:linear-gradient(180deg,#fb923c,#f43f5e); }
     .msg-card.mood-spicy::before     { background:linear-gradient(180deg,#ff477e,#ff6b35); }
 
-    .card-inner { padding: 16px 18px 14px 22px; }
+    .card-inner { padding: 20px 20px 16px 24px; }
 
     /* Big decorative quote mark */
     .card-quote-mark {
@@ -244,8 +244,6 @@
     .bnav-tab { padding:11px 8px 17px; gap:4px; }
 
     /* ── Poll Results ── */
-    .poll-section { background: var(--card); border: 1px solid var(--border2); border-radius: var(--r); padding: 20px; margin-bottom: 14px; display: none; }
-    .poll-section.show { display: block; }
     .poll-section-title { font-family:'Syne',sans-serif; font-weight: 700; font-size: 14px; margin-bottom: 14px; display: flex; align-items: center; gap: 7px; }
     .poll-cat { margin-bottom: 14px; }
     .poll-cat:last-child { margin-bottom: 0; }
@@ -381,17 +379,17 @@
     .btn-poll-share-result:hover { background:rgba(255,107,53,.22); border-color:rgba(255,107,53,.5); }
 
     /* ── Poll question result card ── */
-    .poll-res-q { margin-bottom:18px; padding:14px 16px; background:rgba(255,255,255,.03); border:1px solid var(--border2); border-radius:14px; }
+    .poll-res-q { margin-bottom:20px; padding:20px; background:rgba(255,255,255,.03); border:1px solid var(--border2); border-radius:16px; }
     .poll-res-q:last-child { margin-bottom:0; }
-    .poll-res-q-title { font-size:13px; font-weight:600; color:var(--text); margin-bottom:12px; line-height:1.4; }
-    .poll-res-opts { display:flex; flex-direction:column; gap:8px; }
-    .poll-res-row { display:flex; flex-direction:column; gap:4px; }
-    .poll-res-row-top { display:flex; align-items:center; justify-content:space-between; }
-    .poll-res-label { font-size:13px; color:var(--text2); }
-    .poll-res-meta { font-size:12px; color:var(--text3); display:flex; gap:8px; }
-    .poll-res-track { width:100%; height:8px; background:rgba(255,255,255,.07); border-radius:100px; overflow:hidden; }
-    .poll-res-fill { height:100%; background:var(--grad); border-radius:100px; transition:width .7s cubic-bezier(.4,0,.2,1); }
-    .poll-res-fill.leader { background:linear-gradient(90deg,#ff477e,#ff6b35); box-shadow:0 0 8px rgba(255,107,53,.4); }
+    .poll-res-q-title { font-size:15px; font-weight:700; color:var(--text); margin-bottom:16px; line-height:1.4; }
+    .poll-res-opts { display:flex; flex-direction:column; gap:14px; }
+    .poll-res-row { display:flex; flex-direction:column; gap:8px; }
+    .poll-res-row-top { display:flex; align-items:center; justify-content:space-between; margin-bottom:2px; }
+    .poll-res-label { font-size:14px; color:var(--text); font-weight:500; }
+    .poll-res-meta { font-size:13px; color:var(--text2); display:flex; gap:10px; font-weight:500; }
+    .poll-res-track { width:100%; height:32px; background:rgba(255,255,255,.07); border-radius:10px; overflow:hidden; }
+    .poll-res-fill { height:100%; background:var(--grad); border-radius:10px; transition:width .7s cubic-bezier(.4,0,.2,1); }
+    .poll-res-fill.leader { background:linear-gradient(90deg,#ff477e,#ff6b35); box-shadow:0 0 12px rgba(255,107,53,.5); }
 
     /* ── Poll poster modal ── */
     .poll-poster-modal { position:fixed; inset:0; background:rgba(0,0,0,.8); z-index:8000; display:flex; align-items:center; justify-content:center; padding:20px; opacity:0; pointer-events:none; transition:opacity .2s; }
@@ -406,7 +404,7 @@
     .confirm-overlay.show { opacity:1; pointer-events:all; }
     .confirm-box { background:#1a1208; border:1px solid rgba(255,200,130,.15); border-radius:20px; padding:28px 24px; max-width:340px; width:100%; text-align:center; transform:scale(.94); transition:transform .2s; }
     .confirm-overlay.show .confirm-box { transform:scale(1); }
-    .confirm-icon { font-size:36px; margin-bottom:10px; }
+    .confirm-icon { display:flex; align-items:center; justify-content:center; margin-bottom:14px; }
     .confirm-title { font-family:'Syne',sans-serif; font-size:18px; font-weight:700; margin-bottom:8px; }
     .confirm-desc { font-size:13px; color:var(--text2); line-height:1.55; margin-bottom:22px; }
     .confirm-btns { display:flex; gap:10px; }
@@ -493,7 +491,8 @@
     .mode-card { padding:14px; background:var(--card); border:1px solid var(--border2); border-radius:16px; cursor:pointer; transition:all .2s; text-align:left; }
     .mode-card:hover { border-color:rgba(255,107,53,.3); background:rgba(255,107,53,.06); }
     .mode-card.active { border-color:var(--primary); background:rgba(255,107,53,.1); }
-    .mode-card-icon { font-size:22px; margin-bottom:6px; }
+    .mode-card-icon { width:32px; height:32px; display:flex; align-items:center; justify-content:center; margin-bottom:8px; color:var(--text2); }
+    .mode-card.active .mode-card-icon { color:var(--primary); }
     .mode-card-title { font-size:13px; font-weight:700; color:var(--text); margin-bottom:2px; }
     .mode-card-sub { font-size:11px; color:var(--text3); line-height:1.4; }
     .mode-card.active .mode-card-title { color:var(--primary); }
@@ -517,8 +516,9 @@
     .poll-toggle-info strong { font-size:14px; font-weight:600; display:block; margin-bottom:3px; }
     .poll-toggle-info span { font-size:12px; color:var(--text3); }
 
-    .poll-results-wrap { margin-bottom:18px; }
-    .poll-results-title { font-size:12px; font-weight:600; text-transform:uppercase; letter-spacing:.07em; color:var(--text3); margin-bottom:10px; }
+    .poll-results-section { background:var(--card); border:1px solid var(--border2); border-radius:18px; padding:20px; margin-bottom:18px; }
+    .poll-results-wrap { margin-bottom:0; }
+    .poll-results-title { font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:.08em; color:var(--text3); margin-bottom:16px; display:flex; align-items:center; justify-content:space-between; }
 
     .poll-editor-wrap { }
     .poll-editor-title { font-size:12px; font-weight:600; text-transform:uppercase; letter-spacing:.07em; color:var(--text3); margin-bottom:10px; }
@@ -552,7 +552,7 @@
   </div>
 
   <div class="new-banner" id="new-banner">
-    <span class="new-banner-txt">✨ <strong id="new-banner-count">New messages</strong> arrived!</span>
+    <span class="new-banner-txt"><strong id="new-banner-count">New messages</strong> arrived</span>
     <button class="btn-banner" id="btn-load-new">See →</button>
   </div>
 
@@ -596,18 +596,34 @@
           <button class="btn-link-share" id="btn-link-share-native">Share</button>
         </div>
       </div>
+      <div class="rename-section" style="margin-bottom:18px">
+        <div class="mode-section-label" style="margin-bottom:10px">
+          <span>Custom link username</span>
+          <span style="font-size:10px;color:var(--text3);font-weight:400;text-transform:none;letter-spacing:0">Change your link URL</span>
+        </div>
+        <div class="rename-row" style="display:flex;gap:8px;align-items:center">
+          <div style="flex:1;position:relative">
+            <span style="position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:12px;color:var(--text3);pointer-events:none">askthat.pages.dev/ask/</span>
+            <input id="rename-input" type="text" autocomplete="off" spellcheck="false"
+              style="width:100%;background:rgba(255,255,255,.04);border:1px solid var(--border2);border-radius:12px;padding:11px 12px 11px 168px;font-size:13px;font-family:'DM Sans',sans-serif;color:var(--text);outline:none;transition:border-color .2s"
+              placeholder="username">
+          </div>
+          <button id="btn-rename" style="padding:11px 16px;background:rgba(255,107,53,.1);border:1px solid rgba(255,107,53,.25);border-radius:12px;color:var(--primary);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;transition:all .18s">Rename</button>
+        </div>
+        <p id="rename-note" style="font-size:12px;color:var(--text3);margin-top:7px"></p>
+      </div>
       <div class="mode-section-label">
         <span>Select mode</span>
         <span style="font-size:10px;color:var(--text3);font-weight:400;text-transform:none;letter-spacing:0">Saved automatically</span>
       </div>
       <div class="mode-grid" id="mode-grid">
-        <button class="mode-card active" data-type="ask"><div class="mode-card-icon">💬</div><div class="mode-card-title">Ask Me</div><div class="mode-card-sub">Open message</div></button>
-        <button class="mode-card" data-type="rate"><div class="mode-card-icon">⭐</div><div class="mode-card-title">Rate Me</div><div class="mode-card-sub">Vibe score 1–10</div></button>
-        <button class="mode-card" data-type="trust"><div class="mode-card-icon">🔒</div><div class="mode-card-title">Trust Level</div><div class="mode-card-sub">How well they know you</div></button>
-        <button class="mode-card" data-type="3words"><div class="mode-card-icon">✏️</div><div class="mode-card-title">3 Words</div><div class="mode-card-sub">Describe me exactly</div></button>
-        <button class="mode-card" data-type="advice"><div class="mode-card-icon">💡</div><div class="mode-card-title">Advice</div><div class="mode-card-sub">One thing to hear</div></button>
-        <button class="mode-card" data-type="yesno"><div class="mode-card-icon">🔮</div><div class="mode-card-title">Yes / No</div><div class="mode-card-sub">AI yes/no question</div></button>
-        <button class="mode-card" data-type="ai" id="mode-ai-card"><div class="mode-card-icon">🎯</div><div class="mode-card-title">Truth Dare</div><div class="mode-card-sub" id="mode-ai-sub">Spicy question ready</div></button>
+        <button class="mode-card active" data-type="ask"><div class="mode-card-icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M2 4a2 2 0 012-2h12a2 2 0 012 2v8a2 2 0 01-2 2H7l-4 3V4z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg></div><div class="mode-card-title">Ask Me</div><div class="mode-card-sub">Open message</div></button>
+        <button class="mode-card" data-type="rate"><div class="mode-card-icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 2l2.2 4.5L17 7.3l-3.5 3.4.8 4.8L10 13.3l-4.3 2.2.8-4.8L3 7.3l4.8-.8z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg></div><div class="mode-card-title">Rate Me</div><div class="mode-card-sub">Vibe score 1–10</div></button>
+        <button class="mode-card" data-type="trust"><div class="mode-card-icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="5" y="9" width="10" height="9" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M7 9V6a3 3 0 016 0v3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div><div class="mode-card-title">Trust Level</div><div class="mode-card-sub">How well they know you</div></button>
+        <button class="mode-card" data-type="3words"><div class="mode-card-icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M3 5h14M3 10h10M3 15h7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div><div class="mode-card-title">3 Words</div><div class="mode-card-sub">Describe me exactly</div></button>
+        <button class="mode-card" data-type="advice"><div class="mode-card-icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="8" stroke="currentColor" stroke-width="1.5"/><path d="M10 6v5M10 13v1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div><div class="mode-card-title">Advice</div><div class="mode-card-sub">One thing to hear</div></button>
+        <button class="mode-card" data-type="yesno"><div class="mode-card-icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="8" stroke="currentColor" stroke-width="1.5"/><path d="M7 10.5l2 2 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="mode-card-title">Yes / No</div><div class="mode-card-sub">AI yes/no question</div></button>
+        <button class="mode-card" data-type="ai" id="mode-ai-card"><div class="mode-card-icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 2l1.5 4h4l-3.2 2.4 1.2 4-3.5-2.5-3.5 2.5 1.2-4L4.5 6h4z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg></div><div class="mode-card-title">Truth Dare</div><div class="mode-card-sub" id="mode-ai-sub">Question ready</div></button>
       </div>
 
       <!-- Theme picker -->
@@ -638,8 +654,13 @@
         <div class="tog-wrap" id="poll-enable-tog" role="switch" aria-checked="false" tabindex="0"><div class="tog-inner"></div></div>
       </div>
       <div class="poll-results-wrap" id="poll-results-wrap" style="display:none">
-        <div class="poll-results-title">Live results</div>
-        <div id="poll-content"></div>
+        <div class="poll-results-section">
+          <div class="poll-results-title">
+            <span>Live poll results</span>
+            <button id="btn-poll-share-result" class="btn-poll-share-result" style="display:none">Share results</button>
+          </div>
+          <div id="poll-content"></div>
+        </div>
       </div>
       <div class="poll-editor-wrap">
         <div class="poll-editor-title">Questions</div>
@@ -676,12 +697,12 @@
     <h2 class="modal-title">Message Poster</h2>
     <p class="modal-sub">Share this as a story card.</p>
     <div class="poster-styles-row" role="group">
-      <button class="poster-style-pill active" data-style="fire">🔥 Fire</button>
-      <button class="poster-style-pill" data-style="dark">🌑 Dark</button>
-      <button class="poster-style-pill" data-style="neon">⚡ Neon</button>
-      <button class="poster-style-pill" data-style="pastel">🌸 Pastel</button>
-      <button class="poster-style-pill" data-style="midnight">🌙 Midnight</button>
-      <button class="poster-style-pill" data-style="holo">✨ Holo</button>
+      <button class="poster-style-pill active" data-style="fire">Fire</button>
+      <button class="poster-style-pill" data-style="dark">Dark</button>
+      <button class="poster-style-pill" data-style="neon">Neon</button>
+      <button class="poster-style-pill" data-style="pastel">Pastel</button>
+      <button class="poster-style-pill" data-style="midnight">Midnight</button>
+      <button class="poster-style-pill" data-style="holo">Holo</button>
     </div>
     <div class="story-gen-loading" id="story-gen-loading"><div class="spin-ring"></div><span>Generating…</span></div>
     <div id="story-preview-wrap" style="display:none"><canvas id="story-canvas" width="1080" height="1920" style="width:100%;border-radius:16px;display:block"></canvas></div>
@@ -699,7 +720,7 @@
 
 <div class="confirm-overlay" id="confirm-overlay" role="dialog" aria-modal="true">
   <div class="confirm-box">
-    <div class="confirm-icon" id="confirm-icon">🗑️</div>
+    <div class="confirm-icon" id="confirm-icon"><svg width="32" height="32" viewBox="0 0 32 32" fill="none"><path d="M6 8h20M13 8V6a1 1 0 011-1h4a1 1 0 011 1v2M14 14v8M18 14v8M8 8l1.5 17a1.5 1.5 0 001.5 1.5h10a1.5 1.5 0 001.5-1.5L24 8" stroke="#f87171" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
     <div class="confirm-title" id="confirm-title">Delete message?</div>
     <div class="confirm-desc" id="confirm-desc">This cannot be undone.</div>
     <div class="confirm-btns">
@@ -781,6 +802,7 @@
   const bulkCountTxt   = document.getElementById('bulk-count-txt');
   const loadMoreWrap   = document.getElementById('load-more-wrap');
   const pollContent    = document.getElementById('poll-content');
+  const pollSection    = document.getElementById('poll-results-wrap');
   const pollEnableTog  = document.getElementById('poll-enable-tog');
   const pollQsEditor   = document.getElementById('poll-questions-editor');
 
@@ -856,7 +878,7 @@
         // Save to server
         fetch('/api/get', { method:'POST', headers:{'Content-Type':'application/json'},
           body: JSON.stringify({ username:user, token:authToken, field:'theme', value:th.id })
-        }).then(()=>showToast('Theme saved ✓')).catch(()=>{});
+        }).then(()=>showToast('Theme saved')).catch(()=>{});
       });
       strip.appendChild(wrap);
     });
@@ -932,13 +954,13 @@
 
   // Link copy/share buttons in Link panel
   document.getElementById('btn-link-copy')?.addEventListener('click', () => {
-    navigator.clipboard.writeText(currentLink()).then(() => showToast('Link copied!')).catch(()=>{});
+    navigator.clipboard.writeText(currentLink()).then(() => showToast('Link copied')).catch(()=>{});
   });
   document.getElementById('btn-link-share-native')?.addEventListener('click', async () => {
     if (navigator.share) {
       try { await navigator.share({ url: currentLink(), title: `Ask ${user} anonymously` }); return; } catch(_){}
     }
-    navigator.clipboard.writeText(currentLink()).then(()=>showToast('Link copied!')).catch(()=>{});
+    navigator.clipboard.writeText(currentLink()).then(()=>showToast('Link copied')).catch(()=>{});
   });
 
   // ── 3-poster strip ────────────────────────────────────────────────────────
@@ -966,7 +988,7 @@
       canvas.style.width = '100%'; canvas.style.borderRadius = '12px'; canvas.style.display = 'block';
       const label  = document.createElement('div');
       label.className = 'poster-thumb-label';
-      label.textContent = ['🔥 Fire','🌑 Dark','⚡ Neon'][idx];
+      label.textContent = ['Fire','Dark','Neon'][idx];
       wrap.appendChild(canvas);
       wrap.appendChild(label);
       strip.appendChild(wrap);
@@ -1011,11 +1033,11 @@
     canvas.toBlob(async blob => {
       const file = new File([blob],'askthat-story.png',{type:'image/png'});
       const MODE_CAPTIONS = {
-        ask:'Ask me anything anonymously! 🙈',rate:`Rate ${user} out of 10 ⭐`,
-        trust:'How well do you know me? 🔒',advice:'Give me honest advice 💡',
-        '3words':`Describe ${user} in exactly 3 words ✏️`,
-        hottake:'Send me your hottest take 🌶️',ai:`Truth dare — about ${user} 🎯`,
-        yesno:`Yes or No — about ${user} 🔮`,
+        ask:'Ask me anything anonymously!',rate:`Rate ${user} out of 10`,
+        trust:'How well do you know me?',advice:'Give me honest advice',
+        '3words':`Describe ${user} in exactly 3 words`,
+        hottake:'Send your honest take',ai:`Truth dare — about ${user}`,
+        yesno:`Yes or No — about ${user}`,
       };
       const txt = `${MODE_CAPTIONS[currentMode]||MODE_CAPTIONS.ask}\n${currentLink()}`;
       if (navigator.canShare?.({files:[file]})) {
@@ -1068,7 +1090,7 @@
         if (nameEl && !nameEl.querySelector('.streak-pill')) {
           const pill = document.createElement('span');
           pill.className = 'streak-pill';
-          pill.textContent = `🔥 ${d.streak}-day streak`;
+          pill.textContent = `${d.streak}-day streak`;
           nameEl.appendChild(pill);
         }
       }
@@ -1131,9 +1153,9 @@
 
     if (!filtered.length) {
       const msgs = {
-        all:    ['📭','No messages yet','Share your link to start receiving anonymous messages.'],
-        unread: ['✓','All caught up','No unread messages.'],
-        pinned: ['📌','Nothing pinned yet','Pin messages to keep them here.'],
+        all:    ['<svg width="40" height="40" viewBox="0 0 40 40" fill="none"><rect x="4" y="8" width="32" height="24" rx="4" stroke="currentColor" stroke-width="1.5" opacity=".35"/><path d="M4 14l16 10 16-10" stroke="currentColor" stroke-width="1.5" opacity=".35"/></svg>','No messages yet','Share your link to start receiving anonymous messages.'],
+        unread: ['<svg width="40" height="40" viewBox="0 0 40 40" fill="none"><path d="M10 20l8 8 12-14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" opacity=".35"/></svg>','All caught up','No unread messages.'],
+        pinned: ['<svg width="40" height="40" viewBox="0 0 40 40" fill="none"><path d="M20 6v20M14 26l6 8 6-8M12 16l8-10 8 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity=".35"/></svg>','Nothing pinned yet','Pin messages to keep them here.'],
       };
       const [ico, t, s] = msgs[filter] || msgs.all;
       msgsList.innerHTML = `<div class="empty"><div class="empty-icon">${ico}</div><h3 class="empty-title">${t}</h3><p class="empty-sub">${s}</p></div>`;
@@ -1164,7 +1186,7 @@
 
     const age  = timeAgo(m.timestamp);
     const pollHTML = m.poll
-      ? `<div class="card-poll">${m.poll.vibe ? `<span class="poll-chip">😄 ${esc(m.poll.vibe)}</span>` : ''}${m.poll.know ? `<span class="poll-chip">🤝 ${esc(m.poll.know)}</span>` : ''}</div>`
+      ? `<div class="card-poll">${m.poll.vibe ? `<span class="poll-chip">${esc(m.poll.vibe)}</span>` : ''}${m.poll.know ? `<span class="poll-chip">${esc(m.poll.know)}</span>` : ''}</div>`
       : '';
     const moodChip = getMoodChip(m.text);
 
@@ -1219,8 +1241,8 @@
   const confirmOk      = document.getElementById('confirm-ok');
   const confirmCancel  = document.getElementById('confirm-cancel');
 
-  function showConfirm({ icon='🗑️', title='Are you sure?', desc='This cannot be undone.', okLabel='Delete', okDanger=true }) {
-    document.getElementById('confirm-icon').textContent  = icon;
+  function showConfirm({ icon='delete', title='Are you sure?', desc='This cannot be undone.', okLabel='Delete', okDanger=true }) {
+    // icon is SVG, already set in HTML
     document.getElementById('confirm-title').textContent = title;
     document.getElementById('confirm-desc').textContent  = desc;
     confirmOk.textContent = okLabel;
@@ -1244,7 +1266,7 @@
   });
 
   async function confirmDeleteMsg(id, cardEl) {
-    const confirmed = await showConfirm({ icon:'🗑️', title:'Delete message?', desc:'This message will be permanently deleted. It cannot be recovered.', okLabel:'Yes, delete' });
+    const confirmed = await showConfirm({ icon:'delete', title:'Delete message?', desc:'This message will be permanently deleted. It cannot be recovered.', okLabel:'Yes, delete' });
     if (!confirmed) return;
     if (cardEl) cardEl.style.opacity = '.4';
     try {
@@ -1305,7 +1327,7 @@
     if (!selected.size) return;
     const ids = [...selected];
     try {
-      const confirmed = await showConfirm({ icon:'🗑️', title:`Delete ${ids.length} message${ids.length>1?'s':''}?`, desc:'All selected messages will be permanently removed. This cannot be undone.', okLabel:'Yes, delete all' });
+      const confirmed = await showConfirm({ icon:'delete', title:`Delete ${ids.length} message${ids.length>1?'s':''}?`, desc:'All selected messages will be permanently removed. This cannot be undone.', okLabel:'Yes, delete all' });
     if (!confirmed) return;
     const res  = await fetch('/api/delete', { method:'DELETE', headers:{'Content-Type':'application/json'}, body:JSON.stringify({username:user, bulk:ids, token: authToken}) });
       const data = await res.json();
@@ -1352,7 +1374,7 @@
   // ── Delete account ────────────────────────────────────────────────────────
   document.getElementById('btn-del-account').addEventListener('click', async function() {
     const confirmed = await showConfirm({
-      icon: '⚠️',
+      icon: 'warn',
       title: 'Delete account?',
       desc: 'Your username, all messages and poll data will be permanently erased. You will be taken back to the home page.',
       okLabel: 'Delete account',
@@ -1425,11 +1447,10 @@
     }
 
     if (!questions.length) return;
-    pollSection.classList.add('show');
+    if (pollSection) { pollSection.style.display = ''; pollSection.classList.add('poll-results-visible'); }
 
     const grandTotal = questions.reduce((a,q)=>a+q.total,0);
-    const totalEl = document.getElementById('poll-total-votes');
-    if (totalEl) totalEl.textContent = grandTotal + ' vote' + (grandTotal!==1?'s':'');
+    // Total votes shown inline per question
 
     let html = '';
     questions.forEach(q => {
@@ -1456,6 +1477,7 @@
     // Wire share results button
     const shareBtn = document.getElementById('btn-poll-share-result');
     if (shareBtn) {
+      shareBtn.style.display = '';
       shareBtn.onclick = () => openPollPoster(questions);
     }
   }
@@ -1624,9 +1646,9 @@
       const lbl0=document.getElementById('poll-tog-label'), sub0=document.getElementById('poll-tog-sub');
       if(lbl0) lbl0.textContent = pollEnabled ? 'Poll enabled' : 'Poll disabled';
       if(sub0) sub0.textContent = pollEnabled ? 'Visitors see a poll tab on your link' : 'Enable to add a poll to your link';
-      if (data.enabled && pollStats) {
-        const wrap = document.getElementById('poll-results-wrap');
-        if (wrap) { wrap.style.display = ''; renderPollResults(); }
+      if (pollStats) {
+        if (pollSection) pollSection.style.display = '';
+        renderPollResults();
       }
       (data.questions || []).forEach(q => addQEditor(q));
       if (!data.questions?.length) addQEditor({ text:'', options:['','','',''] });
@@ -1666,7 +1688,7 @@
   pollEnableTog.addEventListener('keydown', e => { if (e.key==='Enter'||e.key===' ') { e.preventDefault(); pollEnableTog.click(); } });
 
   document.getElementById('btn-add-question').addEventListener('click', () => {
-    if (pollQEditors.length >= 3) { showToast('Max 3 questions.', 'red'); return; }
+    if (pollQEditors.length >= 3) { showToast('Maximum 3 questions allowed.', 'red'); return; }
     addQEditor();
   });
 
@@ -1692,33 +1714,10 @@
       });
       const d = await res.json();
       if (!res.ok) { saveNote.textContent = d.error || 'Save failed.'; saveNote.className='poll-save-note err'; }
-      else { saveNote.textContent = '✓ Saved!'; saveNote.className='poll-save-note ok'; }
+      else { saveNote.textContent = 'Saved successfully.'; saveNote.className='poll-save-note ok'; }
     } catch { saveNote.textContent = 'Network error.'; saveNote.className='poll-save-note err'; }
     finally { saveBtn.disabled=false; saveBtn.textContent='Save'; }
   });
-
-  async function loadPollConfig() {
-    try {
-      const res = await fetch(`/api/poll?username=${encodeURIComponent(user)}`);
-      const d   = await res.json();
-      pollEnabled = Boolean(d.enabled);
-      if (d.enabled && d.questions) {
-        // Count total votes across all questions
-        let totalVotes = 0;
-        for (const q of d.questions) {
-          for (const count of Object.values(q.counts || {})) totalVotes += count;
-        }
-        currentPollTotalVotes = totalVotes;
-        // Show red dot if votes increased since last time poll tab was opened
-        let lastSeen = 0;
-        try { lastSeen = parseInt(localStorage.getItem(`askthat_poll_seen_${user}`) || '0'); } catch(_) {}
-        if (totalVotes > lastSeen && currentPanel !== 'poll') {
-          document.getElementById('bnav-poll').classList.add('has-badge');
-        }
-      }
-    } catch(_) {}
-  }
-  loadPollConfig();
 
   // ── Story / Poster Modal (for message posters from inbox) ─────────────────
   const storyModal = document.getElementById('story-modal');
@@ -1748,13 +1747,13 @@
 
   // ── Prompt type config ────────────────────────────────────────────────────
   const PROMPT_TYPES = {
-    ask:     { label:'Ask Me Anything',      sub:'Send an anonymous message',    icon:'💬' },
-    '3words':{ label:'Describe Me in 3 Words', sub:'Exactly 3 words only',       icon:'✏️' },
-    trust:   { label:'What\'s Your Trust Level?', sub:'How well do you know me?',icon:'🔒' },
-    rate:    { label:'Rate My Vibe 1–10',    sub:'Be honest, no judgment',       icon:'⭐' },
-    hottake: { label:'Hot Take About Me',    sub:'Say what you actually think',  icon:'🌶️' },
-    advice:  { label:'Give Me Advice',       sub:'One thing I should hear',      icon:'💡' },
-    ai:      { label:'Play this game',       sub:'AI-generated · anonymous',     icon:'✨' },
+    ask:     { label:'Ask Me Anything',      sub:'Send an anonymous message',    icon:'' },
+    '3words':{ label:'Describe Me in 3 Words', sub:'Exactly 3 words only',       icon:'' },
+    trust:   { label:'What\'s Your Trust Level?', sub:'How well do you know me?',icon:'' },
+    rate:    { label:'Rate My Vibe 1–10',    sub:'Be honest, no judgment',       icon:'' },
+    hottake: { label:'Hot Take About Me',    sub:'Say what you actually think',  icon:'' },
+    advice:  { label:'Give Me Advice',       sub:'One thing I should hear',      icon:'' },
+    ai:      { label:'Play this game',       sub:'AI-generated · anonymous',     icon:'' },
   };
 
   // ── 6 Poster Styles ───────────────────────────────────────────────────────
@@ -2072,7 +2071,7 @@
   }
 
   function _drawTrustPrompt(ctx,T,W,H,link,linkShort) {
-    const levels=[['👻','Stranger'],['🙃','Acquaintance'],['🤝','Friend'],['🔥','Bestie']];
+    const levels=[['','Stranger'],['','Acquaintance'],['','Friend'],['','Bestie']];
     const btnW=440, btnH=100, startY=680, gap=24;
     levels.forEach(([emoji,label],i)=>{
       const alpha = 0.06 + i*0.05;
@@ -2179,7 +2178,7 @@
       const a=document.createElement('a'); a.download=`askthat-${user}-story.png`; a.href=URL.createObjectURL(blob); a.click();
       setTimeout(()=>{
         window.open(`https://wa.me/?text=${encodeURIComponent(shareText)}`);
-        showToast('📸 Image saved — paste it into WhatsApp Status!','green');
+        showToast('Image saved — paste into WhatsApp Status!','green');
       },700);
     },'image/png');
   });
@@ -2199,7 +2198,7 @@
   // Caption copy
   document.getElementById('btn-copy-caption').addEventListener('click', function(){
     navigator.clipboard.writeText(BASE_URL).then(()=>{
-      this.textContent='✓ Copied!'; this.classList.add('copied');
+      this.textContent='Copied!'; this.classList.add('copied');
       setTimeout(()=>{this.textContent='Copy link';this.classList.remove('copied');},2000);
     });
   });
@@ -2208,9 +2207,9 @@
   function fmtNum(n){ return n>=1000 ? (n/1000).toFixed(1)+'k' : String(n); }
 
   const COUNTRY_FLAGS = {'IN':'🇮🇳','US':'🇺🇸','GB':'🇬🇧','CA':'🇨🇦','AU':'🇦🇺','DE':'🇩🇪','FR':'🇫🇷','JP':'🇯🇵','BR':'🇧🇷','KR':'🇰🇷','SG':'🇸🇬','PK':'🇵🇰','BD':'🇧🇩','NG':'🇳🇬','PH':'🇵🇭','ID':'🇮🇩','MX':'🇲🇽','AE':'🇦🇪','SA':'🇸🇦','TR':'🇹🇷'};
-  function countryFlag(code) { return COUNTRY_FLAGS[code] || '🌍'; }
+  function countryFlag(code) { return COUNTRY_FLAGS[code] || ''; }
 
-  const MOOD_EMOJI = { wholesome:'🤍',funny:'😂',spicy:'🌶️',deep:'🤔',flirty:'💕',sad:'🥺',supportive:'💪',weird:'👀' };
+
   function detectMood(text) {
     const t = (text||'').toLowerCase();
     if(/love|appreciate|amazing|best|kind|sweet|heart|grateful/.test(t)) return 'wholesome';
@@ -2225,7 +2224,7 @@
   function getMoodChip(text) {
     const mood = detectMood(text);
     if (!mood) return '';
-    return `<span class="mood-chip mood-${mood}">${MOOD_EMOJI[mood]} ${mood}</span>`;
+    return `<span class="mood-chip mood-${mood}">${mood}</span>`;
   }
 
   function timeAgo(ts, future=false){
@@ -2244,6 +2243,55 @@
     clearTimeout(toastTimer);
     toastTimer=setTimeout(()=>el.className='toast',3400);
   }
+
+
+  // ── Rename / custom link ──────────────────────────────────────────────────
+  (function() {
+    const input   = document.getElementById('rename-input');
+    const btn     = document.getElementById('btn-rename');
+    const note    = document.getElementById('rename-note');
+    if (!input || !btn) return;
+
+    // Pre-fill with current username
+    input.value = user;
+
+    // Style focus
+    input.addEventListener('focus', () => input.style.borderColor = 'var(--primary)');
+    input.addEventListener('blur',  () => input.style.borderColor = '');
+
+    btn.addEventListener('click', async () => {
+      const newUser = input.value.trim().toLowerCase();
+      if (!newUser) { note.textContent = 'Enter a username.'; note.style.color = '#f87171'; return; }
+      if (!/^[a-zA-Z0-9_.-]+$/.test(newUser) || newUser.length < 2 || newUser.length > 30) {
+        note.textContent = '2–30 chars, letters / numbers / _ . - only.';
+        note.style.color = '#f87171'; return;
+      }
+      if (newUser === user) { note.textContent = 'Same as current username.'; note.style.color = 'var(--text3)'; return; }
+      btn.disabled = true; btn.textContent = 'Saving…';
+      note.textContent = ''; note.style.color = '';
+      try {
+        const res  = await fetch('/api/rename', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username: user, token: authToken, newUsername: newUser }),
+        });
+        const data = await res.json();
+        if (!res.ok) {
+          note.textContent = data.error || 'Rename failed.';
+          note.style.color = '#f87171';
+        } else {
+          note.textContent = 'Renamed! Redirecting…';
+          note.style.color = 'var(--green)';
+          setTimeout(() => window.location.href = `/dashboard/${newUser}`, 1200);
+        }
+      } catch {
+        note.textContent = 'Network error. Try again.';
+        note.style.color = '#f87171';
+      } finally {
+        btn.disabled = false; btn.textContent = 'Rename';
+      }
+    });
+  })();
 
   document.addEventListener('keydown', e => {
     if (e.key === 'Escape') {
