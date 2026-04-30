@@ -196,6 +196,53 @@
     .mood-chip.mood-weird     { background:rgba(251,146,60,.1);  color:#fb923c;  border-color:rgba(251,146,60,.2); }
     .mood-chip.mood-spicy     { background:rgba(255,71,126,.1);  color:#ff477e;  border-color:rgba(255,71,126,.2); }
 
+
+    /* ── Theme picker ── */
+    .theme-strip { display:flex; gap:8px; overflow-x:auto; padding-bottom:6px; margin-bottom:16px; scrollbar-width:none; }
+    .theme-strip::-webkit-scrollbar { display:none; }
+    .theme-swatch { flex-shrink:0; cursor:pointer; border-radius:12px; border:2px solid transparent; transition:all .2s; text-align:center; }
+    .theme-swatch.active { border-color:var(--primary); }
+    .theme-swatch-preview { width:52px; height:82px; border-radius:10px; overflow:hidden; }
+    .theme-swatch-label { font-size:9px; font-weight:600; color:var(--text3); margin-top:4px; text-transform:uppercase; letter-spacing:.04em; }
+    .theme-swatch.active .theme-swatch-label { color:var(--primary); }
+
+    /* ── Mode card animation ── */
+    .mode-card.just-selected { animation:modeSelect .35s cubic-bezier(.34,1.56,.64,1) both; }
+    @keyframes modeSelect { 0%{transform:scale(.96)} 55%{transform:scale(1.06)} 100%{transform:scale(1)} }
+
+    /* ── Stats only in inbox ── */
+    #stats-bar { transition:opacity .4s; }
+
+
+    /* ── Global professional spacing ── */
+    .page { padding:0 16px 100px; }
+    .section-panel { padding-top:6px; }
+    .profile-hdr { margin-bottom:14px; }
+    .stats-bar { margin-bottom:14px; }
+    .toolbar { margin-bottom:10px; }
+    .tabs { margin-bottom:10px; }
+    .msgs-list { gap:10px; }
+    .msg-card .card-inner { padding:16px 18px 13px 22px; }
+    .link-hero { margin-bottom:16px; }
+    .mode-section-label { margin-bottom:10px; margin-top:0; }
+    .mode-grid { gap:9px; margin-bottom:16px; }
+    .mode-card { padding:14px 13px; }
+    .mode-card-icon { margin-bottom:7px; }
+    .mode-card-title { margin-bottom:3px; }
+    .poster-section-label { margin-bottom:9px; }
+    .poster-strip { padding-bottom:6px; margin-bottom:4px; }
+    .poster-dl-row { margin-top:10px; gap:8px; }
+    .poll-toggle-row { margin-bottom:14px; }
+    .poll-editor-title { margin-bottom:10px; margin-top:16px; }
+    .poll-q-block { margin-bottom:10px; }
+    .btn-add-q { margin-top:2px; margin-bottom:12px; }
+    .btn-save-poll { margin-bottom:8px; }
+    .theme-strip { margin-bottom:14px; }
+    .share-grid { gap:8px; }
+    .share-grid .share-btn { padding:12px 8px; border-radius:14px; }
+    .bottom-nav { padding:0; }
+    .bnav-tab { padding:11px 8px 17px; gap:4px; }
+
     /* ── Poll Results ── */
     .poll-section { background: var(--card); border: 1px solid var(--border2); border-radius: var(--r); padding: 20px; margin-bottom: 14px; display: none; }
     .poll-section.show { display: block; }
@@ -510,7 +557,7 @@
   </div>
 
   <!-- INBOX -->
-  <div class="section-panel" id="panel-inbox">
+  <div class="section-panel active" id="panel-inbox">
     <div class="stats-bar" id="stats-bar" style="opacity:0;transition:opacity .4s;margin-bottom:12px">
       <div class="stat-card"><div class="stat-val" id="stat-total">—</div><div class="stat-lbl">Messages</div></div>
       <div class="stat-card"><div class="stat-val" id="stat-unread">—</div><div class="stat-lbl">Unread</div></div>
@@ -539,7 +586,7 @@
   </div>
 
   <!-- LINK -->
-  <div class="section-panel active" id="panel-link">
+  <div class="section-panel" id="panel-link">
     <div class="link-section">
       <div class="link-hero">
         <div class="link-hero-label">Your link</div>
@@ -549,26 +596,30 @@
           <button class="btn-link-share" id="btn-link-share-native">Share</button>
         </div>
       </div>
-      <div class="share-grid-sec">
-        <div class="share-divider">
-          <span style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;white-space:nowrap">Share your link</span>
-          <div style="flex:1;height:1px;background:var(--border2)"></div>
-        </div>
-        <div class="share-grid" id="share-btns-dashboard"></div>
-      </div>
       <div class="mode-section-label">
-        <span>Prompt mode</span>
-        <span style="font-size:10px;color:var(--text3);font-weight:400;text-transform:none;letter-spacing:0">Changes what your link asks</span>
+        <span>Select mode</span>
+        <span style="font-size:10px;color:var(--text3);font-weight:400;text-transform:none;letter-spacing:0">Saved automatically</span>
       </div>
       <div class="mode-grid" id="mode-grid">
-        <button class="mode-card active" data-type="ask"><div class="mode-card-icon" style="color:var(--primary)"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M3 5a2 2 0 012-2h10a2 2 0 012 2v7a2 2 0 01-2 2H7l-4 3V5z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg></div><div class="mode-card-title">Ask Me</div><div class="mode-card-sub">Open message</div></button>
-        <button class="mode-card" data-type="hottake"><div class="mode-card-icon" style="color:var(--primary)"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M12 4c0-1.5 1.5-2 1.5-2s-.5 2 1 2.5c1 .3 2.5-.5 2.5 1.5s-2 3-3 4l-1 3a3 3 0 01-6 0L6 9C5 8 3 6.5 3 5S4 2 6 2s3 1 3 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="mode-card-title">Hot Take</div><div class="mode-card-sub">Spicy opinions</div></button>
-        <button class="mode-card" data-type="rate"><div class="mode-card-icon" style="color:var(--primary)"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 2l2.4 4.9 5.4.8-3.9 3.8.9 5.3L10 14.2l-4.8 2.6.9-5.3L2.2 7.7l5.4-.8L10 2z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg></div><div class="mode-card-title">Rate Me</div><div class="mode-card-sub">Vibe score 1–10</div></button>
-        <button class="mode-card" data-type="trust"><div class="mode-card-icon" style="color:var(--primary)"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="4" y="9" width="12" height="9" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M7 9V6a3 3 0 016 0v3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div><div class="mode-card-title">Trust Level</div><div class="mode-card-sub">How well do they know you</div></button>
-        <button class="mode-card" data-type="3words"><div class="mode-card-icon" style="color:var(--primary)"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M14.5 3.5l2 2L6 16l-3 1 1-3 10.5-10.5z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="mode-card-title">3 Words</div><div class="mode-card-sub">Describe me exactly</div></button>
-        <button class="mode-card" data-type="advice"><div class="mode-card-icon" style="color:var(--primary)"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 2a6 6 0 00-3 11.2V15a1 1 0 001 1h4a1 1 0 001-1v-1.8A6 6 0 0010 2z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M8 18h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div><div class="mode-card-title">Advice</div><div class="mode-card-sub">One thing to hear</div></button>
-        <button class="mode-card" data-type="ai" id="mode-ai-card"><div class="mode-card-icon" style="color:var(--primary)"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="8" stroke="currentColor" stroke-width="1.5"/><circle cx="10" cy="10" r="4" stroke="currentColor" stroke-width="1.5"/><circle cx="10" cy="10" r="1.5" fill="currentColor"/></svg></div><div class="mode-card-title">Truth Challenge</div><div class="mode-card-sub" id="mode-ai-sub">Generating…</div></button>
+        <button class="mode-card active" data-type="ask"><div class="mode-card-icon">💬</div><div class="mode-card-title">Ask Me</div><div class="mode-card-sub">Open message</div></button>
+        <button class="mode-card" data-type="rate"><div class="mode-card-icon">⭐</div><div class="mode-card-title">Rate Me</div><div class="mode-card-sub">Vibe score 1–10</div></button>
+        <button class="mode-card" data-type="trust"><div class="mode-card-icon">🔒</div><div class="mode-card-title">Trust Level</div><div class="mode-card-sub">How well they know you</div></button>
+        <button class="mode-card" data-type="3words"><div class="mode-card-icon">✏️</div><div class="mode-card-title">3 Words</div><div class="mode-card-sub">Describe me exactly</div></button>
+        <button class="mode-card" data-type="advice"><div class="mode-card-icon">💡</div><div class="mode-card-title">Advice</div><div class="mode-card-sub">One thing to hear</div></button>
+        <button class="mode-card" data-type="yesno"><div class="mode-card-icon">🔮</div><div class="mode-card-title">Yes / No</div><div class="mode-card-sub">AI yes/no question</div></button>
+        <button class="mode-card" data-type="ai" id="mode-ai-card"><div class="mode-card-icon">🎯</div><div class="mode-card-title">Truth Dare</div><div class="mode-card-sub" id="mode-ai-sub">Spicy question ready</div></button>
       </div>
+
+      <!-- Theme picker -->
+      <div class="mode-section-label" style="margin-top:18px">
+        <span>Link theme</span>
+        <span style="font-size:10px;color:var(--text3);font-weight:400;text-transform:none;letter-spacing:0">Changes how your link page looks</span>
+      </div>
+      <div class="theme-strip" id="theme-strip"></div>
+      <div class="mode-section-label" style="margin-top:18px">
+        <span>Share your link</span>
+      </div>
+      <div class="share-grid" id="share-btns-dashboard" style="margin-bottom:18px"></div>
       <div class="poster-section-label">Posters <div class="poster-spin" id="poster-spin"></div></div>
       <div class="poster-strip" id="poster-strip"></div>
       <div class="poster-dl-row" id="poster-dl-row" style="display:none">
@@ -583,7 +634,7 @@
   <div class="section-panel" id="panel-poll">
     <div class="poll-full-section">
       <div class="poll-toggle-row">
-        <div class="poll-toggle-info"><strong id="poll-toggle-label">Poll disabled</strong><span id="poll-toggle-sub">Enable to show a poll tab on your link</span></div>
+        <div class="poll-toggle-info"><strong id="poll-tog-label">Poll disabled</strong><span id="poll-tog-sub">Enable to add a poll to your link</span></div>
         <div class="tog-wrap" id="poll-enable-tog" role="switch" aria-checked="false" tabindex="0"><div class="tog-inner"></div></div>
       </div>
       <div class="poll-results-wrap" id="poll-results-wrap" style="display:none">
@@ -602,12 +653,12 @@
 </div>
 
 <nav class="bottom-nav" role="navigation">
-  <button class="bnav-tab" data-panel="inbox" id="bnav-inbox">
+  <button class="bnav-tab active" data-panel="inbox" id="bnav-inbox">
     <div class="bnav-badge" id="badge-inbox"></div>
     <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M2 7l8 5 8-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><rect x="2" y="4" width="16" height="13" rx="2.5" stroke="currentColor" stroke-width="1.5"/></svg>
     Inbox
   </button>
-  <button class="bnav-tab active" data-panel="link" id="bnav-link">
+  <button class="bnav-tab" data-panel="link" id="bnav-link">
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
     Link
   </button>
@@ -761,8 +812,67 @@
     } catch(_) {}
   }
 
+
+  // ── THEMES ───────────────────────────────────────────────────────────────
+  const THEMES = [
+    { id:'dark',     label:'Dark',    bg:['#0d0a08','#1a1208'], o1:'rgba(255,107,53,.35)', o2:'rgba(255,71,126,.28)' },
+    { id:'fire',     label:'Fire',    bg:['#1a0505','#2d0a0a'], o1:'rgba(255,71,126,.45)', o2:'rgba(255,107,53,.35)' },
+    { id:'neon',     label:'Neon',    bg:['#04041a','#080830'], o1:'rgba(124,58,237,.55)', o2:'rgba(255,71,126,.40)' },
+    { id:'pastel',   label:'Pastel',  bg:['#1a0d1a','#150d22'], o1:'rgba(236,72,153,.38)', o2:'rgba(167,139,250,.28)' },
+    { id:'midnight', label:'Night',   bg:['#020210','#050520'], o1:'rgba(59,130,246,.42)', o2:'rgba(139,92,246,.32)' },
+    { id:'holo',     label:'Holo',    bg:['#050510','#0a0520'], o1:'rgba(0,212,255,.38)',  o2:'rgba(255,0,128,.30)' },
+  ];
+  let currentTheme = 'dark';
+
+  function buildThemeStrip() {
+    const strip = document.getElementById('theme-strip');
+    if (!strip) return;
+    strip.innerHTML = '';
+    THEMES.forEach(th => {
+      const wrap = document.createElement('div');
+      wrap.className = 'theme-swatch' + (th.id === currentTheme ? ' active' : '');
+      wrap.dataset.theme = th.id;
+      wrap.innerHTML = `
+        <div class="theme-swatch-preview">
+          <svg width="52" height="82" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="tbg_${th.id}" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="${th.bg[0]}"/><stop offset="100%" stop-color="${th.bg[1]}"/></linearGradient>
+              <radialGradient id="to1_${th.id}" cx="30%" cy="20%"><stop offset="0%" stop-color="${th.o1}"/><stop offset="100%" stop-color="transparent"/></radialGradient>
+              <radialGradient id="to2_${th.id}" cx="70%" cy="80%"><stop offset="0%" stop-color="${th.o2}"/><stop offset="100%" stop-color="transparent"/></radialGradient>
+            </defs>
+            <rect width="52" height="82" fill="url(#tbg_${th.id})" rx="10"/>
+            <rect width="52" height="82" fill="url(#to1_${th.id})" rx="10"/>
+            <rect width="52" height="82" fill="url(#to2_${th.id})" rx="10"/>
+            <rect x="8" y="28" width="36" height="5" rx="2.5" fill="rgba(255,255,255,.28)"/>
+            <rect x="10" y="40" width="28" height="3" rx="1.5" fill="rgba(255,255,255,.16)"/>
+            <rect x="12" y="50" width="22" height="3" rx="1.5" fill="rgba(255,255,255,.10)"/>
+            <rect x="8" y="61" width="36" height="12" rx="6" fill="rgba(255,107,53,.65)"/>
+          </svg>
+        </div>
+        <div class="theme-swatch-label">${th.label}</div>`;
+      wrap.addEventListener('click', () => {
+        currentTheme = th.id;
+        strip.querySelectorAll('.theme-swatch').forEach(s => s.classList.toggle('active', s.dataset.theme === th.id));
+        // Save to server
+        fetch('/api/get', { method:'POST', headers:{'Content-Type':'application/json'},
+          body: JSON.stringify({ username:user, token:authToken, field:'theme', value:th.id })
+        }).then(()=>showToast('Theme saved ✓')).catch(()=>{});
+      });
+      strip.appendChild(wrap);
+    });
+  }
+
+  // Load saved theme and build strip
+  fetch(`/api/get?username=${encodeURIComponent(user)}&field=theme`)
+    .then(r=>r.json())
+    .then(d=>{ if(d.theme) currentTheme=d.theme; buildThemeStrip(); })
+    .catch(()=>buildThemeStrip());
+
+  // ── VALID MODES (include yesno) ───────────────────────────────────────────
+  const ALL_MODES = ['ask','3words','trust','rate','advice','ai','yesno'];
+
   // ── Bottom nav tabs ───────────────────────────────────────────────────────
-  let currentPanel = 'link';
+  let currentPanel = 'inbox';
   function switchPanel(panel) {
     currentPanel = panel;
     document.querySelectorAll('.section-panel').forEach(el => el.classList.remove('active'));
@@ -780,7 +890,7 @@
       document.getElementById('bnav-poll').classList.remove('has-badge');
       try { localStorage.setItem(`askthat_poll_seen_${user}`, currentPollTotalVotes); } catch(_) {}
     }
-    if (panel === 'link' && !postersGenerated) buildPosterStrip();
+    if (panel === 'link' && !postersGenerated) { postersGenerated=true; buildPosterStrip(); }
     if (panel === 'poll') initPollSection();
   }
   document.querySelectorAll('.bnav-tab').forEach(btn => {
@@ -792,33 +902,31 @@
   fetch(`/api/get?username=${encodeURIComponent(user)}&field=mode`)
     .then(r => r.json())
     .then(d => {
-      currentMode = d.mode && d.mode !== 'ask' ? d.mode : 'ask';
-      document.querySelectorAll('.mode-card').forEach(c => {
-        c.classList.toggle('active', c.dataset.type === currentMode);
-      });
-      if (currentPanel === 'link') buildPosterStrip();
-    }).catch(() => {
-      if (currentPanel === 'link') buildPosterStrip();
-    });
+      if (d.mode && d.mode !== 'ask') {
+        currentMode = d.mode;
+        document.querySelectorAll('.mode-card').forEach(c => {
+          c.classList.toggle('active', c.dataset.type === currentMode);
+        });
+      }
+    }).catch(()=>{});
 
   document.querySelectorAll('.mode-card').forEach(card => {
     card.addEventListener('click', () => {
       if (card.dataset.type === currentMode) return;
       document.querySelectorAll('.mode-card').forEach(c => {
-        c.classList.remove('active');
-        c.classList.remove('just-selected');
+        c.classList.remove('active','just-selected');
       });
       card.classList.add('active');
-      // Trigger spring animation
-      requestAnimationFrame(() => card.classList.add('just-selected'));
+      requestAnimationFrame(() => {
+        card.classList.add('just-selected');
+        setTimeout(() => card.classList.remove('just-selected'), 400);
+      });
       currentMode = card.dataset.type;
       updateLinkDisplay();
       postersGenerated = false;
       buildPosterStrip();
       clearTimeout(modeSaveTimer);
-      modeSaveTimer = setTimeout(() => {
-        saveMode(currentMode).then(() => showToast('Mode saved ✓'));
-      }, 400);
+      modeSaveTimer = setTimeout(() => saveMode(currentMode), 600);
     });
   });
 
@@ -837,19 +945,6 @@
   const POSTER_STYLES_ORDER = ['fire','dark','neon'];
   let postersGenerated = false;
   let selectedPosterStyle = 'fire';
-
-  function getModeShareCaption(mode, user, url) {
-    const captions = {
-      ask:      `Ask me anything anonymously! 🙈\n${url}`,
-      hottake:  `Send me your hottest take — I can handle it 🌶️\n${url}`,
-      advice:   `Give me one piece of advice — anonymous & honest 💡\n${url}`,
-      trust:    `How well do you actually know me? Pick your level 🔒\n${url}`,
-      rate:     `Rate ${user} out of 10 — be honest ⭐\n${url}`,
-      '3words': `Describe ${user} in exactly 3 words ✏️\n${url}`,
-      ai:       `Answer this truth challenge about ${user} 🎯\n${url}`,
-    };
-    return captions[mode] || captions.ask;
-  }
 
   async function buildPosterStrip() {
     const strip = document.getElementById('poster-strip');
@@ -915,7 +1010,14 @@
     if (!canvas) return;
     canvas.toBlob(async blob => {
       const file = new File([blob],'askthat-story.png',{type:'image/png'});
-      const txt  = getModeShareCaption(currentMode, user, currentLink());
+      const MODE_CAPTIONS = {
+        ask:'Ask me anything anonymously! 🙈',rate:`Rate ${user} out of 10 ⭐`,
+        trust:'How well do you know me? 🔒',advice:'Give me honest advice 💡',
+        '3words':`Describe ${user} in exactly 3 words ✏️`,
+        hottake:'Send me your hottest take 🌶️',ai:`Truth dare — about ${user} 🎯`,
+        yesno:`Yes or No — about ${user} 🔮`,
+      };
+      const txt = `${MODE_CAPTIONS[currentMode]||MODE_CAPTIONS.ask}\n${currentLink()}`;
       if (navigator.canShare?.({files:[file]})) {
         try { await navigator.share({files:[file],text:txt}); return; } catch(_){}
       }
@@ -932,17 +1034,16 @@
         const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
         locContext = tz ? `timezone: ${tz}` : '';
       } catch(_){}
-      const res = await fetch(`/api/groq?type=game&username=${encodeURIComponent(user)}&loc=${encodeURIComponent(locContext)}`);
+      const res = await fetch(`/api/groq?type=dare&username=${encodeURIComponent(user)}`);
       const d   = await res.json();
-      aiGameText = d.game || d.prompt || '';
-      const subEl = document.getElementById('mode-ai-sub');
-      if (subEl && aiGameText) subEl.textContent = aiGameText.slice(0,42) + (aiGameText.length>42?'…':'');
-      // Also update PROMPT_TYPES for poster usage
+      aiGameText = d.dare || d.game || d.prompt || '';
       if (aiGameText) PROMPT_TYPES.ai.label = aiGameText;
-    } catch(_) {
-      aiGameText = 'What\'s one thing you\'d never say to my face?';
       const subEl = document.getElementById('mode-ai-sub');
-      if (subEl) subEl.textContent = 'AI-generated game';
+      if (subEl) subEl.textContent = 'Spicy question ready';
+    } catch(_) {
+      aiGameText = "What\'s one thing you\'d never say to my face?";
+      const subEl = document.getElementById('mode-ai-sub');
+      if (subEl) subEl.textContent = 'Spicy question ready';
     }
   }
   loadAIGameText();
@@ -955,25 +1056,9 @@
   document.title          = `${user}'s Inbox — AskThat`;
   updateLinkDisplay();
 
-
-  // ── Optimistic cache ───────────────────────────────────────────────────────
-  (function() {
-    try {
-      const cached = localStorage.getItem(`askthat_msgs_${user}`);
-      if (cached) {
-        const data = JSON.parse(cached);
-        if (data.messages?.length) {
-          messages = data.messages;
-          updateCounts(data.total || data.messages.length, data.unreadCount || 0);
-          render(true);
-          statBar.style.opacity = '1';
-        }
-      }
-    } catch(_) {}
-  })();
-
   load(true);
   startRefresh();
+  // posters built lazily when link panel opened
   (async () => {
     try {
       const res = await fetch(`/api/stats?username=${encodeURIComponent(user)}`);
@@ -1025,7 +1110,6 @@
       }
       lastTotal = data.total;
       statBar.style.opacity = '1';
-      try { localStorage.setItem(`askthat_msgs_${user}`, JSON.stringify({messages:messages.slice(0,20),total:data.total,unreadCount:data.unreadCount||0})); } catch(_) {}
     } catch (_) {
       if (isInitial) msgsList.innerHTML = '<div style="text-align:center;padding:24px;color:var(--text3)">Network error.</div>';
     }
@@ -1537,10 +1621,9 @@
       pollEnabled = Boolean(data.enabled);
       const tog = document.getElementById('poll-enable-tog');
       if (tog) tog.setAttribute('aria-checked', pollEnabled ? 'true' : 'false');
-      const lbl2 = document.getElementById('poll-toggle-label');
-      const sub2 = document.getElementById('poll-toggle-sub');
-      if (lbl2) lbl2.textContent = pollEnabled ? 'Poll enabled' : 'Poll disabled';
-      if (sub2) sub2.textContent = pollEnabled ? 'Visitors see a poll tab on your link' : 'Enable to show a poll tab on your link';
+      const lbl0=document.getElementById('poll-tog-label'), sub0=document.getElementById('poll-tog-sub');
+      if(lbl0) lbl0.textContent = pollEnabled ? 'Poll enabled' : 'Poll disabled';
+      if(sub0) sub0.textContent = pollEnabled ? 'Visitors see a poll tab on your link' : 'Enable to add a poll to your link';
       if (data.enabled && pollStats) {
         const wrap = document.getElementById('poll-results-wrap');
         if (wrap) { wrap.style.display = ''; renderPollResults(); }
@@ -1575,10 +1658,10 @@
   pollEnableTog.addEventListener('click', () => {
     pollEnabled = !pollEnabled;
     pollEnableTog.setAttribute('aria-checked', String(pollEnabled));
-    const lbl = document.getElementById('poll-toggle-label');
-    const sub = document.getElementById('poll-toggle-sub');
+    const lbl = document.getElementById('poll-tog-label');
+    const sub = document.getElementById('poll-tog-sub');
     if (lbl) lbl.textContent = pollEnabled ? 'Poll enabled' : 'Poll disabled';
-    if (sub) sub.textContent = pollEnabled ? 'Visitors see a poll tab on your link' : 'Enable to show a poll tab on your link';
+    if (sub) sub.textContent = pollEnabled ? 'Visitors see a poll tab on your link' : 'Enable to add a poll to your link';
   });
   pollEnableTog.addEventListener('keydown', e => { if (e.key==='Enter'||e.key===' ') { e.preventDefault(); pollEnableTog.click(); } });
 
@@ -1671,7 +1754,7 @@
     rate:    { label:'Rate My Vibe 1–10',    sub:'Be honest, no judgment',       icon:'⭐' },
     hottake: { label:'Hot Take About Me',    sub:'Say what you actually think',  icon:'🌶️' },
     advice:  { label:'Give Me Advice',       sub:'One thing I should hear',      icon:'💡' },
-    ai:      { label:'Truth Challenge',       sub:'Honest anonymous answer',       icon:'🎯' },
+    ai:      { label:'Play this game',       sub:'AI-generated · anonymous',     icon:'✨' },
   };
 
   // ── 6 Poster Styles ───────────────────────────────────────────────────────
