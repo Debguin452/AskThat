@@ -1,0 +1,2062 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, viewport-fit=cover">
+  <meta name="google-site-verification" content="1cIP8Y5Xf6O5GOeWqWvDquYAe8mI1JjlfXgCe4M9B-E" />
+  <title>My Inbox — AskThat</title>
+  <meta name="description" content="Read your anonymous messages on AskThat.">
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="theme-color" content="#0d0a08">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/icon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/icon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Space+Grotesk:wght@600;700&family=Righteous&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #0d0a08; --bg2: #13100c; --bg3: #1a1208;
+      --card: rgba(255,200,130,0.06); --border: rgba(255,200,130,0.18); --border2: rgba(255,200,130,0.07);
+      --primary: #ff6b35; --pri-hi: #ff8c5a; --pink: #ff477e; --gold: #ffbf69; --accent: #ffcf96;
+      --green: #4ade80; --red: #f87171;
+      --grad: linear-gradient(135deg,#ff477e 0%,#ff6b35 48%,#ffbf69 100%);
+      --grad-t: linear-gradient(135deg,#ff477e,#ff6b35,#ffbf69);
+      --text: #fff8f0; --text2: rgba(255,248,240,0.65); --text3: rgba(255,248,240,0.36);
+      --r: 18px; --r-sm: 12px;
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 15px; line-height: 1.6; min-height: 100vh; overflow-x: hidden; }
+    .orbs { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+    .orb  { position: absolute; border-radius: 50%; filter: blur(68px); transform: translateZ(0); }
+    .orb-1 { width: 540px; height: 540px; background: #ff6b35; opacity: 0.09; top: -20%; right: -10%; animation: d1 24s ease-in-out infinite alternate; }
+    .orb-2 { width: 400px; height: 400px; background: #ff477e; opacity: 0.07; bottom: 8%; left: -10%; animation: d2 30s ease-in-out infinite alternate; }
+    @keyframes d1 { to { transform: translate(-20px,28px); } }
+    @keyframes d2 { to { transform: translate(18px,-22px); } }
+    body::before { content:''; position: fixed; inset:0; z-index:1; pointer-events:none; background-image: radial-gradient(ellipse at 1px 1px, rgba(255,248,240,0.04) 1px, transparent 0); background-size: 3px 3px; opacity:0.5; }
+
+    /* ── Layout ── */
+    .page { max-width: 720px; margin: 0 auto; padding: 24px 16px 100px; position: relative; z-index: 2; }
+
+    /* ── Nav ── */
+    .top-nav { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; gap: 10px; flex-wrap: wrap; }
+    .logo {
+      display: inline-flex;
+      align-items: center;
+      white-space: nowrap;
+      gap: 4px;
+      text-decoration: none !important;
+      -webkit-text-decoration: none; display: inline-flex; align-items: center; font-family: 'Syne', sans-serif; font-weight: 800; font-size: 19px; background: var(--grad-t); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; text-decoration: none; gap: 4px; }
+    .nav-r { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+    .btn-sm { display: inline-flex; align-items: center; gap: 5px; padding: 8px 14px; border-radius: 100px; font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500; cursor: pointer; text-decoration: none; transition: all .18s; border: none; white-space: nowrap; }
+    .btn-sm.ol { background: var(--card); border: 1px solid var(--border2); color: var(--text2); }
+    .btn-sm.ol:hover { background: rgba(255,255,255,0.08); color: var(--text); }
+    .btn-sm.gr { background: var(--grad); color: #fff; box-shadow: 0 4px 16px rgba(255,107,53,.28); }
+    .btn-sm.gr:hover { opacity: .88; transform: translateY(-1px); }
+    .btn-sm.pu { background: rgba(124,58,237,.15); border: 1px solid rgba(124,58,237,.3); color: #c4b5fd; }
+    .btn-sm.pu:hover { background: rgba(124,58,237,.25); }
+
+    /* ── Stats Bar ── */
+    .stats-bar { display: grid; grid-template-columns: repeat(2,1fr); gap: 10px; margin-bottom: 20px; }
+    .stat-card { background: var(--card); border: 1px solid var(--border2); border-radius: var(--r-sm); padding: 18px 14px; text-align: center; transition: border-color .2s; }
+    .stat-card:hover { border-color: rgba(255,107,53,.25); }
+    .stat-val { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 28px; letter-spacing: -1px; background: var(--grad-t); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .stat-lbl { font-size: 11px; color: var(--text3); margin-top: 4px; text-transform: uppercase; letter-spacing: .06em; font-weight: 500; }
+
+    /* ── New message banner ── */
+    .new-banner { background: linear-gradient(135deg,rgba(232,68,138,.12),rgba(255,107,53,.12)); border: 1px solid rgba(255,107,53,.26); border-radius: 14px; padding: 12px 18px; display: none; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 14px; flex-wrap: wrap; animation: slideDown .35s ease both; }
+    .new-banner.show { display: flex; }
+    @keyframes slideDown { from { opacity:0; transform:translateY(-10px); } to { opacity:1; transform:translateY(0); } }
+    .new-banner-txt { font-size: 14px; font-weight: 500; }
+    .new-banner-txt strong { color: var(--accent); }
+    .btn-banner { background: var(--grad); border: none; border-radius: 100px; padding: 7px 16px; font-family:'DM Sans',sans-serif; font-size: 12px; font-weight: 500; color: #fff; cursor: pointer; transition: opacity .2s; }
+    .btn-banner:hover { opacity: .85; }
+
+    /* ── Profile Header ── */
+    .profile-hdr { background: linear-gradient(160deg,rgba(111,76,255,.09),rgba(111,76,255,.02)); border: 1px solid var(--border); border-radius: 20px; padding: 22px 24px; display: flex; align-items: center; gap: 18px; margin-bottom: 20px; position: relative; overflow: hidden; }
+    .profile-hdr::before { content:''; position:absolute; inset:0; background:linear-gradient(120deg,rgba(255,107,53,.06),transparent 55%); pointer-events:none; }
+    .avatar { width: 54px; height: 54px; border-radius: 50%; background: var(--grad); display: flex; align-items: center; justify-content: center; font-family:'Syne',sans-serif; font-weight: 800; font-size: 22px; color: #fff; flex-shrink: 0; box-shadow: 0 0 0 3px rgba(255,107,53,.22); }
+    .profile-info { flex: 1; min-width: 0; }
+    .profile-info h1 { font-family:'Syne',sans-serif; font-weight: 800; font-size: 18px; letter-spacing: -.3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .link-pill { display: inline-flex; align-items: center; gap: 6px; background: rgba(255,255,255,.04); border: 1px solid var(--border2); border-radius: 100px; padding: 4px 10px 4px 6px; font-size: 12px; color: var(--text3); margin-top: 5px; max-width: 100%; overflow: hidden; }
+    .link-pill span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+    /* ── Toolbar ── */
+    .toolbar { display: flex; gap: 10px; margin-bottom: 14px; flex-wrap: wrap; align-items: center; }
+    .search-wrap { flex: 1; min-width: 180px; position: relative; }
+    .search-ico { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--text3); pointer-events: none; }
+    .search-input { width: 100%; background: rgba(255,255,255,.04); border: 1px solid var(--border2); border-radius: 100px; padding: 9px 14px 9px 36px; font-size: 14px; font-family:'DM Sans',sans-serif; color: var(--text); outline: none; transition: border-color .2s, box-shadow .2s; }
+    .search-input::placeholder { color: var(--text3); }
+    .search-input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(255,107,53,.12); }
+    .sort-select { background: rgba(255,255,255,.04); border: 1px solid var(--border2); border-radius: 100px; padding: 9px 14px; font-size: 13px; font-family:'DM Sans',sans-serif; color: var(--text2); outline: none; cursor: pointer; }
+    .sort-select:focus { border-color: var(--primary); }
+
+    /* ── Tabs ── */
+    .tabs { display: flex; gap: 4px; margin-bottom: 16px; background: rgba(255,255,255,.03); border: 1px solid var(--border2); border-radius: 100px; padding: 5px; width: fit-content; }
+    .tab { padding: 7px 16px; border-radius: 100px; font-size: 13px; font-weight: 500; cursor: pointer; transition: all .18s; border: none; background: transparent; color: var(--text3); display: flex; align-items: center; gap: 6px; white-space: nowrap; }
+    .tab .tab-count { background: rgba(255,255,255,.08); border-radius: 100px; padding: 1px 7px; font-size: 11px; font-weight: 600; }
+    .tab.active { background: var(--grad); color: #fff; box-shadow: 0 2px 12px rgba(255,107,53,.28); }
+    .tab.active .tab-count { background: rgba(255,255,255,.25); }
+
+    /* ── Bulk Bar ── */
+    .bulk-bar { display: none; align-items: center; gap: 10px; background: rgba(124,58,237,.1); border: 1px solid rgba(124,58,237,.25); border-radius: var(--r-sm); padding: 10px 14px; margin-bottom: 12px; flex-wrap: wrap; }
+    .bulk-bar.show { display: flex; }
+    .bulk-count { font-size: 13px; font-weight: 500; color: #c4b5fd; flex: 1; }
+    .btn-bulk-del { background: rgba(248,113,113,.15); border: 1px solid rgba(248,113,113,.3); color: var(--red); border-radius: 8px; padding: 6px 14px; font-size: 13px; font-weight: 500; cursor: pointer; transition: background .2s; }
+    .btn-bulk-del:hover { background: rgba(248,113,113,.25); }
+    .btn-bulk-cancel { background: rgba(255,255,255,.06); border: 1px solid var(--border2); color: var(--text2); border-radius: 8px; padding: 6px 14px; font-size: 13px; font-weight: 500; cursor: pointer; }
+
+    /* ── Message Cards — redesigned ── */
+    .msgs-list { display: flex; flex-direction: column; gap: 12px; }
+
+    .msg-card {
+      background: linear-gradient(160deg, rgba(255,200,130,0.07) 0%, rgba(255,107,53,0.03) 100%);
+      border: 1px solid var(--border2);
+      border-radius: 20px;
+      padding: 0;
+      transition: all .22s cubic-bezier(.4,0,.2,1);
+      position: relative; overflow: hidden;
+      animation: cardIn .35s ease both;
+    }
+    @keyframes cardIn { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
+    .msg-card.unread-card { border-color: rgba(255,107,53,.28); background: linear-gradient(160deg,rgba(255,107,53,.09),rgba(255,71,126,.04)); }
+    .msg-card:hover { border-color: rgba(255,107,53,.35); transform: translateY(-2px); box-shadow: 0 8px 32px rgba(255,107,53,.12); }
+    .msg-card.selected-card { border-color: rgba(124,58,237,.45); background: rgba(124,58,237,.08); }
+
+    /* Left accent bar — varies per mood */
+    .msg-card::before { content:''; position:absolute; left:0; top:0; bottom:0; width:3px; border-radius:20px 0 0 20px; background:var(--grad); opacity:0.7; }
+    .msg-card.mood-wholesome::before { background:linear-gradient(180deg,#4ade80,#22d3ee); }
+    .msg-card.mood-funny::before     { background:linear-gradient(180deg,#facc15,#fb923c); }
+    .msg-card.mood-flirty::before    { background:linear-gradient(180deg,#f472b6,#ff477e); }
+    .msg-card.mood-deep::before      { background:linear-gradient(180deg,#a78bfa,#7c3aed); }
+    .msg-card.mood-sad::before       { background:linear-gradient(180deg,#60a5fa,#818cf8); }
+    .msg-card.mood-supportive::before{ background:linear-gradient(180deg,#34d399,#10b981); }
+    .msg-card.mood-weird::before     { background:linear-gradient(180deg,#fb923c,#f43f5e); }
+    .msg-card.mood-spicy::before     { background:linear-gradient(180deg,#ff477e,#ff6b35); }
+
+    .card-inner { padding: 20px 20px 16px 24px; }
+
+    /* Big decorative quote mark */
+    .card-quote-mark {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 72px; line-height: 1; font-weight: 900;
+      color: var(--primary); opacity: 0.13;
+      position: absolute; top: 4px; left: 14px;
+      pointer-events: none; user-select: none;
+    }
+    .msg-card.mood-wholesome .card-quote-mark { color: #4ade80; }
+    .msg-card.mood-funny .card-quote-mark     { color: #facc15; }
+    .msg-card.mood-flirty .card-quote-mark    { color: #f472b6; }
+    .msg-card.mood-deep .card-quote-mark      { color: #a78bfa; }
+    .msg-card.mood-sad .card-quote-mark       { color: #60a5fa; }
+
+    .card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; margin-bottom: 8px; }
+    .card-badges { display: flex; gap: 5px; flex-wrap: wrap; flex-shrink: 0; align-items: center; }
+    .badge { display: inline-flex; align-items: center; gap: 3px; font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 100px; text-transform: uppercase; letter-spacing: .05em; }
+    .badge-new  { background: rgba(255,107,53,.15); color: var(--pri-hi); border: 1px solid rgba(255,107,53,.25); }
+    .badge-known { background: rgba(74,222,128,.1); color: #4ade80; border: 1px solid rgba(74,222,128,.2); }
+
+    /* Message text — the star of the show */
+    .card-text {
+      font-family: 'Instrument Serif', Georgia, serif;
+      font-size: 17px; color: var(--text); line-height: 1.7;
+      word-break: break-word; padding-left: 4px;
+      margin-bottom: 10px;
+    }
+    .msg-card.msg-short .card-text  { font-size: 20px; font-weight: 400; }
+    .msg-card.msg-medium .card-text { font-size: 17px; }
+    .msg-card.msg-long .card-text   { font-size: 15px; line-height: 1.65; font-family: 'DM Sans', sans-serif; }
+
+    .card-poll { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 10px; padding: 8px 10px; background: rgba(255,255,255,.03); border: 1px solid var(--border2); border-radius: 8px; }
+    .poll-chip { font-size: 11px; color: var(--text2); background: rgba(255,255,255,.06); border-radius: 100px; padding: 3px 10px; }
+
+    .card-footer { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .card-time { font-size: 11px; color: var(--text3); display: flex; align-items: center; gap: 4px; font-family: 'DM Sans', sans-serif; }
+    .geo-flag  { font-size: 14px; line-height: 1; }
+    .dot-sep { color: var(--text3); font-size: 9px; }
+    .read-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--primary); flex-shrink: 0; animation: pulse2 2s ease-in-out infinite; }
+    @keyframes pulse2 { 0%,100%{opacity:1} 50%{opacity:.4} }
+    .card-actions { display: flex; gap: 5px; margin-left: auto; }
+    .icon-btn { width: 32px; height: 32px; border-radius: 9px; border: 1px solid var(--border2); background: rgba(255,255,255,.03); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all .18s; color: var(--text3); }
+    .icon-btn:hover { background: rgba(255,255,255,.08); color: var(--text); border-color: rgba(255,255,255,.15); }
+    .icon-btn.del:hover { background: rgba(248,113,113,.12); color: var(--red); border-color: rgba(248,113,113,.3); }
+    .icon-btn.story:hover { background: rgba(124,58,237,.12); color: #c4b5fd; border-color: rgba(124,58,237,.3); }
+
+    /* mood chip on card */
+    .mood-chip { display:inline-flex; align-items:center; gap:3px; font-size:10px; font-weight:600; padding:2px 8px; border-radius:100px; border:1px solid; }
+    .mood-chip.mood-wholesome { background:rgba(74,222,128,.1);  color:#4ade80;  border-color:rgba(74,222,128,.2); }
+    .mood-chip.mood-funny     { background:rgba(250,204,21,.1);  color:#facc15;  border-color:rgba(250,204,21,.2); }
+    .mood-chip.mood-flirty    { background:rgba(244,114,182,.1); color:#f472b6;  border-color:rgba(244,114,182,.2); }
+    .mood-chip.mood-deep      { background:rgba(167,139,250,.1); color:#a78bfa;  border-color:rgba(167,139,250,.2); }
+    .mood-chip.mood-sad       { background:rgba(96,165,250,.1);  color:#60a5fa;  border-color:rgba(96,165,250,.2); }
+    .mood-chip.mood-supportive{ background:rgba(52,211,153,.1);  color:#34d399;  border-color:rgba(52,211,153,.2); }
+    .mood-chip.mood-weird     { background:rgba(251,146,60,.1);  color:#fb923c;  border-color:rgba(251,146,60,.2); }
+    .mood-chip.mood-spicy     { background:rgba(255,71,126,.1);  color:#ff477e;  border-color:rgba(255,71,126,.2); }
+
+
+
+    /* ── Mode card animation ── */
+    .mode-card.just-selected { animation:modeSelect .35s cubic-bezier(.34,1.56,.64,1) both; }
+    @keyframes modeSelect { 0%{transform:scale(.96)} 55%{transform:scale(1.06)} 100%{transform:scale(1)} }
+
+    /* ── Stats only in inbox ── */
+    #stats-bar { transition:opacity .4s; }
+
+
+    /* ── Global professional spacing ── */
+    .page { padding:0 16px 100px; }
+    .section-panel { padding-top:6px; }
+    .profile-hdr { margin-bottom:14px; }
+    .stats-bar { margin-bottom:14px; }
+    .toolbar { margin-bottom:10px; }
+    .tabs { margin-bottom:10px; }
+    .msgs-list { gap:10px; }
+    .msg-card .card-inner { padding:16px 18px 13px 22px; }
+    .link-hero { margin-bottom:16px; }
+    .mode-section-label { margin-bottom:10px; margin-top:0; }
+    .mode-grid { gap:9px; margin-bottom:16px; }
+    .mode-card { padding:14px 13px; }
+    .mode-card-icon { margin-bottom:7px; }
+    .mode-card-title { margin-bottom:3px; }
+    .poster-section-label { margin-bottom:9px; }
+    .poster-strip { padding-bottom:6px; margin-bottom:4px; }
+    .poster-dl-row { margin-top:10px; gap:8px; }
+    .poll-toggle-row { margin-bottom:14px; }
+    .poll-editor-title { margin-bottom:10px; margin-top:16px; }
+    .poll-q-block { margin-bottom:10px; }
+    .btn-add-q { margin-top:2px; margin-bottom:12px; }
+    .btn-save-poll { margin-bottom:8px; }
+    .theme-strip { margin-bottom:14px; }
+    .share-grid { gap:8px; }
+    .share-grid .share-btn { padding:12px 8px; border-radius:14px; }
+    .bottom-nav { padding:0; }
+    .bnav-tab { padding:11px 8px 17px; gap:4px; }
+
+    /* ── Poll Results ── */
+    .poll-section-title { font-family:'Syne',sans-serif; font-weight: 700; font-size: 14px; margin-bottom: 14px; display: flex; align-items: center; gap: 7px; }
+    .poll-cat { margin-bottom: 14px; }
+    .poll-cat:last-child { margin-bottom: 0; }
+    .poll-cat-label { font-size: 12px; color: var(--text3); text-transform: uppercase; letter-spacing: .06em; margin-bottom: 7px; }
+    .poll-bar-wrap { display: flex; flex-direction: column; gap: 5px; }
+    .poll-bar-row { display: flex; align-items: center; gap: 8px; }
+    .poll-bar-label { font-size: 13px; color: var(--text2); min-width: 100px; }
+    .poll-bar-track { flex: 1; height: 6px; background: rgba(255,255,255,.08); border-radius: 100px; overflow: hidden; }
+    .poll-bar-fill { height: 100%; background: var(--grad); border-radius: 100px; transition: width .6s ease; }
+    .poll-bar-count { font-size: 12px; color: var(--text3); min-width: 24px; text-align: right; }
+
+    /* ── Empty state ── */
+    .empty { text-align: center; padding: 48px 20px; }
+    .empty-icon { font-size: 42px; margin-bottom: 14px; opacity: .7; }
+    .empty-title { font-family:'Syne',sans-serif; font-weight: 700; font-size: 18px; margin-bottom: 8px; letter-spacing: -.3px; }
+    .empty-sub { font-size: 14px; color: var(--text2); max-width: 280px; margin: 0 auto; }
+
+    /* ── Load More ── */
+    .load-more-wrap { text-align: center; margin-top: 18px; }
+    .btn-load-more { background: var(--card); border: 1px solid var(--border2); border-radius: 100px; padding: 10px 24px; font-size: 14px; font-weight: 500; color: var(--text2); cursor: pointer; transition: all .2s; }
+    .btn-load-more:hover { background: rgba(255,255,255,.08); color: var(--text); }
+
+    /* ── Toast ── */
+    .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(12px); background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; padding: 10px 20px; font-size: 14px; font-weight: 500; z-index: 999; opacity: 0; transition: opacity .22s, transform .22s; pointer-events: none; backdrop-filter: blur(20px); box-shadow: 0 8px 32px rgba(0,0,0,.5); white-space: nowrap; }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+    .toast.green { border-color: rgba(74,222,128,.3); color: var(--green); }
+    .toast.red   { border-color: rgba(248,113,113,.3); color: var(--red); }
+
+    /* ── Instagram Story Modal ── */
+    .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.7); z-index: 200; backdrop-filter: blur(6px); align-items: center; justify-content: center; padding: 20px; }
+    .modal-overlay.show { display: flex; }
+    .modal { background: var(--bg2); border: 1px solid var(--border); border-radius: 24px; width: 100%; max-width: 480px; max-height: 90vh; overflow-y: auto; padding: 28px; position: relative; }
+    .modal-close { position: absolute; top: 16px; right: 16px; width: 32px; height: 32px; border-radius: 8px; border: 1px solid var(--border2); background: rgba(255,255,255,.05); display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--text3); transition: all .18s; }
+    .modal-close:hover { color: var(--text); background: rgba(255,255,255,.10); }
+    .modal-title { font-family:'Syne',sans-serif; font-weight: 800; font-size: 18px; letter-spacing: -.3px; margin-bottom: 5px; }
+    .modal-sub { font-size: 13px; color: var(--text2); margin-bottom: 20px; }
+    .story-styles { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; margin-bottom: 18px; }
+    .story-style-btn { padding: 8px; border-radius: 10px; border: 2px solid var(--border2); background: var(--card); cursor: pointer; text-align: center; font-size: 11px; font-weight: 600; color: var(--text3); transition: all .18s; text-transform: uppercase; letter-spacing: .04em; }
+    .story-style-btn.active { border-color: var(--primary); color: var(--primary); background: rgba(255,107,53,.08); }
+    .story-preview-wrap { border-radius: 14px; overflow: hidden; margin-bottom: 18px; aspect-ratio: 9/16; max-height: 320px; display: flex; align-items: center; justify-content: center; background: #0d0a08; }
+    canvas#story-canvas { max-width: 100%; max-height: 100%; border-radius: 10px; }
+    .story-actions { display: flex; gap: 8px; }
+    .btn-story-dl { flex: 1; padding: 13px; background: var(--grad); border: none; border-radius: var(--r-sm); font-family:'DM Sans',sans-serif; font-size: 14px; font-weight: 500; color: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 7px; transition: opacity .2s; box-shadow: 0 4px 18px rgba(255,107,53,.3); }
+    .btn-story-dl:hover { opacity: .88; }
+    .btn-story-share { padding: 13px 16px; background: var(--card); border: 1px solid var(--border2); border-radius: var(--r-sm); font-family:'DM Sans',sans-serif; font-size: 14px; font-weight: 500; color: var(--text2); cursor: pointer; transition: background .2s; }
+    .btn-story-share:hover { background: rgba(255,255,255,.08); }
+
+
+    /* ── Compact message share strip ── */
+
+    /* ── Refresh indicator ── */
+    .refresh-bar { display: flex; align-items: center; justify-content: center; gap: 6px; font-size: 11px; color: var(--text3); margin-top: 18px; }
+    .refresh-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); animation: blink 2s ease-in-out infinite; }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
+
+    /* ── Poll management ── */
+    .poll-enable-row { display:flex; align-items:center; gap:12px; padding:14px 16px; background:rgba(255,255,255,.04); border:1px solid var(--border2); border-radius:12px; margin-bottom:16px; }
+    .poll-enable-lbl { flex:1; font-size:14px; color:var(--text); }
+    .poll-enable-lbl small { color:var(--text3); font-size:12px; }
+    .tog-wrap { width:44px; height:24px; background:rgba(255,255,255,.12); border-radius:100px; cursor:pointer; position:relative; flex-shrink:0; transition:background .22s; }
+    .tog-wrap[aria-checked="true"] { background:var(--primary); }
+    .tog-inner { width:18px; height:18px; background:#fff; border-radius:50%; position:absolute; top:3px; left:3px; transition:transform .22s; box-shadow:0 1px 4px rgba(0,0,0,.3); }
+    .tog-wrap[aria-checked="true"] .tog-inner { transform:translateX(20px); }
+    .poll-q-editor-block { background:rgba(255,255,255,.03); border:1px solid var(--border2); border-radius:12px; padding:14px; margin-bottom:10px; position:relative; }
+    .poll-q-editor-block input { width:100%; background:rgba(255,255,255,.05); border:1px solid var(--border2); border-radius:8px; padding:9px 12px; font-size:13px; font-family:'DM Sans',sans-serif; color:var(--text); outline:none; margin-bottom:8px; }
+    .poll-q-editor-block input:focus { border-color:var(--primary); }
+    .poll-q-editor-block input::placeholder { color:var(--text3); }
+    .poll-q-opts-row { display:grid; grid-template-columns:1fr 1fr; gap:6px; }
+    .poll-q-opts-row input { margin-bottom:0; }
+    .poll-q-del { position:absolute; top:10px; right:10px; width:24px; height:24px; border-radius:6px; border:1px solid var(--border2); background:rgba(248,113,113,.08); color:#f87171; cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:14px; }
+    .poll-q-del:hover { background:rgba(248,113,113,.18); }
+    .poll-q-lbl { font-size:11px; color:var(--text3); margin-bottom:6px; text-transform:uppercase; letter-spacing:.06em; }
+    .btn-add-q { width:100%; padding:11px; background:rgba(255,255,255,.04); border:1px dashed var(--border2); border-radius:10px; color:var(--text2); font-family:'DM Sans',sans-serif; font-size:13px; cursor:pointer; transition:all .18s; margin-bottom:14px; }
+    .btn-add-q:hover { background:rgba(255,255,255,.08); border-color:var(--border); }
+    .btn-save-poll { width:100%; padding:14px; background:var(--grad); border:none; border-radius:12px; color:#fff; font-family:'DM Sans',sans-serif; font-size:14px; font-weight:500; cursor:pointer; transition:opacity .2s; }
+    .btn-save-poll:hover { opacity:.88; }
+    .poll-save-note { text-align:center; font-size:12px; color:var(--text3); margin-top:8px; }
+    .poll-save-note.ok { color:var(--green); }
+    .poll-save-note.err { color:#f87171; }
+
+    /* ── Poster styles ── */
+    .story-modal-wide { max-width:440px; }
+    .prompt-type-row { display:flex; gap:6px; overflow-x:auto; padding-bottom:4px; margin-bottom:14px; scrollbar-width:none; }
+    .prompt-type-row::-webkit-scrollbar { display:none; }
+    .prompt-pill { flex-shrink:0; display:flex; flex-direction:column; align-items:center; gap:3px; padding:10px 13px; background:var(--card); border:1px solid var(--border2); border-radius:14px; cursor:pointer; transition:all .18s; min-width:72px; font-family:'DM Sans',sans-serif; }
+    .prompt-pill:hover { background:rgba(255,255,255,.08); border-color:rgba(255,107,53,.3); }
+    .prompt-pill.active { background:rgba(255,107,53,.12); border-color:var(--primary); }
+    .prompt-pill-icon { font-size:20px; line-height:1; }
+    .prompt-pill-label { font-size:10px; font-weight:600; color:var(--text3); white-space:nowrap; }
+    .prompt-pill.active .prompt-pill-label { color:var(--primary); }
+    .prompt-section { margin-bottom:14px; }
+    .prompt-section-label { font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:.07em; color:var(--text3); margin-bottom:8px; display:flex; align-items:center; gap:6px; }
+    .poster-styles-row { display:flex; gap:7px; overflow-x:auto; padding-bottom:4px; margin-bottom:16px; scrollbar-width:none; }
+    .poster-styles-row::-webkit-scrollbar { display:none; }
+    .poster-style-pill { flex-shrink:0; padding:8px 14px; background:var(--card); border:1px solid var(--border2); border-radius:100px; font-family:'DM Sans',sans-serif; font-size:12px; font-weight:500; color:var(--text2); cursor:pointer; transition:all .18s; white-space:nowrap; }
+    .poster-style-pill:hover { background:rgba(255,255,255,.08); color:var(--text); }
+    .poster-style-pill.active { background:rgba(255,107,53,.15); border-color:var(--primary); color:var(--text); }
+    .story-gen-loading { display:flex; flex-direction:column; align-items:center; gap:12px; padding:48px 20px; border-radius:14px; background:rgba(255,255,255,.03); border:1px solid var(--border2); margin-bottom:14px; }
+    .spin-ring { width:28px; height:28px; border:2.5px solid rgba(255,255,255,.1); border-top-color:var(--primary); border-radius:50%; animation:spin .7s linear infinite; }
+    .story-gen-loading span { font-size:13px; color:var(--text3); }
+    .story-actions { display:grid; grid-template-columns:1fr 1fr 1fr; gap:7px; margin-bottom:10px; }
+    .btn-story-dl { padding:12px 8px; background:var(--grad); border:none; border-radius:var(--r-sm); color:#fff; font-family:'DM Sans',sans-serif; font-size:12px; font-weight:500; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:5px; transition:opacity .2s; }
+    .btn-story-dl:hover { opacity:.88; }
+    .btn-story-wa { padding:12px 8px; background:rgba(37,211,102,.1); border:1px solid rgba(37,211,102,.28); border-radius:var(--r-sm); color:#25D366; font-family:'DM Sans',sans-serif; font-size:12px; font-weight:500; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:5px; transition:background .18s; }
+    .btn-story-wa:hover { background:rgba(37,211,102,.2); }
+    .btn-story-share { padding:12px 8px; background:var(--card); border:1px solid var(--border2); border-radius:var(--r-sm); color:var(--text2); font-family:'DM Sans',sans-serif; font-size:12px; font-weight:500; cursor:pointer; transition:background .2s; display:flex; align-items:center; justify-content:center; gap:5px; }
+    .btn-story-share:hover { background:rgba(255,255,255,.08); }
+    .caption-row { display:flex; gap:8px; align-items:center; padding:10px 13px; background:rgba(255,255,255,.03); border:1px solid var(--border2); border-radius:10px; }
+    .caption-url { flex:1; font-size:11px; color:var(--text2); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+    .btn-copy-caption { background:transparent; border:1px solid var(--border2); border-radius:7px; padding:5px 10px; font-family:'DM Sans',sans-serif; font-size:11px; color:var(--text3); cursor:pointer; white-space:nowrap; transition:all .18s; }
+    .btn-copy-caption:hover { background:rgba(255,255,255,.06); color:var(--text); }
+    .btn-copy-caption.copied { color:var(--green); border-color:rgba(74,222,128,.3); }
+
+    /* ── Poll manage btn ── */
+    .btn-poll-manage { display:flex; align-items:center; gap:6px; padding:8px 14px; background:rgba(255,191,105,.08); border:1px solid rgba(255,191,105,.2); border-radius:100px; color:var(--gold); font-family:'DM Sans',sans-serif; font-size:12px; font-weight:500; cursor:pointer; transition:all .18s; margin-top:12px; }
+    .btn-poll-manage:hover { background:rgba(255,191,105,.16); border-color:rgba(255,191,105,.4); }
+
+
+    /* ── Share grid ── */
+    .share-grid-sec { width:100%; margin-bottom:14px; }
+    .share-divider { display:flex; align-items:center; gap:10px; margin-bottom:12px; margin-top:4px; }
+    .sh-line { flex:1; height:1px; background:var(--border2); }
+    .sh-label { font-size:11px; font-weight:600; letter-spacing:.07em; text-transform:uppercase; color:var(--text3); white-space:nowrap; }
+    .share-grid { display:grid; grid-template-columns:repeat(5,1fr); gap:8px; }
+    .sh-btn { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:5px; padding:10px 6px; background:var(--card); border:1px solid var(--border2); border-radius:12px; font-family:'DM Sans',sans-serif; font-size:11px; font-weight:500; color:var(--text2); cursor:pointer; text-decoration:none; transition:all .18s; }
+    .sh-btn:hover { background:rgba(255,255,255,.08); color:var(--text); border-color:var(--border); }
+    .sh-btn svg { width:20px; height:20px; }
+
+
+    /* ── Poll Section Header ── */
+    .poll-section-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:16px; gap:10px; flex-wrap:wrap; }
+    .btn-poll-share-result { display:flex; align-items:center; gap:6px; padding:7px 13px; background:rgba(255,107,53,.1); border:1px solid rgba(255,107,53,.25); border-radius:100px; font-family:'DM Sans',sans-serif; font-size:12px; font-weight:500; color:var(--primary); cursor:pointer; transition:all .18s; white-space:nowrap; }
+    .btn-poll-share-result:hover { background:rgba(255,107,53,.22); border-color:rgba(255,107,53,.5); }
+
+    /* ── Poll question result card ── */
+    .poll-res-q { margin-bottom:20px; padding:20px; background:rgba(255,255,255,.03); border:1px solid var(--border2); border-radius:16px; }
+    .poll-res-q:last-child { margin-bottom:0; }
+    .poll-res-q-title { font-size:15px; font-weight:700; color:var(--text); margin-bottom:16px; line-height:1.4; }
+    .poll-res-opts { display:flex; flex-direction:column; gap:14px; }
+    .poll-res-row { display:flex; flex-direction:column; gap:8px; }
+    .poll-res-row-top { display:flex; align-items:center; justify-content:space-between; margin-bottom:2px; }
+    .poll-res-label { font-size:14px; color:var(--text); font-weight:500; }
+    .poll-res-meta { font-size:13px; color:var(--text2); display:flex; gap:10px; font-weight:500; }
+    .poll-res-track { width:100%; height:32px; background:rgba(255,255,255,.07); border-radius:10px; overflow:hidden; }
+    .poll-res-fill { height:100%; background:var(--grad); border-radius:10px; transition:width .7s cubic-bezier(.4,0,.2,1); }
+    .poll-res-fill.leader { background:linear-gradient(90deg,#ff477e,#ff6b35); box-shadow:0 0 12px rgba(255,107,53,.5); }
+
+    /* ── Poll poster modal ── */
+    .poll-poster-modal { position:fixed; inset:0; background:rgba(0,0,0,.8); z-index:8000; display:flex; align-items:center; justify-content:center; padding:20px; opacity:0; pointer-events:none; transition:opacity .2s; }
+    .poll-poster-modal.show { opacity:1; pointer-events:all; }
+    .poll-poster-box { background:#1a1208; border:1px solid rgba(255,200,130,.15); border-radius:20px; padding:20px; max-width:420px; width:100%; position:relative; }
+    /* ── Delete account btn ── */
+    .btn-del-account { width:32px; height:32px; border-radius:8px; border:1px solid rgba(248,113,113,.25); background:rgba(248,113,113,.06); display:flex; align-items:center; justify-content:center; cursor:pointer; transition:all .18s; color:var(--red,#f87171); flex-shrink:0; }
+    .btn-del-account:hover { background:rgba(248,113,113,.18); border-color:rgba(248,113,113,.5); }
+
+    /* ── Confirmation modal ── */
+    .confirm-overlay { position:fixed; inset:0; background:rgba(0,0,0,.72); z-index:9000; display:flex; align-items:center; justify-content:center; padding:20px; opacity:0; pointer-events:none; transition:opacity .2s; }
+    .confirm-overlay.show { opacity:1; pointer-events:all; }
+    .confirm-box { background:#1a1208; border:1px solid rgba(255,200,130,.15); border-radius:20px; padding:28px 24px; max-width:340px; width:100%; text-align:center; transform:scale(.94); transition:transform .2s; }
+    .confirm-overlay.show .confirm-box { transform:scale(1); }
+    .confirm-icon { display:flex; align-items:center; justify-content:center; margin-bottom:14px; }
+    .confirm-title { font-family:'Syne',sans-serif; font-size:18px; font-weight:700; margin-bottom:8px; }
+    .confirm-desc { font-size:13px; color:var(--text2); line-height:1.55; margin-bottom:22px; }
+    .confirm-btns { display:flex; gap:10px; }
+    .confirm-cancel { flex:1; padding:12px; background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.1); border-radius:12px; font-family:'DM Sans',sans-serif; font-size:14px; font-weight:500; color:var(--text2); cursor:pointer; transition:background .18s; }
+    .confirm-cancel:hover { background:rgba(255,255,255,.11); }
+    .confirm-ok { flex:1; padding:12px; background:rgba(248,113,113,.18); border:1px solid rgba(248,113,113,.4); border-radius:12px; font-family:'DM Sans',sans-serif; font-size:14px; font-weight:600; color:#f87171; cursor:pointer; transition:all .18s; }
+    .confirm-ok:hover { background:rgba(248,113,113,.32); }
+    .confirm-ok.loading { opacity:.6; pointer-events:none; }
+
+    @keyframes spin { to{transform:rotate(360deg)} }
+
+    /* ── Hint ── */
+    .first-hint { background: rgba(255,107,53,.07); border: 1px solid rgba(255,107,53,.18); border-radius: 14px; padding: 14px 18px; margin-bottom: 14px; display: none; }
+    .first-hint.show { display: block; }
+    .first-hint h3 { font-family:'Syne',sans-serif; font-weight: 700; font-size: 14px; margin-bottom: 5px; }
+    .first-hint p  { font-size: 13px; color: var(--text2); line-height: 1.55; }
+    .first-hint strong { color: var(--accent); font-weight: 500; }
+
+    @keyframes up { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
+
+    /* ── Bottom nav ── */
+    .bottom-nav { position:fixed; bottom:0; left:0; right:0; z-index:100; background:#0d0a08; border-top:1px solid var(--border2); display:flex; justify-content:center; }
+    .bnav-tab { position:relative; flex:1; max-width:120px; display:flex; flex-direction:column; align-items:center; gap:4px; padding:10px 8px 16px; cursor:pointer; border:none; background:transparent; color:var(--text3); font-family:'DM Sans',sans-serif; font-size:11px; font-weight:500; transition:color .2s; }
+    .bnav-tab svg { opacity:.4; transition:opacity .2s; }
+    .bnav-tab.active { color:var(--primary); }
+    .bnav-tab.active svg { opacity:1; }
+    .bnav-tab::after { content:''; position:absolute; top:0; left:50%; transform:translateX(-50%); width:28px; height:2.5px; border-radius:0 0 4px 4px; background:var(--primary); opacity:0; transition:opacity .2s; }
+    .bnav-tab.active::after { opacity:1; }
+    .bnav-badge { position:absolute; top:6px; right:calc(50% - 16px); width:8px; height:8px; background:#ff3b30; border-radius:50%; border:2px solid var(--bg); opacity:0; transition:opacity .2s; pointer-events:none; }
+    .bnav-tab.has-badge .bnav-badge { opacity:1; }
+
+    /* ── Section panels ── */
+    .section-panel { display:none; }
+    .section-panel.active { display:block; animation:panelIn .3s cubic-bezier(.4,0,.2,1) both; }
+    @keyframes panelIn { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
+
+    /* ── Mode card animations ── */
+    .mode-card { transition:border-color .2s,background .2s,transform .15s; }
+    .mode-card:active { transform:scale(.96); }
+    @keyframes modeSelect { 0%{transform:scale(.96)} 55%{transform:scale(1.05)} 100%{transform:scale(1)} }
+    @keyframes iconBounce { 0%{transform:scale(1)} 50%{transform:scale(1.4)} 100%{transform:scale(1)} }
+    .mode-card.just-selected { animation:modeSelect .35s cubic-bezier(.34,1.56,.64,1) both; }
+    .mode-card.just-selected .mode-card-icon { animation:iconBounce .4s cubic-bezier(.34,1.56,.64,1); }
+
+    /* ── Link hero pulse on copy ── */
+    @keyframes heroPulse { 0%,100%{box-shadow:none} 50%{box-shadow:0 0 0 4px rgba(255,107,53,.28)} }
+    .link-hero.copied { animation:heroPulse .5s ease; }
+
+    /* ── Poster thumb stagger appear ── */
+    @keyframes thumbIn { from{opacity:0;transform:scale(.9) translateY(10px)} to{opacity:1;transform:none} }
+    .poster-thumb:nth-child(1) { animation:thumbIn .3s .04s ease both; }
+    .poster-thumb:nth-child(2) { animation:thumbIn .3s .12s ease both; }
+    .poster-thumb:nth-child(3) { animation:thumbIn .3s .20s ease both; }
+
+    /* ── Message card stagger ── */
+    .msg-card:nth-child(1)  { animation-delay:.02s; }
+    .msg-card:nth-child(2)  { animation-delay:.06s; }
+    .msg-card:nth-child(3)  { animation-delay:.10s; }
+    .msg-card:nth-child(4)  { animation-delay:.14s; }
+    .msg-card:nth-child(n+5){ animation-delay:.18s; }
+
+    /* ── Toggle animation ── */
+    .tog-wrap { transition:background .25s; }
+    .tog-inner { transition:transform .25s cubic-bezier(.34,1.4,.64,1); }
+    .tog-wrap[aria-checked="true"] .tog-inner { transform:translateX(22px); }
+
+    /* ── Responsive ── */
+    @media (max-width: 560px) { .profile-hdr { flex-direction:column; align-items:flex-start; gap:12px; } }
+
+
+    /* ── Link section ── */
+    .link-section { padding-bottom:20px; }
+    .link-hero { background:linear-gradient(135deg,rgba(255,71,126,.1),rgba(255,107,53,.06)); border:1px solid var(--border); border-radius:20px; padding:20px; margin-bottom:16px; }
+    .link-hero-label { font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:.08em; color:var(--text3); margin-bottom:6px; }
+    .link-hero-url { font-family:'Syne',sans-serif; font-weight:700; font-size:16px; color:var(--text); word-break:break-all; margin-bottom:14px; background:var(--grad-t); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+    .link-copy-row { display:flex; gap:8px; }
+    .btn-link-copy { flex:1; padding:11px; background:var(--grad); border:none; border-radius:12px; color:#fff; font-family:'DM Sans',sans-serif; font-size:13px; font-weight:600; cursor:pointer; transition:opacity .18s; }
+    .btn-link-copy:hover { opacity:.88; }
+    .btn-link-share { padding:11px 16px; background:rgba(255,255,255,.05); border:1px solid var(--border2); border-radius:12px; color:var(--text2); font-family:'DM Sans',sans-serif; font-size:13px; cursor:pointer; transition:all .18s; }
+    .btn-link-share:hover { background:rgba(255,255,255,.1); }
+
+    .mode-section-label { font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:.08em; color:var(--text3); margin-bottom:10px; display:flex; align-items:center; justify-content:space-between; }
+    .mode-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:18px; }
+    .mode-card { padding:14px; background:var(--card); border:1px solid var(--border2); border-radius:16px; cursor:pointer; transition:all .2s; text-align:left; }
+    .mode-card:hover { border-color:rgba(255,107,53,.3); background:rgba(255,107,53,.06); }
+    .mode-card.active { border-color:var(--primary); background:rgba(255,107,53,.1); }
+    .mode-card-icon { width:32px; height:32px; display:flex; align-items:center; justify-content:center; margin-bottom:8px; color:var(--text2); }
+    .mode-card.active .mode-card-icon { color:var(--primary); }
+    .mode-card-title { font-size:13px; font-weight:700; color:var(--text); margin-bottom:2px; }
+    .mode-card-sub { font-size:11px; color:var(--text3); line-height:1.4; }
+    .mode-card.active .mode-card-title { color:var(--primary); }
+
+    /* ── Poster strip ── */
+    .poster-section-label { font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:.08em; color:var(--text3); margin-bottom:10px; display:flex; align-items:center; gap:6px; }
+    .poster-spin { width:10px; height:10px; border:1.5px solid rgba(255,255,255,.2); border-top-color:var(--primary); border-radius:50%; animation:spin .7s linear infinite; display:none; }
+    .poster-strip { display:flex; gap:10px; overflow-x:auto; padding-bottom:8px; scrollbar-width:none; }
+    .poster-strip::-webkit-scrollbar { display:none; }
+    .poster-thumb { flex-shrink:0; width:120px; cursor:pointer; border-radius:14px; overflow:hidden; border:2px solid transparent; transition:all .2s; position:relative; }
+    .poster-thumb:hover { border-color:rgba(255,107,53,.4); transform:scale(1.02); }
+    .poster-thumb canvas { width:100%; display:block; border-radius:12px; }
+    .poster-thumb-label { font-size:10px; font-weight:600; color:var(--text3); text-align:center; margin-top:5px; }
+    .poster-dl-row { display:flex; gap:7px; margin-top:12px; }
+    .btn-poster-dl { flex:1; padding:11px; background:var(--grad); border:none; border-radius:12px; color:#fff; font-family:'DM Sans',sans-serif; font-size:13px; font-weight:600; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px; }
+    .btn-poster-wa { padding:11px 16px; background:rgba(37,211,102,.1); border:1px solid rgba(37,211,102,.28); border-radius:12px; color:#25D366; font-family:'DM Sans',sans-serif; font-size:13px; cursor:pointer; }
+
+    /* ── Poll section full ── */
+    .poll-full-section { padding-bottom:20px; }
+    .poll-toggle-row { display:flex; align-items:center; justify-content:space-between; background:var(--card); border:1px solid var(--border2); border-radius:16px; padding:16px 18px; margin-bottom:14px; }
+    .poll-toggle-info strong { font-size:14px; font-weight:600; display:block; margin-bottom:3px; }
+    .poll-toggle-info span { font-size:12px; color:var(--text3); }
+
+    .poll-results-section { background:var(--card); border:1px solid var(--border2); border-radius:18px; padding:20px; margin-bottom:18px; }
+    .poll-results-wrap { margin-bottom:0; }
+    .poll-results-title { font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:.08em; color:var(--text3); margin-bottom:16px; display:flex; align-items:center; justify-content:space-between; }
+
+    .poll-editor-wrap { }
+    .poll-editor-title { font-size:12px; font-weight:600; text-transform:uppercase; letter-spacing:.07em; color:var(--text3); margin-bottom:10px; }
+
+    /* Reuse existing poll-q-editor styles */
+
+    /* ── Responsive padding for bottom nav ── */
+    .page { padding-bottom:90px; }
+  </style>
+  <script>if('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js');</script>
+</head>
+<body>
+<div class="orbs" aria-hidden="true"><div class="orb orb-1"></div><div class="orb orb-2"></div></div>
+<div class="page">
+  <nav class="top-nav">
+    <a href="/" class="logo" aria-label="AskThat">
+      <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 28 28" aria-hidden="true"><defs><linearGradient id="lg-at" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#ff477e"/><stop offset="48%" stop-color="#ff6b35"/><stop offset="100%" stop-color="#ffbf69"/></linearGradient></defs><text x="14" y="22" font-size="26" font-family="Georgia,serif" font-weight="bold" text-anchor="middle" fill="url(#lg-at)">@</text></svg>AskThat
+    </a>
+    <div class="nav-r">
+      <button class="btn-del-account" id="btn-del-account" title="Delete account" aria-label="Delete account">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 3.5h10M5.5 3.5V2.5a.5.5 0 01.5-.5h2a.5.5 0 01.5.5v1M6 6v4.5M8 6v4.5M3 3.5l.667 7.5A1 1 0 004.664 12h4.672a1 1 0 00.997-.918L11 3.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+  </nav>
+  <div class="profile-hdr" id="profile-hdr">
+    <div class="avatar" id="avatar-el" aria-hidden="true">?</div>
+    <div class="profile-info">
+      <h1 id="profile-name">Loading…</h1>
+      <div class="link-pill"><span id="link-display">—</span></div>
+    </div>
+  </div>
+
+  <div class="new-banner" id="new-banner">
+    <span class="new-banner-txt"><strong id="new-banner-count">New messages</strong> arrived</span>
+    <button class="btn-banner" id="btn-load-new">See →</button>
+  </div>
+
+  <!-- INBOX -->
+  <div class="section-panel active" id="panel-inbox">
+    <div class="stats-bar" id="stats-bar" style="opacity:0;transition:opacity .4s;margin-bottom:12px">
+      <div class="stat-card"><div class="stat-val" id="stat-total">—</div><div class="stat-lbl">Messages</div></div>
+      <div class="stat-card"><div class="stat-val" id="stat-unread">—</div><div class="stat-lbl">Unread</div></div>
+    </div>
+    <div class="toolbar">
+      <div class="search-wrap">
+        <svg class="search-ico" width="15" height="15" viewBox="0 0 15 15" fill="none"><circle cx="6.5" cy="6.5" r="4.5" stroke="currentColor" stroke-width="1.4"/><path d="M10 10l3 3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+        <input class="search-input" id="search-input" type="search" placeholder="Search…" autocomplete="off">
+      </div>
+      <select class="sort-select" id="sort-select"><option value="newest">Newest</option><option value="oldest">Oldest</option></select>
+      <button class="btn-sm ol" id="btn-bulk-toggle" style="white-space:nowrap">Select</button>
+    </div>
+    <div class="tabs" role="tablist">
+      <button class="tab active" data-filter="all" role="tab">All <span class="tab-count" id="count-all">0</span></button>
+      <button class="tab" data-filter="unread" role="tab">Unread <span class="tab-count" id="count-unread">0</span></button>
+    </div>
+    <div class="bulk-bar" id="bulk-bar">
+      <span class="bulk-count" id="bulk-count-txt">0 selected</span>
+      <button class="btn-sm ol" id="btn-select-all">All</button>
+      <button class="btn-bulk-del" id="btn-bulk-del">Delete</button>
+      <button class="btn-bulk-cancel" id="btn-bulk-cancel">Cancel</button>
+    </div>
+    <div class="msgs-list" id="msgs-list" aria-live="polite"></div>
+    <div class="load-more-wrap" id="load-more-wrap" style="display:none"><button class="btn-load-more" id="btn-load-more">Load more</button></div>
+    <div class="refresh-bar"><div class="refresh-dot"></div><span>Live · 30s refresh</span></div>
+  </div>
+
+  <!-- LINK -->
+  <div class="section-panel" id="panel-link">
+    <div class="link-section">
+
+      <!-- Link hero -->
+      <div class="link-hero">
+        <div class="link-hero-label">Your link</div>
+        <div class="link-hero-url" id="link-hero-url">askthat.pages.dev/ask/…</div>
+        <div class="link-copy-row">
+          <button class="btn-link-copy" id="btn-link-copy">Copy link</button>
+          <button class="btn-link-share" id="btn-link-share-native">Share</button>
+        </div>
+      </div>
+
+      <!-- Mode picker -->
+      <div class="mode-section-label">
+        <span>Select mode</span>
+        <span style="font-size:10px;color:var(--text3);font-weight:400;text-transform:none;letter-spacing:0">Saved automatically</span>
+      </div>
+      <div class="mode-grid" id="mode-grid">
+        <button class="mode-card active" data-type="ask"><div class="mode-card-icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M2 4a2 2 0 012-2h12a2 2 0 012 2v8a2 2 0 01-2 2H7l-4 3V4z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg></div><div class="mode-card-title">Ask Me</div><div class="mode-card-sub">Open message</div></button>
+        <button class="mode-card" data-type="rate"><div class="mode-card-icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 2l2.2 4.5L17 7.3l-3.5 3.4.8 4.8L10 13.3l-4.3 2.2.8-4.8L3 7.3l4.8-.8z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg></div><div class="mode-card-title">Rate Me</div><div class="mode-card-sub">Vibe score 1–10</div></button>
+        <button class="mode-card" data-type="trust"><div class="mode-card-icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="5" y="9" width="10" height="9" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M7 9V6a3 3 0 016 0v3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div><div class="mode-card-title">Trust Level</div><div class="mode-card-sub">How well they know you</div></button>
+        <button class="mode-card" data-type="3words"><div class="mode-card-icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M3 5h14M3 10h10M3 15h7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div><div class="mode-card-title">3 Words</div><div class="mode-card-sub">Describe me exactly</div></button>
+        <button class="mode-card" data-type="advice"><div class="mode-card-icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="8" stroke="currentColor" stroke-width="1.5"/><path d="M10 6v5M10 13v1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div><div class="mode-card-title">Advice</div><div class="mode-card-sub">One thing to hear</div></button>
+        <button class="mode-card" data-type="yesno"><div class="mode-card-icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="8" stroke="currentColor" stroke-width="1.5"/><path d="M7 10.5l2 2 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="mode-card-title">Yes / No</div><div class="mode-card-sub">AI yes/no question</div></button>
+        <button class="mode-card" data-type="ai" id="mode-ai-card"><div class="mode-card-icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="8" stroke="currentColor" stroke-width="1.5"/><circle cx="10" cy="10" r="3" stroke="currentColor" stroke-width="1.5"/><circle cx="10" cy="10" r="1" fill="currentColor"/></svg></div><div class="mode-card-title">Truth Dare</div><div class="mode-card-sub" id="mode-ai-sub">Question ready</div></button>
+      </div>
+
+      <!-- Share your link -->
+      <div class="mode-section-label" style="margin-top:4px">
+        <span>Share</span>
+      </div>
+      <div class="share-grid" id="share-btns-dashboard"></div>
+
+    </div>
+  </div>
+
+  <!-- POLL -->
+  <div class="section-panel" id="panel-poll">
+    <div class="poll-full-section">
+      <div class="poll-toggle-row">
+        <div class="poll-toggle-info"><strong id="poll-tog-label">Poll disabled</strong><span id="poll-tog-sub">Enable to add a poll to your link</span></div>
+        <div class="tog-wrap" id="poll-enable-tog" role="switch" aria-checked="false" tabindex="0"><div class="tog-inner"></div></div>
+      </div>
+      <div class="poll-results-wrap" id="poll-results-wrap" style="display:none">
+        <div class="poll-results-section">
+          <div class="poll-results-title">
+            <span>Live poll results</span>
+            <button id="btn-poll-share-result" class="btn-poll-share-result" style="display:none">Share results</button>
+          </div>
+          <div id="poll-content"></div>
+        </div>
+      </div>
+      <div class="poll-editor-wrap">
+        <div class="poll-editor-title">Questions</div>
+        <div id="poll-questions-editor"></div>
+        <button class="btn-add-q" id="btn-add-question">+ Add question</button>
+        <button class="btn-save-poll" id="btn-save-poll">Save</button>
+        <p class="poll-save-note" id="poll-save-note"></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<nav class="bottom-nav" role="navigation">
+  <button class="bnav-tab active" data-panel="inbox" id="bnav-inbox">
+    <div class="bnav-badge" id="badge-inbox"></div>
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M2 7l8 5 8-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><rect x="2" y="4" width="16" height="13" rx="2.5" stroke="currentColor" stroke-width="1.5"/></svg>
+    Inbox
+  </button>
+  <button class="bnav-tab" data-panel="link" id="bnav-link">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    Link
+  </button>
+  <button class="bnav-tab" data-panel="poll" id="bnav-poll">
+    <div class="bnav-badge" id="badge-poll"></div>
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="2" y="11" width="4" height="7" rx="1" stroke="currentColor" stroke-width="1.5"/><rect x="8" y="7" width="4" height="11" rx="1" stroke="currentColor" stroke-width="1.5"/><rect x="14" y="3" width="4" height="15" rx="1" stroke="currentColor" stroke-width="1.5"/></svg>
+    Poll
+  </button>
+</nav>
+
+<!-- Poster modal — auto-generates, no style picker -->
+<div class="modal-overlay" id="story-modal" role="dialog" aria-modal="true">
+  <div class="modal story-modal-wide">
+    <button class="modal-close" id="story-modal-close"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 2l10 10M12 2L2 12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></button>
+    <h2 class="modal-title" id="story-modal-title">Story Poster</h2>
+    <p class="modal-sub" id="story-modal-sub">Download and share to Instagram, WhatsApp Stories.</p>
+    <div class="story-gen-loading" id="story-gen-loading"><div class="spin-ring"></div><span>Building poster…</span></div>
+    <div id="story-preview-wrap" style="display:none"><canvas id="story-canvas" width="1080" height="1920" style="width:100%;border-radius:16px;display:block"></canvas></div>
+    <div class="story-actions" id="story-actions-bar" style="display:none">
+      <button class="btn-story-dl" id="btn-story-download"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1v10M3 8l4 4 4-4" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M1 13h12" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg>Download</button>
+      <button class="btn-story-wa" id="btn-story-wa"><svg width="15" height="15" viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a9.626 9.626 0 00-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.125.557 4.118 1.528 5.845L0 24l6.335-1.652A11.954 11.954 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.006-1.371l-.36-.214-3.727.977.994-3.638-.235-.374A9.818 9.818 0 012.182 12C2.182 6.578 6.578 2.182 12 2.182S21.818 6.578 21.818 12 17.422 21.818 12 21.818z"/></svg>WhatsApp</button>
+      <button class="btn-story-share" id="btn-story-share-native">Share</button>
+    </div>
+    <div class="caption-row" id="caption-row" style="display:none">
+      <span class="caption-url" id="caption-url-txt"></span>
+      <button class="btn-copy-caption" id="btn-copy-caption">Copy</button>
+    </div>
+  </div>
+</div>
+
+<div class="confirm-overlay" id="confirm-overlay" role="dialog" aria-modal="true">
+  <div class="confirm-box">
+    <div class="confirm-icon" id="confirm-icon"><svg width="32" height="32" viewBox="0 0 32 32" fill="none"><path d="M6 8h20M13 8V6a1 1 0 011-1h4a1 1 0 011 1v2M14 14v8M18 14v8M8 8l1.5 17a1.5 1.5 0 001.5 1.5h10a1.5 1.5 0 001.5-1.5L24 8" stroke="#f87171" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    <div class="confirm-title" id="confirm-title">Delete message?</div>
+    <div class="confirm-desc" id="confirm-desc">This cannot be undone.</div>
+    <div class="confirm-btns">
+      <button class="confirm-cancel" id="confirm-cancel">Cancel</button>
+      <button class="confirm-ok" id="confirm-ok">Delete</button>
+    </div>
+  </div>
+</div>
+<div class="toast" id="toast" role="alert" aria-live="assertive"></div>
+
+<script>
+// roundRect polyfill for Android Chrome < 99
+(function(){if(!CanvasRenderingContext2D.prototype.roundRect){CanvasRenderingContext2D.prototype.roundRect=function(x,y,w,h,r){r=Math.min(r,w/2,h/2);this.moveTo(x+r,y);this.lineTo(x+w-r,y);this.quadraticCurveTo(x+w,y,x+w,y+r);this.lineTo(x+w,y+h-r);this.quadraticCurveTo(x+w,y+h,x+w-r,y+h);this.lineTo(x+r,y+h);this.quadraticCurveTo(x,y+h,x,y+h-r);this.lineTo(x,y+r);this.quadraticCurveTo(x,y,x+r,y);this.closePath();return this;};}})();
+(function() {
+  'use strict';
+
+  const USERNAME_RE = /^[a-zA-Z0-9_.-]+$/;
+
+  // Primary: injected server-side by CF Function (window.__ASKTHAT_DASHBOARD_USER__)
+  // Fallbacks: ?u= query param, or /dashboard/username path segment
+  const params    = new URLSearchParams(location.search);
+  const pathMatch = location.pathname.match(/\/dashboard\/([^/?#]+)/);
+  const pathUser  = pathMatch ? pathMatch[1] : '';
+  let   user      = (
+    (typeof window.__ASKTHAT_DASHBOARD_USER__ === 'string' && window.__ASKTHAT_DASHBOARD_USER__
+      ? window.__ASKTHAT_DASHBOARD_USER__ : null) ||
+    params.get('u') ||
+    pathUser ||
+    ''
+  ).trim().toLowerCase();
+  if (user.endsWith('.html')) user = user.slice(0, -5);
+
+  if (!user || user.length < 1 || user.length > 30 || !USERNAME_RE.test(user)) {
+    window.location.href = '/'; return;
+  }
+
+  // Set name INSTANTLY before anything else can crash
+  document.getElementById('profile-name').textContent = user;
+  document.getElementById('avatar-el').textContent = user.charAt(0).toUpperCase();
+  document.title = `${user}'s Dashboard — AskThat`;
+
+  // Clean up ?u= from the address bar (only needed for CF Function to create the link)
+  if (location.search) history.replaceState(null, '', location.pathname);
+
+  const BASE_URL = `${location.origin}/ask/${user}`;
+
+  let messages    = [];
+  let filter      = 'all';
+  let sortOrder   = 'newest';
+  let searchQ     = '';
+  let cursor      = 0;
+  let totalServer = 0;
+  let unreadCount = 0;
+  let pollStats   = null;
+  let bulkMode    = false;
+  let selected    = new Set();
+  let lastTotal   = -1;
+  let posterStyle = 'fire';
+  let activeStoryMsg = null; // message being poster-ised
+  let refreshTimer;
+  let toastTimer;
+  let authToken   = null;
+
+  // ── DOM refs ──────────────────────────────────────────────────────────────
+  const msgsList       = document.getElementById('msgs-list');
+  const statBar        = document.getElementById('stats-bar');
+  const statTotal      = document.getElementById('stat-total');
+  const statUnread     = document.getElementById('stat-unread');
+  const countAll       = document.getElementById('count-all');
+  const countUnread    = document.getElementById('count-unread');
+  const profileName    = document.getElementById('profile-name');
+  const avatarEl       = document.getElementById('avatar-el');
+  const linkDisplay    = document.getElementById('link-display');
+  const newBanner      = document.getElementById('new-banner');
+  const newBannerCount = document.getElementById('new-banner-count');
+  const searchInput    = document.getElementById('search-input');
+  const sortSelect     = document.getElementById('sort-select');
+  const bulkBar        = document.getElementById('bulk-bar');
+  const bulkCountTxt   = document.getElementById('bulk-count-txt');
+  const loadMoreWrap   = document.getElementById('load-more-wrap');
+  const pollContent    = document.getElementById('poll-content');
+  const pollSection    = document.getElementById('poll-results-wrap');
+  const pollEnableTog  = document.getElementById('poll-enable-tog');
+  const pollQsEditor   = document.getElementById('poll-questions-editor');
+
+  authToken = (typeof window.__ASKTHAT_TOKEN__ === 'string') ? window.__ASKTHAT_TOKEN__ : null;
+
+  // ── Current link mode — stored server-side, URL always stays clean ────────
+  let currentMode = 'ask';
+  let aiGameText  = '';
+  let modeSaveTimer = null;
+
+  function currentLink() {
+    return BASE_URL; // Always clean — mode is server-side
+  }
+
+  function updateLinkDisplay() {
+    const heroEl = document.getElementById('link-hero-url');
+    if (heroEl) heroEl.textContent = BASE_URL.replace('https://','');
+    const captionEl = document.getElementById('caption-url-txt');
+    if (captionEl) captionEl.textContent = BASE_URL;
+  }
+
+  async function saveMode(mode) {
+    try {
+      await fetch('/api/get', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username: user, token: authToken, field: 'mode', value: mode }),
+      });
+    } catch(_) {}
+  }
+
+
+  // ── THEMES ───────────────────────────────────────────────────────────────
+  const THEMES = [
+    { id:'dark',     label:'Dark',    bg:['#0d0a08','#1a1208'], o1:'rgba(255,107,53,.35)', o2:'rgba(255,71,126,.28)' },
+    { id:'fire',     label:'Fire',    bg:['#1a0505','#2d0a0a'], o1:'rgba(255,71,126,.45)', o2:'rgba(255,107,53,.35)' },
+    { id:'neon',     label:'Neon',    bg:['#04041a','#080830'], o1:'rgba(124,58,237,.55)', o2:'rgba(255,71,126,.40)' },
+    { id:'pastel',   label:'Pastel',  bg:['#1a0d1a','#150d22'], o1:'rgba(236,72,153,.38)', o2:'rgba(167,139,250,.28)' },
+    { id:'midnight', label:'Night',   bg:['#020210','#050520'], o1:'rgba(59,130,246,.42)', o2:'rgba(139,92,246,.32)' },
+    { id:'holo',     label:'Holo',    bg:['#050510','#0a0520'], o1:'rgba(0,212,255,.38)',  o2:'rgba(255,0,128,.30)' },
+  ];
+
+  function buildThemeStrip() {
+    const strip = document.getElementById('theme-strip');
+    if (!strip) return;
+    strip.innerHTML = '';
+    THEMES.forEach(th => {
+      const wrap = document.createElement('div');
+      wrap.className = 'theme-swatch' + (th.id === currentTheme ? ' active' : '');
+      wrap.dataset.theme = th.id;
+      wrap.innerHTML = `
+        <div class="theme-swatch-preview">
+          <svg width="52" height="82" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="tbg_${th.id}" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="${th.bg[0]}"/><stop offset="100%" stop-color="${th.bg[1]}"/></linearGradient>
+              <radialGradient id="to1_${th.id}" cx="30%" cy="20%"><stop offset="0%" stop-color="${th.o1}"/><stop offset="100%" stop-color="transparent"/></radialGradient>
+              <radialGradient id="to2_${th.id}" cx="70%" cy="80%"><stop offset="0%" stop-color="${th.o2}"/><stop offset="100%" stop-color="transparent"/></radialGradient>
+            </defs>
+            <rect width="52" height="82" fill="url(#tbg_${th.id})" rx="10"/>
+            <rect width="52" height="82" fill="url(#to1_${th.id})" rx="10"/>
+            <rect width="52" height="82" fill="url(#to2_${th.id})" rx="10"/>
+            <rect x="8" y="28" width="36" height="5" rx="2.5" fill="rgba(255,255,255,.28)"/>
+            <rect x="10" y="40" width="28" height="3" rx="1.5" fill="rgba(255,255,255,.16)"/>
+            <rect x="12" y="50" width="22" height="3" rx="1.5" fill="rgba(255,255,255,.10)"/>
+            <rect x="8" y="61" width="36" height="12" rx="6" fill="rgba(255,107,53,.65)"/>
+          </svg>
+        </div>
+        <div class="theme-swatch-label">${th.label}</div>`;
+      wrap.addEventListener('click', () => {
+        currentTheme = th.id;
+        strip.querySelectorAll('.theme-swatch').forEach(s => s.classList.toggle('active', s.dataset.theme === th.id));
+        // Save to server
+        fetch('/api/get', { method:'POST', headers:{'Content-Type':'application/json'},
+          body: JSON.stringify({ username:user, token:authToken, field:'theme', value:th.id })
+        }).then(()=>showToast('Theme saved')).catch(()=>{});
+      });
+      strip.appendChild(wrap);
+    });
+  }
+
+  // Load saved theme and build strip
+
+  // ── VALID MODES (include yesno) ───────────────────────────────────────────
+  const ALL_MODES = ['ask','3words','trust','rate','advice','ai','yesno'];
+
+  // ── Bottom nav tabs ───────────────────────────────────────────────────────
+  let currentPanel = 'inbox';
+  function switchPanel(panel) {
+    currentPanel = panel;
+    document.querySelectorAll('.section-panel').forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('.bnav-tab').forEach(el => el.classList.remove('active'));
+    const panelEl = document.getElementById(`panel-${panel}`);
+    const tabEl   = document.getElementById(`bnav-${panel}`);
+    if (panelEl) panelEl.classList.add('active');
+    if (tabEl)   tabEl.classList.add('active');
+    // Clear badge when panel opened
+    if (panel === 'inbox') {
+      document.getElementById('bnav-inbox').classList.remove('has-badge');
+      try { localStorage.setItem(`askthat_last_read_${user}`, Date.now()); } catch(_) {}
+    }
+    if (panel === 'poll') {
+      document.getElementById('bnav-poll').classList.remove('has-badge');
+      try { localStorage.setItem(`askthat_poll_seen_${user}`, currentPollTotalVotes); } catch(_) {}
+    }
+      if (panel === 'poll') initPollSection();
+  }
+  document.querySelectorAll('.bnav-tab').forEach(btn => {
+    btn.addEventListener('click', () => switchPanel(btn.dataset.panel));
+  });
+
+  // ── Mode grid ─────────────────────────────────────────────────────────────
+  // Load saved mode on init
+  fetch(`/api/get?username=${encodeURIComponent(user)}&field=mode`)
+    .then(r => r.json())
+    .then(d => {
+      if (d.mode && d.mode !== 'ask') {
+        currentMode = d.mode;
+        document.querySelectorAll('.mode-card').forEach(c => {
+          c.classList.toggle('active', c.dataset.type === currentMode);
+        });
+      }
+    }).catch(()=>{});
+
+  document.querySelectorAll('.mode-card').forEach(card => {
+    card.addEventListener('click', () => {
+      if (card.dataset.type === currentMode) return;
+      document.querySelectorAll('.mode-card').forEach(c => {
+        c.classList.remove('active','just-selected');
+      });
+      card.classList.add('active');
+      requestAnimationFrame(() => {
+        card.classList.add('just-selected');
+        setTimeout(() => card.classList.remove('just-selected'), 400);
+      });
+      currentMode = card.dataset.type;
+      updateLinkDisplay();
+
+      clearTimeout(modeSaveTimer);
+      modeSaveTimer = setTimeout(() => saveMode(currentMode), 600);
+    });
+  });
+
+  // Link copy/share buttons in Link panel
+  document.getElementById('btn-link-copy')?.addEventListener('click', () => {
+    navigator.clipboard.writeText(currentLink()).then(() => showToast('Link copied')).catch(()=>{});
+  });
+  document.getElementById('btn-link-share-native')?.addEventListener('click', async () => {
+    if (navigator.share) {
+      try { await navigator.share({ url: currentLink(), title: `Ask ${user} anonymously` }); return; } catch(_){}
+    }
+    navigator.clipboard.writeText(currentLink()).then(()=>showToast('Link copied')).catch(()=>{});
+  });
+
+  // ── 3-poster strip ────────────────────────────────────────────────────────
+
+  async function buildPosterStrip() {
+    const strip = document.getElementById('poster-strip');
+    const spin  = document.getElementById('poster-spin');
+    const dlRow = document.getElementById('poster-dl-row');
+    if (!strip) return;
+    postersGenerated = true;
+    strip.innerHTML = '';
+    dlRow.style.display = 'none';
+    spin.style.display  = 'block';
+
+    POSTER_STYLES_ORDER.forEach((style, idx) => {
+      const wrap   = document.createElement('div');
+      wrap.className = 'poster-thumb';
+      if (style === selectedPosterStyle) wrap.style.borderColor = 'var(--primary)';
+      const canvas = document.createElement('canvas');
+      canvas.width  = 1080; canvas.height = 1920;
+      canvas.style.width = '100%'; canvas.style.borderRadius = '12px'; canvas.style.display = 'block';
+      const label  = document.createElement('div');
+      label.className = 'poster-thumb-label';
+      label.textContent = ['Fire','Dark','Neon'][idx];
+      wrap.appendChild(canvas);
+      wrap.appendChild(label);
+      strip.appendChild(wrap);
+      wrap.addEventListener('click', () => {
+        selectedPosterStyle = style;
+        strip.querySelectorAll('.poster-thumb').forEach(t => t.style.borderColor = 'transparent');
+        wrap.style.borderColor = 'var(--primary)';
+      });
+
+      // Draw with NGL engine — swap canvas temporarily
+      setTimeout(() => {
+        const realStory = document.getElementById('story-canvas');
+        if (realStory) realStory.id = '_story_bak';
+        canvas.id = 'story-canvas';
+        drawPoster(style);
+        canvas.id = 'poster-thumb-canvas-' + idx;
+        if (realStory) realStory.id = 'story-canvas';
+        if (idx === POSTER_STYLES_ORDER.length - 1) {
+          spin.style.display = 'none';
+          dlRow.style.display = '';
+        }
+      }, idx * 120);
+    });
+  }
+
+
+  // ── AI game text for mode card ─────────────────────────────────────────────
+  async function loadAIGameText() {
+    try {
+      // Try to get location for context
+      let locContext = '';
+      try {
+        const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+        locContext = tz ? `timezone: ${tz}` : '';
+      } catch(_){}
+      const res = await fetch(`/api/groq?type=dare&username=${encodeURIComponent(user)}`);
+      const d   = await res.json();
+      aiGameText = d.dare || d.game || d.prompt || '';
+      if (aiGameText) PROMPT_TYPES.ai.label = aiGameText;
+      const subEl = document.getElementById('mode-ai-sub');
+      if (subEl) subEl.textContent = 'Spicy question ready';
+    } catch(_) {
+      aiGameText = "What\'s one thing you\'d never say to my face?";
+      const subEl = document.getElementById('mode-ai-sub');
+      if (subEl) subEl.textContent = 'Spicy question ready';
+    }
+  }
+  loadAIGameText();
+
+  // ── Init ──────────────────────────────────────────────────────────────────
+  profileName.textContent = user;
+  avatarEl.textContent    = user.charAt(0).toUpperCase();
+  try { localStorage.setItem('askthat_username', user); } catch(_) {}
+  linkDisplay.textContent = `askthat.pages.dev/ask/${user}`;
+  document.title          = `${user}'s Inbox — AskThat`;
+  updateLinkDisplay();
+
+  load(true);
+  startRefresh();
+  // posters built lazily when link panel opened
+  (async () => {
+    try {
+      const res = await fetch(`/api/stats?username=${encodeURIComponent(user)}`);
+      const d   = await res.json();
+      if (d.streak > 1) {
+        const nameEl = document.getElementById('profile-name');
+        if (nameEl && !nameEl.querySelector('.streak-pill')) {
+          const pill = document.createElement('span');
+          pill.className = 'streak-pill';
+          pill.textContent = `${d.streak}-day streak`;
+          nameEl.appendChild(pill);
+        }
+      }
+    } catch(_) {}
+  })();
+
+  // ── Data loading ──────────────────────────────────────────────────────────
+  async function load(isInitial = false) {
+    if (isInitial) {
+      cursor = 0; messages = [];
+      msgsList.innerHTML = `<div style="text-align:center;padding:36px"><div class="spin" style="margin:0 auto;width:22px;height:22px;border:2px solid rgba(255,255,255,.2);border-top-color:#ff6b35;border-radius:50%;animation:spin .6s linear infinite"></div></div>`;
+    }
+    const url = `/api/get?username=${encodeURIComponent(user)}&filter=${filter}&sort=${sortOrder}&cursor=${isInitial ? 0 : cursor}&markRead=${isInitial ? '1' : '0'}`;
+    try {
+      const res  = await fetch(url);
+      const data = await res.json();
+      if (!res.ok) { if (isInitial) msgsList.innerHTML = '<div style="text-align:center;padding:24px;color:var(--text3)">Failed to load messages.</div>'; return; }
+
+      const incoming = data.messages || [];
+      if (isInitial) messages = incoming;
+      else messages = [...messages, ...incoming];
+
+      cursor      = isInitial ? (data.nextCursor ?? 0) : (data.nextCursor ?? cursor);
+      pollStats   = data.pollStats;
+
+      updateCounts(data.total, data.unreadCount ?? 0);
+      render(isInitial);
+      if (pollStats) renderPollResults();
+      loadMoreWrap.style.display = data.nextCursor != null ? '' : 'none';
+
+      if (!isInitial && data.total > lastTotal && lastTotal >= 0) {
+        const diff = data.total - lastTotal;
+        newBannerCount.textContent = `${diff} new message${diff > 1 ? 's' : ''}`;
+        newBanner.classList.add('show');
+        // Show red dot on inbox tab if user is not on inbox
+        if (currentPanel !== 'inbox') {
+          document.getElementById('bnav-inbox').classList.add('has-badge');
+        }
+      }
+      lastTotal = data.total;
+      statBar.style.opacity = '1';
+    } catch (_) {
+      if (isInitial) msgsList.innerHTML = '<div style="text-align:center;padding:24px;color:var(--text3)">Network error.</div>';
+    }
+  }
+
+
+  function startRefresh() {
+    clearInterval(refreshTimer);
+    refreshTimer = setInterval(() => load(false), 30000);
+  }
+
+  // ── Render ────────────────────────────────────────────────────────────────
+  function render(replace = true) {
+    const filtered = searchQ
+      ? messages.filter(m => m.text.toLowerCase().includes(searchQ))
+      : messages;
+
+    if (replace) msgsList.innerHTML = '';
+
+    if (!filtered.length) {
+      const msgs = {
+        all:    ['<svg width="40" height="40" viewBox="0 0 40 40" fill="none"><rect x="4" y="8" width="32" height="24" rx="4" stroke="currentColor" stroke-width="1.5" opacity=".35"/><path d="M4 14l16 10 16-10" stroke="currentColor" stroke-width="1.5" opacity=".35"/></svg>','No messages yet','Share your link to start receiving anonymous messages.'],
+        unread: ['<svg width="40" height="40" viewBox="0 0 40 40" fill="none"><path d="M10 20l8 8 12-14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" opacity=".35"/></svg>','All caught up','No unread messages.'],
+        pinned: ['<svg width="40" height="40" viewBox="0 0 40 40" fill="none"><path d="M20 6v20M14 26l6 8 6-8M12 16l8-10 8 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity=".35"/></svg>','Nothing pinned yet','Pin messages to keep them here.'],
+      };
+      const [ico, t, s] = msgs[filter] || msgs.all;
+      msgsList.innerHTML = `<div class="empty"><div class="empty-icon">${ico}</div><h3 class="empty-title">${t}</h3><p class="empty-sub">${s}</p></div>`;
+      return;
+    }
+
+    filtered.forEach(m => {
+      if (document.querySelector(`[data-id="${m.id}"]`)) return;
+      msgsList.appendChild(buildCard(m));
+    });
+  }
+
+  function buildCard(m) {
+    const isUnread = !m.read;
+    const card = document.createElement('div');
+    card.dataset.id = m.id;
+
+    const mood = detectMood(m.text);
+    const len  = (m.text||'').length;
+    const sizeClass = len < 80 ? 'msg-short' : len < 220 ? 'msg-medium' : 'msg-long';
+
+    card.className = [
+      'msg-card',
+      isUnread ? 'unread-card' : '',
+      mood ? `mood-${mood}` : '',
+      sizeClass,
+    ].filter(Boolean).join(' ');
+
+    const age  = timeAgo(m.timestamp);
+    const pollHTML = m.poll
+      ? `<div class="card-poll">${m.poll.vibe ? `<span class="poll-chip">${esc(m.poll.vibe)}</span>` : ''}${m.poll.know ? `<span class="poll-chip">${esc(m.poll.know)}</span>` : ''}</div>`
+      : '';
+    const moodChip = getMoodChip(m.text);
+
+    card.innerHTML = `
+      <div class="card-quote-mark">"</div>
+      <div class="card-inner">
+        ${bulkMode ? `<input type="checkbox" class="bulk-check" data-id="${m.id}" aria-label="Select message" style="width:18px;height:18px;accent-color:var(--primary);cursor:pointer;margin-bottom:8px">` : ''}
+        <p class="card-text">${esc(m.text)}</p>
+        ${pollHTML}
+        <div class="card-footer">
+          <span class="card-time">
+            ${isUnread ? '<span class="read-dot"></span>' : ''}
+            ${age}
+          </span>
+          ${m.country ? `<span class="geo-flag">${countryFlag(m.country)}</span>` : ''}
+          ${moodChip}
+          <div class="card-actions">
+            <button class="icon-btn story" data-action="story" data-id="${m.id}" title="Create story poster" aria-label="Create story poster">
+              <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="5.5" stroke="currentColor" stroke-width="1.3"/><circle cx="6.5" cy="6.5" r="2" stroke="currentColor" stroke-width="1.2"/></svg>
+            </button>
+            <button class="icon-btn del" data-action="delete" data-id="${m.id}" title="Delete" aria-label="Delete">
+              <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 3h9M5 3V2h3v1M5.5 5.5v4M7.5 5.5v4M3.5 3l.5 7.5a1 1 0 001 .9h4a1 1 0 001-.9L11 3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>`;
+
+    // Bulk checkbox
+    const chk = card.querySelector('.bulk-check');
+    if (chk) chk.addEventListener('change', e => {
+      if (e.target.checked) selected.add(m.id); else selected.delete(m.id);
+      card.classList.toggle('selected-card', e.target.checked);
+      bulkCountTxt.textContent = `${selected.size} selected`;
+    });
+
+    // Action buttons
+    card.querySelectorAll('[data-action]').forEach(btn => {
+      btn.addEventListener('click', e => {
+        const id     = e.currentTarget.dataset.id;
+        const action = e.currentTarget.dataset.action;
+        if (action === 'delete') confirmDeleteMsg(id, e.currentTarget.closest('.msg-card'));
+        if (action === 'story')  openStoryModal(m);
+      });
+    });
+
+    return card;
+  }
+
+  // ── Confirmation modal ──────────────────────────────────────────────────────
+  let _confirmResolve = null;
+  const confirmOverlay = document.getElementById('confirm-overlay');
+  const confirmOk      = document.getElementById('confirm-ok');
+  const confirmCancel  = document.getElementById('confirm-cancel');
+
+  function showConfirm({ icon='delete', title='Are you sure?', desc='This cannot be undone.', okLabel='Delete', okDanger=true }) {
+    // icon is SVG, already set in HTML
+    document.getElementById('confirm-title').textContent = title;
+    document.getElementById('confirm-desc').textContent  = desc;
+    confirmOk.textContent = okLabel;
+    confirmOk.style.color = okDanger ? '#f87171' : 'var(--primary)';
+    confirmOk.style.borderColor = okDanger ? 'rgba(248,113,113,.4)' : 'rgba(255,107,53,.4)';
+    confirmOk.style.background  = okDanger ? 'rgba(248,113,113,.18)' : 'rgba(255,107,53,.12)';
+    confirmOverlay.classList.add('show');
+    return new Promise(res => { _confirmResolve = res; });
+  }
+
+  confirmOk.addEventListener('click', () => {
+    confirmOverlay.classList.remove('show');
+    if (_confirmResolve) { _confirmResolve(true); _confirmResolve = null; }
+  });
+  confirmCancel.addEventListener('click', () => {
+    confirmOverlay.classList.remove('show');
+    if (_confirmResolve) { _confirmResolve(false); _confirmResolve = null; }
+  });
+  confirmOverlay.addEventListener('click', e => {
+    if (e.target === confirmOverlay) confirmCancel.click();
+  });
+
+  async function confirmDeleteMsg(id, cardEl) {
+    const confirmed = await showConfirm({ icon:'delete', title:'Delete message?', desc:'This message will be permanently deleted. It cannot be recovered.', okLabel:'Yes, delete' });
+    if (!confirmed) return;
+    if (cardEl) cardEl.style.opacity = '.4';
+    try {
+      const res  = await fetch('/api/delete', { method:'DELETE', headers:{'Content-Type':'application/json'}, body:JSON.stringify({username:user, id, token: authToken}) });
+      const data = await res.json();
+      if (!res.ok) { showToast(data.error || 'Failed to delete.', 'red'); if (cardEl) cardEl.style.opacity=''; return; }
+      messages = messages.filter(m => m.id !== id);
+      if (cardEl) cardEl.remove();
+      updateCounts(totalServer - 1, unreadCount);
+      if (!messages.length) render();
+    } catch { showToast('Network error.', 'red'); if (cardEl) cardEl.style.opacity = ''; }
+  }
+
+  // ── Delete & Pin ──────────────────────────────────────────────────────────
+  async function deleteMsg(id) {
+    const card = document.querySelector(`[data-id="${id}"]`);
+    if (card) card.style.opacity = '.4';
+    try {
+      const res  = await fetch('/api/delete', { method:'DELETE', headers:{'Content-Type':'application/json'}, body:JSON.stringify({username:user, id, token: authToken}) });
+      const data = await res.json();
+      if (!res.ok) { showToast(data.error || 'Failed to delete.', 'red'); if (card) card.style.opacity=''; return; }
+      messages = messages.filter(m => m.id !== id);
+      if (card) card.remove();
+      updateCounts(totalServer - 1, unreadCount);
+      if (!messages.length) render();
+    } catch { showToast('Network error.', 'red'); if (card) card.style.opacity = ''; }
+  }
+
+
+  // ── Bulk ─────────────────────────────────────────────────────────────────
+  function setBulkMode(on) {
+    bulkMode = on; selected.clear();
+    document.querySelector('.page').classList.toggle('bulk-mode', on);
+    bulkBar.classList.toggle('show', on);
+    if (!on) render();
+    else {
+      msgsList.querySelectorAll('.msg-card').forEach(c => {
+        const id  = c.dataset.id;
+        const chk = document.createElement('input');
+        chk.type = 'checkbox'; chk.className = 'bulk-check'; chk.dataset.id = id; chk.setAttribute('aria-label','Select');
+        chk.addEventListener('change', e => {
+          if (e.target.checked) selected.add(id); else selected.delete(id);
+          c.classList.toggle('selected-card', e.target.checked);
+          bulkCountTxt.textContent = `${selected.size} selected`;
+        });
+        c.prepend(chk);
+      });
+    }
+  }
+
+  document.getElementById('btn-bulk-toggle').addEventListener('click', () => setBulkMode(!bulkMode));
+  document.getElementById('btn-bulk-cancel').addEventListener('click', () => setBulkMode(false));
+  document.getElementById('btn-select-all').addEventListener('click', () => {
+    msgsList.querySelectorAll('.bulk-check').forEach(c => { c.checked=true; selected.add(c.dataset.id); c.closest('.msg-card').classList.add('selected-card'); });
+    bulkCountTxt.textContent = `${selected.size} selected`;
+  });
+  document.getElementById('btn-bulk-del').addEventListener('click', async () => {
+    if (!selected.size) return;
+    const ids = [...selected];
+    try {
+      const confirmed = await showConfirm({ icon:'delete', title:`Delete ${ids.length} message${ids.length>1?'s':''}?`, desc:'All selected messages will be permanently removed. This cannot be undone.', okLabel:'Yes, delete all' });
+    if (!confirmed) return;
+    const res  = await fetch('/api/delete', { method:'DELETE', headers:{'Content-Type':'application/json'}, body:JSON.stringify({username:user, bulk:ids, token: authToken}) });
+      const data = await res.json();
+      if (!res.ok) { showToast(data.error || 'Delete failed.', 'red'); return; }
+      messages = messages.filter(m => !ids.includes(m.id));
+      ids.forEach(id => document.querySelector(`[data-id="${id}"]`)?.remove());
+      updateCounts(totalServer - ids.length, unreadCount);
+      setBulkMode(false);
+      showToast(`Deleted ${ids.length} message${ids.length > 1 ? 's' : ''}.`, 'green');
+    } catch { showToast('Error.', 'red'); }
+  });
+
+  // ── Search & Sort ─────────────────────────────────────────────────────────
+  searchInput.addEventListener('input', () => { searchQ = searchInput.value.toLowerCase().trim(); render(); });
+  sortSelect.addEventListener('change', () => { sortOrder = sortSelect.value; load(true); });
+
+  // ── Tabs ──────────────────────────────────────────────────────────────────
+  document.querySelectorAll('.tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      filter = tab.dataset.filter;
+      document.querySelectorAll('.tab').forEach(t => { t.classList.remove('active'); t.setAttribute('aria-selected','false'); });
+      tab.classList.add('active'); tab.setAttribute('aria-selected','true');
+      load(true);
+    });
+  });
+
+  // ── Load more ─────────────────────────────────────────────────────────────
+  document.getElementById('btn-load-more').addEventListener('click', () => load(false));
+
+  // ── New banner ────────────────────────────────────────────────────────────
+  document.getElementById('btn-load-new').addEventListener('click', () => {
+    newBanner.classList.remove('show');
+    switchPanel('inbox');
+    load(true);
+  });
+
+  // ── Copy link ─────────────────────────────────────────────────────────────
+  function copyLink() {
+    navigator.clipboard.writeText(BASE_URL).then(() => {
+      showToast('Link copied!', 'green');
+    });
+  }
+
+  // ── Delete account ────────────────────────────────────────────────────────
+  document.getElementById('btn-del-account').addEventListener('click', async function() {
+    const confirmed = await showConfirm({
+      icon: 'warn',
+      title: 'Delete account?',
+      desc: 'Your username, all messages and poll data will be permanently erased. You will be taken back to the home page.',
+      okLabel: 'Delete account',
+      okDanger: true
+    });
+    if (!confirmed) return;
+    const btn = document.getElementById('btn-del-account');
+    btn.style.opacity = '.5'; btn.style.pointerEvents = 'none';
+    try {
+      const res  = await fetch('/api/delete-account', {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username: user, token: authToken })
+      });
+      const data = await res.json();
+      if (!res.ok) { showToast(data.error || 'Could not delete account.', 'red'); btn.style.opacity=''; btn.style.pointerEvents=''; return; }
+      try { localStorage.removeItem('askthat_username'); } catch(_) {}
+      window.location.replace('/');
+    } catch { showToast('Network error.', 'red'); btn.style.opacity=''; btn.style.pointerEvents=''; }
+  });
+
+  // ── Share grid ────────────────────────────────────────────────────────────
+  (function buildShareGrid() {
+    const grid = document.getElementById('share-btns-dashboard');
+    if (!grid) return;
+    const txt = encodeURIComponent('Ask me anything anonymously! ' + BASE_URL);
+    [
+      { label:'Twitter',  url:'https://twitter.com/intent/tweet?text='+txt,
+        icon:'<svg viewBox="0 0 24 24" fill="#1DA1F2"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.259 5.63zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>' },
+      { label:'WhatsApp', url:'https://wa.me/?text='+txt,
+        icon:'<svg viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.125.557 4.118 1.528 5.845L0 24l6.335-1.652A11.954 11.954 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.006-1.371l-.36-.214-3.727.977.994-3.638-.235-.374A9.818 9.818 0 012.182 12C2.182 6.578 6.578 2.182 12 2.182S21.818 6.578 21.818 12 17.422 21.818 12 21.818z"/></svg>' },
+      { label:'Telegram', url:'https://t.me/share/url?url='+encodeURIComponent(BASE_URL)+'&text='+encodeURIComponent('Ask me anything!'),
+        icon:'<svg viewBox="0 0 24 24" fill="#26A5E4"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L7.14 13.913l-2.98-.924c-.648-.203-.66-.648.136-.961l11.647-4.49c.537-.194 1.006.131.951.683z"/></svg>' },
+      { label:'Discord',  url:'https://discord.com/channels/@me',
+        icon:'<svg viewBox="0 0 24 24" fill="#5865F2"><path d="M20.317 4.37a19.791 19.791 0 00-4.885-1.515.074.074 0 00-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 00-5.487 0 12.64 12.64 0 00-.617-1.25.077.077 0 00-.079-.037A19.736 19.736 0 003.677 4.37a.07.07 0 00-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 00.031.057 19.9 19.9 0 005.993 3.03.078.078 0 00.084-.028 14.09 14.09 0 001.226-1.994.076.076 0 00-.041-.106 13.107 13.107 0 01-1.872-.892.077.077 0 01-.008-.128 10.2 10.2 0 00.372-.292.074.074 0 01.077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 01.078.01c.12.098.246.198.373.292a.077.077 0 01-.006.127 12.299 12.299 0 01-1.873.892.077.077 0 00-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 00.084.028 19.839 19.839 0 006.002-3.03.077.077 0 00.032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 00-.031-.03z"/></svg>' },
+      { label:'Copy',     url:null,
+        icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>' },
+    ].forEach(function(s) {
+      var el = s.url ? document.createElement('a') : document.createElement('button');
+      el.className = 'sh-btn';
+      if (s.url) { el.href = s.url; el.target = '_blank'; el.rel = 'noopener noreferrer'; }
+      else el.addEventListener('click', copyLink);
+      el.innerHTML = s.icon + '<span>' + s.label + '</span>';
+      grid.appendChild(el);
+    });
+  })();
+
+
+  // ── Poll Results ──────────────────────────────────────────────────────────
+  function renderPollResults() {
+    if (!pollStats) return;
+
+    // pollStats shape: { questions: [{id,text,options,counts}] } OR legacy {vibe:{},know:{}}
+    // Normalise to array of {text, options:[{label,count}], total}
+    let questions = [];
+    if (pollStats.questions && Array.isArray(pollStats.questions)) {
+      questions = pollStats.questions.map(q => {
+        const total = Object.values(q.counts||{}).reduce((a,b)=>a+b,0);
+        const opts  = (q.options||[]).map(o => ({ label:o, count:(q.counts||{})[o]||0 }));
+        return { text: q.text, opts, total };
+      });
+    } else {
+      // Legacy vibe/know format
+      const labels = { vibe:'How they describe you', know:'How well they know you' };
+      for (const [cat, counts] of Object.entries(pollStats)) {
+        const total = Object.values(counts).reduce((a,b)=>a+b,0);
+        const opts  = Object.entries(counts).sort((a,b)=>b[1]-a[1]).map(([l,c])=>({label:l,count:c}));
+        questions.push({ text: labels[cat]||cat, opts, total });
+      }
+    }
+
+    if (!questions.length) return;
+    if (pollSection) { pollSection.style.display = ''; pollSection.classList.add('poll-results-visible'); }
+
+    const grandTotal = questions.reduce((a,q)=>a+q.total,0);
+    // Total votes shown inline per question
+
+    let html = '';
+    questions.forEach(q => {
+      const maxCount = Math.max(...q.opts.map(o=>o.count), 1);
+      html += `<div class="poll-res-q">
+        <div class="poll-res-q-title">${esc(q.text)}</div>
+        <div class="poll-res-opts">
+          ${q.opts.map(o => {
+            const pct  = q.total ? Math.round(o.count/q.total*100) : 0;
+            const lead = o.count === maxCount && o.count > 0;
+            return `<div class="poll-res-row">
+              <div class="poll-res-row-top">
+                <span class="poll-res-label">${esc(o.label)}</span>
+                <span class="poll-res-meta"><span>${pct}%</span><span>${o.count} vote${o.count!==1?'s':''}</span></span>
+              </div>
+              <div class="poll-res-track"><div class="poll-res-fill${lead?' leader':''}" style="width:${pct}%"></div></div>
+            </div>`;
+          }).join('')}
+        </div>
+      </div>`;
+    });
+    pollContent.innerHTML = html;
+
+    // Wire share results button
+    const shareBtn = document.getElementById('btn-poll-share-result');
+    if (shareBtn) {
+      shareBtn.style.display = '';
+      shareBtn.onclick = () => openPollPoster(questions);
+    }
+  }
+
+  // ── Poll Results Poster ───────────────────────────────────────────────────
+  function openPollPoster(questions) {
+    const modal  = document.getElementById('poll-poster-modal');
+    const canvas = document.getElementById('poll-poster-canvas');
+    modal.classList.add('show');
+    drawPollPoster(canvas, questions);
+
+    document.getElementById('poll-poster-close').onclick  = () => modal.classList.remove('show');
+    modal.addEventListener('click', e => { if (e.target===modal) modal.classList.remove('show'); });
+
+    document.getElementById('btn-poll-poster-dl').onclick = () => {
+      const a = document.createElement('a');
+      a.download = `poll-results-${user}.png`;
+      a.href = canvas.toDataURL('image/png');
+      a.click();
+    };
+    document.getElementById('btn-poll-poster-share').onclick = async () => {
+      try {
+        canvas.toBlob(async blob => {
+          const file = new File([blob], 'poll-results.png', { type:'image/png' });
+          if (navigator.canShare?.({files:[file]})) {
+            await navigator.share({ files:[file], title:'Poll Results', text:`See my poll results on AskThat! ${BASE_URL}` });
+          } else {
+            document.getElementById('btn-poll-poster-dl').click();
+          }
+        }, 'image/png');
+      } catch(e) { document.getElementById('btn-poll-poster-dl').click(); }
+    };
+  }
+
+  function drawPollPoster(canvas, questions) {
+    const W = 1080, H = 1080;
+    canvas.width = W; canvas.height = H;
+    const ctx = canvas.getContext('2d');
+
+    // Background gradient
+    const bg = ctx.createLinearGradient(0,0,W,H);
+    bg.addColorStop(0,'#0d0a08'); bg.addColorStop(1,'#1a0f08');
+    ctx.fillStyle = bg; ctx.fillRect(0,0,W,H);
+
+    // Subtle orb
+    const orb = ctx.createRadialGradient(W*.8,H*.15,0,W*.8,H*.15,W*.55);
+    orb.addColorStop(0,'rgba(255,107,53,0.18)'); orb.addColorStop(1,'transparent');
+    ctx.fillStyle = orb; ctx.fillRect(0,0,W,H);
+
+    // Header
+    ctx.fillStyle = '#ff6b35';
+    ctx.font = 'bold 44px sans-serif';
+    ctx.fillText('📊', 72, 100);
+
+    const grad = ctx.createLinearGradient(0,0,W,0);
+    grad.addColorStop(0,'#ff477e'); grad.addColorStop(0.5,'#ff6b35'); grad.addColorStop(1,'#ffbf69');
+    ctx.fillStyle = grad;
+    ctx.font = 'bold 56px sans-serif';
+    ctx.fillText('Poll Results', 140, 106);
+
+    ctx.fillStyle = 'rgba(255,248,240,0.45)';
+    ctx.font = '32px sans-serif';
+    ctx.fillText(`askthat.pages.dev/ask/${user}`, 72, 156);
+
+    // Divider
+    ctx.strokeStyle = 'rgba(255,200,130,0.18)'; ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.moveTo(72,185); ctx.lineTo(W-72,185); ctx.stroke();
+
+    // Questions
+    let y = 230;
+    const barH = 28, barR = 14, padX = 72, barW = W - padX*2;
+
+    questions.forEach(q => {
+      if (y > H - 120) return;
+      // Question text (wrap if needed)
+      ctx.fillStyle = 'rgba(255,248,240,0.9)';
+      ctx.font = 'bold 36px sans-serif';
+      const maxW = W - padX*2;
+      let qText = q.text;
+      if (ctx.measureText(qText).width > maxW) qText = qText.slice(0,45) + '…';
+      ctx.fillText(qText, padX, y); y += 52;
+
+      const maxCount = Math.max(...q.opts.map(o=>o.count), 1);
+      q.opts.forEach(o => {
+        if (y > H - 80) return;
+        const pct  = q.total ? Math.round(o.count/q.total*100) : 0;
+        const lead = o.count === maxCount && o.count > 0;
+        const fillW = Math.max((pct/100)*barW, 4);
+
+        // Track
+        ctx.fillStyle = 'rgba(255,255,255,0.07)';
+        roundRect(ctx, padX, y, barW, barH, barR);
+
+        // Fill
+        if (lead) {
+          const fg = ctx.createLinearGradient(padX,0,padX+fillW,0);
+          fg.addColorStop(0,'#ff477e'); fg.addColorStop(1,'#ff6b35');
+          ctx.fillStyle = fg;
+        } else {
+          ctx.fillStyle = 'rgba(255,107,53,0.35)';
+        }
+        roundRect(ctx, padX, y, fillW, barH, barR);
+
+        // Label
+        ctx.fillStyle = lead ? '#ffffff' : 'rgba(255,248,240,0.75)';
+        ctx.font = lead ? 'bold 22px sans-serif' : '22px sans-serif';
+        ctx.fillText(o.label.slice(0,32), padX+14, y + barH/2 + 8);
+
+        // Pct
+        ctx.fillStyle = lead ? '#ffbf69' : 'rgba(255,248,240,0.5)';
+        ctx.font = 'bold 22px sans-serif';
+        ctx.textAlign = 'right';
+        ctx.fillText(pct + '%  ' + o.count + 'v', padX + barW - 10, y + barH/2 + 8);
+        ctx.textAlign = 'left';
+
+        y += barH + 12;
+      });
+      y += 28;
+    });
+
+    // Footer
+    ctx.fillStyle = 'rgba(255,248,240,0.3)';
+    ctx.font = '28px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('Vote at askthat.pages.dev/ask/' + user, W/2, H - 50);
+    ctx.textAlign = 'left';
+  }
+
+  function roundRect(ctx, x, y, w, h, r) {
+    ctx.beginPath();
+    ctx.moveTo(x+r,y); ctx.lineTo(x+w-r,y);
+    ctx.quadraticCurveTo(x+w,y,x+w,y+r);
+    ctx.lineTo(x+w,y+h-r); ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);
+    ctx.lineTo(x+r,y+h); ctx.quadraticCurveTo(x,y+h,x,y+h-r);
+    ctx.lineTo(x,y+r); ctx.quadraticCurveTo(x,y,x+r,y);
+    ctx.closePath(); ctx.fill();
+  }
+
+  // ── Counters ──────────────────────────────────────────────────────────────
+  function updateCounts(total, unread) {
+    totalServer  = total; unreadCount = unread;
+    statTotal.textContent   = fmtNum(total);
+    statUnread.textContent  = fmtNum(unread);
+    countAll.textContent    = fmtNum(total);
+    countUnread.textContent = fmtNum(unread);
+  }
+
+  // ── Poll section (inline, not modal) ─────────────────────────────────────
+  let pollSectionInited = false;
+  let pollForceReload = false;
+  let pollEnabled = false;
+  let pollQEditors = [];
+  let currentPollTotalVotes = 0;
+
+  async function initPollSection() {
+    if (pollSectionInited && !pollForceReload) return;
+    pollSectionInited = true; pollForceReload = false;
+    pollQEditors = [];
+    const editor = document.getElementById('poll-questions-editor');
+    if (editor) editor.innerHTML = '';
+    try {
+      const res  = await fetch(`/api/poll?username=${encodeURIComponent(user)}`);
+      const data = await res.json();
+      pollEnabled = Boolean(data.enabled);
+      const tog = document.getElementById('poll-enable-tog');
+      if (tog) tog.setAttribute('aria-checked', pollEnabled ? 'true' : 'false');
+      const lbl0=document.getElementById('poll-tog-label'), sub0=document.getElementById('poll-tog-sub');
+      if(lbl0) lbl0.textContent = pollEnabled ? 'Poll enabled' : 'Poll disabled';
+      if(sub0) sub0.textContent = pollEnabled ? 'Visitors see a poll tab on your link' : 'Enable to add a poll to your link';
+      if (pollStats) {
+        if (pollSection) pollSection.style.display = '';
+        renderPollResults();
+      }
+      (data.questions || []).forEach(q => addQEditor(q));
+      if (!data.questions?.length) addQEditor({ text:'', options:['','','',''] });
+    } catch { addQEditor({ text:'', options:['','','',''] }); }
+  }
+
+  function addQEditor(q = { text: '', options: ['', '', '', ''] }) {
+    const idx   = pollQEditors.length;
+    const block = document.createElement('div');
+    block.className = 'poll-q-editor-block';
+    block.innerHTML = `
+      <button class="poll-q-del" title="Remove question" aria-label="Remove">✕</button>
+      <div class="poll-q-lbl">Question ${idx + 1}</div>
+      <input type="text" placeholder="e.g. How would you describe me?" value="${esc(q.text || '')}" class="pq-text">
+      <div class="poll-q-lbl" style="margin-top:8px">Options (2–4)</div>
+      <div class="poll-q-opts-row">
+        ${(q.options || ['','','','']).map((o,i) => `<input type="text" placeholder="Option ${i+1}" value="${esc(o||'')}" class="pq-opt">`).join('')}
+      </div>`;
+    block.querySelector('.poll-q-del').addEventListener('click', () => {
+      block.remove();
+      pollQEditors = pollQEditors.filter(b => b !== block);
+      // Renumber
+      document.getElementById('poll-questions-editor')?.querySelectorAll('.poll-q-lbl:first-of-type').forEach((lbl, i) => lbl.textContent = `Question ${i+1}`);
+    });
+    const pQsEd = document.getElementById('poll-questions-editor');
+    if(pQsEd) pQsEd.appendChild(block);
+    pollQEditors.push(block);
+  }
+
+  pollEnableTog.addEventListener('click', () => {
+    pollEnabled = !pollEnabled;
+    pollEnableTog.setAttribute('aria-checked', String(pollEnabled));
+    const lbl = document.getElementById('poll-tog-label');
+    const sub = document.getElementById('poll-tog-sub');
+    if (lbl) lbl.textContent = pollEnabled ? 'Poll enabled' : 'Poll disabled';
+    if (sub) sub.textContent = pollEnabled ? 'Visitors see a poll tab on your link' : 'Enable to add a poll to your link';
+  });
+  pollEnableTog.addEventListener('keydown', e => { if (e.key==='Enter'||e.key===' ') { e.preventDefault(); pollEnableTog.click(); } });
+
+  document.getElementById('btn-add-question').addEventListener('click', () => {
+    if (pollQEditors.length >= 3) { showToast('Maximum 3 questions allowed.', 'red'); return; }
+    addQEditor();
+  });
+
+  document.getElementById('btn-save-poll').addEventListener('click', async () => {
+    const saveBtn  = document.getElementById('btn-save-poll');
+    const saveNote = document.getElementById('poll-save-note');
+    saveBtn.disabled = true; saveBtn.textContent = 'Saving…';
+
+    const questions = [];
+    pollQsEditor.querySelectorAll('.poll-q-editor-block').forEach((block, qi) => {
+      const text = block.querySelector('.pq-text').value.trim();
+      const opts = [...block.querySelectorAll('.pq-opt')].map(i => i.value.trim()).filter(Boolean);
+      if (text && opts.length >= 2) {
+        questions.push({ id: `q${qi}`, text, options: opts.slice(0, 4) });
+      }
+    });
+
+    try {
+      const res  = await fetch('/api/poll', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username: user, token: authToken, settings: { enabled: pollEnabled, title: 'Quick Poll', questions } }),
+      });
+      const d = await res.json();
+      if (!res.ok) { saveNote.textContent = d.error || 'Save failed.'; saveNote.className='poll-save-note err'; }
+      else { saveNote.textContent = 'Saved successfully.'; saveNote.className='poll-save-note ok'; pollSectionInited=false; }
+    } catch { saveNote.textContent = 'Network error.'; saveNote.className='poll-save-note err'; }
+    finally { saveBtn.disabled=false; saveBtn.textContent='Save'; }
+  });
+
+
+  // ── Share as poster (link panel button) ───────────────────────────────────
+  document.getElementById('btn-share-poster')?.addEventListener('click', () => {
+    activeStoryMsg = null;
+    const titleEl = document.getElementById('story-modal-title');
+    const subEl   = document.getElementById('story-modal-sub');
+    if (titleEl) titleEl.textContent = 'Share Your Link';
+    if (subEl)   subEl.textContent   = 'Download and post to Instagram or WhatsApp Stories.';
+    storyModal.classList.add('show');
+    renderPoster('dark');
+  });
+
+  // ── Story / Poster Modal (for message posters from inbox) ─────────────────
+  const storyModal = document.getElementById('story-modal');
+
+  function openStoryModal(msg) {
+    activeStoryMsg = msg || null;
+    storyModal.classList.add('show');
+    renderPoster(posterStyle);
+  }
+
+  function renderPoster(style) {
+    posterStyle = style;
+    document.getElementById('story-gen-loading').style.display  = '';
+    document.getElementById('story-preview-wrap').style.display = 'none';
+    document.getElementById('story-actions-bar').style.display  = 'none';
+    document.getElementById('caption-row').style.display        = 'none';
+    requestAnimationFrame(() => {
+      setTimeout(() => {
+        drawPoster(style);
+        document.getElementById('story-gen-loading').style.display  = 'none';
+        document.getElementById('story-preview-wrap').style.display = '';
+        document.getElementById('story-actions-bar').style.display  = '';
+        document.getElementById('caption-row').style.display        = '';
+      }, 60);
+    });
+  }
+
+  // ── Prompt type config ────────────────────────────────────────────────────
+  const PROMPT_TYPES = {
+    ask:     { label:'Ask Me Anything',      sub:'Send an anonymous message',    icon:'' },
+    '3words':{ label:'Describe Me in 3 Words', sub:'Exactly 3 words only',       icon:'' },
+    trust:   { label:'What\'s Your Trust Level?', sub:'How well do you know me?',icon:'' },
+    rate:    { label:'Rate My Vibe 1–10',    sub:'Be honest, no judgment',       icon:'' },
+    hottake: { label:'Hot Take About Me',    sub:'Say what you actually think',  icon:'' },
+    advice:  { label:'Give Me Advice',       sub:'One thing I should hear',      icon:'' },
+    ai:      { label:'Play this game',       sub:'AI-generated · anonymous',     icon:'' },
+  };
+
+  // ── 6 Poster Styles ───────────────────────────────────────────────────────
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // NGL-STYLE POSTER ENGINE — Bold header + white card + branding pill
+  // Matches Instagram story cards like NGL/Sendit
+  // ═══════════════════════════════════════════════════════════════════════════
+
+  const MODE_COLORS = {
+    ask:     { h1:'#ff477e', h2:'#ff6b35', label:'ASK ME ANYTHING'  },
+    rate:    { h1:'#f59e0b', h2:'#ff6b35', label:'RATE MY VIBE'     },
+    trust:   { h1:'#10b981', h2:'#059669', label:'TRUST LEVEL'      },
+    '3words':{ h1:'#6366f1', h2:'#a78bfa', label:'3 WORDS'          },
+    advice:  { h1:'#f59e0b', h2:'#fbbf24', label:'GIVE ME ADVICE'   },
+    ai:      { h1:'#7c3aed', h2:'#ff477e', label:'TRUTH CHALLENGE'  },
+    yesno:   { h1:'#6366f1', h2:'#a78bfa', label:'YES OR NO'        },
+    hottake: { h1:'#dc2626', h2:'#ff6b35', label:'HOT TAKE'         },
+  };
+
+  const POSTER_SKINS = {
+    fire:     { bg:'#1a0505', accent:'#ff2d55' },
+    dark:     { bg:'#0d0a08', accent:'#ff6b35' },
+    neon:     { bg:'#04041a', accent:'#7c3aed' },
+    pastel:   { bg:'#fce4ec', accent:'#ec407a' },
+    midnight: { bg:'#0a0a1a', accent:'#3b82f6' },
+    holo:     { bg:'#050510', accent:'#00d4ff' },
+  };
+
+  function _orb(ctx, x, y, r, color, alpha) {
+    const g = ctx.createRadialGradient(x,y,0,x,y,r);
+    g.addColorStop(0, color + Math.round(alpha*255).toString(16).padStart(2,'0'));
+    g.addColorStop(1, color + '00');
+    ctx.fillStyle=g; ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2); ctx.fill();
+  }
+
+  function _pLines(ctx, text, font, maxW) {
+    ctx.font = font;
+    const words=text.split(' '); const lines=[]; let line='';
+    for(const w of words){
+      const t=line?line+' '+w:w;
+      if(ctx.measureText(t).width>maxW&&line){lines.push(line);line=w;}
+      else line=t;
+    }
+    if(line)lines.push(line);
+    return lines;
+  }
+
+  function _pFit(ctx, text, base, maxW, min, weight='800') {
+    let s=base;
+    while(s>min){if(_pLines(ctx,text,`${weight} ${s}px sans-serif`,maxW).length<=3)break;s-=6;}
+    return s;
+  }
+
+  function _nglCard(ctx, CX, CY, CW, headerH, totalH, MC) {
+    ctx.save();
+    ctx.shadowColor='rgba(0,0,0,0.55)'; ctx.shadowBlur=70; ctx.shadowOffsetY=24;
+    const hg=ctx.createLinearGradient(CX,CY,CX+CW,CY+headerH);
+    hg.addColorStop(0,MC.h1); hg.addColorStop(1,MC.h2);
+    ctx.fillStyle=hg;
+    ctx.beginPath(); ctx.roundRect(CX,CY,CW,totalH,44); ctx.fill();
+    ctx.restore();
+    ctx.fillStyle='#ffffff';
+    ctx.beginPath(); ctx.roundRect(CX,CY+headerH,CW,totalH-headerH,[0,0,44,44]); ctx.fill();
+  }
+
+  // ── MAIN drawPoster — called for both thumbnail strip and modal ──────────
+  function drawPoster(styleName) {
+    const canvas = document.getElementById('story-canvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    const W=1080, H=1920;
+    ctx.clearRect(0,0,W,H);
+    ctx.textAlign='center';
+    const skin = POSTER_SKINS[styleName] || POSTER_SKINS.dark;
+    const mode = activeStoryMsg ? 'ask' : (currentMode||'ask');
+    const MC   = MODE_COLORS[mode] || MODE_COLORS.ask;
+    if (activeStoryMsg) _nglMsgPoster(ctx,W,H,skin,MC);
+    else                _nglPromptPoster(ctx,W,H,skin,MC,mode);
+  }
+
+  function _nglPromptPoster(ctx, W, H, skin, MC, mode) {
+    // Background
+    ctx.fillStyle=skin.bg; ctx.fillRect(0,0,W,H);
+    _orb(ctx,W/2,H*.72,680,skin.accent,0.10);
+
+    const CX=60, CW=W-120, HEADER_H=560, BODY_H=500, CY=330;
+    _nglCard(ctx,CX,CY,CW,HEADER_H,HEADER_H+BODY_H,MC);
+
+    // ── HEADER: avatar + username + mode label ─────────────────────────────
+    const AVY=CY+140, AVR=90;
+    ctx.fillStyle='rgba(255,255,255,0.22)';
+    ctx.beginPath(); ctx.arc(W/2,AVY,AVR,0,Math.PI*2); ctx.fill();
+    ctx.strokeStyle='rgba(255,255,255,0.55)'; ctx.lineWidth=5;
+    ctx.beginPath(); ctx.arc(W/2,AVY,AVR,0,Math.PI*2); ctx.stroke();
+    ctx.font='800 74px sans-serif'; ctx.fillStyle='#fff';
+    ctx.fillText(user.charAt(0).toUpperCase(),W/2,AVY+28);
+    ctx.font='700 50px sans-serif'; ctx.fillStyle='rgba(255,255,255,0.88)';
+    ctx.fillText(user.length>16?user.slice(0,16)+'…':user, W/2, AVY+AVR+72);
+
+    // Mode label — bold caps
+    const mSize=_pFit(ctx,MC.label,92,CW-100,54,'900');
+    const mLines=_pLines(ctx,MC.label,`900 ${mSize}px sans-serif`,CW-100);
+    ctx.save();
+    ctx.shadowColor='rgba(0,0,0,0.2)'; ctx.shadowBlur=10;
+    ctx.font=`900 ${mSize}px sans-serif`; ctx.fillStyle='#fff';
+    mLines.forEach((l,i)=>ctx.fillText(l,W/2,AVY+AVR+152+i*(mSize*1.22)));
+    ctx.restore();
+
+    // ── WHITE BODY: mode-specific content ─────────────────────────────────
+    const BY=CY+HEADER_H;
+    ctx.fillStyle='#1a1a1a';
+
+    if (mode==='rate') {
+      const nums=Array.from({length:10},(_,i)=>i+1);
+      const BW=140,BH=88,cols=5,gN=10,gW=cols*BW+(cols-1)*gN,gX=(W-gW)/2,gY=BY+48;
+      nums.forEach((n,i)=>{
+        const col=i%cols,row=Math.floor(i/cols),bx=gX+col*(BW+gN),by=gY+row*(BH+10);
+        ctx.fillStyle=`rgba(245,158,11,${0.06+(n-1)/9*.22})`;
+        ctx.strokeStyle=`rgba(245,158,11,${0.25+(n-1)/9*.45})`; ctx.lineWidth=2;
+        ctx.beginPath(); ctx.roundRect(bx,by,BW,BH,14); ctx.fill(); ctx.stroke();
+        ctx.font=`800 ${n===10?40:46}px sans-serif`; ctx.fillStyle='#1a1a1a';
+        ctx.fillText(String(n),bx+BW/2,by+BH/2+15);
+      });
+      ctx.font='700 50px sans-serif'; ctx.fillStyle='#1a1a1a';
+      ctx.fillText('Rate my vibe 1 to 10',W/2,gY+BH*2+10+64);
+
+    } else if (mode==='trust') {
+      const lvls=[['👻','Stranger'],['🙃','Acquaintance'],['🤝','Friend'],['🔥','Bestie']];
+      const BW=700,BH=82,gN=10,gX=(W-BW)/2,gY=BY+44;
+      lvls.forEach(([emoji,label],i)=>{
+        const by=gY+i*(BH+gN);
+        ctx.fillStyle=`rgba(16,185,129,${0.05+i*.04})`;
+        ctx.strokeStyle=`rgba(16,185,129,${0.14+i*.07})`; ctx.lineWidth=2;
+        ctx.beginPath(); ctx.roundRect(gX,by,BW,BH,18); ctx.fill(); ctx.stroke();
+        ctx.font='40px sans-serif'; ctx.fillStyle='#1a1a1a';
+        ctx.fillText(emoji,gX+58,by+BH/2+12);
+        ctx.font='700 36px sans-serif'; ctx.textAlign='left';
+        ctx.fillText(label,gX+112,by+BH/2+11); ctx.textAlign='center';
+      });
+      ctx.font='700 46px sans-serif'; ctx.fillStyle='#1a1a1a';
+      ctx.fillText('How well do you know me?',W/2,gY+4*(BH+gN)+52);
+
+    } else if (mode==='3words') {
+      const SW=282,SH=94,gN=14,tW=SW*3+gN*2,sX=(W-tW)/2,sY=BY+56;
+      ['1st','2nd','3rd'].forEach((_,i)=>{
+        ctx.fillStyle='rgba(99,102,241,0.07)';
+        ctx.strokeStyle='rgba(99,102,241,0.28)'; ctx.lineWidth=2;
+        ctx.beginPath(); ctx.roundRect(sX+i*(SW+gN),sY,SW,SH,16); ctx.fill(); ctx.stroke();
+        ctx.font='600 30px sans-serif'; ctx.fillStyle='rgba(99,102,241,0.42)';
+        ctx.fillText(['1st','2nd','3rd'][i],sX+i*(SW+gN)+SW/2,sY+SH+36);
+      });
+      ctx.font='700 54px sans-serif'; ctx.fillStyle='#1a1a1a';
+      ctx.fillText('Describe me in 3 words',W/2,sY+SH+96);
+      ctx.font='400 36px sans-serif'; ctx.fillStyle='rgba(0,0,0,0.42)';
+      ctx.fillText('no more, no less',W/2,sY+SH+148);
+
+    } else if (mode==='yesno') {
+      const BW=700,BH=104,gX=(W-BW)/2,gY=BY+50,gN=16;
+      ctx.fillStyle='rgba(16,185,129,0.1)'; ctx.strokeStyle='rgba(16,185,129,0.38)'; ctx.lineWidth=3;
+      ctx.beginPath(); ctx.roundRect(gX,gY,BW,BH,22); ctx.fill(); ctx.stroke();
+      ctx.font='700 50px sans-serif'; ctx.fillStyle='#059669';
+      ctx.fillText('✅  Yes',W/2,gY+BH/2+16);
+      ctx.fillStyle='rgba(239,68,68,0.1)'; ctx.strokeStyle='rgba(239,68,68,0.38)'; ctx.lineWidth=3;
+      ctx.beginPath(); ctx.roundRect(gX,gY+BH+gN,BW,BH,22); ctx.fill(); ctx.stroke();
+      ctx.font='700 50px sans-serif'; ctx.fillStyle='#dc2626';
+      ctx.fillText('❌  No',W/2,gY+BH+gN+BH/2+16);
+      const qText=(typeof aiGameText!=='undefined'&&aiGameText)?aiGameText:'Answer honestly about me';
+      const qSize=_pFit(ctx,qText,46,CW-120,28);
+      const qLines=_pLines(ctx,qText,`700 ${qSize}px sans-serif`,CW-120);
+      ctx.font=`700 ${qSize}px sans-serif`; ctx.fillStyle='#1a1a1a';
+      qLines.forEach((l,i)=>ctx.fillText(l,W/2,gY+BH*2+gN+58+i*(qSize*1.3)));
+
+    } else if (mode==='ai') {
+      const qText=(typeof aiGameText!=='undefined'&&aiGameText)?aiGameText:'What would you never say to my face?';
+      const qSize=_pFit(ctx,qText,70,CW-120,36);
+      const qLines=_pLines(ctx,qText,`800 ${qSize}px sans-serif`,CW-120);
+      const tH=qLines.length*qSize*1.3;
+      const qY=BY+(BODY_H-tH)/2;
+      ctx.font=`800 ${qSize}px sans-serif`; ctx.fillStyle='#1a1a1a';
+      qLines.forEach((l,i)=>ctx.fillText(l,W/2,qY+i*(qSize*1.3)));
+
+    } else {
+      // ask, advice, hottake — big text
+      const prompts={
+        ask:    {big:'Ask me anything',    sub:'Send something honest — anonymously'},
+        advice: {big:'Give me advice',     sub:'Something I actually need to hear'},
+        hottake:{big:'Hot take about me.', sub:'Say what you actually think'},
+      };
+      const p=prompts[mode]||prompts.ask;
+      const bSize=_pFit(ctx,p.big,86,CW-120,48);
+      const bLines=_pLines(ctx,p.big,`800 ${bSize}px sans-serif`,CW-120);
+      const bH=bLines.length*bSize*1.3;
+      const bY=BY+(BODY_H-bH-72)/2;
+      ctx.font=`800 ${bSize}px sans-serif`; ctx.fillStyle='#1a1a1a';
+      bLines.forEach((l,i)=>ctx.fillText(l,W/2,bY+i*(bSize*1.3)));
+      ctx.font='400 40px sans-serif'; ctx.fillStyle='rgba(0,0,0,0.42)';
+      ctx.fillText(p.sub,W/2,bY+bH+48);
+    }
+
+    // ── BRANDING PILL ────────────────────────────────────────────────────────
+    const link=promptLink(mode), lShort=link.replace('https://','');
+    const PY=CY+HEADER_H+BODY_H+64, PW=580, PX=(W-PW)/2, PH=96;
+    ctx.fillStyle='rgba(255,255,255,0.11)'; ctx.strokeStyle='rgba(255,255,255,0.22)'; ctx.lineWidth=2;
+    ctx.beginPath(); ctx.roundRect(PX,PY,PW,PH,48); ctx.fill(); ctx.stroke();
+    ctx.font='700 34px sans-serif'; ctx.fillStyle='rgba(255,255,255,0.55)';
+    ctx.fillText('@ AskThat',W/2,PY+PH/2+11);
+    ctx.font='400 26px sans-serif'; ctx.fillStyle='rgba(255,255,255,0.36)';
+    ctx.fillText(lShort,W/2,PY+PH+42);
+    ctx.font='400 22px sans-serif'; ctx.fillStyle='rgba(255,255,255,0.15)';
+    ctx.fillText('100% anonymous · askthat.pages.dev',W/2,H-55);
+  }
+
+  function _nglMsgPoster(ctx, W, H, skin, MC) {
+    const txt=activeStoryMsg?.text||'';
+    ctx.fillStyle=skin.bg; ctx.fillRect(0,0,W,H);
+    _orb(ctx,W/2,H*.6,700,skin.accent,0.10);
+
+    const CX=60,CW=W-120,HEADER_H=300,BODY_H=720,CY=300;
+    _nglCard(ctx,CX,CY,CW,HEADER_H,HEADER_H+BODY_H,MC);
+
+    ctx.font='600 34px sans-serif'; ctx.fillStyle='rgba(255,255,255,0.6)';
+    ctx.fillText('@ AskThat',W/2,CY+66);
+    ctx.font='800 56px sans-serif'; ctx.fillStyle='#fff';
+    ctx.fillText('ANONYMOUS MESSAGE',W/2,CY+146);
+    ctx.font='400 30px sans-serif'; ctx.fillStyle='rgba(255,255,255,0.52)';
+    ctx.fillText('sent to '+user,W/2,CY+200);
+
+    const BY=CY+HEADER_H;
+    ctx.font='700 210px sans-serif'; ctx.fillStyle='rgba(0,0,0,0.04)';
+    ctx.fillText('"',CX+80,BY+190);
+
+    const fSize=_pFit(ctx,txt,80,CW-120,34,'600');
+    const fLines=_pLines(ctx,txt,`600 ${fSize}px sans-serif`,CW-120);
+    const lH=fSize*1.45, tB=fLines.length*lH;
+    const tY=BY+(BODY_H-tB)/2+fSize*.8;
+    ctx.font=`600 ${fSize}px sans-serif`; ctx.fillStyle='#1a1a1a';
+    fLines.forEach((l,i)=>ctx.fillText(l,W/2,tY+i*lH));
+
+    const PY=CY+HEADER_H+BODY_H+56,PW=580,PX=(W-PW)/2,PH=92;
+    ctx.fillStyle='rgba(255,255,255,0.11)'; ctx.strokeStyle='rgba(255,255,255,0.22)'; ctx.lineWidth=2;
+    ctx.beginPath(); ctx.roundRect(PX,PY,PW,PH,46); ctx.fill(); ctx.stroke();
+    ctx.font='700 32px sans-serif'; ctx.fillStyle='rgba(255,255,255,0.52)';
+    ctx.fillText('@ AskThat',W/2,PY+PH/2+11);
+
+    const CTY=PY+PH+44,CTW=760,CTH=106;
+    const cg=ctx.createLinearGradient((W-CTW)/2,0,(W+CTW)/2,0);
+    cg.addColorStop(0,'#ff477e'); cg.addColorStop(1,'#ff6b35');
+    ctx.fillStyle=cg;
+    ctx.beginPath(); ctx.roundRect((W-CTW)/2,CTY,CTW,CTH,53); ctx.fill();
+    ctx.font='700 40px sans-serif'; ctx.fillStyle='#fff';
+    ctx.fillText('Send me one too →',W/2,CTY+CTH/2+13);
+    ctx.font='500 26px sans-serif'; ctx.fillStyle='rgba(255,255,255,0.36)';
+    ctx.fillText('askthat.pages.dev/ask/'+user,W/2,CTY+CTH+42);
+    ctx.font='400 20px sans-serif'; ctx.fillStyle='rgba(255,255,255,0.14)';
+    ctx.fillText('100% anonymous · askthat.pages.dev',W/2,H-52);
+  }
+
+  // Keep wrapText for legacy use
+  function wrapText(ctx, text, x, y, maxW, lh) {
+    const words=text.split(' '); let line='', cy=y;
+    for(const w of words){const t=line?line+' '+w:w;if(ctx.measureText(t).width>maxW&&line){ctx.fillText(line,x,cy);line=w;cy+=lh;}else line=t;}
+    if(line)ctx.fillText(line,x,cy);
+  }
+  function wrapTextLines(ctx, text, maxW) {
+    const words = text.split(' '); const lines = []; let line = '';
+    for (const w of words) {
+      const t = line ? line+' '+w : w;
+      if (ctx.measureText(t).width > maxW && line) { lines.push(line); line = w; }
+      else line = t;
+    }
+    if (line) lines.push(line);
+    return lines;
+  }
+
+  // Download (message poster modal)
+  document.getElementById('btn-story-download').addEventListener('click', () => {
+    const a=document.createElement('a');
+    a.download=`askthat-${user}-msg.png`;
+    a.href=document.getElementById('story-canvas').toDataURL('image/png');
+    a.click();
+  });
+
+  // WhatsApp share
+  document.getElementById('btn-story-wa').addEventListener('click', () => {
+    const canvas=document.getElementById('story-canvas');
+    canvas.toBlob(async blob => {
+      const file=new File([blob],'askthat-story.png',{type:'image/png'});
+      const shareText=`Ask me anything anonymously! 🙈\n${BASE_URL}`;
+      if(navigator.canShare?.({files:[file]})){
+        try{await navigator.share({files:[file],text:shareText,title:`Ask ${user} anonymously`});return;}
+        catch(err){if(err.name==='AbortError')return;}
+      }
+      // Fallback: download + open WhatsApp
+      const a=document.createElement('a'); a.download=`askthat-${user}-story.png`; a.href=URL.createObjectURL(blob); a.click();
+      setTimeout(()=>{
+        window.open(`https://wa.me/?text=${encodeURIComponent(shareText)}`);
+        showToast('Image saved — paste into WhatsApp Status!','green');
+      },700);
+    },'image/png');
+  });
+
+  // Generic share
+  document.getElementById('btn-story-share-native').addEventListener('click', () => {
+    const canvas=document.getElementById('story-canvas');
+    canvas.toBlob(async blob=>{
+      const file=new File([blob],'askthat-story.png',{type:'image/png'});
+      if(navigator.canShare?.({files:[file]})){
+        try{await navigator.share({files:[file],text:`Ask me anything!\n${BASE_URL}`,title:`Ask ${user} anonymously`});return;}catch(_){}
+      }
+      document.getElementById('btn-story-download').click();
+    },'image/png');
+  });
+
+  // Caption copy
+  document.getElementById('btn-copy-caption').addEventListener('click', function(){
+    navigator.clipboard.writeText(BASE_URL).then(()=>{
+      this.textContent='Copied!'; this.classList.add('copied');
+      setTimeout(()=>{this.textContent='Copy link';this.classList.remove('copied');},2000);
+    });
+  });
+
+  // ── Helpers ────────────────────────────────────────────────────────────────
+  function fmtNum(n){ return n>=1000 ? (n/1000).toFixed(1)+'k' : String(n); }
+
+  const COUNTRY_FLAGS = {'IN':'🇮🇳','US':'🇺🇸','GB':'🇬🇧','CA':'🇨🇦','AU':'🇦🇺','DE':'🇩🇪','FR':'🇫🇷','JP':'🇯🇵','BR':'🇧🇷','KR':'🇰🇷','SG':'🇸🇬','PK':'🇵🇰','BD':'🇧🇩','NG':'🇳🇬','PH':'🇵🇭','ID':'🇮🇩','MX':'🇲🇽','AE':'🇦🇪','SA':'🇸🇦','TR':'🇹🇷'};
+  function countryFlag(code) { return COUNTRY_FLAGS[code] || ''; }
+
+
+  function detectMood(text) {
+    const t = (text||'').toLowerCase();
+    if(/love|appreciate|amazing|best|kind|sweet|heart|grateful/.test(t)) return 'wholesome';
+    if(/lol|haha|funny|hilarious|joke|lmao|bruh/.test(t)) return 'funny';
+    if(/hot|crush|like you|pretty|attractive|date/.test(t)) return 'flirty';
+    if(/why|think|wonder|feel|believe|mind|actually|real talk/.test(t)) return 'deep';
+    if(/miss|sad|alone|wish|hurt|sorry|cry/.test(t)) return 'sad';
+    if(/you got|keep going|proud|believe in|support/.test(t)) return 'supportive';
+    if(/what the|random|weird|unexpected/.test(t)) return 'weird';
+    return null;
+  }
+  function getMoodChip(text) {
+    const mood = detectMood(text);
+    if (!mood) return '';
+    return `<span class="mood-chip mood-${mood}">${mood}</span>`;
+  }
+
+  function timeAgo(ts, future=false){
+    const diff=Math.round((future?ts-Date.now():Date.now()-ts)/1000);
+    if(diff<60) return future?'in a minute':'just now';
+    if(diff<3600) return future?`in ${Math.floor(diff/60)}m`:`${Math.floor(diff/60)}m ago`;
+    if(diff<86400) return future?`in ${Math.floor(diff/3600)}h`:`${Math.floor(diff/3600)}h ago`;
+    return future?`in ${Math.floor(diff/86400)}d`:`${Math.floor(diff/86400)}d ago`;
+  }
+
+  function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+  function showToast(msg, type='green'){
+    const el=document.getElementById('toast');
+    el.textContent=msg; el.className=`toast show ${type}`;
+    clearTimeout(toastTimer);
+    toastTimer=setTimeout(()=>el.className='toast',3400);
+  }
+
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') {
+      storyModal.classList.remove('show');
+    }
+  });
+
+})();
+</script>
+</body>
+</html>

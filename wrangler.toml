@@ -1,0 +1,8 @@
+name = "whoispr"
+compatibility_date = "2024-09-23"
+pages_build_output_dir = "public"
+
+[[kv_namespaces]]
+binding = "MESSAGES_KV"
+id      = "8bf130528cd54bddb225465a0db6bfc3"
+preview_id = "5d4d3f5d997b48f69a48944d0c72d8af"

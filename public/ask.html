@@ -1,0 +1,1747 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, viewport-fit=cover">
+  <meta name="google-site-verification" content="1cIP8Y5Xf6O5GOeWqWvDquYAe8mI1JjlfXgCe4M9B-E" />
+  <link rel="canonical" href="https://askthat.pages.dev/ask">
+  <title>Ask me anonymously — AskThat</title>
+  <meta name="description" content="Send an anonymous message. They will never know it was you.">
+  <meta property="og:title" content="Ask me anonymously — AskThat">
+  <meta property="og:description" content="Send something honest. Be kind. Completely anonymous.">
+  <meta property="og:type" content="website">
+  <meta name="theme-color" content="#0d0a08">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/icon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/icon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #0d0a08; --bg2: #13100c;
+      --card: rgba(255,200,130,0.06); --border: rgba(255,200,130,0.18); --border2: rgba(255,200,130,0.07);
+      --primary: #ff6b35; --pink: #ff477e; --gold: #ffbf69; --accent: #ffcf96;
+      --grad: linear-gradient(135deg,#ff477e 0%,#ff6b35 48%,#ffbf69 100%);
+      --grad-t: linear-gradient(135deg,#ff477e,#ff6b35,#ffbf69);
+      --text: #fff8f0; --text2: rgba(255,248,240,0.65); --text3: rgba(255,248,240,0.36);
+      --r: 22px; --r-sm: 14px;
+    }
+    body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 16px; line-height: 1.6; min-height: 100vh; overflow-x: hidden; }
+    .orbs { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+    .orb  { position: absolute; border-radius: 50%; filter: blur(68px); transform: translateZ(0); }
+    .orb-1 { width: 500px; height: 500px; background: #ff6b35; opacity: 0.13; top: -22%; left: -14%; animation: d1 22s ease-in-out infinite alternate; }
+    .orb-2 { width: 380px; height: 380px; background: #ff477e; opacity: 0.10; bottom: -5%; right: -10%; animation: d2 28s ease-in-out infinite alternate; }
+    @keyframes d1 { to { transform: translate(24px,-30px); } }
+    @keyframes d2 { to { transform: translate(-18px,24px); } }
+    body::before { content:''; position:fixed; inset:0; z-index:1; pointer-events:none; background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E"); background-size:256px; opacity:0.5; }
+    .page { min-height:100vh; display:flex; flex-direction:column; align-items:center; padding:20px 16px 60px; position:relative; z-index:2; }
+    .top-nav { width:100%; max-width:480px; display:flex; align-items:center; justify-content:space-between; margin-bottom:32px; }
+    .logo { display:inline-flex; align-items:center; gap:4px; text-decoration:none; font-family:'Syne',sans-serif; font-weight:800; font-size:19px; background:var(--grad-t); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+    .home-link { font-size:13px; color:var(--text3); text-decoration:none; transition:color .2s; }
+    .home-link:hover { color:var(--text2); }
+    .profile { width:100%; max-width:480px; text-align:center; margin-bottom:22px; animation:up .45s ease both; }
+    .avatar-wrap { position:relative; width:80px; margin:0 auto 14px; }
+    .avatar { width:80px; height:80px; border-radius:50%; background:var(--grad); display:flex; align-items:center; justify-content:center; font-family:'Syne',sans-serif; font-weight:800; font-size:30px; color:#fff; box-shadow:0 0 0 4px rgba(255,107,53,.18),0 8px 32px rgba(255,107,53,.28); position:relative; z-index:1; }
+    .avatar-ring { position:absolute; inset:-7px; border-radius:50%; background:var(--grad); opacity:0.14; animation:pulse 3s ease-in-out infinite; }
+    @keyframes pulse { 0%,100%{transform:scale(1);opacity:.14} 50%{transform:scale(1.08);opacity:.06} }
+    .profile-name { font-family:'Syne',sans-serif; font-weight:800; font-size:24px; letter-spacing:-.5px; margin-bottom:5px; }
+    .profile-tag { font-size:14px; color:var(--text2); font-weight:300; }
+
+    /* Tabs */
+    .tab-nav { width:100%; max-width:480px; display:flex; gap:8px; margin-bottom:14px; animation:up .4s .05s ease both; }
+    .tab-btn { flex:1; padding:11px 14px; background:var(--card); border:1px solid var(--border2); border-radius:var(--r-sm); font-family:'DM Sans',sans-serif; font-size:14px; font-weight:500; color:var(--text2); cursor:pointer; transition:all .2s; display:flex; align-items:center; justify-content:center; gap:6px; }
+    .tab-btn:hover { background:rgba(255,255,255,.07); color:var(--text); }
+    .tab-btn.active { background:rgba(255,107,53,.12); border-color:rgba(255,107,53,.35); color:var(--text); }
+
+    /* Card */
+    .msg-card { width:100%; max-width:480px; background:linear-gradient(160deg,rgba(255,200,130,.08),rgba(111,76,255,.03)); border:1px solid var(--border); border-radius:var(--r); padding:24px; backdrop-filter:blur(20px); animation:up .45s .08s ease both; position:relative; overflow:hidden; }
+    .msg-card::before { content:''; position:absolute; inset:0; background:linear-gradient(135deg,rgba(255,107,53,.05),transparent 60%); pointer-events:none; }
+    .textarea-wrap { position:relative; margin-bottom:10px; }
+    .m-textarea { width:100%; background:rgba(255,255,255,.04); border:1px solid var(--border); border-radius:var(--r-sm); padding:14px 16px; font-size:15px; font-family:'DM Sans',sans-serif; color:var(--text); outline:none; resize:none; min-height:120px; line-height:1.65; transition:border-color .2s,box-shadow .2s; }
+    .m-textarea::placeholder { color:var(--text3); }
+    .m-textarea:focus { border-color:var(--primary); box-shadow:0 0 0 3px rgba(255,107,53,.12); }
+    .char-ring-wrap { position:absolute; bottom:12px; right:12px; }
+    .char-ring { width:28px; height:28px; transform:rotate(-90deg); }
+    .char-ring-bg { fill:none; stroke:rgba(255,255,255,.06); stroke-width:2.5; }
+    .char-ring-fill { fill:none; stroke:var(--primary); stroke-width:2.5; stroke-dasharray:69.1; stroke-dashoffset:69.1; stroke-linecap:round; transition:stroke-dashoffset .15s,stroke .15s; }
+    .char-text { display:flex; justify-content:space-between; font-size:11px; color:var(--text3); margin-bottom:14px; }
+    .char-text.warn .char-num { color:#fbbf24; }
+    .char-text.over .char-num { color:#f472b6; }
+    .btn-send { width:100%; padding:16px; background:var(--grad); border:none; border-radius:var(--r-sm); font-family:'DM Sans',sans-serif; font-size:15px; font-weight:500; color:#fff; cursor:pointer; transition:opacity .2s,transform .15s; box-shadow:0 4px 28px rgba(255,107,53,.36); display:flex; align-items:center; justify-content:center; gap:8px; }
+    .btn-send:hover { opacity:.88; transform:translateY(-1px); }
+    .btn-send:active { transform:scale(.99); }
+    .btn-send:disabled { opacity:.44; cursor:not-allowed; transform:none; }
+    .send-note { text-align:center; font-size:12px; color:var(--text3); margin-top:10px; }
+    .err-msg { font-size:13px; color:#f472b6; margin-top:10px; display:none; }
+    .err-msg.show { display:block; }
+    .spinner { width:16px; height:16px; border:2px solid rgba(255,255,255,.3); border-top-color:#fff; border-radius:50%; animation:spin .6s linear infinite; display:none; }
+    .spinner.show { display:block; }
+    @keyframes spin { to{transform:rotate(360deg)} }
+    .success-overlay { display:none; flex-direction:column; align-items:center; text-align:center; padding:24px 12px; }
+    .success-overlay.show { display:flex; }
+    .success-check { width:60px; height:60px; border-radius:50%; background:var(--grad); display:flex; align-items:center; justify-content:center; margin:0 auto 16px; animation:pop .4s cubic-bezier(.34,1.56,.64,1) both; box-shadow:0 8px 32px rgba(255,107,53,.38); }
+    @keyframes pop { from{transform:scale(0)} to{transform:scale(1)} }
+    .s-title { font-family:'Syne',sans-serif; font-weight:800; font-size:24px; letter-spacing:-.5px; margin-bottom:7px; }
+    .s-sub { font-size:14px; color:var(--text2); margin-bottom:22px; }
+    .btn-again { background:rgba(255,107,53,.08); border:1px solid rgba(255,107,53,.35); border-radius:var(--r-sm); padding:13px 32px; font-family:'DM Sans',sans-serif; font-size:15px; font-weight:600; color:var(--primary); cursor:pointer; transition:all .18s; }
+    .btn-again:hover { background:rgba(255,107,53,.15); border-color:rgba(255,107,53,.55); }
+    .btn-get-own-success { display:inline-flex; align-items:center; gap:7px; padding:11px 22px; background:var(--card); border:1px solid var(--border); border-radius:100px; font-size:13px; font-weight:500; color:var(--text2); text-decoration:none; transition:all .18s; margin-top:6px; }
+    .btn-get-own-success:hover { background:rgba(255,255,255,.08); color:var(--text); }
+
+    /* Poll tab */
+    .poll-loading { text-align:center; padding:32px; color:var(--text3); font-size:14px; display:flex; flex-direction:column; align-items:center; gap:12px; }
+    .spin-sm { width:22px; height:22px; border:2px solid rgba(255,255,255,.1); border-top-color:var(--primary); border-radius:50%; animation:spin .7s linear infinite; }
+    .poll-disabled-msg { text-align:center; padding:32px 16px; color:var(--text3); font-size:14px; }
+    .poll-disabled-msg p { margin-top:8px; font-size:12px; }
+    .poll-section-title { font-family:'Syne',sans-serif; font-weight:700; font-size:17px; margin-bottom:4px; }
+    .poll-section-sub { font-size:13px; color:var(--text2); margin-bottom:20px; }
+    .poll-question-block { margin-bottom:20px; }
+    .poll-q-label { font-size:11px; font-weight:600; letter-spacing:.07em; text-transform:uppercase; color:var(--accent); margin-bottom:8px; display:block; }
+    .poll-q-text { font-size:15px; color:var(--text); margin-bottom:12px; font-weight:500; line-height:1.4; }
+    /* ── Poll options: horizontal bar style (Instagram/YT) ── */
+    .poll-opts-grid { display:flex; flex-direction:column; gap:8px; }
+    .poll-opt-btn {
+      position:relative; width:100%; padding:13px 16px;
+      background:rgba(255,255,255,.04); border:1px solid var(--border2);
+      border-radius:14px; font-size:14px; font-weight:500; color:var(--text);
+      cursor:pointer; text-align:left; transition:all .18s; user-select:none;
+      font-family:'DM Sans',sans-serif; overflow:hidden;
+      display:flex; align-items:center; justify-content:space-between; gap:8px;
+    }
+    .poll-opt-btn::before {
+      content:''; position:absolute; inset:0; width:var(--pct,0%);
+      background:rgba(255,107,53,.13); border-radius:inherit;
+      transition:width .55s ease; pointer-events:none;
+    }
+    .poll-opt-btn:hover { border-color:rgba(255,107,53,.35); background:rgba(255,107,53,.07); }
+    .poll-opt-btn.selected { border-color:var(--primary); background:rgba(255,107,53,.16); font-weight:600; }
+    .poll-opt-btn.selected::before { background:rgba(255,107,53,.2); }
+    .poll-opt-label { position:relative; z-index:1; flex:1; }
+
+    .poll-divider-line { height:1px; background:var(--border2); margin:4px 0 20px; }
+    .btn-vote { width:100%; padding:15px; background:linear-gradient(135deg,#7c3aed,#ff477e,#ff6b35); border:none; border-radius:var(--r-sm); font-family:'DM Sans',sans-serif; font-size:15px; font-weight:500; color:#fff; cursor:pointer; transition:opacity .2s,transform .15s; box-shadow:0 4px 24px rgba(124,58,237,.3); display:flex; align-items:center; justify-content:center; gap:8px; }
+    .btn-vote:hover { opacity:.88; transform:translateY(-1px); }
+    .btn-vote:disabled { opacity:.4; cursor:not-allowed; transform:none; }
+    .poll-success { display:none; flex-direction:column; align-items:center; text-align:center; padding:24px 12px; }
+    .poll-success.show { display:flex; }
+
+    /* CTA section */
+    .share-sec { width:100%; max-width:480px; margin-top:20px; animation:up .45s .16s ease both; }
+    .share-divider { display:flex; align-items:center; gap:10px; margin-bottom:14px; }
+    .sh-line { flex:1; height:1px; background:var(--border2); }
+    .sh-label { font-size:11px; font-weight:600; letter-spacing:.07em; text-transform:uppercase; color:var(--text3); white-space:nowrap; }
+    /* CTA button */
+    /* Teaser */
+    .teaser-wrap { margin-bottom:16px; text-align:center; }
+    .teaser-counter { font-size:12px; color:var(--text3); margin-bottom:10px; font-weight:500; }
+    .teaser-count { font-weight:700; color:var(--primary); font-size:14px; }
+    .teaser-msgs { display:flex; flex-direction:column; gap:6px; }
+    .teaser-msg { background:rgba(255,255,255,.04); border:1px solid var(--border2); border-radius:10px; padding:9px 14px; font-size:13px; color:var(--text2); text-align:left; }
+    .teaser-msg.blurred { filter:blur(4px); user-select:none; }
+    /* Success extras */
+    .success-overlay { position:relative; overflow:hidden; }
+    .btn-get-own-success { display:inline-flex; align-items:center; gap:7px; margin-top:12px; padding:11px 22px; background:var(--grad); border-radius:100px; font-size:13px; font-weight:600; color:#fff; text-decoration:none; box-shadow:0 4px 18px rgba(255,107,53,.3); transition:opacity .2s; }
+    .btn-get-own-success:hover { opacity:.88; }
+    /* Floating pill */
+    .floating-cta { position:fixed; bottom:20px; left:50%; transform:translateX(-50%) translateY(80px); background:var(--grad); color:#fff; border:none; border-radius:100px; padding:13px 24px; font-family:'DM Sans',sans-serif; font-size:14px; font-weight:600; cursor:pointer; box-shadow:0 6px 28px rgba(255,107,53,.45); display:flex; align-items:center; gap:8px; white-space:nowrap; z-index:100; transition:transform .35s cubic-bezier(.34,1.56,.64,1),opacity .3s; opacity:0; text-decoration:none; }
+    .floating-cta.visible { transform:translateX(-50%) translateY(0); opacity:1; }
+    /* Mood badge on send note area */
+    .mood-badge { display:inline-flex; align-items:center; gap:5px; font-size:11px; font-weight:600; padding:3px 10px; border-radius:100px; margin-left:6px; }
+    .mood-wholesome { background:rgba(74,222,128,.12); color:#4ade80; }
+    .mood-funny { background:rgba(250,204,21,.12); color:#facc15; }
+    .mood-spicy { background:rgba(255,71,126,.12); color:#ff477e; }
+    .mood-deep { background:rgba(139,92,246,.12); color:#a78bfa; }
+    .mood-flirty { background:rgba(244,114,182,.12); color:#f472b6; }
+    .mood-sad { background:rgba(96,165,250,.12); color:#60a5fa; }
+    .mood-supportive { background:rgba(52,211,153,.12); color:#34d399; }
+    .mood-weird { background:rgba(251,146,60,.12); color:#fb923c; }
+
+    /* Prompt-specific UI */
+    /* ── Prompt banners ── */
+    .prompt-banner { border-radius:var(--r-sm); padding:16px 18px; margin-bottom:18px; display:flex; align-items:flex-start; gap:12px; }
+    .prompt-banner-icon { font-size:28px; flex-shrink:0; line-height:1.3; }
+    .prompt-banner-text { flex:1; }
+    .prompt-banner-title { font-size:15px; font-weight:700; color:var(--text); margin-bottom:3px; }
+    .prompt-banner-sub { font-size:12px; color:var(--text3); }
+
+    /* Ask / default */
+    .prompt-banner.type-ask   { background:rgba(255,107,53,.07);  border:1px solid rgba(255,107,53,.22); }
+    /* Hot take */
+    .prompt-banner.type-hottake { background:rgba(255,71,126,.08); border:1px solid rgba(255,71,126,.25); }
+    /* Advice */
+    .prompt-banner.type-advice  { background:rgba(255,191,105,.07); border:1px solid rgba(255,191,105,.25); }
+    /* AI */
+    .prompt-banner.type-ai      { background:rgba(139,92,246,.09);  border:1px solid rgba(139,92,246,.28); }
+    /* 3-words */
+    .prompt-banner.type-3words  { background:rgba(96,165,250,.07);  border:1px solid rgba(96,165,250,.22); }
+    /* Rate */
+    .prompt-banner.type-rate    { background:rgba(250,204,21,.07);  border:1px solid rgba(250,204,21,.22); }
+    /* Trust */
+    .prompt-banner.type-trust   { background:rgba(52,211,153,.07);  border:1px solid rgba(52,211,153,.22); }
+    /* Yes/No */
+    .prompt-banner.type-yesno   { background:rgba(99,102,241,.09);  border:1px solid rgba(99,102,241,.28); }
+
+    /* 3-word input */
+    .words-row { display:flex; gap:8px; margin-bottom:12px; }
+    .word-input { flex:1; background:rgba(255,255,255,.04); border:1px solid var(--border); border-radius:var(--r-sm); padding:16px 8px; font-size:16px; font-family:'DM Sans',sans-serif; color:var(--text); text-align:center; font-weight:700; outline:none; transition:border-color .2s,box-shadow .2s; min-width:0; }
+    .word-input::placeholder { font-weight:400; color:var(--text3); font-size:12px; }
+    .word-input:focus { border-color:#60a5fa; box-shadow:0 0 0 3px rgba(96,165,250,.12); }
+
+    /* Trust level — poll style */
+    .trust-grid { display:flex; flex-direction:column; gap:8px; margin-bottom:14px; }
+    .trust-btn {
+      position:relative; overflow:hidden;
+      display:flex; align-items:center; gap:12px; padding:14px 16px;
+      background:rgba(255,255,255,.04); border:1px solid var(--border2);
+      border-radius:var(--r-sm); font-family:'DM Sans',sans-serif;
+      font-size:14px; font-weight:500; color:var(--text2);
+      cursor:pointer; transition:all .18s; text-align:left; width:100%;
+    }
+    .trust-btn::before {
+      content:''; position:absolute; inset:0; width:var(--pct,0%);
+      background:rgba(52,211,153,.14); border-radius:inherit;
+      transition:width .5s ease; pointer-events:none;
+    }
+    .trust-btn:hover { border-color:rgba(52,211,153,.4); background:rgba(52,211,153,.06); }
+    .trust-btn.selected { border-color:#34d399; background:rgba(52,211,153,.12); color:var(--text); font-weight:600; }
+    .trust-btn.selected::before { background:rgba(52,211,153,.18); }
+    .trust-btn-emoji { font-size:20px; flex-shrink:0; position:relative; z-index:1; }
+    .trust-btn-label { font-weight:600; flex:1; position:relative; z-index:1; }
+    .trust-btn-sub { font-size:11px; color:var(--text3); position:relative; z-index:1; }
+    .trust-btn.selected .trust-btn-sub { color:rgba(52,211,153,.7); }
+
+    /* Rate 1–10 — large tap targets */
+    .rate-display { text-align:center; margin-bottom:14px; }
+    .rate-big-num { font-family:'Syne',sans-serif; font-weight:800; font-size:72px; line-height:1; background:var(--grad); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; opacity:0; transition:opacity .2s; }
+    .rate-big-num.visible { opacity:1; }
+    .rate-label { text-align:center; font-size:13px; color:var(--text2); margin-bottom:14px; min-height:20px; font-weight:500; }
+    .rate-grid { display:grid; grid-template-columns:repeat(5,1fr); gap:7px; margin-bottom:12px; }
+    .rate-btn { padding:18px 4px; background:rgba(255,255,255,.05); border:1px solid var(--border2); border-radius:14px; font-family:'Syne',sans-serif; font-size:20px; font-weight:800; color:var(--text2); cursor:pointer; transition:all .18s; }
+    .rate-btn:hover { background:rgba(250,204,21,.12); border-color:rgba(250,204,21,.4); color:#facc15; transform:scale(1.04); }
+    .rate-btn.selected { background:linear-gradient(135deg,#fbbf24,#f59e0b); border-color:#fbbf24; color:#1a0e06; transform:scale(1.08); box-shadow:0 4px 16px rgba(251,191,36,.35); }
+
+    /* ── Page themes ── */
+    body.theme-fire   { --bg:#1a0505; --bg2:#2d0a0a; }
+    body.theme-fire .orb-1 { background:#ff477e; opacity:0.22; }
+    body.theme-fire .orb-2 { background:#ff6b35; opacity:0.18; }
+    body.theme-neon   { --bg:#04041a; --bg2:#080830; }
+    body.theme-neon .orb-1 { background:#7c3aed; opacity:0.28; }
+    body.theme-neon .orb-2 { background:#ff477e; opacity:0.22; }
+    body.theme-pastel { --bg:#1a0d1a; --bg2:#150d22; }
+    body.theme-pastel .orb-1 { background:#ec4899; opacity:0.18; }
+    body.theme-pastel .orb-2 { background:#a78bfa; opacity:0.15; }
+    body.theme-midnight { --bg:#020210; --bg2:#050520; }
+    body.theme-midnight .orb-1 { background:#3b82f6; opacity:0.22; }
+    body.theme-midnight .orb-2 { background:#8b5cf6; opacity:0.18; }
+    body.theme-holo   { --bg:#050510; --bg2:#0a0520; }
+    body.theme-holo .orb-1 { background:#00d4ff; opacity:0.20; }
+    body.theme-holo .orb-2 { background:#ff0080; opacity:0.18; }
+    body[class*="theme-"] { background:var(--bg); }
+
+    .btn-create-own { display:flex; align-items:center; justify-content:center; gap:9px; width:100%; padding:18px; background:var(--grad); border:none; border-radius:var(--r-sm); font-family:'DM Sans',sans-serif; font-size:15px; font-weight:700; color:#fff; cursor:pointer; text-decoration:none; transition:opacity .2s,transform .15s,box-shadow .2s; box-shadow:0 4px 28px rgba(255,107,53,.38); position:relative; overflow:hidden; }
+    .btn-create-own::before { content:''; position:absolute; inset:0; background:linear-gradient(90deg,transparent,rgba(255,255,255,.12),transparent); transform:translateX(-100%); animation:shimmer 2.2s ease-in-out infinite; }
+    @keyframes shimmer { to{transform:translateX(100%)} }
+    .btn-create-own:hover { opacity:.92; transform:translateY(-2px); box-shadow:0 8px 40px rgba(255,107,53,.55); }
+
+    /* Story modal */
+    .modal-ov { display:none; position:fixed; inset:0; background:rgba(0,0,0,.75); z-index:200; backdrop-filter:blur(6px); align-items:center; justify-content:center; padding:20px; }
+    .modal-ov.show { display:flex; }
+    .modal-box { background:var(--bg2); border:1px solid var(--border); border-radius:22px; width:100%; max-width:420px; max-height:90vh; overflow-y:auto; padding:24px; position:relative; }
+    .modal-x { position:absolute; top:14px; right:14px; width:30px; height:30px; border-radius:8px; border:1px solid var(--border2); background:rgba(255,255,255,.05); display:flex; align-items:center; justify-content:center; cursor:pointer; color:var(--text3); }
+    .modal-x:hover { color:var(--text); background:rgba(255,255,255,.10); }
+    .modal-ttl { font-family:'Syne',sans-serif; font-weight:800; font-size:17px; margin-bottom:4px; }
+    .modal-sub { font-size:13px; color:var(--text2); margin-bottom:16px; }
+
+    /* Story loading */
+    .story-loading { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:14px; padding:48px 20px; border-radius:12px; background:rgba(255,255,255,.03); margin-bottom:14px; border:1px solid var(--border2); }
+    .spin-lg { width:32px; height:32px; border:3px solid rgba(255,255,255,.1); border-top-color:var(--primary); border-radius:50%; animation:spin .7s linear infinite; }
+    .story-loading p { font-size:13px; color:var(--text3); }
+    .story-preview { border-radius:12px; overflow:hidden; aspect-ratio:9/16; max-height:280px; display:flex; align-items:center; justify-content:center; background:#0d0a08; margin-bottom:14px; }
+    canvas#ask-canvas { max-width:100%; max-height:100%; }
+
+    /* Story buttons */
+    .story-btns { display:grid; grid-template-columns:1fr 1fr 1fr; gap:7px; margin-bottom:10px; }
+    .btn-dl { padding:12px 8px; background:var(--grad); border:none; border-radius:var(--r-sm); font-family:'DM Sans',sans-serif; font-size:12px; font-weight:500; color:#fff; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:5px; transition:opacity .2s; }
+    .btn-dl:hover { opacity:.88; }
+    .btn-shr-wa { padding:12px 8px; background:rgba(37,211,102,.1); border:1px solid rgba(37,211,102,.28); border-radius:var(--r-sm); font-size:12px; font-weight:500; color:#25D366; cursor:pointer; font-family:'DM Sans',sans-serif; display:flex; align-items:center; justify-content:center; gap:5px; transition:background .18s; }
+    .btn-shr-wa:hover { background:rgba(37,211,102,.18); }
+    .btn-shr { padding:12px 8px; background:var(--card); border:1px solid var(--border2); border-radius:var(--r-sm); font-size:12px; font-weight:500; color:var(--text2); cursor:pointer; font-family:'DM Sans',sans-serif; transition:background .2s; display:flex; align-items:center; justify-content:center; gap:5px; }
+    .btn-shr:hover { background:rgba(255,255,255,.08); }
+    .story-caption-row { display:flex; gap:7px; align-items:center; padding:10px 12px; background:rgba(255,255,255,.03); border:1px solid var(--border2); border-radius:var(--r-sm); }
+    .story-caption-url { flex:1; font-size:11px; color:var(--text2); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+    .btn-copy-caption { background:transparent; border:1px solid var(--border2); border-radius:8px; padding:5px 10px; font-family:'DM Sans',sans-serif; font-size:11px; font-weight:500; color:var(--text3); cursor:pointer; transition:all .18s; white-space:nowrap; }
+    .btn-copy-caption:hover { background:rgba(255,255,255,.06); color:var(--text); }
+    .btn-copy-caption.copied { color:#4ade80; border-color:rgba(74,222,128,.3); }
+
+    .form-loading { display:flex; flex-direction:column; align-items:center; gap:12px; padding:40px 20px; }
+    .form-loading .spin-lg { width:28px; height:28px; border:2.5px solid rgba(255,255,255,.1); border-top-color:var(--primary); border-radius:50%; animation:spin .7s linear infinite; }
+    .form-loading p { font-size:13px; color:var(--text3); }
+    .toast { position:fixed; bottom:22px; left:50%; transform:translateX(-50%) translateY(12px); background:var(--bg2); border:1px solid var(--border); border-radius:12px; padding:10px 20px; font-size:14px; font-weight:500; z-index:999; opacity:0; transition:opacity .22s,transform .22s; pointer-events:none; backdrop-filter:blur(20px); white-space:nowrap; }
+    .toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
+
+    /* ── Professional spacing ── */
+    .page { padding:0 18px 80px; }
+    .profile { margin-bottom:24px; padding-top:18px; }
+    .form-loading { padding:50px 20px; }
+    .msg-card { padding:20px; margin-bottom:0; }
+    .prompt-banner { margin-bottom:16px; padding:15px 17px; gap:11px; }
+    .prompt-banner-icon { font-size:26px; }
+    .m-textarea { padding:14px 15px; margin-bottom:0; }
+    .char-row { margin:10px 0 18px; }
+    .btn-send { padding:17px; margin-bottom:0; }
+    .words-row { gap:9px; margin-bottom:14px; }
+    .word-input { padding:16px 8px; }
+    .trust-grid { gap:9px; margin-bottom:16px; }
+    .trust-btn { padding:14px 16px; }
+    .rate-grid { gap:8px; margin-bottom:14px; }
+    .rate-btn { padding:17px 4px; }
+    .rate-display { margin-bottom:12px; }
+    .success-overlay { padding:28px 16px; gap:12px; }
+    .btn-again { padding:13px 32px; }
+    .share-your-link-section { margin-top:28px; }
+    .sh-label { font-size:11px; }
+
+    @keyframes up { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+    @media(max-width:480px){
+      .share-grid{grid-template-columns:repeat(5,1fr);gap:6px;}
+
+      .story-btns{gap:5px;}
+    }
+
+    /* ── Custom form mode ── */
+    #pane-custom { display:none; }
+    .cform-page-title { font-family:'Syne',sans-serif; font-weight:800; font-size:20px; letter-spacing:-.4px; margin-bottom:5px; }
+    .cform-page-sub   { font-size:14px; color:var(--text2); margin-bottom:22px; line-height:1.5; }
+    .cform-field      { margin-bottom:18px; }
+    .cform-field-label { font-size:13px; font-weight:600; color:var(--text); margin-bottom:7px; display:flex; align-items:center; gap:4px; }
+    .cform-field-req  { color:var(--primary); font-size:12px; }
+    .cform-field input[type=text],
+    .cform-field textarea,
+    .cform-field input[type=number] {
+      width:100%; background:rgba(255,255,255,.04); border:1px solid var(--border);
+      border-radius:var(--r-sm); padding:13px 15px; font-size:14px;
+      font-family:'DM Sans',sans-serif; color:var(--text); outline:none; resize:none;
+      transition:border-color .2s,box-shadow .2s; line-height:1.55;
+    }
+    .cform-field input[type=text]::placeholder,
+    .cform-field textarea::placeholder,
+    .cform-field input[type=number]::placeholder { color:var(--text3); }
+    .cform-field input[type=text]:focus,
+    .cform-field textarea:focus,
+    .cform-field input[type=number]:focus {
+      border-color:var(--primary); box-shadow:0 0 0 3px rgba(255,107,53,.12);
+    }
+    .cform-yesno-row { display:flex; gap:10px; }
+    .cform-yn-btn    { flex:1; padding:14px; background:rgba(255,255,255,.04); border:1px solid var(--border); border-radius:var(--r-sm); font-family:'DM Sans',sans-serif; font-size:15px; font-weight:600; color:var(--text2); cursor:pointer; transition:all .18s; }
+    .cform-yn-btn:hover { background:rgba(255,255,255,.08); color:var(--text); }
+    .cform-yn-btn.selected-yes { background:rgba(52,211,153,.12); border-color:rgba(52,211,153,.5); color:#34d399; }
+    .cform-yn-btn.selected-no  { background:rgba(248,113,113,.12); border-color:rgba(248,113,113,.5); color:#f87171; }
+    .cform-choice-list { display:flex; flex-direction:column; gap:8px; }
+    .cform-choice-btn  { width:100%; padding:12px 15px; background:rgba(255,255,255,.04); border:1px solid var(--border); border-radius:12px; font-family:'DM Sans',sans-serif; font-size:14px; font-weight:400; color:var(--text2); cursor:pointer; text-align:left; transition:all .18s; }
+    .cform-choice-btn:hover  { background:rgba(255,255,255,.07); color:var(--text); }
+    .cform-choice-btn.selected { background:rgba(255,107,53,.12); border-color:rgba(255,107,53,.4); color:var(--text); }
+    .cform-rating-row { display:flex; gap:8px; justify-content:center; }
+    .cform-star       { width:44px; height:44px; border-radius:10px; background:rgba(255,255,255,.04); border:1px solid var(--border); font-size:18px; cursor:pointer; transition:all .18s; display:flex; align-items:center; justify-content:center; color:var(--text3); }
+    .cform-star:hover, .cform-star.selected { background:rgba(255,191,105,.12); border-color:rgba(255,191,105,.45); color:#ffbf69; }
+    .cform-scale-row  { display:grid; grid-template-columns:repeat(10,1fr); gap:5px; }
+    .cform-scale-btn  { aspect-ratio:1; border-radius:9px; background:rgba(255,255,255,.04); border:1px solid var(--border); font-size:13px; font-weight:600; color:var(--text3); cursor:pointer; transition:all .18s; display:flex; align-items:center; justify-content:center; }
+    .cform-scale-btn:hover, .cform-scale-btn.selected { background:rgba(255,107,53,.12); border-color:rgba(255,107,53,.4); color:var(--text); }
+    .cform-err { font-size:13px; color:#f87171; margin-top:6px; display:none; }
+    .cform-err.show { display:block; }
+  </style>
+  <script>if('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js');</script>
+</head>
+<body>
+<div class="orbs" aria-hidden="true"><div class="orb orb-1"></div><div class="orb orb-2"></div></div>
+<div class="page">
+
+  <nav class="top-nav">
+    <a href="/" class="logo" aria-label="AskThat">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 28 28" aria-hidden="true">
+        <defs><linearGradient id="lg-at" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#ff477e"/><stop offset="48%" stop-color="#ff6b35"/><stop offset="100%" stop-color="#ffbf69"/></linearGradient></defs>
+        <text x="14" y="22" font-size="26" font-family="Georgia,serif" font-weight="bold" text-anchor="middle" fill="url(#lg-at)">@</text>
+      </svg>AskThat
+    </a>
+    <a href="/" class="home-link">← Home</a>
+  </nav>
+
+  <div class="profile">
+    <div class="avatar-wrap">
+      <div class="avatar-ring" aria-hidden="true"></div>
+      <div class="avatar" id="avatar-el" aria-hidden="true">?</div>
+    </div>
+    <h1 class="profile-name" id="profile-name">Loading…</h1>
+    <p class="profile-tag" id="profile-tag">wants your honest anonymous message</p>
+  </div>
+
+  <!-- Tab nav — hidden until poll confirmed enabled -->
+  <div class="tab-nav" id="tab-nav" style="display:none">
+    <button class="tab-btn active" id="tab-ask-btn">💬 Send Message</button>
+    <button class="tab-btn" id="tab-poll-btn">📊 Vote in Poll</button>
+  </div>
+
+  <!-- ASK PANE -->
+  <div class="msg-card" id="pane-ask" role="main">
+    <div class="form-loading" id="form-loading">
+      <div class="spin-lg"></div>
+      <p id="form-loading-txt">Loading…</p>
+    </div>
+    <div id="form-area" style="opacity:0;transition:opacity .25s">
+      <!-- Prompt banner — shown for non-default prompts -->
+      <div class="prompt-banner" id="prompt-banner" style="display:none">
+        <span class="prompt-banner-icon" id="prompt-banner-icon">💬</span>
+        <div class="prompt-banner-text">
+          <div class="prompt-banner-title" id="prompt-banner-title">Ask Me Anything</div>
+          <div class="prompt-banner-sub" id="prompt-banner-sub">Anonymous · they'll never know it was you</div>
+        </div>
+      </div>
+
+      <!-- Default textarea (ask / hottake / advice) -->
+      <div id="textarea-area">
+        <div class="textarea-wrap">
+          <textarea class="m-textarea" id="msg-input"
+            placeholder="Write anything — they'll never know it was you."
+            maxlength="500" rows="5" aria-label="Your anonymous message" autocomplete="off" spellcheck="true"></textarea>
+          <div class="char-ring-wrap" aria-hidden="true">
+            <svg class="char-ring" viewBox="0 0 28 28">
+              <circle class="char-ring-bg" cx="14" cy="14" r="11"/>
+              <circle class="char-ring-fill" id="char-ring-fill" cx="14" cy="14" r="11"/>
+            </svg>
+          </div>
+        </div>
+        <div class="char-text" id="char-text">
+          <span class="char-num" id="char-num">0 / 500</span>
+          <span>100% anonymous</span>
+        </div>
+      </div>
+
+      <!-- 3-words input -->
+      <div id="words-area" style="display:none">
+        <div class="words-row">
+          <input class="word-input" id="word1" placeholder="First" maxlength="20" autocomplete="off" spellcheck="false">
+          <input class="word-input" id="word2" placeholder="Second" maxlength="20" autocomplete="off" spellcheck="false">
+          <input class="word-input" id="word3" placeholder="Third" maxlength="20" autocomplete="off" spellcheck="false">
+        </div>
+        <p class="send-note" style="margin-bottom:12px">Exactly 3 words — no more, no less</p>
+      </div>
+
+      <!-- Trust level buttons -->
+      <div id="trust-area" style="display:none">
+        <div class="trust-grid">
+          <button class="trust-btn" data-trust="Stranger">
+            <span class="trust-btn-emoji">👻</span>
+            <span class="trust-btn-label">Stranger</span>
+            <span class="trust-btn-sub">We've never really talked</span>
+          </button>
+          <button class="trust-btn" data-trust="Acquaintance">
+            <span class="trust-btn-emoji">🙃</span>
+            <span class="trust-btn-label">Acquaintance</span>
+            <span class="trust-btn-sub">I know who you are, that's about it</span>
+          </button>
+          <button class="trust-btn" data-trust="Friend">
+            <span class="trust-btn-emoji">🤝</span>
+            <span class="trust-btn-label">Friend</span>
+            <span class="trust-btn-sub">We actually talk and hang out</span>
+          </button>
+          <button class="trust-btn" data-trust="Bestie">
+            <span class="trust-btn-emoji">🔥</span>
+            <span class="trust-btn-label">Bestie</span>
+            <span class="trust-btn-sub">I know too much about you</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Yes/No mode -->
+      <div id="yesno-area" style="display:none">
+        <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:14px">
+          <button class="trust-btn" id="yesno-yes" style="font-size:16px;font-weight:700;justify-content:center;gap:12px">
+            <span style="font-size:22px">✅</span> Yes
+          </button>
+          <button class="trust-btn" id="yesno-no" style="font-size:16px;font-weight:700;justify-content:center;gap:12px">
+            <span style="font-size:22px">❌</span> No
+          </button>
+        </div>
+      </div>
+
+      <!-- Rate 1-10 -->
+      <div id="rate-area" style="display:none">
+        <div class="rate-display">
+          <div class="rate-big-num" id="rate-big-num">–</div>
+        </div>
+        <p class="rate-label" id="rate-label">Tap a number</p>
+        <div class="rate-grid" id="rate-grid"></div>
+      </div>
+
+      <button class="btn-send" id="send-btn" aria-label="Send anonymous message">
+        <svg width="15" height="15" viewBox="0 0 15 15" fill="none" aria-hidden="true"><path d="M2 7.5L13 2.5l-5 11-1.5-4.5L2 7.5z" stroke="white" stroke-width="1.5" stroke-linejoin="round"/></svg>
+        <span id="btn-txt">Send anonymously</span>
+        <div class="spinner" id="btn-spin" aria-hidden="true"></div>
+      </button>
+      <p class="err-msg" id="err-msg" role="alert" aria-live="assertive"></p>
+    </div>
+    <div class="success-overlay" id="success-area" aria-live="polite">
+      <div class="success-check" aria-hidden="true">
+        <svg width="26" height="26" viewBox="0 0 26 26" fill="none"><path d="M5 13l5 5 11-11" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <h2 class="s-title" id="s-title-el">Sent 🚀</h2>
+      <p class="s-sub" id="s-sub-el">Anonymous, as promised. They'll never know it was you.</p>
+      <canvas id="confetti-canvas" aria-hidden="true" style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none"></canvas>
+      <div style="display:flex;flex-direction:column;gap:10px;align-items:center;width:100%">
+        <button class="btn-again" id="send-again-btn">↩ Send another</button>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- CUSTOM FORM PANE (hidden by default, shown when mode=custom) -->
+  <div class="msg-card" id="pane-custom" role="main" aria-label="Custom form">
+    <div id="cform-loading-area" style="text-align:center;padding:32px;color:var(--text3);font-size:14px">Loading…</div>
+    <div id="cform-render-area" style="display:none">
+      <h2 class="cform-page-title" id="cform-page-title">Answer these</h2>
+      <p class="cform-page-sub" id="cform-page-sub">100% anonymous — they'll never know it was you</p>
+      <div id="cform-fields"></div>
+      <p class="cform-err" id="cform-err"></p>
+      <button class="btn-send" id="cform-submit-btn" style="margin-top:6px">
+        <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M2 7.5L13 2.5l-5 11-1.5-4.5L2 7.5z" stroke="white" stroke-width="1.5" stroke-linejoin="round"/></svg>
+        <span>Submit anonymously</span>
+        <div class="spinner" id="cform-spin"></div>
+      </button>
+      <p class="send-note" style="margin-top:10px">Completely anonymous — no account needed</p>
+    </div>
+    <div class="success-overlay" id="cform-success" aria-live="polite" style="display:none;flex-direction:column;align-items:center;text-align:center;padding:24px 12px">
+      <div class="success-check">
+        <svg width="26" height="26" viewBox="0 0 26 26" fill="none"><path d="M5 13l5 5 11-11" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <h2 class="s-title">Sent</h2>
+      <p class="s-sub">Anonymous, as promised.</p>
+      <canvas id="cform-confetti" style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none"></canvas>
+    </div>
+  </div>
+
+  <!-- POLL PANE (hidden by default) -->
+  <div class="msg-card" id="pane-poll" style="display:none" role="main" aria-label="Anonymous poll">
+    <div class="poll-loading" id="poll-loading">
+      <div class="spin-sm"></div>
+      <span>Loading poll…</span>
+    </div>
+    <div class="poll-disabled-msg" id="poll-disabled" style="display:none">
+      <div style="font-size:32px;margin-bottom:8px">📊</div>
+      <div style="font-size:15px;font-weight:600;color:var(--text)">No poll active</div>
+      <p>The owner hasn't set up a poll yet.</p>
+    </div>
+    <div id="poll-content-area" style="display:none">
+      <div class="poll-section-title" id="poll-title">Quick Poll</div>
+      <div class="poll-section-sub">Vote anonymously — your identity is never revealed</div>
+      <div id="poll-questions"></div>
+      <button class="btn-vote" id="btn-vote" disabled>
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1.5v11M2.5 8L7 12.5 11.5 8" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span id="vote-btn-txt">Submit Vote</span>
+        <div class="spinner" id="vote-spin"></div>
+      </button>
+      <p class="send-note" style="margin-top:10px">Completely anonymous · No login needed</p>
+      <p class="err-msg" id="vote-err"></p>
+    </div>
+    <div class="poll-success" id="poll-success">
+      <div class="success-check" aria-hidden="true">
+        <svg width="26" height="26" viewBox="0 0 26 26" fill="none"><path d="M5 13l5 5 11-11" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <h2 class="s-title">Voted! 📊</h2>
+      <p class="s-sub">Your anonymous vote has been counted.</p>
+    </div>
+  </div>
+
+  <!-- CTA section -->
+  <section class="share-sec" id="share-sec" aria-label="Create your own link">
+    <div class="share-divider">
+      <div class="sh-line"></div><span class="sh-label">✨ Create yours free</span><div class="sh-line"></div>
+    </div>
+    <a href="/" class="btn-create-own">
+      <svg width="15" height="15" viewBox="0 0 15 15" fill="none" aria-hidden="true"><path d="M2 7.5L13 2.5l-5 11-1.5-4.5L2 7.5z" stroke="white" stroke-width="1.5" stroke-linejoin="round"/></svg>
+      <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M2.5 7.5h10M8.5 3.5l4 4-4 4" stroke="white" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Get your own link — it's free
+    </a>
+  </section>
+</div>
+
+<!-- Story Modal -->
+<div class="modal-ov" id="story-modal" role="dialog" aria-modal="true" aria-label="Story generator">
+  <div class="modal-box">
+    <button class="modal-x" id="modal-close" aria-label="Close">
+      <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 2l9 9M11 2L2 11" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+    </button>
+    <h2 class="modal-ttl">Your Story Template</h2>
+    <p class="modal-sub">Download and post to Instagram Stories or WhatsApp Status.</p>
+
+    <!-- Loading state -->
+    <div class="story-loading" id="story-loading">
+      <div class="spin-lg"></div>
+      <p>Generating your story…</p>
+    </div>
+
+    <!-- Canvas (hidden until ready) -->
+    <div class="story-preview" id="story-preview" style="display:none">
+      <canvas id="ask-canvas" width="1080" height="1920" aria-label="Story preview"></canvas>
+    </div>
+
+    <div id="story-actions" style="display:none">
+      <div class="story-btns">
+        <button class="btn-dl" id="btn-story-dl">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1v8M2.5 6L6 9.5 9.5 6" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M1 11h10" stroke="white" stroke-width="1.4" stroke-linecap="round"/></svg>
+          Download
+        </button>
+        <button class="btn-shr-wa" id="btn-story-wa">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="#25D366" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.125.557 4.118 1.528 5.845L0 24l6.335-1.652A11.954 11.954 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.006-1.371l-.36-.214-3.727.977.994-3.638-.235-.374A9.818 9.818 0 012.182 12C2.182 6.578 6.578 2.182 12 2.182S21.818 6.578 21.818 12 17.422 21.818 12 21.818z"/></svg>
+          WhatsApp
+        </button>
+        <button class="btn-shr" id="btn-story-shr">
+          <svg width="12" height="12" viewBox="0 0 13 13" fill="none"><circle cx="10.5" cy="2.5" r="1.5" stroke="currentColor" stroke-width="1.3"/><circle cx="10.5" cy="10.5" r="1.5" stroke="currentColor" stroke-width="1.3"/><circle cx="2.5" cy="6.5" r="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M4 5.5l5-2.5M4 7.5l5 2.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+          Share
+        </button>
+      </div>
+      <div class="story-caption-row">
+        <span class="story-caption-url" id="story-caption-url"></span>
+        <button class="btn-copy-caption" id="btn-copy-caption">Copy link</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="alert" aria-live="assertive"></div>
+<input type="text" name="_hp" id="_hp" style="position:absolute;left:-9999px;opacity:0;pointer-events:none;" tabindex="-1" aria-hidden="true" autocomplete="off">
+
+<script>
+(function(){
+  'use strict';
+
+  // ── Username: injected by CF Function (window.__ASKTHAT_USER__) is most reliable ──
+  const USERNAME_RE = /^[a-zA-Z0-9_.-]+$/;
+  const params      = new URLSearchParams(location.search);
+  const pathMatch   = location.pathname.match(/\/ask\/([^/?#]+)/);
+  const pathUser    = pathMatch ? pathMatch[1] : '';
+
+  let user = (
+    (typeof window.__ASKTHAT_USER__ === 'string' && window.__ASKTHAT_USER__ ? window.__ASKTHAT_USER__ : null) ||
+    params.get('u') ||
+    pathUser ||
+    ''
+  ).trim().toLowerCase();
+
+  if (user.endsWith('.html')) user = user.slice(0, -5);
+
+  // ── Guard: no valid user ────────────────────────────────────────────────
+  if (!user || user.length < 1 || user.length > 30 || !USERNAME_RE.test(user)) {
+    document.getElementById('profile-name').textContent = 'Someone';
+    document.getElementById('profile-tag').textContent  = 'Enter a username in your link: /ask/yourname';
+    document.getElementById('avatar-el').textContent    = '?';
+    document.getElementById('send-btn').disabled        = true;
+    document.getElementById('send-btn').style.opacity   = '0.4';
+    const note = document.createElement('p');
+    note.style.cssText = 'text-align:center;font-size:13px;color:#fbbf24;margin-top:12px;padding:10px;background:rgba(251,191,36,.07);border:1px solid rgba(251,191,36,.2);border-radius:10px;';
+    note.textContent   = '⚠ No username found in URL. Share a link like: askthat.pages.dev/ask/yourname';
+    document.getElementById('send-btn').insertAdjacentElement('afterend', note);
+    return;
+  }
+
+  const BASE_URL  = `${location.origin}/ask/${user}`;
+  let   toastTimer;
+
+  // ── Profile ─────────────────────────────────────────────────────────────
+  document.getElementById('avatar-el').textContent    = user.charAt(0).toUpperCase();
+  document.getElementById('profile-name').textContent = user;
+  document.title  = `Ask ${user} anonymously — AskThat`;
+  document.querySelector('meta[property="og:title"]').content = `Ask ${user} anonymously — AskThat`;
+
+  // Apply saved page theme
+  fetch(`/api/get?username=${encodeURIComponent(user)}&field=theme`)
+    .then(r=>r.json()).then(d=>{ if(d.theme) document.body.classList.add('theme-'+d.theme); }).catch(()=>{});
+
+  // ── Link display ────────────────────────────────────────────────────────
+  const _copyUrlEl = document.getElementById('copy-url-display');
+  if (_copyUrlEl) _copyUrlEl.textContent = BASE_URL;
+  const _captionUrlEl = document.getElementById('story-caption-url');
+  if (_captionUrlEl) _captionUrlEl.textContent = BASE_URL;
+
+  function copyLink(url) {
+    const target = url || BASE_URL;
+    navigator.clipboard.writeText(target).then(() => {
+      const btn = document.getElementById('btn-copy');
+      if (btn) { btn.textContent = '✓ Copied'; btn.classList.add('copied'); setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000); }
+      else showToast('✓ Link copied!');
+    }).catch(() => showToast('Copy failed'));
+  }
+  const _btnCopy = document.getElementById('btn-copy');
+  if (_btnCopy) _btnCopy.addEventListener('click', () => copyLink());
+
+  const _btnCopyCaption = document.getElementById('btn-copy-caption');
+  if (_btnCopyCaption) _btnCopyCaption.addEventListener('click', function() {
+    navigator.clipboard.writeText(BASE_URL).then(() => {
+      this.textContent = '✓ Copied!'; this.classList.add('copied');
+      setTimeout(() => { this.textContent = 'Copy link'; this.classList.remove('copied'); }, 2000);
+    });
+  });
+
+  // ── Share grid ──────────────────────────────────────────────────────────
+  const _shareGrid = document.getElementById('share-btns');
+  if (_shareGrid) {
+    const txt = encodeURIComponent(`Ask me anything anonymously! ${BASE_URL}`);
+    [
+      { label:'Twitter',  url:`https://twitter.com/intent/tweet?text=${txt}`, icon:`<svg viewBox="0 0 24 24" fill="#1DA1F2"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.259 5.63zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>` },
+      { label:'WhatsApp', url:`https://wa.me/?text=${txt}`, icon:`<svg viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.125.557 4.118 1.528 5.845L0 24l6.335-1.652A11.954 11.954 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.006-1.371l-.36-.214-3.727.977.994-3.638-.235-.374A9.818 9.818 0 012.182 12C2.182 6.578 6.578 2.182 12 2.182S21.818 6.578 21.818 12 17.422 21.818 12 21.818z"/></svg>` },
+      { label:'Telegram', url:`https://t.me/share/url?url=${encodeURIComponent(BASE_URL)}&text=${encodeURIComponent('Ask me anything!')}`, icon:`<svg viewBox="0 0 24 24" fill="#26A5E4"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L7.14 13.913l-2.98-.924c-.648-.203-.66-.648.136-.961l11.647-4.49c.537-.194 1.006.131.951.683z"/></svg>` },
+      { label:'Discord',  url:`https://discord.com/channels/@me`, icon:`<svg viewBox="0 0 24 24" fill="#5865F2"><path d="M20.317 4.37a19.791 19.791 0 00-4.885-1.515.074.074 0 00-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 00-5.487 0 12.64 12.64 0 00-.617-1.25.077.077 0 00-.079-.037A19.736 19.736 0 003.677 4.37a.07.07 0 00-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 00.031.057 19.9 19.9 0 005.993 3.03.078.078 0 00.084-.028 14.09 14.09 0 001.226-1.994.076.076 0 00-.041-.106 13.107 13.107 0 01-1.872-.892.077.077 0 01-.008-.128 10.2 10.2 0 00.372-.292.074.074 0 01.077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 01.078.01c.12.098.246.198.373.292a.077.077 0 01-.006.127 12.299 12.299 0 01-1.873.892.077.077 0 00-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 00.084.028 19.839 19.839 0 006.002-3.03.077.077 0 00.032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 00-.031-.03z"/></svg>` },
+      { label:'Copy',     url:null, icon:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>` },
+    ].forEach(s => {
+      const el = s.url ? document.createElement('a') : document.createElement('button');
+      el.className = 'sh-btn';
+      if (s.url) { el.href=s.url; el.target='_blank'; el.rel='noopener noreferrer'; }
+      else el.addEventListener('click', () => copyLink());
+      el.innerHTML = `${s.icon}<span>${s.label}</span>`;
+      _shareGrid.appendChild(el);
+    });
+  }
+
+  // ── Char counter ────────────────────────────────────────────────────────
+  const textarea = document.getElementById('msg-input');
+  const charNum  = document.getElementById('char-num');
+  const charText = document.getElementById('char-text');
+  const ringFill = document.getElementById('char-ring-fill');
+  const CIRC = 69.1, MAX = 500;
+  textarea.addEventListener('input', () => {
+    const len = textarea.value.length;
+    charNum.textContent = `${len} / ${MAX}`;
+    ringFill.style.strokeDashoffset = String(CIRC - CIRC * Math.min(len/MAX, 1));
+    ringFill.style.stroke = len > MAX ? '#f472b6' : len/MAX > .8 ? '#fbbf24' : 'var(--primary)';
+    charText.className = len > MAX ? 'char-text over' : len/MAX > .8 ? 'char-text warn' : 'char-text';
+  });
+
+  // ── Send message ────────────────────────────────────────────────────────
+  const sendBtn = document.getElementById('send-btn');
+  const btnTxt  = document.getElementById('btn-txt');
+  const btnSpin = document.getElementById('btn-spin');
+  const errMsg  = document.getElementById('err-msg');
+
+  async function sendMessage() {
+    if (document.getElementById('_hp').value) return;
+    const text = textarea.value.trim();
+    if (!text) { errMsg.textContent='Write something first.'; errMsg.classList.add('show'); return; }
+    if (text.length > 500) { errMsg.textContent='Message too long.'; errMsg.classList.add('show'); return; }
+    sendBtn.disabled=true; btnTxt.textContent='Sending…'; btnSpin.classList.add('show'); errMsg.classList.remove('show');
+    try {
+      const res  = await fetch('/api/send', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({username:user, text}) });
+      const data = await res.json();
+      if (!res.ok) { errMsg.textContent=data.error||'Failed. Try again.'; errMsg.classList.add('show'); return; }
+      document.getElementById('form-area').style.display='none';
+      document.getElementById('success-area').classList.add('show');
+    } catch { errMsg.textContent='Network error.'; errMsg.classList.add('show'); }
+    finally { sendBtn.disabled=false; btnTxt.textContent='Send anonymously'; btnSpin.classList.remove('show'); }
+  }
+  sendBtn.addEventListener('click', sendMessage);
+  textarea.addEventListener('keydown', e => { if(e.key==='Enter'&&(e.metaKey||e.ctrlKey)) sendMessage(); });
+  document.getElementById('send-again-btn').addEventListener('click', () => {
+    textarea.value=''; charNum.textContent='0 / 500';
+    ringFill.style.strokeDashoffset=String(CIRC); charText.className='char-text';
+    // Reset all mode-specific inputs
+    document.querySelectorAll('.trust-btn,.rate-btn').forEach(b=>b.classList.remove('selected'));
+    document.querySelectorAll('.word-input').forEach(i=>{i.value='';});
+    document.getElementById('yesno-yes')?.classList.remove('selected');
+    document.getElementById('yesno-no')?.classList.remove('selected');
+    const rbn=document.getElementById('rate-big-num'); if(rbn){rbn.textContent='–';rbn.classList.remove('visible');}
+    const rl=document.getElementById('rate-label'); if(rl)rl.textContent='Tap a number';
+    window._yesnoValue=''; rateValue=0; trustValue=''; wordsValue='';
+    if(urlPromptType==='trust'||urlPromptType==='rate'||urlPromptType==='yesno') sendBtn.disabled=true;
+    if(urlPromptType==='3words') sendBtn.disabled=true;
+    document.getElementById('form-area').style.display='';
+    document.getElementById('success-area').classList.remove('show');
+  });
+
+  // ── Poll ────────────────────────────────────────────────────────────────
+  let pollData    = null;
+  let pollAnswers = {};
+
+  async function loadPoll() {
+    try {
+      const res = await fetch(`/api/poll?username=${encodeURIComponent(user)}`);
+      if (!res.ok) return null;
+      return await res.json();
+    } catch { return null; }
+  }
+
+  function renderPoll(data) {
+    document.getElementById('poll-loading').style.display = 'none';
+    if (!data || !data.enabled || !data.questions?.length) {
+      document.getElementById('poll-disabled').style.display = '';
+      return;
+    }
+    pollData = data;
+    document.getElementById('poll-title').textContent = data.title || 'Quick Poll';
+    document.getElementById('poll-content-area').style.display = '';
+    const container = document.getElementById('poll-questions');
+    container.innerHTML = '';
+    data.questions.forEach((q, qi) => {
+      const block = document.createElement('div');
+      block.className = 'poll-question-block';
+      block.innerHTML = `
+        <span class="poll-q-label">Question ${qi+1}</span>
+        <p class="poll-q-text">${esc(q.text)}</p>
+        <div class="poll-opts-grid" role="group" aria-label="${esc(q.text)}">
+          ${q.options.map((opt,oi)=>`<button class="poll-opt-btn" data-qid="${esc(q.id)}" data-val="${esc(opt)}" data-oi="${oi}" type="button" aria-pressed="false">
+            <span class="poll-opt-label">${esc(opt)}</span>
+          </button>`).join('')}
+        </div>
+        ${qi<data.questions.length-1?'<div class="poll-divider-line"></div>':''}
+      `;
+      container.appendChild(block);
+    });
+    container.querySelectorAll('.poll-opt-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const qid = btn.dataset.qid, val = btn.dataset.val;
+        const siblings = [...container.querySelectorAll(`.poll-opt-btn[data-qid="${qid}"]`)];
+        siblings.forEach(b => { b.classList.remove('selected'); b.setAttribute('aria-pressed','false'); });
+        btn.classList.add('selected'); btn.setAttribute('aria-pressed','true');
+        pollAnswers[qid] = val;
+        document.getElementById('btn-vote').disabled = Object.keys(pollAnswers).length===0;
+      });
+    });
+  }
+
+  function showRealResults(questions) {
+    // Replace poll-success with real result bars
+    const successEl = document.getElementById('poll-success');
+    const container = document.getElementById('poll-questions');
+    if (!successEl) return;
+    let html = '<div style="margin-top:8px">';
+    questions.forEach(q => {
+      const total = Object.values(q.counts||{}).reduce((a,b)=>a+b,0);
+      const maxCount = Math.max(...(q.options||[]).map(o=>(q.counts||{})[o]||0), 1);
+      html += `<div style="margin-bottom:18px">
+        <p style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:10px">${esc(q.text)}</p>`;
+      (q.options||[]).forEach(opt => {
+        const count = (q.counts||{})[opt]||0;
+        const pct   = total ? Math.round(count/total*100) : 0;
+        const lead  = count === maxCount && count > 0;
+        html += `<div style="margin-bottom:8px">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+            <span style="font-size:13px;color:${lead?'var(--text)':'var(--text2)'};font-weight:${lead?'600':'400'}">${esc(opt)}</span>
+            <span style="font-size:12px;color:var(--text3)">${pct}% · ${count}</span>
+          </div>
+          <div style="height:8px;background:rgba(255,255,255,.07);border-radius:100px;overflow:hidden">
+            <div style="height:100%;width:${pct}%;background:${lead?'linear-gradient(90deg,#ff477e,#ff6b35)':'rgba(255,107,53,.35)'};border-radius:100px;transition:width .7s ease"></div>
+          </div>
+        </div>`;
+      });
+      if (total) html += `<p style="font-size:11px;color:var(--text3);margin-top:4px">${total} vote${total!==1?'s':''} total</p>`;
+      html += '</div>';
+    });
+    html += '</div>';
+    successEl.innerHTML = '<div style="text-align:center;margin-bottom:16px"><span style="font-size:28px">✅</span><p style="font-size:14px;font-weight:600;margin-top:6px;color:var(--text)">Vote submitted!</p></div>' + html;
+    successEl.classList.add('show');
+  }
+
+  async function submitVote() {
+    if (!pollData || !Object.keys(pollAnswers).length) return;
+    const voteBtn=document.getElementById('btn-vote'), voteTxt=document.getElementById('vote-btn-txt'),
+          voteSpin=document.getElementById('vote-spin'), voteErr=document.getElementById('vote-err');
+    voteBtn.disabled=true; voteTxt.textContent='Submitting…'; voteSpin.classList.add('show'); voteErr.classList.remove('show');
+    try {
+      const res  = await fetch('/api/poll', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({username:user, answers:pollAnswers}) });
+      const data = await res.json();
+      if (!res.ok) { voteErr.textContent=data.error||'Failed. Try again.'; voteErr.classList.add('show'); return; }
+      // Fetch real updated results and display them
+      document.getElementById('poll-content-area').style.display='none';
+      document.getElementById('poll-success').classList.add('show');
+      try {
+        const rRes  = await fetch('/api/poll?username=' + encodeURIComponent(user));
+        const rData = await rRes.json();
+        if (rData.questions) showRealResults(rData.questions);
+      } catch(_) {}
+    } catch { voteErr.textContent='Network error.'; voteErr.classList.add('show'); }
+    finally { voteTxt.textContent='Submit Vote'; voteSpin.classList.remove('show'); voteBtn.disabled=false; }
+  }
+  document.getElementById('btn-vote').addEventListener('click', submitVote);
+
+
+
+  // Tab switching
+  let activeTab = 'ask';
+  function switchTab(tab) {
+    activeTab = tab;
+    const isAsk = tab==='ask';
+    document.getElementById('pane-ask').style.display  = isAsk?'':'none';
+    document.getElementById('pane-poll').style.display = isAsk?'none':'';
+    document.getElementById('tab-ask-btn').classList.toggle('active', isAsk);
+    document.getElementById('tab-poll-btn').classList.toggle('active', !isAsk);
+  }
+  document.getElementById('tab-ask-btn').addEventListener('click', ()=>switchTab('ask'));
+  document.getElementById('tab-poll-btn').addEventListener('click', ()=>switchTab('poll'));
+
+  // ── Groq-powered dynamic placeholders (ask mode only) ─────────────────
+  const textarea2 = document.getElementById('msg-input');
+  const defaultPH = "Write anything — they'll never know it was you.";
+  let phIndex = 0, placeholders = [defaultPH];
+  async function loadPlaceholders() {
+    try {
+      if (urlPromptType !== 'ask') return;
+      const res = await fetch(`/api/groq?type=placeholders&username=${encodeURIComponent(user)}`);
+      const d   = await res.json();
+      if (d.placeholders?.length) {
+        placeholders = d.placeholders;
+        rotatePlaceholder();
+      }
+    } catch(_) {}
+  }
+  function rotatePlaceholder() {
+    if (!textarea2 || textarea2.value) return;
+    textarea2.placeholder = placeholders[phIndex % placeholders.length];
+    phIndex++;
+  }
+  loadPlaceholders();
+  setInterval(rotatePlaceholder, 5000);
+
+  // ── Send counter (social proof) ────────────────────────────────────────
+  async function loadSentCount() {
+    try {
+      const res = await fetch(`/api/stats?username=${encodeURIComponent(user)}`);
+      const d   = await res.json();
+      const el  = document.getElementById('teaser-count');
+      if (el && d.received > 0) {
+        el.textContent = d.received > 99 ? '99+' : String(d.received);
+        // Reveal real blurred msgs partially
+        const tmsgs = document.querySelectorAll('.teaser-msg');
+        if (d.received >= 3 && tmsgs[0]) tmsgs[0].style.filter = 'blur(3px)';
+      } else {
+        const tw = document.getElementById('teaser-wrap');
+        if (tw && d.received === 0) tw.style.display = 'none';
+      }
+    } catch(_) {}
+  }
+  loadSentCount();
+
+  // ── Mood detection while typing ────────────────────────────────────────
+  let moodTimeout;
+  const charTextEl = document.getElementById('char-text');
+  function clearMoodBadge() { document.querySelector('.mood-badge')?.remove(); }
+  textarea2?.addEventListener('input', () => {
+    clearTimeout(moodTimeout);
+    clearMoodBadge();
+    const val = textarea2.value.trim();
+    if (val.length < 20) return;
+    moodTimeout = setTimeout(async () => {
+      try {
+        const res = await fetch('/api/groq', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ type:'mood', text:val }) });
+        const d   = await res.json();
+        if (!d.mood || d.mood === 'neutral') return;
+        clearMoodBadge();
+        const MOOD_EMOJI = { wholesome:'🤍', funny:'😂', spicy:'🌶️', deep:'🤔', flirty:'💕', sad:'🥺', supportive:'💪', weird:'👀' };
+        const badge = document.createElement('span');
+        badge.className = `mood-badge mood-${d.mood}`;
+        badge.textContent = `${MOOD_EMOJI[d.mood]||''} ${d.mood}`;
+        charTextEl?.appendChild(badge);
+      } catch(_) {}
+    }, 1200);
+  });
+
+  // ── Confetti burst on send ─────────────────────────────────────────────
+  function launchConfetti() {
+    const canvas = document.getElementById('confetti-canvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    const W = canvas.offsetWidth, H = canvas.offsetHeight;
+    canvas.width = W; canvas.height = H;
+    const COLORS = ['#ff477e','#ff6b35','#ffbf69','#4ade80','#60a5fa','#a78bfa'];
+    const pieces = Array.from({length:60}, () => ({
+      x: Math.random()*W, y: Math.random()*H*0.4 - H*0.1,
+      vx: (Math.random()-0.5)*4, vy: Math.random()*3+2,
+      r: Math.random()*6+3, color: COLORS[Math.floor(Math.random()*COLORS.length)],
+      rot: Math.random()*360, rSpeed: (Math.random()-0.5)*8, life:1,
+    }));
+    let frame;
+    function draw() {
+      ctx.clearRect(0,0,W,H);
+      let alive = false;
+      pieces.forEach(p => {
+        p.x+=p.vx; p.y+=p.vy; p.rot+=p.rSpeed; p.life-=0.012;
+        if(p.life<=0) return; alive=true;
+        ctx.save(); ctx.translate(p.x,p.y); ctx.rotate(p.rot*Math.PI/180);
+        ctx.globalAlpha=p.life; ctx.fillStyle=p.color;
+        ctx.fillRect(-p.r,-p.r/2,p.r*2,p.r);
+        ctx.restore();
+      });
+      if(alive) frame=requestAnimationFrame(draw); else ctx.clearRect(0,0,W,H);
+    }
+    draw();
+    return () => cancelAnimationFrame(frame);
+  }
+
+  // Patch sendMessage to launch confetti
+  const origSend = sendMessage;
+  // Override the success display
+  const successArea = document.getElementById('success-area');
+  const observer = new MutationObserver(muts => {
+    muts.forEach(m => {
+      if(m.target.classList.contains('show')) launchConfetti();
+    });
+  });
+  if(successArea) observer.observe(successArea, { attributes:true, attributeFilter:['class'] });
+
+  // ── Floating CTA — appears after scrolling past send button ───────────
+  const floatingCta = document.getElementById('floating-cta');
+  const sendBtnEl   = document.getElementById('send-btn');
+  if (floatingCta && sendBtnEl) {
+    const ctaObs = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting) floatingCta.classList.add('visible');
+      else floatingCta.classList.remove('visible');
+    }, { threshold: 0 });
+    ctaObs.observe(sendBtnEl);
+  }
+
+  // Load poll in background
+  loadPoll().then(data => {
+    if (data?.enabled) {
+      if (data.messagesOnly) {
+        // Poll-only mode: hide the ask pane entirely, show poll pane directly
+        document.getElementById('tab-nav').style.display = 'none';
+        document.getElementById('pane-ask').style.display = 'none';
+        document.getElementById('pane-poll').style.display = '';
+      } else {
+        document.getElementById('tab-nav').style.display = '';
+      }
+    }
+    renderPoll(data);
+  });
+
+  // ── Prompt type: fetched from server (user's saved mode), NOT from URL ──
+  const PROMPT_CONFIG = {
+    '3words': { icon:'✏️', title:'Describe me in exactly 3 words', sub:'No more, no less — be creative', btnTxt:'Send 3 words', placeholder:null },
+    trust:    { icon:'🔒', title:'What\'s your trust level with me?', sub:'Tap to pick — completely anonymous', btnTxt:'Send trust level', placeholder:null },
+    rate:     { icon:'⭐', title:'Rate my vibe 1 to 10', sub:'Tap a number — no explanation needed', btnTxt:'Send rating', placeholder:null },
+    hottake:  { icon:'🌶️', title:'Hot take about me. Go.', sub:'Say what you actually think — I can handle it', btnTxt:'Send hot take', placeholder:'e.g. You always act confident but you\'re actually...' },
+    advice:   { icon:'💡', title:'Give me one piece of advice', sub:'Something you think I actually need to hear', btnTxt:'Send advice', placeholder:'e.g. Stop overthinking and just...' },
+    ai:       { icon:'🎯', title:'A question awaits…', sub:'Your honest anonymous answer — 100% private', btnTxt:'Send my answer', placeholder:'Your honest answer...' },
+    yesno:    { icon:'🔮', title:'Here is your question…', sub:'Yes or No — completely anonymous', btnTxt:'Send answer', placeholder:null },
+  };
+
+  // Still support ?type= as a manual override (for sharing specific types), but default is server mode
+  let urlPromptType = new URLSearchParams(location.search).get('type') || 'ask';
+
+  // Show loading spinner while mode loads
+  document.getElementById('form-area').style.opacity = '0';
+
+  const MODE_TAGS = {
+    ask:     'wants your honest anonymous message',
+    rate:    `rate ${user} — anonymously`,
+    trust:   `how well do you know ${user}?`,
+    '3words': `describe ${user} in 3 words`,
+    advice:  `give ${user} anonymous advice`,
+    hottake: `send ${user} your hot take`,
+    ai:      `truth challenge — about ${user}`,
+    yesno:   `yes or no — about ${user}`,
+    custom:  `fill out ${user}'s anonymous form`,
+  };
+
+  // Fetch the owner's saved default mode from server, unless URL explicitly overrides
+  if (!new URLSearchParams(location.search).get('type')) {
+    fetch(`/api/get?username=${encodeURIComponent(user)}&field=mode`)
+      .then(r => r.json())
+      .then(d => {
+        if (d.mode && d.mode !== 'ask' && (PROMPT_CONFIG[d.mode] || d.mode === 'custom')) {
+          urlPromptType = d.mode;
+        }
+        const tag = document.getElementById('profile-tag');
+        if (tag) tag.textContent = MODE_TAGS[urlPromptType] || MODE_TAGS.ask;
+        if (urlPromptType === 'custom') {
+          document.getElementById('pane-ask').style.display = 'none';
+          document.getElementById('pane-custom').style.display = '';
+          document.getElementById('form-area').style.opacity = '1';
+          const fl2=document.getElementById('form-loading'); if(fl2) fl2.style.display='none';
+          loadAndRenderCustomForm();
+        } else {
+          setupPromptUI();
+          document.getElementById('form-area').style.opacity = '1';
+          const fl=document.getElementById('form-loading'); if(fl) fl.style.display='none';
+        }
+      })
+      .catch(() => {
+        document.getElementById('form-area').style.opacity = '1';
+        const fl=document.getElementById('form-loading'); if(fl) fl.style.display='none';
+      });
+  } else {
+    const tag = document.getElementById('profile-tag');
+    if (tag) tag.textContent = MODE_TAGS[urlPromptType] || MODE_TAGS.ask;
+    document.getElementById('form-area').style.opacity = '1';
+    const fl=document.getElementById('form-loading'); if(fl) fl.style.display='none';
+  }
+
+  function setupPromptUI() {
+    const cfg = PROMPT_CONFIG[urlPromptType];
+    if (!cfg) {
+      // ask mode — ensure banner is hidden and form visible
+      document.getElementById('prompt-banner').style.display='none';
+      return;
+    }
+
+    // Show prompt banner
+    const banner = document.getElementById('prompt-banner');
+    const bannerIcon = document.getElementById('prompt-banner-icon');
+    const bannerTitle = document.getElementById('prompt-banner-title');
+    const bannerSub = document.getElementById('prompt-banner-sub');
+    if (banner) {
+      banner.style.display='';
+      banner.className = `prompt-banner type-${urlPromptType}`;
+      bannerIcon.textContent=cfg.icon;
+      bannerTitle.textContent=cfg.title;
+      bannerSub.textContent=cfg.sub;
+    }
+
+    // Per-prompt send button theme
+    const sendBtnEl = document.getElementById('send-btn');
+    const SEND_BTN_STYLES = {
+      trust:    'background:linear-gradient(135deg,#34d399,#059669)',
+      rate:     'background:linear-gradient(135deg,#fbbf24,#f59e0b)',
+      hottake:  'background:linear-gradient(135deg,#ff477e,#c026d3)',
+      advice:   'background:linear-gradient(135deg,#ffbf69,#ff6b35)',
+      '3words': 'background:linear-gradient(135deg,#60a5fa,#6366f1)',
+      ai:       'background:linear-gradient(135deg,#a78bfa,#7c3aed)',
+    };
+    if (sendBtnEl && SEND_BTN_STYLES[urlPromptType]) {
+      sendBtnEl.style.cssText += ';' + SEND_BTN_STYLES[urlPromptType];
+    }
+
+    // Show/hide input areas
+    const textareaArea = document.getElementById('textarea-area');
+    const wordsArea    = document.getElementById('words-area');
+    const trustArea    = document.getElementById('trust-area');
+    const rateArea     = document.getElementById('rate-area');
+    const yesnoArea    = document.getElementById('yesno-area');
+
+    if (urlPromptType === '3words') {
+      if (textareaArea) textareaArea.style.display='none';
+      if (wordsArea) wordsArea.style.display='';
+      setupWordsInput();
+    } else if (urlPromptType === 'trust') {
+      if (textareaArea) textareaArea.style.display='none';
+      if (trustArea) trustArea.style.display='';
+      setupTrustButtons();
+    } else if (urlPromptType === 'rate') {
+      if (textareaArea) textareaArea.style.display='none';
+      if (rateArea) rateArea.style.display='';
+      setupRateGrid();
+    } else if (urlPromptType === 'yesno') {
+      if (textareaArea) textareaArea.style.display='none';
+      if (yesnoArea) yesnoArea.style.display='';
+      if (sendBtn) sendBtn.disabled=true;
+      fetch(`/api/groq?type=yesno&username=${encodeURIComponent(user)}`)
+        .then(r=>r.json()).then(d=>{
+          const q=d.question||d.prompt||'';
+          if(q&&bannerTitle){bannerTitle.textContent=q; if(bannerSub)bannerSub.textContent='Yes or No — 100% anonymous';}
+        }).catch(()=>{});
+      let yesnoValue='';
+      ['yesno-yes','yesno-no'].forEach(id=>{
+        document.getElementById(id)?.addEventListener('click',()=>{
+          document.getElementById('yesno-yes').classList.remove('selected');
+          document.getElementById('yesno-no').classList.remove('selected');
+          document.getElementById(id).classList.add('selected');
+          yesnoValue=id==='yesno-yes'?'Yes':'No';
+          // patch buildPromptMessage inline
+          window._yesnoValue=yesnoValue;
+          if(sendBtn) sendBtn.disabled=false;
+        });
+      });
+    } else if (urlPromptType === 'ai') {
+      // Fetch AI game/challenge and update banner
+      fetch(`/api/groq?type=dare&username=${encodeURIComponent(user)}`)
+        .then(r=>r.json()).then(d=>{ const q=d.dare||d.game||d.prompt||''; if(q&&bannerTitle){bannerTitle.textContent=q; if(bannerSub) bannerSub.textContent='Truth challenge — answer honestly about '+user;} }).catch(()=>{});
+    }
+
+    // Update button text
+    const btnTxt = document.getElementById('btn-txt');
+    if (btnTxt && cfg.btnTxt) btnTxt.textContent = cfg.btnTxt;
+
+    // Update textarea placeholder if applicable
+    const ta = document.getElementById('msg-input');
+    if (ta && cfg.placeholder) ta.placeholder = cfg.placeholder;
+
+    // Disable send button by default for selection-based prompts
+    if (sendBtn && (urlPromptType === 'trust' || urlPromptType === 'rate')) {
+      sendBtn.disabled = true;
+    }
+  }
+
+  // ── 3-words enforcer ──────────────────────────────────────────────────
+  let wordsValue = '';
+  function setupWordsInput() {
+    const inputs = [document.getElementById('word1'), document.getElementById('word2'), document.getElementById('word3')];
+    inputs.forEach((inp, i) => {
+      if (!inp) return;
+      inp.addEventListener('keydown', e => {
+        if ((e.key === ' ' || e.key === 'Tab') && inp.value.trim().length >= 1 && i < 2) {
+          e.preventDefault(); inputs[i+1].focus(); return;
+        }
+        if (e.key === 'Enter' && i < 2 && inputs[i+1]) { e.preventDefault(); inputs[i+1].focus(); }
+        if (e.key === 'Enter' && i === 2) document.getElementById('send-btn').click();
+      });
+      inp.addEventListener('input', () => {
+        inp.value = inp.value.replace(/\s+/g, '');
+        wordsValue = inputs.map(el => el?.value.trim()).filter(Boolean).join(' ');
+        document.getElementById('send-btn').disabled = inputs.some(el => !el?.value.trim() || el.value.trim().length < 1);
+      });
+    });
+  }
+
+  // ── Trust level selection ─────────────────────────────────────────────
+  let trustValue = '';
+  function setupTrustButtons() {
+    document.querySelectorAll('.trust-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.trust-btn').forEach(b=>b.classList.remove('selected'));
+        btn.classList.add('selected');
+        const emoji = btn.querySelector('.trust-btn-emoji')?.textContent || '';
+        trustValue = `${emoji} ${btn.dataset.trust}`;
+        document.getElementById('send-btn').disabled = false;
+      });
+    });
+  }
+
+  // ── Rate 1–10 grid ────────────────────────────────────────────────────
+  let rateValue = 0;
+  const RATE_LABELS = ['','Total vibe kill 💀','Pretty rough tbh','Getting there 😬','Meh, could be worse','Not bad actually','Solid vibes ✨','Pretty good ngl','Really good energy 🔥','Almost perfect ⭐','Absolute vibe 🚀'];
+  function setupRateGrid() {
+    const grid = document.getElementById('rate-grid');
+    if (!grid) return;
+    grid.innerHTML = '';
+    for (let i=1; i<=10; i++) {
+      const btn = document.createElement('button');
+      btn.className='rate-btn'; btn.dataset.rate=String(i); btn.textContent=String(i);
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.rate-btn').forEach(b=>b.classList.remove('selected'));
+        btn.classList.add('selected');
+        rateValue = i;
+        const lbl = document.getElementById('rate-label');
+        if (lbl) lbl.textContent = RATE_LABELS[i] || '';
+        const bigNum = document.getElementById('rate-big-num');
+        if (bigNum) { bigNum.textContent = i; bigNum.classList.add('visible'); }
+        document.getElementById('send-btn').disabled = false;
+      });
+      grid.appendChild(btn);
+    }
+  }
+
+  // ── Build message text for each prompt type ───────────────────────────
+  function buildPromptMessage() {
+    const ta = document.getElementById('msg-input');
+    if (urlPromptType === '3words') { const w=wordsValue?.trim(); return w ? `3 Words: ${w}` : null; }
+    if (urlPromptType === 'yesno') return window._yesnoValue ? `${window._yesnoValue} — ${document.getElementById('prompt-banner-title')?.textContent||''}` : null;
+    if (urlPromptType === 'trust')  return trustValue ? `Trust level: ${trustValue}` : null;
+    if (urlPromptType === 'rate')   return rateValue ? `Vibe rating: ${rateValue}/10 ${RATE_LABELS[rateValue]}` : null;
+    return ta?.value.trim() || null;
+  }
+
+  // Prompt-aware send — replaces the original sendMessage entirely
+  sendBtn.removeEventListener('click', sendMessage);
+  sendBtn.addEventListener('click', promptSend);
+  const BAD_WORDS_RE = /\b(fuck|shit|bitch|cunt|nigger|nigga|faggot|retard|kys|kill\s*your?self|rape|molest|slut|whore|motherfucker|dickhead|nazi)\b/i;
+
+  async function promptSend() {
+    if (document.getElementById('_hp').value) return;
+    const text = buildPromptMessage();
+    if (!text) {
+      const labels = { rate:'Tap a number first.', trust:'Pick your level first.', '3words':'Fill in all 3 words.' };
+      errMsg.textContent = labels[urlPromptType] || 'Write something first.';
+      errMsg.classList.add('show'); return;
+    }
+    if (text.length > 500) { errMsg.textContent='Too long.'; errMsg.classList.add('show'); return; }
+    if (BAD_WORDS_RE.test(text)) { errMsg.textContent='Please keep it respectful.'; errMsg.classList.add('show'); return; }
+    sendBtn.disabled=true; btnTxt.textContent='Sending…'; btnSpin.classList.add('show'); errMsg.classList.remove('show');
+    try {
+      const res = await fetch('/api/send', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({username:user, text}) });
+      const data = await res.json();
+      if (!res.ok) { errMsg.textContent=data.error||'Failed.'; errMsg.classList.add('show'); return; }
+      document.getElementById('form-area').style.display='none';
+      document.getElementById('success-area').classList.add('show');
+    } catch { errMsg.textContent='Network error.'; errMsg.classList.add('show'); }
+    finally { sendBtn.disabled=false; btnTxt.textContent=PROMPT_CONFIG[urlPromptType]?.btnTxt||'Send anonymously'; btnSpin.classList.remove('show'); }
+  }
+
+  // Init prompt UI
+  setupPromptUI();
+
+  // ── Fade in the form now that everything is ready ──────────────────────
+  requestAnimationFrame(() => {
+    const fa = document.getElementById('form-area');
+    if (fa) fa.style.opacity = '1';
+  });
+
+  // ── Story ───────────────────────────────────────────────────────────────
+  function openStoryModal() {
+    document.getElementById('story-modal').classList.add('show');
+    document.getElementById('story-loading').style.display   = '';
+    document.getElementById('story-preview').style.display   = 'none';
+    document.getElementById('story-actions').style.display   = 'none';
+    // Defer drawing so loading state renders first
+    requestAnimationFrame(() => {
+      setTimeout(() => {
+        drawStory();
+        document.getElementById('story-loading').style.display  = 'none';
+        document.getElementById('story-preview').style.display  = '';
+        document.getElementById('story-actions').style.display  = '';
+      }, 80);
+    });
+  }
+
+
+  function getModeShareCaption(mode, user, url) {
+    const captions = {
+      ask:     `Ask me anything anonymously! 🙈\n${url}`,
+      hottake: `Send me your hottest take — I can handle it 🌶️\n${url}`,
+      advice:  `Give me one piece of advice — anonymous & honest 💡\n${url}`,
+      trust:   `How well do you actually know me? Pick your level 🔒\n${url}`,
+      rate:    `Rate ${user} out of 10 — be honest ⭐\n${url}`,
+      '3words': `Describe ${user} in exactly 3 words ✏️\n${url}`,
+      ai:      `Answer this truth challenge about ${user} 🎯\n${url}`,
+    };
+    return captions[mode] || captions.ask;
+  }
+
+  function drawStory() {
+    const canvas = document.getElementById('ask-canvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    const W=1080, H=1920, PAD=80;
+
+    const PT = {
+      ask:     { g:['#ff477e','#ff6b35','#ffbf69'], h:'Ask me anything', s:'Send something honest — I\'ll never know it was you', b:'Send anonymously →' },
+      hottake: { g:['#c026d3','#ff477e','#ff6b35'], h:'Hot take about me. Go.', s:'Say what you actually think. I can handle it.', b:'Send your hot take →' },
+      advice:  { g:['#ff6b35','#ffbf69','#fde68a'], h:'Give me one piece of advice', s:'Something you think I actually need to hear.', b:'Give me advice →' },
+      trust:   { g:['#34d399','#059669','#10b981'], h:'How well do you know me?', s:'Pick your trust level — completely anonymous.', b:'Pick your level →' },
+      rate:    { g:['#fbbf24','#f59e0b','#ff6b35'], h:'Rate my vibe 1 to 10', s:'Tap a number — no explanation needed.', b:'Rate my vibe →' },
+      '3words':{ g:['#60a5fa','#6366f1','#a78bfa'], h:'Describe me in 3 words', s:'No more, no less — be creative.', b:'Send 3 words →' },
+      ai:      { g:['#a78bfa','#7c3aed','#ff477e'], h:document.getElementById('prompt-banner-title')?.textContent||'Truth Challenge 🎯', s:'Answer honestly — 100% anonymous', b:'Answer the challenge →' },
+      yesno:   { g:['#6366f1','#a78bfa','#ff477e'], h:document.getElementById('prompt-banner-title')?.textContent||'Yes or No?', s:'Pick your answer — completely anonymous', b:'Answer Yes or No →' },
+    };
+    const pt = PT[urlPromptType] || PT.ask;
+
+    function breakLines(text, font, maxW) {
+      ctx.font = font;
+      const words=text.split(' '); const lines=[]; let line='';
+      for(const w of words){
+        const t=line?line+' '+w:w;
+        if(ctx.measureText(t).width>maxW&&line){lines.push(line);line=w;}
+        else line=t;
+      }
+      if(line)lines.push(line);
+      return lines;
+    }
+    function drawWrapped(text, font, color, y, maxW, lineH, alpha=1) {
+      const lines=breakLines(text,font,maxW);
+      ctx.font=font; ctx.fillStyle=color; ctx.globalAlpha=alpha;
+      lines.forEach((l,i)=>ctx.fillText(l,W/2,y+i*lineH));
+      ctx.globalAlpha=1;
+      return y+lines.length*lineH;
+    }
+    function autoFont(text, baseSize, maxW, minSize=36) {
+      let s=baseSize;
+      while(s>minSize){
+        const lines=breakLines(text,`800 ${s}px sans-serif`,maxW);
+        if(lines.length<=3)break;
+        s-=6;
+      }
+      return s;
+    }
+
+    // Background
+    const bg=ctx.createLinearGradient(0,0,W,H);
+    bg.addColorStop(0,'#0d0a08'); bg.addColorStop(1,'#1a100a');
+    ctx.fillStyle=bg; ctx.fillRect(0,0,W,H);
+
+    // Orbs
+    const orb=(x,y,r,col,a)=>{
+      const g=ctx.createRadialGradient(x,y,0,x,y,r);
+      g.addColorStop(0,col+Math.round(a*255).toString(16).padStart(2,'0'));
+      g.addColorStop(1,col+'00');
+      ctx.fillStyle=g; ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2); ctx.fill();
+    };
+    orb(200,400,560,pt.g[0],0.38); orb(880,1550,460,pt.g[2]||pt.g[1],0.28);
+
+    ctx.textAlign='center';
+
+    // Brand — y=130
+    ctx.font='600 38px sans-serif'; ctx.fillStyle='rgba(255,248,240,0.38)';
+    ctx.fillText('@ AskThat', W/2, 130);
+
+    // Avatar — center y=310, r=90
+    const AX=W/2, AY=310, AR=90;
+    ctx.fillStyle='rgba(255,255,255,0.1)';
+    ctx.beginPath(); ctx.arc(AX,AY,AR,0,Math.PI*2); ctx.fill();
+    const rg=ctx.createLinearGradient(AX-AR,AY-AR,AX+AR,AY+AR);
+    rg.addColorStop(0,pt.g[0]); rg.addColorStop(1,pt.g[pt.g.length-1]);
+    ctx.strokeStyle=rg; ctx.lineWidth=5;
+    ctx.beginPath(); ctx.arc(AX,AY,AR,0,Math.PI*2); ctx.stroke();
+    ctx.font='700 76px sans-serif'; ctx.fillStyle='#fff8f0';
+    ctx.fillText(user.charAt(0).toUpperCase(), AX, AY+28);
+
+    // Username — y=460
+    ctx.font='800 58px sans-serif'; ctx.fillStyle='#fff8f0';
+    ctx.fillText(user.length>16?user.slice(0,16)+'…':user, W/2, 460);
+
+    // Divider — y=510
+    const dg=ctx.createLinearGradient(PAD,0,W-PAD,0);
+    dg.addColorStop(0,'transparent'); dg.addColorStop(0.5,pt.g[1]+'99'); dg.addColorStop(1,'transparent');
+    ctx.strokeStyle=dg; ctx.lineWidth=1.5;
+    ctx.beginPath(); ctx.moveTo(PAD,510); ctx.lineTo(W-PAD,510); ctx.stroke();
+
+    // ── Card ──
+    const CARD_X=PAD, CARD_W=W-PAD*2;
+    const INNER_W=CARD_W-100;
+
+    // Measure headline
+    const hSize=autoFont(pt.h, 96, INNER_W, 48);
+    const hLines=breakLines(pt.h, `800 ${hSize}px sans-serif`, INNER_W);
+    const hLineH=Math.round(hSize*1.28);
+    const hBlock=hLines.length*hLineH;
+
+    // Measure subtitle
+    let sSize=44;
+    while(sSize>26){
+      if(breakLines(pt.s,`400 ${sSize}px sans-serif`,INNER_W-40).length<=3)break;
+      sSize-=4;
+    }
+    const sLines=breakLines(pt.s,`400 ${sSize}px sans-serif`,INNER_W-40);
+    const sBlock=sLines.length*Math.round(sSize*1.35);
+
+    const CARD_INNER_H=60+hBlock+32+sBlock+60;
+    const CARD_H=Math.max(CARD_INNER_H, 500);
+    const CARD_Y=540;
+
+    const cg=ctx.createLinearGradient(CARD_X,CARD_Y,CARD_X+CARD_W,CARD_Y+CARD_H);
+    cg.addColorStop(0,'rgba(255,255,255,0.09)'); cg.addColorStop(1,'rgba(255,255,255,0.04)');
+    ctx.fillStyle=cg; ctx.strokeStyle='rgba(255,255,255,0.14)'; ctx.lineWidth=1.5;
+    ctx.beginPath(); ctx.roundRect(CARD_X,CARD_Y,CARD_W,CARD_H,44); ctx.fill(); ctx.stroke();
+
+    // Headline inside card
+    let cy=CARD_Y+58;
+    ctx.fillStyle='#fff8f0'; ctx.globalAlpha=0.95;
+    hLines.forEach(l=>{ctx.font=`800 ${hSize}px sans-serif`;ctx.fillText(l,W/2,cy);cy+=hLineH;});
+    cy+=28;
+
+    // For truth/yesno, show the actual question below headline
+    if ((urlPromptType==='ai'||urlPromptType==='yesno') && pt.h !== (urlPromptType==='ai'?'Truth Challenge 🎯':'Yes or No?')) {
+      // pt.h already IS the question (set from bannerTitle). Show subtitle below
+    }
+
+    // Subtitle
+    ctx.fillStyle='rgba(255,248,240,0.56)'; ctx.globalAlpha=1;
+    sLines.forEach(l=>{ctx.font=`400 ${sSize}px sans-serif`;ctx.fillText(l,W/2,cy);cy+=Math.round(sSize*1.35);});
+
+    // ── CTA button (60px below card) ──
+    const BTN_Y=CARD_Y+CARD_H+60;
+    const BTN_W=Math.min(680,W-PAD*2);
+    const BTN_H=108;
+    const BTN_X=(W-BTN_W)/2;
+    const bg2=ctx.createLinearGradient(BTN_X,0,BTN_X+BTN_W,0);
+    bg2.addColorStop(0,pt.g[0]); bg2.addColorStop(0.5,pt.g[1]); bg2.addColorStop(1,pt.g[pt.g.length-1]);
+    ctx.fillStyle=bg2;
+    ctx.beginPath(); ctx.roundRect(BTN_X,BTN_Y,BTN_W,BTN_H,54); ctx.fill();
+    let bSize=42; ctx.font=`700 ${bSize}px sans-serif`;
+    while(ctx.measureText(pt.b).width>BTN_W-60&&bSize>24){bSize-=2;ctx.font=`700 ${bSize}px sans-serif`;}
+    ctx.fillStyle='#fff'; ctx.globalAlpha=1;
+    ctx.fillText(pt.b, W/2, BTN_Y+BTN_H/2+bSize*0.36);
+
+    // ── Link pill (50px below button) ──
+    const LINK_Y=BTN_Y+BTN_H+50;
+    const linkTxt=`askthat.pages.dev/ask/${user}`;
+    ctx.font='500 30px sans-serif';
+    const lw=Math.min(ctx.measureText(linkTxt).width+80,W-PAD*2);
+    ctx.fillStyle='rgba(255,255,255,0.07)'; ctx.strokeStyle='rgba(255,255,255,0.18)'; ctx.lineWidth=1.5;
+    ctx.beginPath(); ctx.roundRect((W-lw)/2,LINK_Y,lw,84,42); ctx.fill(); ctx.stroke();
+    ctx.fillStyle=pt.g[0]; ctx.font='600 30px sans-serif';
+    ctx.fillText(linkTxt, W/2, LINK_Y+52);
+
+    // Footer
+    ctx.font='400 26px sans-serif'; ctx.fillStyle='rgba(255,248,240,0.20)';
+    ctx.fillText('100% anonymous · askthat.pages.dev', W/2, H-56);
+  }
+
+  function wrapText(ctx,text,x,y,maxW,lh){
+    const words=text.split(' '); let line='',cy=y;
+    for(const w of words){
+      const t=line?line+' '+w:w;
+      if(ctx.measureText(t).width>maxW&&line){ctx.fillText(line,x,cy);line=w;cy+=lh;}
+      else line=t;
+    }
+    if(line)ctx.fillText(line,x,cy);
+  }
+
+  const _btnGenStory = document.getElementById('btn-gen-story');
+  if (_btnGenStory) _btnGenStory.addEventListener('click', openStoryModal);
+  document.getElementById('modal-close').addEventListener('click', ()=>document.getElementById('story-modal').classList.remove('show'));
+  document.getElementById('story-modal').addEventListener('click', e=>{if(e.target===e.currentTarget)e.currentTarget.classList.remove('show');});
+
+  document.getElementById('btn-story-dl').addEventListener('click', ()=>{
+    const a=document.createElement('a');
+    a.download=`askthat-${user}-story.png`;
+    a.href=document.getElementById('ask-canvas').toDataURL('image/png');
+    a.click();
+  });
+
+  // WhatsApp story share
+  document.getElementById('btn-story-wa').addEventListener('click', ()=>{
+    const canvas=document.getElementById('ask-canvas');
+    canvas.toBlob(async blob=>{
+      const file=new File([blob],'askthat-story.png',{type:'image/png'});
+      const shareCaption=getModeShareCaption(urlPromptType,user,BASE_URL);const shareData={files:[file],text:shareCaption,title:shareCaption.split("\n")[0]};
+      if(navigator.canShare?.({files:[file]})){
+        try{await navigator.share(shareData);return;}catch(err){if(err.name==='AbortError')return;}
+      }
+      // Fallback: download image then open WhatsApp
+      const a=document.createElement('a');
+      a.download=`askthat-${user}-story.png`; a.href=URL.createObjectURL(blob); a.click();
+      setTimeout(()=>{
+        window.open(`https://wa.me/?text=${encodeURIComponent(getModeShareCaption(urlPromptType,user,BASE_URL))}`);
+        showToast('📸 Image downloaded — add it to WhatsApp Status!');
+      },700);
+    },'image/png');
+  });
+
+  // Generic share
+  document.getElementById('btn-story-shr').addEventListener('click', ()=>{
+    const canvas=document.getElementById('ask-canvas');
+    canvas.toBlob(async blob=>{
+      const file=new File([blob],'askthat-story.png',{type:'image/png'});
+      if(navigator.canShare?.({files:[file]})){
+        try{await navigator.share({files:[file],text:getModeShareCaption(urlPromptType,user,BASE_URL),title:getModeShareCaption(urlPromptType,user,BASE_URL).split("\n")[0]});return;}catch(_){}
+      }
+      document.getElementById('btn-story-dl').click();
+    },'image/png');
+  });
+
+  // ── Stats ───────────────────────────────────────────────────────────────
+  try{fetch('/api/stats',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:user,event:'view'})});}catch(_){}
+
+  // ── Toast ───────────────────────────────────────────────────────────────
+  function showToast(msg){
+    const el=document.getElementById('toast');
+    el.textContent=msg; el.className='toast show';
+    clearTimeout(toastTimer);
+    toastTimer=setTimeout(()=>el.className='toast',3600);
+  }
+
+  document.addEventListener('keydown',e=>{if(e.key==='Escape')document.getElementById('story-modal').classList.remove('show');});
+
+  function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+})();
+  // ── Custom Form Renderer ──────────────────────────────────────────────────
+  async function loadAndRenderCustomForm() {
+    const loadArea   = document.getElementById('cform-loading-area');
+    const renderArea = document.getElementById('cform-render-area');
+    let form;
+    try {
+      const res = await fetch(`/api/customform?username=${encodeURIComponent(user)}`);
+      const d   = await res.json();
+      form = d.form;
+    } catch {
+      if (loadArea) loadArea.textContent = 'Could not load form. Try refreshing.';
+      return;
+    }
+    if (!form || !form.questions?.length) {
+      if (loadArea) loadArea.textContent = 'No form set up yet.';
+      return;
+    }
+    if (loadArea) loadArea.style.display = 'none';
+
+    const titleEl = document.getElementById('cform-page-title');
+    const subEl   = document.getElementById('cform-page-sub');
+    if (titleEl && form.title)    titleEl.textContent = form.title;
+    if (subEl   && form.subtitle) subEl.textContent   = form.subtitle;
+
+    const fieldsEl = document.getElementById('cform-fields');
+    fieldsEl.innerHTML = '';
+
+    const answers = {};
+
+    form.questions.forEach(q => {
+      answers[q.id] = null;
+      const field = document.createElement('div');
+      field.className = 'cform-field';
+      field.dataset.qid = q.id;
+      field.dataset.type = q.type;
+      field.dataset.required = q.required ? '1' : '';
+
+      const labelHtml = `<div class="cform-field-label">${escHtml(q.text)}${q.required ? '<span class="cform-field-req">*</span>' : ''}</div>`;
+
+      if (q.type === 'text') {
+        field.innerHTML = labelHtml + `<input type="text" placeholder="Your answer…" maxlength="200" autocomplete="off">`;
+        field.querySelector('input').addEventListener('input', e => { answers[q.id] = e.target.value.trim() || null; });
+
+      } else if (q.type === 'textarea') {
+        field.innerHTML = labelHtml + `<textarea placeholder="Your answer…" rows="4" maxlength="500"></textarea>`;
+        field.querySelector('textarea').addEventListener('input', e => { answers[q.id] = e.target.value.trim() || null; });
+
+      } else if (q.type === 'number') {
+        field.innerHTML = labelHtml + `<input type="number" placeholder="Enter a number" min="0" max="99999">`;
+        field.querySelector('input').addEventListener('input', e => { answers[q.id] = e.target.value.trim() || null; });
+
+      } else if (q.type === 'yesno') {
+        field.innerHTML = labelHtml + `<div class="cform-yesno-row">
+          <button class="cform-yn-btn" data-val="Yes">Yes</button>
+          <button class="cform-yn-btn" data-val="No">No</button>
+        </div>`;
+        field.querySelectorAll('.cform-yn-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            field.querySelectorAll('.cform-yn-btn').forEach(b => b.className = 'cform-yn-btn');
+            btn.classList.add(btn.dataset.val === 'Yes' ? 'selected-yes' : 'selected-no');
+            answers[q.id] = btn.dataset.val;
+          });
+        });
+
+      } else if (q.type === 'choice') {
+        const optHtml = (q.options || []).map(o =>
+          `<button class="cform-choice-btn" data-val="${escHtml(o)}">${escHtml(o)}</button>`
+        ).join('');
+        field.innerHTML = labelHtml + `<div class="cform-choice-list">${optHtml}</div>`;
+        field.querySelectorAll('.cform-choice-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            field.querySelectorAll('.cform-choice-btn').forEach(b => b.classList.remove('selected'));
+            btn.classList.add('selected');
+            answers[q.id] = btn.dataset.val;
+          });
+        });
+
+      } else if (q.type === 'rating') {
+        const stars = [1,2,3,4,5].map(n =>
+          `<button class="cform-star" data-val="${n}" aria-label="${n} star">${n}</button>`
+        ).join('');
+        field.innerHTML = labelHtml + `<div class="cform-rating-row">${stars}</div>`;
+        field.querySelectorAll('.cform-star').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const val = parseInt(btn.dataset.val);
+            answers[q.id] = val;
+            field.querySelectorAll('.cform-star').forEach(b => {
+              b.classList.toggle('selected', parseInt(b.dataset.val) <= val);
+            });
+          });
+        });
+
+      } else if (q.type === 'scale') {
+        const scaleHtml = Array.from({length:10},(_,i) =>
+          `<button class="cform-scale-btn" data-val="${i+1}">${i+1}</button>`
+        ).join('');
+        field.innerHTML = labelHtml + `<div class="cform-scale-row">${scaleHtml}</div>`;
+        field.querySelectorAll('.cform-scale-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            field.querySelectorAll('.cform-scale-btn').forEach(b => b.classList.remove('selected'));
+            btn.classList.add('selected');
+            answers[q.id] = parseInt(btn.dataset.val);
+          });
+        });
+      }
+
+      fieldsEl.appendChild(field);
+    });
+
+    if (renderArea) renderArea.style.display = '';
+
+    // Submit handler
+    const submitBtn = document.getElementById('cform-submit-btn');
+    const errEl     = document.getElementById('cform-err');
+    const spinEl    = document.getElementById('cform-spin');
+
+    submitBtn?.addEventListener('click', async () => {
+      errEl.className = 'cform-err';
+      // Validate required fields
+      for (const q of form.questions) {
+        if (q.required && (answers[q.id] === null || answers[q.id] === undefined || answers[q.id] === '')) {
+          const fieldEl = fieldsEl.querySelector(`[data-qid="${q.id}"]`);
+          fieldEl?.scrollIntoView({ behavior:'smooth', block:'center' });
+          errEl.textContent = `"${q.text}" is required.`;
+          errEl.className = 'cform-err show';
+          return;
+        }
+      }
+
+      // Build readable text to send as message
+      const lines = form.questions.map(q => {
+        const ans = answers[q.id];
+        if (ans === null || ans === undefined || ans === '') return null;
+        return `${q.text}: ${ans}`;
+      }).filter(Boolean);
+
+      if (!lines.length) {
+        errEl.textContent = 'Please answer at least one question.';
+        errEl.className = 'cform-err show';
+        return;
+      }
+
+      const text = lines.join('\n');
+      if (text.length > 2000) {
+        errEl.textContent = 'Response too long. Please shorten some answers.';
+        errEl.className = 'cform-err show';
+        return;
+      }
+
+      submitBtn.disabled = true;
+      if (spinEl) spinEl.classList.add('show');
+
+      try {
+        const res = await fetch('/api/send', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username: user, text }),
+        });
+        const data = await res.json();
+        if (!res.ok) {
+          errEl.textContent = data.error || 'Failed to send. Try again.';
+          errEl.className = 'cform-err show';
+        } else {
+          renderArea.style.display = 'none';
+          const successEl = document.getElementById('cform-success');
+          if (successEl) { successEl.style.display = 'flex'; launchCformConfetti(); }
+        }
+      } catch {
+        errEl.textContent = 'Network error. Try again.';
+        errEl.className = 'cform-err show';
+      } finally {
+        submitBtn.disabled = false;
+        if (spinEl) spinEl.classList.remove('show');
+      }
+    });
+  }
+
+  function escHtml(s) {
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  function launchCformConfetti() {
+    const canvas = document.getElementById('cform-confetti');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    const W = canvas.offsetWidth || 340, H = canvas.offsetHeight || 280;
+    canvas.width = W; canvas.height = H;
+    const COLORS = ['#ff477e','#ff6b35','#ffbf69','#4ade80','#60a5fa','#a78bfa'];
+    const pieces = Array.from({length:55}, () => ({
+      x:Math.random()*W, y:Math.random()*H*0.3-H*0.1,
+      vx:(Math.random()-.5)*4, vy:Math.random()*3+2,
+      r:Math.random()*5+3, color:COLORS[Math.floor(Math.random()*COLORS.length)],
+      rot:Math.random()*360, rSpeed:(Math.random()-.5)*8, life:1,
+    }));
+    let frame;
+    (function draw() {
+      ctx.clearRect(0,0,W,H);
+      let alive=false;
+      pieces.forEach(p=>{
+        p.x+=p.vx;p.y+=p.vy;p.rot+=p.rSpeed;p.life-=0.013;
+        if(p.life<=0) return; alive=true;
+        ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.rot*Math.PI/180);
+        ctx.globalAlpha=p.life;ctx.fillStyle=p.color;
+        ctx.fillRect(-p.r,-p.r/2,p.r*2,p.r);ctx.restore();
+      });
+      if(alive) frame=requestAnimationFrame(draw); else ctx.clearRect(0,0,W,H);
+    })();
+  }
+  // ── End Custom Form Renderer ──────────────────────────────────────────────
+
+</script>
+</body>
+</html>

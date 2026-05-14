@@ -1,0 +1,17 @@
+User-agent: *
+Allow: /
+Allow: /about.html
+Allow: /faq.html
+Allow: /privacy.html
+Allow: /terms.html
+
+# Block API endpoints from indexing
+Disallow: /api/
+Disallow: /ask/
+Disallow: /dashboard/
+
+# Block admin-style paths
+Disallow: /admin/
+Disallow: /internal/
+
+Sitemap: https://askthat.pages.dev/sitemap.xml

@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, viewport-fit=cover">
+  <link rel="canonical" href="https://askthat.pages.dev">
+  <meta name="google-site-verification" content="1cIP8Y5Xf6O5GOeWqWvDquYAe8mI1JjlfXgCe4M9B-E" />
+  <title>@AskThat — Anonymous Q&A</title>
+  <meta name="description" content="Create your anonymous Q&A link. Find out what people really think about you. No accounts. No excuses.">
+  <meta property="og:title" content="@AskThat — Anonymous Q&A">
+  <meta property="og:site_name" content="@AskThat">
+  <meta property="og:description" content="Find out what people really think. Create your link, share it, receive honest anonymous messages.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://askthat.pages.dev">
+  <meta property="og:image" content="https://askthat.pages.dev/og.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="@AskThat — Anonymous Q&A">
+  <meta name="twitter:description" content="Find out what people really think. Anonymous. Honest. Free.">
+  <meta name="theme-color" content="#0d0a08">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="192x192" href="/icon-192x192.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/icon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/icon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #0d0a08;
+      --bg2:      #13100c;
+      --bg3:      #1a1208;
+      --card:     rgba(255,200,130,0.06);
+      --border:   rgba(255,200,130,0.18);
+      --border2:  rgba(255,200,130,0.07);
+      --primary:  #ff6b35;
+      --pri-hi:   #ff8c5a;
+      --pink:     #ff477e;
+      --blue:     #ffbf69;
+      --accent:   #ffcf96;
+      --grad: linear-gradient(135deg,#ff477e 0%,#ff6b35 48%,#ffbf69 100%);
+      --grad-r: linear-gradient(135deg,#ffbf69,#ff6b35,#ff477e);
+      --grad-t: linear-gradient(135deg,#ff477e,#ff6b35,#ffbf69);
+      --text: #fff8f0;
+      --text2: rgba(255,248,240,0.65);
+      --text3: rgba(255,248,240,0.36);
+      --r:        20px;
+      --r-sm:     12px;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      overflow-x: hidden;
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+      -webkit-transform: translate3d(0,0,0);
+      transform: translate3d(0,0,0);
+      min-height: 100vh;
+    }
+
+    /* ── Atmosphere ── */
+    .orbs { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+    .orb  { position: absolute; border-radius: 50%; filter: blur(72px); will-change: transform; transform: translateZ(0); }
+    .orb-1 { width: 600px; height: 600px; background: #ff6b35; opacity: 0.14; top: -20%; left: -15%; animation: drift1 22s ease-in-out infinite alternate; }
+    .orb-2 { width: 440px; height: 440px; background: #ff477e; opacity: 0.11; top: 20%; right: -12%; animation: drift2 28s ease-in-out infinite alternate; }
+    .orb-3 { width: 400px; height: 400px; background: #ffbf69; opacity: 0.10; bottom: -10%; left: 30%; animation: drift3 25s ease-in-out infinite alternate; }
+    @keyframes drift1 { to { transform: translate(30px, -40px) scale(1.06); } }
+    @keyframes drift2 { to { transform: translate(-24px, 32px) scale(1.04); } }
+    @keyframes drift3 { to { transform: translate(20px, -28px) scale(1.08); } }
+
+    body::before {
+      content: '';
+      position: absolute; inset: 0; z-index: 1; pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      background-size: 256px;
+      opacity: 0.5;
+    }
+
+    /* ── Layout ── */
+    .wrap { max-width: 1120px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 2; }
+
+    /* ── Nav ── */
+    nav {
+      padding: 22px 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      display: inline-flex;
+      align-items: center;
+      white-space: nowrap;
+      gap: 4px;
+      text-decoration: none !important;
+      -webkit-text-decoration: none;
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 22px;
+      background: var(--grad-t);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-decoration: none;
+      letter-spacing: -0.5px;
+    }
+
+    .nav-right { display: flex; align-items: center; gap: 20px; }
+    .nav-links { display: flex; gap: 20px; }
+    .nav-links a { font-size: 14px; color: var(--text2); text-decoration: none; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--text); }
+
+    /* ── Hero ── */
+    .hero {
+      min-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 64px 0 48px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255,107,53,0.12);
+      border: 1px solid rgba(255,107,53,0.28);
+      border-radius: 100px;
+      padding: 6px 18px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--accent);
+      margin-bottom: 32px;
+      animation: up 0.55s ease both;
+    }
+
+    .eyebrow-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--grad);
+      flex-shrink: 0;
+    }
+
+    .hero-title {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: clamp(52px, 9vw, 104px);
+      line-height: 0.94;
+      letter-spacing: -4px;
+      margin-bottom: 28px;
+      animation: up 0.55s 0.08s ease both;
+    }
+
+    .hero-title .plain { color: var(--text); display: block; }
+    .hero-title .grad {
+      display: block;
+      background: var(--grad-t);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-sub {
+      font-size: clamp(16px, 2.4vw, 20px);
+      font-weight: 300;
+      color: var(--text2);
+      max-width: 520px;
+      margin-bottom: 52px;
+      animation: up 0.55s 0.16s ease both;
+    }
+
+    /* ── Input card ── */
+    .input-card {
+      width: 100%;
+      max-width: 500px;
+      background: linear-gradient(160deg, rgba(111,76,255,0.1), rgba(111,76,255,0.04));
+      border: 1px solid var(--border);
+      border-radius: 26px;
+      padding: 36px;
+      backdrop-filter: blur(24px);
+      animation: up 0.55s 0.24s ease both;
+      position: relative;
+    }
+
+    .input-card::before {
+      content: '';
+      position: absolute; inset: -1px;
+      border-radius: 27px;
+      background: var(--grad);
+      opacity: 0.18;
+      z-index: -1;
+      filter: blur(12px);
+    }
+
+    .i-label {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text3);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+      display: block;
+    }
+
+    .i-row { display: flex; gap: 10px; align-items: stretch; }
+
+    .i-prefix {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border2);
+      border-radius: var(--r-sm);
+      padding: 0 14px;
+      display: flex;
+      align-items: center;
+      font-size: 13px;
+      color: var(--text3);
+      white-space: nowrap;
+      user-select: none;
+      flex-shrink: 0;
+    }
+
+    .i-field {
+      flex: 1;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--border);
+      border-radius: var(--r-sm);
+      padding: 14px 16px;
+      font-size: 15px;
+      font-family: 'DM Sans', sans-serif;
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      min-width: 0;
+    }
+
+    .i-field::placeholder { color: var(--text3); }
+    .i-field:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(255,107,53,0.18);
+    }
+
+    .btn-main {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      background: var(--grad);
+      border: none;
+      border-radius: var(--r-sm);
+      padding: 14px 22px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      font-weight: 500;
+      color: #fff;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: opacity 0.2s, transform 0.16s;
+      box-shadow: 0 4px 24px rgba(255,107,53,0.38);
+      flex-shrink: 0;
+    }
+
+    .btn-main:hover  { opacity: 0.88; transform: translateY(-1px); }
+    .btn-main:active { transform: translateY(0) scale(0.98); }
+
+    .i-hint { margin-top: 14px; font-size: 12px; color: var(--text3); text-align: center; }
+    .i-error { font-size: 12px; color: #f472b6; margin-top: 8px; display: none; }
+    .i-error.show { display: block; }
+
+    /* ── Divider ── */
+    .section-div { width: 100%; height: 1px; background: var(--border2); margin: 0; }
+
+    /* ── Trust strip ── */
+    .trust {
+      padding: 36px 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 40px;
+      flex-wrap: wrap;
+      border-top: 1px solid var(--border2);
+      border-bottom: 1px solid var(--border2);
+    }
+
+    .trust-item {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      font-size: 14px;
+      color: var(--text2);
+      font-weight: 500;
+    }
+
+    .trust-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--grad);
+      flex-shrink: 0;
+    }
+
+    /* ── Sections ── */
+    .section { padding: 80px 0; }
+
+    .s-eyebrow {
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--pri-hi);
+      text-align: center;
+      margin-bottom: 14px;
+    }
+
+    .s-title {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: clamp(30px, 5vw, 52px);
+      letter-spacing: -2px;
+      text-align: center;
+      margin-bottom: 56px;
+    }
+
+    /* ── Features grid ── */
+    .feat-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .feat-card {
+      background: var(--card);
+      border: 1px solid var(--border2);
+      border-radius: var(--r);
+      padding: 28px 24px;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.22s, border-color 0.22s;
+    }
+
+    .feat-card::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: var(--grad);
+      opacity: 0;
+      transition: opacity 0.22s;
+    }
+
+    .feat-card:hover { transform: translateY(-4px); border-color: rgba(255,107,53,0.30); }
+    .feat-card:hover::after { opacity: 1; }
+
+    .feat-icon {
+      width: 46px; height: 46px;
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 16px;
+      font-size: 20px;
+    }
+
+    .ic-v { background: rgba(124,58,237,0.15); }
+    .ic-p { background: rgba(232,68,138,0.15); }
+    .ic-b { background: rgba(109,131,242,0.15); }
+    .ic-t { background: rgba(45,212,191,0.15); }
+    .ic-a { background: rgba(251,191,36,0.15); }
+    .ic-g { background: rgba(74,222,128,0.15); }
+
+    .feat-name { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 16px; margin-bottom: 7px; letter-spacing: -0.2px; }
+    .feat-desc { font-size: 14px; color: var(--text2); line-height: 1.65; }
+
+    /* ── Steps ── */
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0;
+    }
+
+    .step {
+      padding: 40px 32px;
+      text-align: center;
+      position: relative;
+    }
+
+    .step:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      top: 62px; right: 0;
+      width: 1px; height: 52px;
+      background: var(--border2);
+    }
+
+    .step-num {
+      width: 52px; height: 52px;
+      border-radius: 50%;
+      background: var(--grad);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 20px;
+      color: #fff;
+      margin: 0 auto 18px;
+      box-shadow: 0 4px 20px rgba(255,107,53,0.36);
+    }
+
+    .step-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 17px; margin-bottom: 10px; letter-spacing: -0.2px; }
+    .step-desc { font-size: 14px; color: var(--text2); line-height: 1.65; }
+
+    /* ── Social proof strip ── */
+    .proof-strip {
+      background: var(--card);
+      border: 1px solid var(--border2);
+      border-radius: var(--r);
+      padding: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .proof-item { text-align: center; }
+
+    .proof-val {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 36px;
+      letter-spacing: -2px;
+      background: var(--grad-t);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .proof-label { font-size: 13px; color: var(--text3); margin-top: 2px; }
+
+    /* ── CTA section ── */
+    .cta-box {
+      background: linear-gradient(160deg, rgba(255,107,53,0.12), rgba(232,68,138,0.08));
+      border: 1px solid rgba(255,107,53,0.24);
+      border-radius: 28px;
+      padding: 72px 48px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-box::before {
+      content: '';
+      position: absolute; inset: -2px;
+      border-radius: 30px;
+      background: var(--grad);
+      opacity: 0.22;
+      filter: blur(24px);
+      z-index: -1;
+    }
+
+    .cta-title {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: clamp(34px, 6vw, 64px);
+      letter-spacing: -2px;
+      margin-bottom: 16px;
+    }
+
+    .cta-sub { color: var(--text2); font-size: 17px; font-weight: 300; margin-bottom: 40px; }
+
+    .cta-row {
+      display: flex;
+      gap: 12px;
+      max-width: 420px;
+      margin: 0 auto;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    /* ── Footer ── */
+    footer {
+      border-top: 1px solid var(--border2);
+      padding: 28px 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .footer-left { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+    .footer-copy { font-size: 13px; color: var(--text3); }
+    .footer-links { display: flex; gap: 20px; flex-wrap: wrap; }
+    .footer-links a { font-size: 13px; color: var(--text3); text-decoration: none; transition: color 0.2s; }
+    .footer-links a:hover { color: var(--text); }
+
+    /* ── Toast ── */
+    .toast {
+      position: fixed;
+      bottom: 28px; left: 50%;
+      transform: translateX(-50%) translateY(16px);
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 11px 22px;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text);
+      z-index: 999;
+      opacity: 0;
+      transition: opacity 0.25s, transform 0.25s;
+      pointer-events: none;
+      backdrop-filter: blur(24px);
+      box-shadow: 0 8px 40px rgba(0,0,0,0.5);
+      white-space: nowrap;
+    }
+
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    /* ── Animations ── */
+    @keyframes up {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .fiu {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.55s ease, transform 0.55s ease;
+    }
+
+    .fiu.vis { opacity: 1; transform: translateY(0); }
+
+    /* ── Responsive ── */
+    @media (max-width: 860px) {
+      .feat-grid { grid-template-columns: 1fr 1fr; }
+      .steps-grid { grid-template-columns: 1fr; }
+      .step:not(:last-child)::after { display: none; }
+      .nav-links { display: none; }
+    }
+
+    @media (max-width: 560px) {
+      .feat-grid { grid-template-columns: 1fr; }
+      .i-row { flex-direction: column; }
+      .i-prefix { padding: 12px 14px; }
+      .btn-main { width: 100%; }
+      .cta-row { flex-direction: column; align-items: center; }
+      .cta-row .i-field { width: 100%; max-width: 320px; }
+      .cta-row .btn-main { width: 100%; max-width: 320px; }
+      footer { flex-direction: column; align-items: center; text-align: center; }
+      .trust { gap: 20px; }
+    }
+  </style>
+  
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+
+    {
+      "@type": "Organization",
+      "@id": "https://askthat.pages.dev/#org",
+      "name": "AskThat",
+      "alternateName": "@AskThat",
+      "url": "https://askthat.pages.dev",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://askthat.pages.dev/icon-512x512.png"
+      },
+      "sameAs": [
+        "https://x.com/Ask__that"
+      ]
+    },
+
+    {
+      "@type": "WebSite",
+      "@id": "https://askthat.pages.dev/#website",
+      "url": "https://askthat.pages.dev",
+      "name": "AskThat",
+      "alternateName": "@AskThat",
+      "description": "Create your anonymous Q&A link. Find out what people really think about you. No accounts. No excuses.",
+      "publisher": {
+        "@id": "https://askthat.pages.dev/#org"
+      },
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://askthat.pages.dev/?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    },
+
+    {
+      "@type": "WebApplication",
+      "@id": "https://askthat.pages.dev/#app",
+      "name": "AskThat — Anonymous Q&A",
+      "alternateName": "@AskThat",
+      "url": "https://askthat.pages.dev",
+      "applicationCategory": "SocialNetworkingApplication",
+      "operatingSystem": "Any",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "publisher": {
+        "@id": "https://askthat.pages.dev/#org"
+      },
+      "featureList": [
+        "Anonymous messaging",
+        "Self-destructing messages",
+        "Story card sharing",
+        "No sign-up required"
+      ],
+      "description": "Create your anonymous Q&A link. Share it anywhere. Receive honest anonymous messages."
+    }
+
+  ]
+}
+</script>
+<script>
+  (function() {
+    try {
+      var saved = localStorage.getItem('askthat_username');
+      if (saved) {
+        window.location.replace('/dashboard/' + encodeURIComponent(saved));
+      }
+    } catch(e) {}
+  })();
+</script>
+  <script>if('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js');</script>
+</head>
+<body>
+
+<div class="orbs" aria-hidden="true">
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+</div>
+
+<!-- Nav -->
+<div class="wrap">
+  <nav>
+    <a href="/" class="logo" aria-label="AskThat">
+      <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28" aria-hidden="true" style="flex-shrink:0;margin-right:5px">
+        <defs><linearGradient id="lg-at" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#ff477e"/><stop offset="48%" stop-color="#ff6b35"/><stop offset="100%" stop-color="#ffbf69"/></linearGradient></defs>
+        <text x="14" y="22" font-size="26" font-family="Georgia,serif" font-weight="bold" text-anchor="middle" fill="url(#lg-at)">@</text>
+      </svg>AskThat</a>
+    <div class="nav-right">
+      <div class="nav-links">
+        <a href="/about.html">About</a>
+        <a href="/faq.html">FAQ</a>
+        <a href="/privacy.html">Privacy</a>
+      </div>
+    </div>
+  </nav>
+</div>
+
+<!-- Hero -->
+<div class="wrap">
+  <section class="hero">
+    <div class="eyebrow">
+      <span class="eyebrow-dot"></span>
+      No account · No tracking · Pure honesty
+    </div>
+
+    <h1 class="hero-title">
+      <span class="plain">find out what</span>
+      <span class="grad">they really think.</span>
+    </h1>
+
+    <p class="hero-sub">
+      Create your link in 10 seconds. Share it anywhere.
+      Receive brutally honest anonymous messages from friends — and people who are definitely not your friends.
+    </p>
+
+    <div class="input-card">
+      <span class="i-label">Claim your link</span>
+      <div class="i-row">
+        <div class="i-prefix">askthat.pages.dev/ask/</div>
+        <input
+          class="i-field"
+          id="hero-input"
+          type="text"
+          placeholder="yourname"
+          maxlength="30"
+          autocomplete="off"
+          autocapitalize="off"
+          spellcheck="false"
+          aria-label="Your username"
+        >
+        <button class="btn-main" id="hero-btn" aria-label="Create my link">
+          <svg width="15" height="15" viewBox="0 0 15 15" fill="none" aria-hidden="true">
+            <path d="M2.5 7.5h10M8.5 3.5l4 4-4 4" stroke="white" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Create
+        </button>
+      </div>
+      <p class="i-error" id="hero-error"></p>
+      <p class="i-hint">Letters, numbers, underscores and dots only · No spaces · Max 30 chars</p>
+    </div>
+  </section>
+</div>
+
+<!-- Trust -->
+<div class="wrap">
+  <div class="trust fiu">
+    <div class="trust-item"><span class="trust-dot"></span> No sign-up, ever</div>
+    <div class="trust-item"><span class="trust-dot"></span> Senders stay invisible</div>
+    <div class="trust-item"><span class="trust-dot"></span> Only real messages</div>
+    <div class="trust-item"><span class="trust-dot"></span> Messages vanish after 48h</div>
+    <div class="trust-item"><span class="trust-dot"></span> No ads, no nonsense</div>
+  </div>
+</div>
+
+<!-- Features -->
+<div class="wrap">
+  <section class="section">
+    <p class="s-eyebrow fiu">Why AskThat</p>
+    <h2 class="s-title fiu">Built for honest conversations</h2>
+
+    <div class="feat-grid">
+      <div class="feat-card fiu">
+        <div class="feat-icon ic-v">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="3" y="9" width="14" height="9" rx="2" stroke="#a78bfa" stroke-width="1.5"/><path d="M7 9V7a3 3 0 016 0v2" stroke="#a78bfa" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </div>
+        <h3 class="feat-name">Truly anonymous</h3>
+        <p class="feat-desc">Not "anonymous but we know it's you" anonymous. Actually anonymous. No names, no faces, no breadcrumbs.</p>
+      </div>
+
+      <div class="feat-card fiu" style="transition-delay:.06s">
+        <div class="feat-icon ic-p">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M3 5.5h14M3 10h10M3 14.5h7" stroke="#f472b6" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </div>
+        <h3 class="feat-name">Ready in 10 seconds</h3>
+        <p class="feat-desc">No email verification. No password. No "check your inbox". Just pick a name and you're live.</p>
+      </div>
+
+      <div class="feat-card fiu" style="transition-delay:.12s">
+        <div class="feat-icon ic-b">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="7" stroke="#818cf8" stroke-width="1.5"/><path d="M7 10l2 2 4-4" stroke="#818cf8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <h3 class="feat-name">Share everywhere</h3>
+        <p class="feat-desc">WhatsApp Status, Instagram Stories, Snapchat, X, TikTok bio — one link, all of it.</p>
+      </div>
+
+      <div class="feat-card fiu" style="transition-delay:.18s">
+        <div class="feat-icon ic-t">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 3l2.5 5.5H18l-4.5 3.5 1.5 5.5L10 14l-5 3.5L6.5 12 2 8.5h5.5L10 3z" stroke="#2dd4bf" stroke-width="1.4" stroke-linejoin="round"/></svg>
+        </div>
+        <h3 class="feat-name">Spam? Gone.</h3>
+        <p class="feat-desc">Built-in filters catch junk before it reaches you. Your inbox stays signal, not noise.</p>
+      </div>
+
+      <div class="feat-card fiu" style="transition-delay:.24s">
+        <div class="feat-icon ic-a">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="7" stroke="#fbbf24" stroke-width="1.5"/><path d="M10 6.5v3.5l2 2" stroke="#fbbf24" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </div>
+        <h3 class="feat-name">Self-destructing</h3>
+        <p class="feat-desc">Every message disappears after 48 hours. Like Snapchat but for your deepest insecurities.</p>
+      </div>
+
+      <div class="feat-card fiu" style="transition-delay:.30s">
+        <div class="feat-icon ic-g">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 10l2.5 3 2.5-3M14 10l-2.5-3-2.5 3M6.5 13l7-6" stroke="#4ade80" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <h3 class="feat-name">Story cards</h3>
+        <p class="feat-desc">Turn any message into a beautiful story card. Share to WhatsApp Status or Instagram Stories. Go viral. Profit.</p>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- Steps -->
+<div class="wrap">
+  <section class="section" style="padding-top:0">
+    <p class="s-eyebrow fiu">How it works</p>
+    <h2 class="s-title fiu">Three steps to the truth</h2>
+
+    <div class="steps-grid">
+      <div class="step fiu">
+        <div class="step-num">1</div>
+        <h3 class="step-title">Pick a username</h3>
+        <p class="step-desc">Enter your name above and hit Create. Your personal AskThat link is ready immediately. No waiting, no fuss.</p>
+      </div>
+      <div class="step fiu" style="transition-delay:.1s">
+        <div class="step-num">2</div>
+        <h3 class="step-title">Share your link</h3>
+        <p class="step-desc">Drop it in your WhatsApp Status, Instagram Story, Snapchat, or wherever your audience lives. The nosier they are, the better.</p>
+      </div>
+      <div class="step fiu" style="transition-delay:.2s">
+        <div class="step-num">3</div>
+        <h3 class="step-title">Read and react</h3>
+        <p class="step-desc">Your dashboard fills up with anonymous messages. Share the best ones as story cards. Watch your notifications go berserk.</p>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- Social proof -->
+<div class="wrap">
+  <div class="proof-strip fiu">
+    <div class="proof-item">
+      <div class="proof-val">100%</div>
+      <div class="proof-label">Anonymous, always</div>
+    </div>
+    <div class="proof-item">
+      <div class="proof-val">48h</div>
+      <div class="proof-label">Auto-expiry on messages</div>
+    </div>
+    <div class="proof-item">
+      <div class="proof-val">0</div>
+      <div class="proof-label">Sign-ups needed</div>
+    </div>
+    <div class="proof-item">
+      <div class="proof-val">Free</div>
+      <div class="proof-label">Always and forever</div>
+    </div>
+  </div>
+</div>
+
+<!-- CTA -->
+<div class="wrap">
+  <section class="section">
+    <div class="cta-box fiu">
+      <h2 class="cta-title">Ready to find out?</h2>
+      <p class="cta-sub">Free. Anonymous. Slightly addictive. You've been warned.</p>
+      <div class="cta-row">
+        <input
+          class="i-field"
+          id="cta-input"
+          type="text"
+          placeholder="yourname"
+          maxlength="30"
+          autocomplete="off"
+          autocapitalize="off"
+          spellcheck="false"
+          style="max-width:200px;"
+          aria-label="Your username"
+        >
+        <button class="btn-main" id="cta-btn">Create my link</button>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- Footer -->
+<div class="wrap">
+  <footer>
+    <div class="footer-left">
+      <a href="/" class="logo" aria-label="AskThat">
+      <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28" aria-hidden="true" style="flex-shrink:0;margin-right:5px">
+        <defs><linearGradient id="lg-at" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#ff477e"/><stop offset="48%" stop-color="#ff6b35"/><stop offset="100%" stop-color="#ffbf69"/></linearGradient></defs>
+        <text x="14" y="22" font-size="26" font-family="Georgia,serif" font-weight="bold" text-anchor="middle" fill="url(#lg-at)">@</text>
+      </svg>AskThat</a>
+      <p class="footer-copy">© 2025 AskThat · Messages auto-delete in 48h</p>
+    </div>
+    <nav class="footer-links">
+      <a href="/about.html">About</a>
+      <a href="/faq.html">FAQ</a>
+      <a href="/privacy.html">Privacy</a>
+      <a href="/terms.html">Terms</a>
+    </nav>
+  </footer>
+</div>
+
+<div class="toast" id="toast" role="alert" aria-live="assertive"></div>
+
+<script>
+  const PAT = /^[a-zA-Z0-9_.-]+$/;
+
+  function validate(v) {
+    v = v.trim();
+    if (!v) return 'Pick a username first.';
+    if (v.length > 30) return 'Keep it under 30 characters.';
+    if (!PAT.test(v)) return 'Letters, numbers, _ . - only. No spaces.';
+    return null;
+  }
+
+  // Navigate immediately — dashboard handles auth claim on load
+  function go(val) {
+    const u = val.trim().toLowerCase();
+
+    // Show "Creating…" feedback on both buttons before navigation
+    ['hero-btn', 'cta-btn'].forEach(id => {
+      const btn = document.getElementById(id);
+      if (btn) { btn.disabled = true; btn.textContent = 'Creating…'; }
+    });
+
+    // ?u= param tells the CF Function this is a fresh creation
+    window.location.href = `/dashboard/${encodeURIComponent(u)}?u=${encodeURIComponent(u)}`;
+  }
+
+  function showErr(el, msg) { el.textContent = msg; el.classList.add('show'); }
+  function clearErr(el) { el.classList.remove('show'); }
+
+  const heroInput = document.getElementById('hero-input');
+  const heroBtn   = document.getElementById('hero-btn');
+  const heroErr   = document.getElementById('hero-error');
+
+  heroBtn.addEventListener('click', () => {
+    const e = validate(heroInput.value);
+    if (e) { showErr(heroErr, e); return; }
+    clearErr(heroErr);
+    go(heroInput.value);
+  });
+  heroInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') heroBtn.click(); });
+  heroInput.addEventListener('input', () => clearErr(heroErr));
+
+  const ctaInput = document.getElementById('cta-input');
+  const ctaBtn   = document.getElementById('cta-btn');
+
+  ctaBtn.addEventListener('click', () => {
+    const e = validate(ctaInput.value);
+    if (e) { toast(e); return; }
+    go(ctaInput.value);
+  });
+  ctaInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') ctaBtn.click(); });
+
+  let tt;
+  function toast(msg) {
+    const el = document.getElementById('toast');
+    el.textContent = msg;
+    el.classList.add('show');
+    clearTimeout(tt);
+    tt = setTimeout(() => el.classList.remove('show'), 3200);
+  }
+
+  // Show message if username already taken
+  const takenParam = new URLSearchParams(location.search).get('taken');
+  if (takenParam) {
+    const heroErr = document.getElementById('hero-error');
+    if (heroErr) {
+      heroErr.textContent = `"${takenParam}" is already taken — try a different name.`;
+      heroErr.classList.add('show');
+      const heroInput = document.getElementById('hero-input');
+      if (heroInput) heroInput.value = takenParam;
+    }
+    history.replaceState(null, '', '/');
+  }
+
+  const obs = new IntersectionObserver(
+    (es) => es.forEach((e) => e.isIntersecting && e.target.classList.add('vis')),
+    { threshold: 0.1 }
+  );
+  document.querySelectorAll('.fiu').forEach((el) => obs.observe(el));
+
+  // Re-enable buttons if user navigates back (bfcache restore)
+  window.addEventListener('pageshow', (e) => {
+    if (e.persisted) {
+      ['hero-btn', 'cta-btn'].forEach(id => {
+        const btn = document.getElementById(id);
+        if (btn) { btn.disabled = false; btn.textContent = 'Create'; }
+      });
+    }
+  });
+</script>
+</body>
+</html>
