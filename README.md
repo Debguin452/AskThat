@@ -3,7 +3,9 @@
 > **Find out what they really think.**
 > Create your link in 10 seconds. Share it anywhere. Receive brutally honest anonymous messages.
 
-🔗 **Live site:** [askthat.pages.dev](https://askthat.pages.dev/)
+[![Live Site](https://img.shields.io/badge/Live%20Site-askthat.pages.dev-F38020?style=flat-square&logo=cloudflare&logoColor=white)](https://askthat.pages.dev/)
+[![License](https://img.shields.io/badge/License-PolyForm%20Noncommercial-red?style=flat-square)](LICENSE)
+[![Cloudflare Pages](https://img.shields.io/badge/Deployed%20on-Cloudflare%20Pages-F38020?style=flat-square&logo=cloudflare&logoColor=white)](https://pages.cloudflare.com/)
 
 ---
 
@@ -69,9 +71,6 @@ Additional protections:
 ### ⏳ Auto-Expiring Messages
 Every message automatically expires after **7 days**. Inboxes stay clean with no manual housekeeping required.
 
-### 📈 Stats Tracking
-Per-user statistics (views and messages received) are tracked anonymously and surfaced in the dashboard so you can see how your link is performing.
-
 ---
 
 ## 🏗️ Architecture
@@ -130,7 +129,7 @@ Wrangler will simulate the KV namespace locally.
 ```
 out/
 ├── public/
-│   └── dashboard.html       # Full single-page dashboard UI
+│   ├── dashboard.html       # Full single-page dashboard UI
 │   └── _redirects           # Cloudflare Pages redirect rules
 └── functions/
     ├── _middleware.js        # Edge middleware: CORS, rate limiting, security headers
@@ -156,7 +155,24 @@ out/
 
 ## ⚖️ License
 
-This project is licensed under the **[PolyForm Noncommercial License 1.0.0](https://polyformproject.org/licenses/noncommercial/1.0.0)**. You may view, study, and use this code for personal, educational, or research purposes only. Commercial use, redistribution as a competing service, and sublicensing are strictly prohibited. See [LICENSE](./LICENSE) for full terms.
+This project is licensed under the **[PolyForm Noncommercial License 1.0.0](https://polyformproject.org/licenses/noncommercial/1.0.0/)**.
+
+**In plain English:**
+
+| ✅ Allowed | ❌ Not Allowed |
+|---|---|
+| View and study the code | Use it to run a competing service |
+| Use it for personal projects | Sell or sublicense it |
+| Use it for education or research | Any commercial use |
+| Fork it for non-commercial use | Redistribute it as your own product |
+
+See [LICENSE](./LICENSE) for the full legal terms.
+
+---
+
+## 🤝 Contributing
+
+Bug reports and non-commercial improvements are welcome. Please open an issue before submitting a pull request. Note that all contributions fall under the same PolyForm Noncommercial license.
 
 ---
 
